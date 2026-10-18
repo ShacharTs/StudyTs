@@ -1,175 +1,189 @@
 <div align="center">
 
-<img src="asset/studyts-logo.svg" alt="StudyTS Logo" width="360" />
+<img src="asset/studyts-logo.svg" alt="StudyTs logo" width="320" />
 
-<br/><br/>
+**Local-first study platform for computer science: interactive canvases, step animations, and an AI assistant with MCP tools.**
 
-**Interactive Computer Science Study & Visual Canvas Platform**
-
-[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.12.0-339933?logo=node.js&logoColor=white)](https://nodejs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.12-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![Prisma](https://img.shields.io/badge/Prisma-SQLite-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io)
-[![Model Context Protocol](https://img.shields.io/badge/MCP-Enabled-8A2BE2)](https://modelcontextprotocol.io)
-[![Bilingual](https://img.shields.io/badge/i18n-English%20%7C%20Hebrew%20(RTL)-008080)](src/i18n/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
-<p align="center">
-  A local-first, interactive learning platform for computer science courses (Algorithms, Complexity, Automata, Computability, Networking). Combines interactive algorithmic canvases, a Mario-Maker style visual step builder, an extensible Model Context Protocol (MCP) AI assistant, and full bilingual (Hebrew/English RTL) support.
-</p>
-
-[Screenshots & Demos](#screenshots--demos) •
-[AI & MCP Capabilities](#ai-assistant--mcp-superpowers) •
-[Features](#features) •
-[Quick Start](#quick-start) •
-[User Guide](#user-guide) •
-[Support Me](#support-me) •
-[License](#license--acknowledgements)
-
----
+[![MCP](https://img.shields.io/badge/MCP-stdio-8A2BE2)](https://modelcontextprotocol.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 </div>
 
-## Screenshots & Demos
+StudyTs runs on your machine. The UI is a React app served by a local Express server on `127.0.0.1`. Courses, notes, and the database stay in local files.
 
-### Overview Demo
-<div align="center">
-  <img src="docs/images/demo-overview.gif" alt="StudyTS Walkthrough Demo" width="100%" />
-  <p><em>Interactive algorithmic animations, step-by-step state machines, and real-time AI canvas mutations.</em></p>
-</div>
+![Course hub](asset/screenshots/lobby.jpg)
 
-<br/>
+## Contents
 
-| Course Hub & Catalog | Visual Canvas Editor |
+- [Walkthrough](#walkthrough)
+- [What you get](#what-you-get)
+- [Quick start](#quick-start)
+- [Using the app](#using-the-app)
+- [AI assistant](#ai-assistant)
+- [MCP server](#mcp-server)
+- [Project layout](#project-layout)
+- [Development](#development)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
+
+## Walkthrough
+
+![StudyTs walkthrough: course hub, course topic, canvas, step player](asset/screenshots/walkthrough.gif)
+
+| Canvas editor | Step player |
 |:---:|:---:|
-| <img src="docs/images/screenshot-lobby.png" alt="Course Hub & Catalog" width="100%" /> | <img src="docs/images/screenshot-canvas.png" alt="Canvas Visual Editor" width="100%" /> |
-| *Browse structured weekly lectures, topics, and interactive materials.* | *Full-featured vector canvas with snap guides, shapes, formulas, and layers.* |
+| ![Canvas editor](asset/screenshots/canvas.jpg) | ![Step player](asset/screenshots/step-player.jpg) |
+| Topic pages open in a vector canvas: shapes, arrows, text, tables, equations. | Step player: animate objects per step with timeline, ghosts, and playback speed. |
 
-| Visual Step Player & Builder | AI Assistant & MCP Tools |
-|:---:|:---:|
-| <img src="docs/images/screenshot-step-player.png" alt="Step Player & Visual Builder" width="100%" /> | <img src="docs/images/screenshot-ai-mcp.png" alt="AI Assistant and MCP Integration" width="100%" /> |
-| *Mario-Maker style step authoring with keyframes, tweens, and timeline.* | *Chat assistant with direct LLM APIs and bundled MCP tool supervisor.* |
+## What you get
 
-| Bilingual Hebrew / English (RTL & LTR) | System Overview |
-|:---:|:---:|
-| <img src="docs/images/screenshot-bilingual-rtl.png" alt="Bilingual RTL Support" width="100%" /> | <img src="docs/images/graphify-overview.png" alt="Knowledge Graph Architecture Overview" width="100%" /> |
-| *Complete UI mirroring, localized typography, and KaTeX math formulas.* | *Modular architecture organized into decoupled domain and visualization engines.* |
+- **Course hub**: courses are split into weeks and topics. Each topic opens as a canvas page.
+- **Canvas editor**: shapes, arrows, text, tables, and KaTeX equations. Layers panel, snap guides, snap to grid, and PDF export.
+- **Step player**: keyframe-style animation per step. Set position, opacity, and other properties over time, then scrub or play.
+- **Course authoring**: create and edit courses in the app (**Edit** on the course hub).
+- **AI assistant**: chat with an LLM that can read the open course and edit the canvas (see below).
+- **MCP server**: a bundled stdio server exposes course, database, and notebook tools to any MCP client (see below).
+- **Interface language**: English or Hebrew. The Hebrew UI runs right-to-left.
+- **Local storage**: SQLite file in `prisma/`. Provider API keys are encrypted with AES-256-GCM in `server/secrets/` (`vault.enc`).
 
----
+## Quick start
 
-## AI Assistant & MCP Superpowers
+### Requirements
 
-StudyTS features a local-first AI assistant built to understand CS curricula and interact directly with your open canvas scenes:
+- Node.js **22.12 or newer** (the launcher installs LTS on Windows if missing)
+- Git (to clone)
 
-- **Multi-Provider LLM Integration**: Direct connection with Anthropic (Claude 3.5 Sonnet / Opus / Haiku), OpenAI (GPT-4o, o1, o3-mini), Google Gemini (Gemini 2.0 Flash / Pro), DeepSeek, xAI (Grok), Groq, Mistral, Cohere, Perplexity, or local OmniRoute proxies.
-- **Model Context Protocol (MCP) Hub**: Ships with bundled stdio MCP servers managed locally:
-  - `course-author`: Programmatically creates courses, lectures, network topologies, and animated step specs.
-  - `sqlite-course-db`: Read-only, schema-validated database inspection and querying.
-  - `notebook-bridge`: Extracts research snippets and syncs study notes.
-- **Granular Canvas Mutations (`apply_scene_ops`)**: The AI modifies diagrams in place with atomic micro-operations (inserting nodes, moving geometries, updating formulas, tidying layouts, and creating slide decks) without destructive full-scene rewrites.
-- **Local & Private**: All chat sessions and SQLite data stay on your machine. API keys reside in your browser localStorage or local `.env`.
+### Windows
 
----
+Double-click `run.bat`, or run `studyts.cmd` from the project folder. The launcher checks Node, installs dependencies, sets up the database, builds the UI, starts the server, and opens the app.
 
-## Features
-
-- **Academic Course Catalog**: Authored interactive curricula for Algorithms, Complexity Theory, Automata & Formal Languages, Computability, and Computer Networking in `data/`.
-- **Specialized CS Visualization Engines**:
-  - **Graph Theory**: Graph traversal canvases supporting BFS/DFS vertex coloring, bipartite matchings, shortest paths, and topological layouts.
-  - **Turing Machines**: Animated multi-tape simulations, head tape pointers, and state transition matrices.
-  - **Reduction Chains**: Interactive polynomial-time reduction pipelines ($3\text{-SAT} \to \text{Independent Set} \to \text{Vertex Cover}$).
-  - **Linear Programming**: 2D/3D simplex geometric polytope search, constraint boundaries, and duality cards.
-  - **Mathematical Formulas**: KaTeX mathematical typography rendered inside diagrams, shapes, and formulas.
-- **Visual Step Player (`/visual-steps`)**:
-  - Mario-Maker style vector authoring with snapping, ports, and connector lines.
-  - Property tween animations (opacity, translations, dash offsets, durations) with interactive timeline scrubber.
-  - One-click publishing directly into course lectures.
-- **Native Bilingualism (Hebrew / English)**: Instant one-click toggle with complete RTL layout mirroring, localized typography, and bilingual dictionaries.
-- **Zero-Cloud & Privacy First**: SQLite local storage (`studyts.db`), backend bound strictly to `127.0.0.1`.
-
----
-
-## Quick Start
-
-### Prerequisites
-- [Node.js](https://nodejs.org) >= `22.12.0` (LTS recommended)
-- [Git](https://git-scm.com)
-
-### One-Click Launch
-
-- **Windows**: Double-click `run.bat`
-  *(Checks Node.js, installs LTS automatically via winget if needed, sets up the database, builds, and opens the app).*
-- **macOS / Linux**:
-  ```bash
-  ./studyts
-  ```
-
-> **WARNING: THIS PROJECT IS STILL IN DEV.**
-
----
-
-### Terminal Setup
+### macOS / Linux
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/ShacharTs/StudyTs.git
-cd StudyTs
-
-# 2. Install dependencies & initialize SQLite
-npm install
-npm run setup
-
-# 3. Start StudyTS (all three run the same server)
-npm start        # any OS
-./studyts        # macOS/Linux, also opens the QA browser
-studyts          # Windows, also opens the QA browser
+./studyts
 ```
 
-- **App (UI + API, one port)**: [http://localhost:7301](http://localhost:7301)
-  If 7301 is busy, the app uses 7302–7304 and the launchers find it.
+### Any OS (npm)
 
-> To stop the application at any time, press **`Ctrl + C`** in your terminal.
+```bash
+git clone https://github.com/ShacharTs/StudyTs.git
+cd StudyTs
+npm install        # also generates the Prisma client
+npm run setup      # applies migrations and seeds the database
+npm start          # builds the UI if needed and opens the app
+```
 
-**Developers only:** `npm run dev` runs Vite with hot reload on [http://localhost:7300](http://localhost:7300) plus the API on 7301. Do not use it for normal runs.
+The app opens at **http://127.0.0.1:7301**. If that port is busy, the server uses the next free port in the range.
 
----
+To stop: press `Ctrl+C` in the terminal, or run `npm run stop`.
 
-## User Guide
+## Using the app
 
-- 🎓 **Explore Topics**: Choose a course from the Lobby (Algorithms, Complexity, Automata, Networking) to open interactive lessons.
-- ⏯️ **Step & Experiment**: Step forward and backward through algorithm transitions, drag vertices, test Turing machines, or scrub the timeline.
-- 🎨 **Draw & Author**: Open the canvas editor to place shapes, connect ports, write LaTeX formulas, and export visual slides.
-- 🤖 **Chat with AI**: Ask the assistant to explain tough proofs, suggest exercise hints, or build new diagram layouts live on your canvas.
-- 🌐 **One-Click Bilingual**: Tap the language button in the top bar to mirror the full interface between English and Hebrew (RTL).
+1. **Pick a course** in the course hub. Expand a week to see its topics.
+2. **Open a topic** to view its canvas. Select objects to edit them in the Properties panel.
+3. **Open the step player** from the sidebar to build or play animations. Use the timeline to scrub.
+4. **Export** a course as PDF from the course page (**Export course as PDF**).
+5. **Switch language** with the language selector in the top bar.
 
----
+### Keyboard
 
-## Support Me
+- `Ctrl/Cmd + Z`, `Ctrl/Cmd + Shift + Z`: undo / redo.
+- `Ctrl/Cmd + A`: select all on the canvas.
 
-If you find StudyTS helpful for your studies, teaching, or research, please consider supporting the project:
+> The public release ships without course content. The hub is empty until you create a course or copy course folders into `data/`.
 
-<div align="center">
+## AI assistant
+
+Open **AI Assistant** in the top bar. Add an API key in the AI settings (**Settings** in the top bar) first.
+
+Supported providers (from `src/core/shared/aiProviders.ts`):
+
+- Anthropic, OpenAI, Google Gemini, DeepSeek, xAI, Mistral, Groq, Cohere, Meta, Perplexity
+- An optional local OmniRoute proxy (default port `20128`)
+
+Keys are stored only on your machine, encrypted by the local server. They are never sent to StudyTs servers, because there are none.
+
+The assistant can edit the open canvas through in-app scene operations (`apply_scene_ops`): insert and move objects, change text and formulas, and tidy layouts. These are applied as small steps, not full rewrites.
+
+## MCP server
+
+StudyTs bundles one stdio MCP server, `studyts-mcp` (`server/mcp/servers/studyTsServer.ts`). The app starts it automatically. Any MCP client can also start it directly.
+
+Connect a client (run from the project root, because the server reads `./data`):
+
+```json
+{
+  "mcpServers": {
+    "studyts-mcp": {
+      "command": "npx",
+      "args": ["tsx", "server/mcp/servers/studyTsServer.ts"]
+    }
+  }
+}
+```
+
+Tools, grouped by domain:
+
+| Domain | Tool | What it does |
+|---|---|---|
+| Notebooks | `save_note_to_notebook` | Save a note or snippet to a notebook |
+| | `search_notebook_notes` | Search saved notes |
+| | `list_notebooks` | List notebooks and note counts |
+| Course database | `show_database_tables` | List tables and columns |
+| | `read_course_database` | Run a read-only `SELECT` (row-limited) |
+| Authoring | `list_courses` | List courses, weeks, and lectures |
+| | `list_lectures` | List lectures in a course |
+| | `create_course` | Create a course |
+| | `save_lecture_content` | Write lecture content |
+| | `add_lecture_to_course_list` | Add a lecture to a course list |
+| | `save_animated_lecture` | Save a step-animated lecture |
+| | `add_network_diagram_to_lecture` | Add a network diagram to a lecture |
+
+The database tool accepts only `SELECT`, `WITH`, and `PRAGMA table_info`.
+
+## Project layout
+
+```
+src/                 React UI, canvas editor, step player, AI chat
+server/              Express API, secrets vault, MCP servers
+server/mcp/servers/  studyTsServer.ts (MCP entry point) and tool definitions
+prisma/              Schema, migrations, seed, course loader
+locales/             Localization dictionaries
+asset/               Logos and screenshots
+config/              runtimePorts.json (ports)
+scripts/update/      In-app updater (checks GitHub Releases)
+```
+
+## Development
+
+```bash
+npm run dev         # Vite on :7300 with hot reload, API on :7301
+npm run typecheck
+npm run build
+npm run prod:smoke  # boots the built app and checks the main routes
+```
+
+Developer checks (lint, tests, audits) live in the private development repository.
+
+## Troubleshooting
+
+- **Port in use**: the server picks the next free port. Check the terminal output for the URL.
+- **Empty course hub**: no course data yet. Create a course with **Edit**.
+- **AI says no provider**: add an API key in the AI settings (**Settings** in the top bar).
+- **Database errors after a pull**: run `npm run setup` again to apply migrations.
+
+## Support
+
+If StudyTs helps your studying or teaching, you can support the project:
 
 <a href="https://www.buymeacoffee.com/ShacharTs"><img src="https://img.buymeacoffee.com/button-api/?text=Support me&emoji=❤️&slug=ShacharTs&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
 
-<br/><br/>
+## License
 
-[![GitHub Sponsors](https://img.shields.io/badge/Sponsor%20on%20GitHub-EA4AAA?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors)
+MIT. See [LICENSE](LICENSE).
 
-⭐ **Star this repository** to show your support!
-
-</div>
-
----
-
-## License & Acknowledgements
-
-- **License**: Released under the **[MIT License](LICENSE)**.
-- **Open-Source Credits**:
-  - [anime.js](https://animejs.com) by Julian Garnier for fluid visual transitions and keyframe animations.
-  - [KaTeX](https://katex.org) for fast LaTeX mathematical typography.
-  - [React](https://react.dev) & [Vite](https://vitejs.dev) for frontend UI rendering and bundling.
-  - [Prisma](https://www.prisma.io) for local SQLite schema and database management.
-  - [Lucide](https://lucide.dev) for interface iconography.
-  - [Model Context Protocol](https://modelcontextprotocol.io) by Anthropic for open agentic tool integration.
-  - [Mermaid](https://mermaid.js.org) for declarative diagrams.
+Built with [React](https://react.dev), [Vite](https://vitejs.dev), [Prisma](https://www.prisma.io), [Express](https://expressjs.com), [Tiptap](https://tiptap.dev), [anime.js](https://animejs.com), [KaTeX](https://katex.org), [Framer Motion](https://www.framer.com/motion/), [Zustand](https://zustand.docs.pmnd.rs), [Lucide](https://lucide.dev), and [pdf.js](https://mozilla.github.io/pdf.js/).
