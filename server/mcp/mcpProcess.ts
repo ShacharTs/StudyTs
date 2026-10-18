@@ -2,6 +2,7 @@ import { spawn, type ChildProcess } from 'child_process';
 import { log } from '../utils/log.js';
 import type { McpServerConfig, McpServerStatus, McpTool, JsonRpcResponse, JsonRpcRequest, JsonRpcNotification } from './mcpServerContracts.js';
 import { Writable, Readable } from 'stream';
+import { PACKAGE_ROOT } from '../runtime/appPaths.js';
 
 interface PendingRequest {
   resolve: (res: JsonRpcResponse) => void;
@@ -128,8 +129,8 @@ export class McpProcess {
       // each arg is individually quoted rather than naively joined.
       const isWin = process.platform === 'win32';
       const child = isWin
-        ? spawn(quoteWinCommand(this.config.command, this.config.args), { stdio: ['pipe', 'pipe', 'pipe'], env: { ...process.env, ...this.config.env }, cwd: this.config.cwd || process.cwd(), shell: true })
-        : spawn(this.config.command, this.config.args, { stdio: ['pipe', 'pipe', 'pipe'], env: { ...process.env, ...this.config.env }, cwd: this.config.cwd || process.cwd() });
+        ? spawn(quoteWinCommand(this.config.command, this.config.args), { stdio: ['pipe', 'pipe', 'pipe'], env: { ...process.env, ...this.config.env }, cwd: this.config.cwd || PACKAGE_ROOT, shell: true })
+        : spawn(this.config.command, this.config.args, { stdio: ['pipe', 'pipe', 'pipe'], env: { ...process.env, ...this.config.env }, cwd: this.config.cwd || PACKAGE_ROOT });
 
       this.child = child;
       if (!child.stdin || !child.stdout) throw new Error('Child process stdio streams not available');

@@ -2,8 +2,9 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 import { BaseMcpServer, type McpToolDefinition } from './BaseMcpServer.js';
 import { createCourseAuthorTools } from './courseAuthorTools.js';
+import { DATA_ROOT } from '../../runtime/appPaths.js';
 
-const DATA_DIR = path.resolve(process.cwd(), 'data');
+const DATA_DIR = path.resolve(DATA_ROOT, 'data');
 
 const LOCALIZED = { description: 'Plain string, or an object with an en text plus any other language codes', oneOf: [{ type: 'string' }, { type: 'object' }] };
 

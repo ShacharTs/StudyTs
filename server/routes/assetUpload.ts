@@ -13,6 +13,7 @@ import {
   InvalidUploadError,
   InvalidSlugError,
 } from '../../vite-plugins/uploadValidation.js';
+import { DATA_ROOT } from '../runtime/appPaths.js';
 
 // Uploaded files live under data/assets/<courseId>/<topicId>/<generatedName>, matching the
 // /assets/<courseId>/<topicId>/<name> URL shape already used by existing scene data (e.g.
@@ -23,7 +24,7 @@ import {
 // magic-byte checks rather than re-implementing them.
 export const assetUploadRouter = Router();
 
-const UPLOAD_ASSETS_ROOT = path.resolve(process.cwd(), 'data', 'assets');
+const UPLOAD_ASSETS_ROOT = path.resolve(DATA_ROOT, 'data', 'assets');
 const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 
 const uploadRawParser = express.raw({

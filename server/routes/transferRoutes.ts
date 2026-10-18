@@ -8,6 +8,7 @@ import { planImport, ConflictPolicy } from '../transfer/importPlanner.js';
 import { applyImportPlan } from '../transfer/importApplier.js';
 import { ArchiveError, detectKind } from '../transfer/archiveManifest.js';
 import { TRANSFER_LIMITS } from '../transfer/transferLimits.js';
+import { DATA_ROOT } from '../runtime/appPaths.js';
 
 function extractZipUint8Array(rawBody: unknown): Uint8Array {
   if (rawBody instanceof Uint8Array) return rawBody;
@@ -43,7 +44,7 @@ function parsePolicyInput(req: Request): ConflictPolicy | Record<string, Conflic
 
 export function createTransferRouter(dataDir?: string): Router {
   const router = Router();
-  const targetDataDir = dataDir ?? path.join(process.cwd(), 'data');
+  const targetDataDir = dataDir ?? path.join(DATA_ROOT, 'data');
 
   const rawParser = express.raw({
     type: [

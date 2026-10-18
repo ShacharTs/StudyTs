@@ -4,8 +4,9 @@ import path from 'path';
 import { log } from '../utils/log.js';
 import { McpProcess } from './mcpProcess.js';
 import type { McpServerConfig, McpServerRuntimeState, McpTool } from './mcpServerContracts.js';
+import { DATA_ROOT, PACKAGE_ROOT } from '../runtime/appPaths.js';
 
-const CONFIG_PATH = path.resolve(process.cwd(), 'data', 'mcp-servers.json');
+const CONFIG_PATH = path.resolve(DATA_ROOT, 'data', 'mcp-servers.json');
 
 const LEGACY_ID_MAP: Record<string, string> = {
   'notebook-bridge': 'studyts-mcp',
@@ -13,12 +14,18 @@ const LEGACY_ID_MAP: Record<string, string> = {
   'course-author': 'studyts-mcp',
 };
 
+// The bundle resolves the @core/* aliases at build time; tsx cannot do that inside node_modules.
+const MCP_BUNDLE = path.join(PACKAGE_ROOT, 'dist-server', 'mcp', 'servers', 'studyTsServer.mjs');
+const STUDYTS_MCP_LAUNCH = fsSync.existsSync(MCP_BUNDLE)
+  ? { command: process.execPath, args: [MCP_BUNDLE] }
+  : { command: 'npx', args: ['tsx', 'server/mcp/servers/studyTsServer.ts'] };
+
 const DEFAULT_SERVERS: McpServerConfig[] = [
   {
     id: 'studyts-mcp',
     name: 'StudyTs-MCP',
-    command: 'npx',
-    args: ['tsx', 'server/mcp/servers/studyTsServer.ts'],
+    command: STUDYTS_MCP_LAUNCH.command,
+    args: STUDYTS_MCP_LAUNCH.args,
     enabled: true,
     autoStart: true,
   },

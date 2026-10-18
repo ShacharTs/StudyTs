@@ -5,8 +5,9 @@ import { BaseMcpServer, type McpToolDefinition } from './BaseMcpServer.js';
 import { createNotebookTools } from './notebookTools.js';
 import { SQLITE_TOOLS, createSqliteTools } from './sqliteTools.js';
 import { createCourseAuthorTools } from './courseAuthorTools.js';
+import { DATA_ROOT } from '../../runtime/appPaths.js';
 
-const DATA_DIR = path.resolve(process.cwd(), 'data');
+const DATA_DIR = path.resolve(DATA_ROOT, 'data');
 const NOTEBOOKS_DIR = path.resolve(DATA_DIR, 'notebooks');
 
 const LOCALIZED = {

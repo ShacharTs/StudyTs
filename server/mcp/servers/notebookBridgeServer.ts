@@ -2,8 +2,9 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 import { BaseMcpServer, type McpToolDefinition } from './BaseMcpServer.js';
 import { createNotebookTools } from './notebookTools.js';
+import { DATA_ROOT } from '../../runtime/appPaths.js';
 
-const NOTEBOOKS_DIR = path.resolve(process.cwd(), 'data', 'notebooks');
+const NOTEBOOKS_DIR = path.resolve(DATA_ROOT, 'data', 'notebooks');
 
 const TOOLS: McpToolDefinition[] = [
   {

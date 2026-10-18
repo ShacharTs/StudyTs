@@ -74,3 +74,4 @@ docs/qa/screenshots/
 __pycache__/
 *.pyc
 .studyts.pid
+dist-server/

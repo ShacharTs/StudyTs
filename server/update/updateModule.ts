@@ -1,10 +1,11 @@
 import { createRequire } from 'module';
 import path from 'path';
+import { PACKAGE_ROOT } from '../runtime/appPaths.js';
 
 const require = createRequire(import.meta.url);
-const { checkForUpdate, readCurrentVersion } = require('../../scripts/update/checkForUpdate.cjs');
-const { readUpdateConfig } = require('../../scripts/update/updateConfig.cjs');
-const { readUpdateState, writeUpdateState } = require('../../scripts/update/launchCheck.cjs');
+const { checkForUpdate, readCurrentVersion } = require(path.join(PACKAGE_ROOT, 'scripts', 'update', 'checkForUpdate.cjs'));
+const { readUpdateConfig } = require(path.join(PACKAGE_ROOT, 'scripts', 'update', 'updateConfig.cjs'));
+const { readUpdateState, writeUpdateState } = require(path.join(PACKAGE_ROOT, 'scripts', 'update', 'launchCheck.cjs'));
 
 export interface UpdateLatestInfo {
   version: string;
@@ -32,7 +33,7 @@ export interface UpdateStatusResult {
 }
 
 export async function checkStatus(force = false): Promise<UpdateStatusResult> {
-  const root = process.cwd();
+  const root = PACKAGE_ROOT;
   const config = readUpdateConfig(process.env);
   const stateDir = path.join(root, config.stateDirName || '.update');
   const state = readUpdateState(stateDir);
@@ -70,14 +71,14 @@ export async function checkStatus(force = false): Promise<UpdateStatusResult> {
 }
 
 export function readState(): { pendingVersion?: string; skippedVersion?: string } {
-  const root = process.cwd();
+  const root = PACKAGE_ROOT;
   const config = readUpdateConfig(process.env);
   const stateDir = path.join(root, config.stateDirName || '.update');
   return readUpdateState(stateDir);
 }
 
 export function writeState(partial: { pendingVersion?: string; skippedVersion?: string }): void {
-  const root = process.cwd();
+  const root = PACKAGE_ROOT;
   const config = readUpdateConfig(process.env);
   const stateDir = path.join(root, config.stateDirName || '.update');
   const current = readUpdateState(stateDir);
@@ -85,7 +86,7 @@ export function writeState(partial: { pendingVersion?: string; skippedVersion?: 
 }
 
 export function clearLastResult(): void {
-  const root = process.cwd();
+  const root = PACKAGE_ROOT;
   const config = readUpdateConfig(process.env);
   const resultPath = path.join(root, config.stateDirName || '.update', 'result.json');
   try {

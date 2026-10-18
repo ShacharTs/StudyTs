@@ -21,6 +21,7 @@ import { isOwnWrite } from './utils/fileSync.js';
 import { allowedOrigins, localOnly } from './middleware/httpMiddleware.js';
 import { errorHandler } from './middleware/httpMiddleware.js';
 import { seedAtomically } from '../prisma/seed.js';
+import { PACKAGE_ROOT, DATA_ROOT } from './runtime/appPaths.js';
 
 log.initCrashHandlers();
 vaultService.initialize();
@@ -57,7 +58,7 @@ type PrismaEventEmitter = {
 });
 
 // Live data directory watcher for automatic cache invalidation
-const DATA_DIR = path.resolve(process.cwd(), 'data');
+const DATA_DIR = path.resolve(DATA_ROOT, 'data');
 if (fs.existsSync(DATA_DIR)) {
   let debounceTimer: NodeJS.Timeout | null = null;
   try {
@@ -123,7 +124,7 @@ app.use((req, res, next) => {
 // Serves canvas-editor-uploaded media (images/video/pdf) written by
 // scenes.ts's POST /api/canvas-editor/upload, matching the /assets/<courseId>/<topicId>/<name>
 // URL convention already stored in existing scene JSON (e.g. video `src` fields).
-app.use('/assets', express.static(path.resolve(process.cwd(), 'data', 'assets')));
+app.use('/assets', express.static(path.resolve(DATA_ROOT, 'data', 'assets')));
 
 // API responses must never be cached — Express sets a weak ETag on every response by
 // default (not just express.static's), and without an explicit no-store the browser can
@@ -182,7 +183,7 @@ app.get('/api/health', async (_req, res) => {
 // Production frontend build (npm run build's output) — served from the same process/port
 // so `studyts start` needs no separate frontend server. Mounted after /api, legacy aliases, and /assets
 // so those routes are never shadowed by the SPA catch-all below.
-const DIST_DIR = path.resolve(process.cwd(), 'dist');
+const DIST_DIR = path.resolve(PACKAGE_ROOT, 'dist');
 // Under npm run dev (--dev) vite on 7300 is the app; serving a stale dist here made 7301 look like a second site.
 const serveBuild = !process.argv.includes('--dev');
 if (serveBuild) app.use(express.static(DIST_DIR));

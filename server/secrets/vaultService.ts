@@ -3,6 +3,7 @@ import path from 'path';
 import crypto from 'crypto';
 import { log } from '../utils/log.js';
 import { VAULT_KEY_BY_PROVIDER, type DirectProvider } from '../../src/core/shared/aiProviders.js';
+import { DATA_ROOT } from '../runtime/appPaths.js';
 
 export interface DecryptedVault {
   anthropicApiKey?: string;
@@ -89,7 +90,7 @@ export function decryptPayload(encryptedJson: string, passphrase: string): Decry
   }
 }
 
-const SECRETS_DIR = path.resolve(process.cwd(), '.secrets');
+const SECRETS_DIR = path.resolve(DATA_ROOT, '.secrets');
 const VAULT_FILE = path.join(SECRETS_DIR, 'vault.enc');
 const MACHINE_SALT_FILE = path.join(SECRETS_DIR, 'salt.bin');
 

@@ -7,8 +7,9 @@ import { writeFileSync, readFileSync, existsSync, mkdirSync, rmSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { createHash } from 'crypto';
 import type { PrismaClient } from '@prisma/client';
+import { DATA_ROOT } from '../runtime/appPaths.js';
 
-const ROOT = process.cwd();
+const ROOT = DATA_ROOT;
 const DATA_DIR = join(ROOT, 'data');
 
 function ensureDir(p: string) {

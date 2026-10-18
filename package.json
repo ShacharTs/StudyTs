@@ -1,10 +1,10 @@
 {
   "name": "studyts",
-  "private": true,
+  "private": false,
   "version": "0.9.0",
   "type": "module",
   "bin": {
-    "studyts": "./scripts/browser_qa/run.js"
+    "studyts": "./bin/studyts.mjs"
   },
   "engines": {
     "node": ">=22.12"
@@ -14,7 +14,7 @@
     "dev:browser": "node scripts/browser_qa/run.js --open",
     "dev:client": "vite",
     "stop:dev": "node stop-dev.cjs",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && npm run build:server",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "db:generate": "prisma generate",
@@ -33,7 +33,9 @@
     "update:check": "node scripts/update/cli.cjs check",
     "update:status": "node scripts/update/cli.cjs status",
     "setup": "prisma generate && prisma migrate deploy && npm run db:seed",
-    "postinstall": "node scripts/postinstall.cjs"
+    "postinstall": "prisma generate --schema prisma/schema.prisma",
+    "prepack": "npm run build",
+    "build:server": "esbuild server/index.ts server/mcp/servers/studyTsServer.ts --bundle --platform=node --format=esm --packages=external --tsconfig=tsconfig.json --outdir=dist-server --out-extension:.js=.mjs"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -53,8 +55,10 @@
     "katex": "^0.16.10",
     "lucide-react": "^0.378.0",
     "pdfjs-dist": "^6.3.289",
+    "prisma": "^6.19.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tsx": "^4.23.13",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
@@ -76,10 +80,30 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "fast-glob": "^3.3.3",
     "jsdom": "^29.1.1",
-    "prisma": "^6.19.3",
-    "tsx": "^4.23.13",
     "typescript": "^5.4.5",
     "vite": "^7.0.0",
     "vitest": "^4.1.10"
-  }
+  },
+  "files": [
+    "bin/",
+    "dist/",
+    "dist-server/",
+    "server/",
+    "src/",
+    "prisma/schema.prisma",
+    "prisma/migrations/",
+    "prisma/catalogScanner.ts",
+    "prisma/topicLoader.ts",
+    "prisma/seed.ts",
+    "locales/",
+    "config/",
+    "asset/",
+    "public/",
+    "vite-plugins/",
+    "README.md",
+    "LICENSE",
+    "tsconfig.json",
+    "scripts/update/",
+    "scripts/writeFileAtomic.cjs"
+  ]
 }

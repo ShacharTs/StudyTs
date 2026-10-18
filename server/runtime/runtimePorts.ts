@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { PACKAGE_ROOT } from './appPaths.js';
 
 export interface RuntimePorts {
   frontendPort: number;
@@ -37,5 +38,5 @@ export function parseRuntimePorts(raw: string): RuntimePorts {
 }
 
 export function readRuntimePorts(): RuntimePorts {
-  return parseRuntimePorts(readFileSync(path.resolve(process.cwd(), 'config', 'runtimePorts.json'), 'utf8'));
+  return parseRuntimePorts(readFileSync(path.resolve(PACKAGE_ROOT, 'config', 'runtimePorts.json'), 'utf8'));
 }

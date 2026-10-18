@@ -7,6 +7,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { writeTracked } from './fileSync.js';
 import { isVisualSpecKey } from '../../src/core/validation/visualSpec/visualSpecKey.js';
+import { DATA_ROOT } from '../runtime/appPaths.js';
 
 export interface VisualSpecFileStore {
   write(key: string, spec: unknown): void;
@@ -42,4 +43,4 @@ export function createVisualSpecFileStore(directory: string): VisualSpecFileStor
   };
 }
 
-export const visualSpecFiles = createVisualSpecFileStore(join(process.cwd(), 'data', '_shared', 'visual-specs'));
+export const visualSpecFiles = createVisualSpecFileStore(join(DATA_ROOT, 'data', '_shared', 'visual-specs'));

@@ -1,10 +1,12 @@
+import path from 'path';
+import { PACKAGE_ROOT } from '../runtime/appPaths.js';
 import { Router, type Request, type Response } from 'express';
 import { createRequire } from 'module';
 import { route } from '../utils/routeHandler.js';
 import { checkStatus, writeState, clearLastResult } from '../update/updateModule.js';
 
 const require = createRequire(import.meta.url);
-const { parseVersion } = require('../../scripts/update/versionCompare.cjs');
+const { parseVersion } = require(path.join(PACKAGE_ROOT, 'scripts', 'update', 'versionCompare.cjs'));
 
 export const updateStatusRouter = Router();
 

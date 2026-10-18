@@ -14,6 +14,7 @@ import {
   validateLocalePack,
 } from '../../src/core/shared/localePack.js';
 import { TranslationLeaf } from '../../src/core/shared/translationLeaves.js';
+import { PACKAGE_ROOT } from '../runtime/appPaths.js';
 
 export interface LoadedLocale {
   pack: LocalePack;
@@ -31,7 +32,7 @@ export class LocaleExistsError extends Error {
 export function resolveLocalesDir(env: NodeJS.ProcessEnv = process.env): string {
   return env.STUDYTS_LOCALES_DIR
     ? path.resolve(env.STUDYTS_LOCALES_DIR)
-    : path.resolve(process.cwd(), 'locales');
+    : path.resolve(PACKAGE_ROOT, 'locales');
 }
 
 export function findPlaceholderMismatches(

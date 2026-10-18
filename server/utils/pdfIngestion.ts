@@ -3,9 +3,10 @@ import fsSync from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { log } from './log.js';
+import { DATA_ROOT } from '../runtime/appPaths.js';
 
 const PDF_MAGIC_BYTES = Buffer.from('%PDF-');
-const DEFAULT_TEMP_DIR = path.resolve(process.cwd(), 'temp', 'pdf_ingest');
+const DEFAULT_TEMP_DIR = path.resolve(DATA_ROOT, 'temp', 'pdf_ingest');
 const MAX_ORPHAN_AGE_MS = 60 * 60 * 1000;
 
 interface ExtractedTable {
