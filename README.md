@@ -53,13 +53,22 @@ The same course can be built two ways. Left: a lecture generated through the MCP
 
 Requires Node.js 22.12 or newer.
 
+Install once, then run `studyts` from any folder:
+
+```bash
+npm i -g studyts
+studyts
+```
+
+Or run it without installing:
+
 ```bash
 npx studyts
 ```
 
 The app opens at `http://127.0.0.1:7301`. Your data is kept in your app-data folder.
 
-> The npm package is not published yet. Until it is, run from a clone:
+> Running from a clone (for development):
 >
 > ```bash
 > git clone https://github.com/ShacharTs/StudyTs.git
