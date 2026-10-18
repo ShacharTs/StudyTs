@@ -1,7 +1,7 @@
 {
   "name": "studyts",
   "private": false,
-  "version": "0.9.1",
+  "version": "0.9.2",
   "type": "module",
   "bin": {
     "studyts": "./bin/studyts.mjs"
@@ -32,7 +32,7 @@
     "update": "node scripts/update/cli.cjs apply",
     "update:check": "node scripts/update/cli.cjs check",
     "update:status": "node scripts/update/cli.cjs status",
-    "setup": "prisma generate && prisma migrate deploy && npm run db:seed",
+    "setup": "node scripts/ensure-env.cjs && prisma generate && prisma migrate deploy && npm run db:seed",
     "postinstall": "prisma generate --schema prisma/schema.prisma",
     "prepack": "npm run build",
     "build:server": "esbuild server/index.ts server/mcp/servers/studyTsServer.ts --bundle --platform=node --format=esm --packages=external --tsconfig=tsconfig.json --outdir=dist-server --out-extension:.js=.mjs"
