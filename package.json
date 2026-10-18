@@ -36,7 +36,7 @@
     "postinstall": "prisma generate --schema prisma/schema.prisma",
     "prepack": "npm run build",
     "build:server": "esbuild server/index.ts server/mcp/servers/studyTsServer.ts --bundle --platform=node --format=esm --packages=external --tsconfig=tsconfig.json --outdir=dist-server --out-extension:.js=.mjs",
-    "prepare": "npm run build"
+    "prepare": "vite build && npm run build:server"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -60,7 +60,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tsx": "^4.23.13",
-    "zustand": "^5.0.15"
+    "zustand": "^5.0.15",
+    "vite": "^7.0.0",
+    "@vitejs/plugin-react": "^4.2.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^7.0.1",
@@ -73,7 +75,6 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-v8": "^4.1.11",
     "concurrently": "^10.0.5",
     "eslint": "^8.57.0",
@@ -82,7 +83,6 @@
     "fast-glob": "^3.3.3",
     "jsdom": "^29.1.1",
     "typescript": "^5.4.5",
-    "vite": "^7.0.0",
     "vitest": "^4.1.10"
   },
   "files": [
