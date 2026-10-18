@@ -14,7 +14,7 @@ npm --silent run %*
 goto end
 
 :default_run
-node scripts/browser_qa/run.js --open
+node start.cjs
 goto end
 
 :run_app

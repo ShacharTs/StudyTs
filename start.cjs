@@ -81,6 +81,9 @@ if (!process.env.STUDYTS_JUST_UPDATED) {
   }
 }
 
+// .env is git-ignored, so a fresh clone needs it before anything reads DATABASE_URL.
+require(path.join(ROOT, 'scripts', 'ensure-env.cjs'));
+
 // Dependencies: install when node_modules is missing or older than package.json / package-lock.json.
 // npm keeps node_modules/.package-lock.json as its install stamp; touch it after a successful
 // install so an install that changed nothing does not re-run on every start.
