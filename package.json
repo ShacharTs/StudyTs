@@ -35,8 +35,7 @@
     "setup": "prisma generate && prisma migrate deploy && npm run db:seed",
     "postinstall": "prisma generate --schema prisma/schema.prisma",
     "prepack": "npm run build",
-    "build:server": "esbuild server/index.ts server/mcp/servers/studyTsServer.ts --bundle --platform=node --format=esm --packages=external --tsconfig=tsconfig.json --outdir=dist-server --out-extension:.js=.mjs",
-    "prepare": "node scripts/prepare-build.cjs"
+    "build:server": "esbuild server/index.ts server/mcp/servers/studyTsServer.ts --bundle --platform=node --format=esm --packages=external --tsconfig=tsconfig.json --outdir=dist-server --out-extension:.js=.mjs"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
