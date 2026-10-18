@@ -51,43 +51,19 @@ The same course can be built two ways. Left: a lecture generated through the MCP
 
 ## Install and run
 
-Requires Node.js 22.12 or newer.
-
-Install once, then run `studyts` from any folder:
+Requires Node.js 22.12 or newer and Git.
 
 ```bash
-npm i -g studyts
-studyts
+git clone https://github.com/ShacharTs/StudyTs.git
+cd StudyTs
+npm install
+npm run setup
+npm start
 ```
 
-Or run it without installing:
+On Windows, `run.bat` does the same steps. On macOS/Linux, `./studyts` does.
 
-```bash
-npx studyts
-```
-
-The app opens at `http://127.0.0.1:7301`. Your data is kept in your app-data folder.
-
-> Running from a clone (for development):
->
-> ```bash
-> git clone https://github.com/ShacharTs/StudyTs.git
-> cd StudyTs
-> npm install
-> npm run setup
-> npm start
-> ```
->
-> On Windows, `run.bat` does the same steps. On macOS/Linux, `./studyts` does.
-
-Data folder:
-
-| How you run it | Data folder |
-| --- | --- |
-| `npx studyts` | Windows `%APPDATA%\StudyTs`, macOS `~/Library/Application Support/StudyTs`, Linux `~/.local/share/studyts` |
-| Clone | The project folder |
-
-Set `STUDYTS_HOME` to choose a folder.
+The app opens at `http://127.0.0.1:7301`. Your data is kept in the project folder (`data/`, `.secrets/`, and the SQLite file). Set `STUDYTS_HOME` to choose another folder.
 
 ## How it works
 
@@ -136,7 +112,7 @@ npm run build
 ## Support
 
 <p align="center">
-  <a href="https://www.buymeacoffee.com/ShacharTs"><img src="https://img.buymeacoffee.com/button-api/?text=Support me&emoji=❤️&slug=ShacharTs&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy me a coffee" /></a>
+  <a href="https://www.buymeacoffee.com/ShacharTs"><img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=ShacharTs&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy me a coffee" /></a>
 </p>
 
 ## Credits
