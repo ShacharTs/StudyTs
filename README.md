@@ -139,6 +139,17 @@ npm run build
   <a href="https://www.buymeacoffee.com/ShacharTs"><img src="https://img.buymeacoffee.com/button-api/?text=Support me&emoji=❤️&slug=ShacharTs&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy me a coffee" /></a>
 </p>
 
+## Credits
+
+StudyTs is built on open-source work:
+
+- [anime.js](https://animejs.com) by Julian Garnier: transitions and keyframe animation.
+- [KaTeX](https://katex.org): LaTeX math rendering.
+- [React](https://react.dev) and [Vite](https://vitejs.dev): UI and bundling.
+- [Prisma](https://www.prisma.io): SQLite schema and database access.
+- [Lucide](https://lucide.dev): interface icons.
+- [Model Context Protocol](https://modelcontextprotocol.io) by Anthropic: the open protocol behind the MCP server.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
