@@ -1,0 +1,102 @@
+{
+  "format": 1,
+  "id": "graph",
+  "label": {
+    "key": "modes.graph.label"
+  },
+  "note": {
+    "key": "modes.graph.note"
+  },
+  "icon": "⌘",
+  "filters": {
+    "categories": [
+      "automata-graph"
+    ],
+    "presets": [
+      "circle",
+      "text",
+      "caption",
+      "arrow"
+    ],
+    "effects": [
+      "glow",
+      "fill",
+      "travel",
+      "pulse",
+      "callout",
+      "tint",
+      "reveal",
+      "draw"
+    ]
+  },
+  "templates": [
+    "basic/graph-tree-7",
+    "basic/graph-weighted-6",
+    "basic/flow-network-6",
+    "basic/graph"
+  ],
+  "starter": "basic/graph-tree-7",
+  "tools": [
+    {
+      "id": "select"
+    },
+    {
+      "id": "place",
+      "label": {
+        "key": "modes.graph.tools.place.label"
+      },
+      "object": "preset/circle"
+    },
+    {
+      "id": "connect",
+      "label": {
+        "key": "modes.graph.tools.connect.label"
+      },
+      "arrow": "directed",
+      "labelCycle": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "id": "toggle",
+      "label": {
+        "key": "modes.graph.tools.3.label"
+      },
+      "key": "directed"
+    },
+    {
+      "id": "toggle",
+      "label": {
+        "key": "modes.graph.tools.4.label"
+      },
+      "key": "weighted"
+    },
+    {
+      "id": "algorithm",
+      "label": {
+        "key": "modes.graph.tools.algorithm.label"
+      },
+      "algorithms": [
+        "graph/bfs",
+        "graph/dfs",
+        "graph/dijkstra",
+        "graph/prim",
+        "graph/edmonds-karp",
+        "graph/ford-fulkerson"
+      ]
+    }
+  ],
+  "inspector": {
+    "label": true,
+    "edgeLabel": true,
+    "animate": true
+  }
+}

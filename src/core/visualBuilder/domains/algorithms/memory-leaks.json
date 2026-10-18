@@ -1,0 +1,7 @@
+{
+  "format": 1,
+  "id": "memory/leaks",
+  "model": "memory",
+  "label": "memLeaks",
+  "mode": "leaks"
+}

@@ -1,0 +1,189 @@
+/**
+ * Single source of truth for design tokens.
+ * Every shared color, font, and radius used across the app is declared here.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@600;700&family=Fira+Code:wght@400;600&display=swap');
+
+:root {
+  /* Set from the window size by installScreenScale: 1 on a 24 inch 1080p monitor, more on bigger screens. */
+  --ui-scale: 1;
+  --stage-pad: calc(12px * var(--ui-scale));
+  --bg-primary: #0a0a0b;
+  --bg-secondary: #141315;
+  --bg-card: rgba(20, 19, 21, 0.75);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --text-primary: #e8e6e1;
+  --text-secondary: #a3a3a8;
+
+  --accent: #c98a3a;
+  --accent-bright: #dd9c47;
+  --accent-danger: #e57468;
+  --on-accent: #0a0a0b; /* text on a filled accent surface; dark in both themes for contrast */
+  --on-danger: #ffffff; /* text on the filled danger surface */
+  --accent-green: #10b981;
+
+  /* Categorical data-viz hues for diagrams that must tell several things apart (levels, clauses, states). */
+  --viz-blue: #4f8cff;
+  --viz-purple: #a06bf0;
+  --viz-cyan: #22b8cf;
+  --viz-orange: #f08c3a;
+  --viz-pink: #e86aa8;
+  --viz-yellow: #e5c13a;
+
+  /* Nocturne design tokens */
+  --ac: #c98a3a;
+  --ac-hi: #dd9c47;
+  --ac-08: rgba(201, 138, 58, 0.08);
+  --ac-18: rgba(201, 138, 58, 0.18);
+  --ac-35: rgba(201, 138, 58, 0.35);
+  --ac-glow: rgba(201, 138, 58, 0.5);
+  --nf: #1b1b21;
+  --nsk: #c98a3a;
+  --grid: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+
+  --surface-card: linear-gradient(180deg, #17171c, #131317);
+  --border-card: rgba(255, 255, 255, 0.075);
+  --border-hair: rgba(255, 255, 255, 0.055);
+  --sticky-bg: #fde68a;
+  --sticky-ink: #1f2937;
+  --shape-fill: rgba(255, 255, 255, 0.05);
+  --text-1: #e8e6e1;
+  --text-2: #b9b9c2;
+  --text-3: #8e8e96;
+  --text-4: #5c5c64;
+  --radius: 8px;
+  --shadow-card: 0 8px 28px rgba(0, 0, 0, 0.5);
+
+  /* Preview player surfaces: the stage and the control rail swap with the theme like every other surface. */
+  --stage-bg: radial-gradient(ellipse 760px 300px at 50% 45%, #141419, #0b0b0e);
+  --rail-bg: #0b0b0e;
+  --rail-line: rgba(255, 255, 255, 0.07);
+  --rail-track: rgba(255, 255, 255, 0.14);
+  --rail-hairline: rgba(255, 255, 255, 0.12);
+
+  /* Deprecated aliases – do not delete. Referenced directly by content data
+     (e.g. data/complexity/week02/practice/dfs_3colorability/graph.config.ts
+     uses var(--accent-cyan)). New code should use --accent/--accent-bright. */
+  --accent-cyan: var(--accent);
+  --accent-cyan-bright: var(--accent-bright);
+  --accent-purple: var(--accent-bright);
+
+  --font-sans: 'Inter', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Type scale: body 1rem, ratio ~1.2. Use these tokens, never raw rem values. */
+  --fs-xs: 0.8125rem; /* 13px badges, helper text */
+  --fs-sm: 0.875rem; /* 14px secondary text, buttons */
+  --fs-md: 1rem; /* 16px body, inputs */
+  --fs-lg: 1.125rem; /* 18px card titles */
+  --fs-xl: 1.375rem; /* 22px section headings */
+  --fs-2xl: clamp(1.5rem, 1.2rem + 1vw, 1.875rem); /* page title */
+  --lh-body: 1.6;
+  --lh-heading: 1.25;
+
+  --z-modal: 10050;
+  --scrim: rgba(0, 0, 0, 0.7);
+
+  --radius-lg: 14px;
+  --radius-md: 10px;
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+
+  /* Every topic tile takes the accent chosen in Settings; the icon and badge say whether it opens the Canvas or
+     the Step player. (--kind-canvas used to be a hue turned away from the accent, so Canvas topics ignored Settings.) */
+  --kind-player: var(--ac);
+  --kind-canvas: var(--ac);
+
+  --ui-scale: 1;
+  --topbar-height: 48px;
+  --ribbon-height: 72px;
+}
+
+:root[data-theme='light'] {
+  --bg-primary: #f6f5f2;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --border-color: rgba(20, 19, 21, 0.1);
+  --border-subtle: rgba(20, 19, 21, 0.08);
+  --text-primary: #1c1b19;
+  --text-secondary: #57564f;
+
+  --surface-card: linear-gradient(180deg, #ffffff, #f7f6f3);
+  --border-card: rgba(20, 19, 21, 0.09);
+  --border-hair: rgba(20, 19, 21, 0.06);
+  --sticky-bg: #fde68a;
+  --sticky-ink: #1f2937;
+  --shape-fill: rgba(0, 0, 0, 0.03);
+  --text-1: #1c1b19;
+  --text-2: #3f3e3a;
+  --text-3: #6b6a63;
+  --text-4: #97968e;
+  --shadow-card: 0 8px 28px rgba(28, 27, 25, 0.12);
+  --grid: radial-gradient(rgba(20, 19, 21, 0.06) 1px, transparent 1px);
+  --stage-bg: radial-gradient(ellipse 760px 300px at 50% 45%, #ffffff, #efeeea);
+  --rail-bg: #f6f5f2;
+  --rail-line: rgba(20, 19, 21, 0.08);
+  --rail-track: rgba(20, 19, 21, 0.14);
+  --rail-hairline: rgba(20, 19, 21, 0.16);
+}
+
+/* Paper is white: print with the light tokens whatever the editor theme is. This is a copy of the light
+   block above (kept in sync by test/styles/printTokens.test.ts); it only applies to print, so the screen never flashes. */
+@media print {
+  :root,
+  :root[data-theme='dark'] {
+  --bg-primary: #f6f5f2;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --border-color: rgba(20, 19, 21, 0.1);
+  --border-subtle: rgba(20, 19, 21, 0.08);
+  --text-primary: #1c1b19;
+  --text-secondary: #57564f;
+
+  --surface-card: linear-gradient(180deg, #ffffff, #f7f6f3);
+  --border-card: rgba(20, 19, 21, 0.09);
+  --border-hair: rgba(20, 19, 21, 0.06);
+  --sticky-bg: #fde68a;
+  --sticky-ink: #1f2937;
+  --shape-fill: rgba(0, 0, 0, 0.03);
+  --text-1: #1c1b19;
+  --text-2: #3f3e3a;
+  --text-3: #6b6a63;
+  --text-4: #97968e;
+  --shadow-card: 0 8px 28px rgba(28, 27, 25, 0.12);
+  --grid: radial-gradient(rgba(20, 19, 21, 0.06) 1px, transparent 1px);
+  --stage-bg: radial-gradient(ellipse 760px 300px at 50% 45%, #ffffff, #efeeea);
+  --rail-bg: #f6f5f2;
+  --rail-line: rgba(20, 19, 21, 0.08);
+  --rail-track: rgba(20, 19, 21, 0.14);
+  --rail-hairline: rgba(20, 19, 21, 0.16);
+}
+}
+
+@media (min-width: 1700px) {
+  :root {
+    --topbar-height: 54px;
+    --ribbon-height: 80px;
+  }
+}
+
+@media (min-width: 2200px) {
+  :root {
+    --topbar-height: 62px;
+    --ribbon-height: 90px;
+  }
+}
+
+/* Source Serif 4 has no Hebrew glyphs – restrict serif headings to LTR
+   content so Hebrew headers don't silently fall back to an unstyled
+   system font. Hebrew headings use --font-sans at heading weight instead. */
+[dir='rtl'] .heading-serif,
+[dir='rtl'] h1,
+[dir='rtl'] h2 {
+  font-family: var(--font-sans);
+}

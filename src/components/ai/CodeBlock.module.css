@@ -1,0 +1,63 @@
+.container {
+  margin: 8px 0;
+  background: #0d0d10;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-hair);
+  font-size: 11px;
+}
+
+.language {
+  font-family: var(--font-mono, monospace);
+  color: var(--text-3);
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.copyBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-2);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  transition: all 0.15s ease;
+}
+
+.copyBtn:hover {
+  color: var(--ac-hi);
+  background: var(--bg-primary);
+}
+
+.pre {
+  margin: 0;
+  padding: 10px 12px;
+  overflow-x: auto;
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  text-align: left;
+}
+
+.code {
+  font-family: var(--font-mono, 'Fira Code', monospace);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-1);
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+}

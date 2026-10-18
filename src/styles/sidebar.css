@@ -1,0 +1,41 @@
+/* Nocturne Sidebar Styles */
+.sidebar {
+  width: 264px;
+  background: var(--bg-secondary);
+  border-inline-end: 1px solid var(--border-hair);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.sidebar.collapsed {
+  width: 0 !important;
+  overflow: hidden;
+  border-inline-end: none;
+}
+
+.nvi {
+  transition: background 0.12s ease, color 0.12s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.nvi:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--text-1, #e8e6e1) !important;
+}
+
+.nvi:active {
+  transform: scale(0.98);
+}
+
+.nvi.active-nav {
+  font-weight: 600;
+}
+
+.nvi.active-nav:hover {
+  background: var(--ac-18) !important;
+}

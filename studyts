@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# StudyTs CLI launcher for macOS and Linux
+set -e
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$DIR"
+
+CMD="${1:-dev}"
+
+case "$CMD" in
+  run|dev)
+    node scripts/browser_qa/run.js --open
+    ;;
+  app)
+    node scripts/browser_qa/run.js --app
+    ;;
+  qa|test)
+    node scripts/browser_qa/run.js
+    ;;
+  edge)
+    node scripts/browser_qa/run.js --open --browser msedge
+    ;;
+  firefox)
+    node scripts/browser_qa/run.js --open --browser firefox
+    ;;
+  webkit)
+    node scripts/browser_qa/run.js --open --browser webkit
+    ;;
+  *)
+    npm run "$@"
+    ;;
+esac

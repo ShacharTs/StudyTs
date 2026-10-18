@@ -1,0 +1,53 @@
+.stage {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+/* Plain label: text and formulas drawn directly on the diagram, no box. */
+.math {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-align: center;
+  font-size: var(--label-size, 1.15rem);
+  user-select: none;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+/* A soft backing pill keeps labels readable where they sit on coloured, overlapping fills. */
+.math > * {
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg-primary, #0a0a0b) 72%, transparent);
+  font-weight: var(--label-weight, 600);
+  text-shadow: 0 1px 2px color-mix(in srgb, var(--bg-primary, #0a0a0b) 90%, transparent);
+}
+
+/* Explanation bubble: a card that pops in beside the part of the diagram it talks about. */
+.bubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 0.6rem 1rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: var(--text-primary, #f3f4f6);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  background: var(--surface-card, rgba(20, 20, 26, 0.95));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.12));
+  border-inline-start: 4px solid var(--bubble-color, var(--accent, #c98a3a));
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  user-select: none;
+  pointer-events: none;
+}

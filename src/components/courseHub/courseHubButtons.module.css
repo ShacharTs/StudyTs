@@ -1,0 +1,112 @@
+/* One small set of controls for the course hub, course page and editor. Flat, 8px corners, no glow:
+   the amber fill is reserved for the one action that matters on a screen. */
+
+.primary,
+.secondary,
+.danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.primary:hover:not(:disabled), .secondary:hover:not(:disabled) { transform: translateY(-1px); }
+.primary:active:not(:disabled), .secondary:active:not(:disabled), .danger:active { transform: translateY(1px) scale(0.97); }
+
+.primary {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.primary:hover:not(:disabled) { background: var(--accent-bright); border-color: var(--accent-bright); }
+
+.secondary {
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-1);
+}
+.secondary:hover:not(:disabled) { border-color: var(--text-3); background: var(--bg-secondary); }
+
+.danger {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--accent-danger);
+  background: transparent;
+  color: var(--accent-danger);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.icon:hover { color: var(--text-1); border-color: var(--text-3); background: var(--bg-secondary); transform: scale(1.1); }
+.icon:active { transform: scale(0.92); }
+
+.primary:focus-visible,
+.secondary:focus-visible,
+.danger:focus-visible,
+.icon:focus-visible,
+.field:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+.primary:disabled,
+.secondary:disabled { opacity: 0.55; cursor: default; }
+
+.field {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-1);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  transition: border-color 0.15s ease;
+}
+.field:hover { border-color: var(--text-3); }
+.field::placeholder { color: var(--text-4); }
+textarea.field { min-height: 72px; resize: vertical; }
+
+.panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  padding: 20px;
+}
+
+.label {
+  display: block;
+  margin-top: 6px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary, .secondary, .danger, .icon, .field { transition: none; }
+  .primary:hover, .secondary:hover, .icon:hover, .primary:active, .secondary:active, .danger:active, .icon:active { transform: none; }
+}

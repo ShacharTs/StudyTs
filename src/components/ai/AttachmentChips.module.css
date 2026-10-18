@@ -1,0 +1,81 @@
+.chipsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md, 8px);
+  font-size: 11.5px;
+  color: var(--text-2);
+  max-width: 100%;
+}
+
+.chipError {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: var(--bg-primary);
+  border: 1px solid var(--accent-danger, #ef7a6d);
+  border-radius: var(--radius-md, 8px);
+  font-size: 11.5px;
+  color: var(--accent-danger, #ef7a6d);
+  max-width: 100%;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--ac-hi);
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  color: var(--accent-danger, #ef7a6d);
+}
+
+.name {
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.size {
+  opacity: 0.6;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.errorReason {
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0 2px;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.removeBtn:hover {
+  opacity: 1;
+}

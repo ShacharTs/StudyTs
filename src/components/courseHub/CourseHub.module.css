@@ -1,0 +1,89 @@
+/* Element-qualified to beat global rules. */
+div.hub {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  position: relative;
+}
+
+div.section { display: flex; flex-direction: column; gap: 20px; }
+
+header.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+h1.title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-heading);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-1);
+  margin: 0;
+}
+
+p.intro {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--text-2);
+  margin: 6px 0 0;
+}
+
+div.actions { display: flex; align-items: center; gap: 8px; }
+div.error { color: var(--accent-danger); font-size: var(--fs-xs); }
+
+/* The list opens once, line by line; nothing else on the page moves by itself. */
+div.list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+div.list > * { animation: lineIn 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+div.list > :nth-child(2) { animation-delay: 50ms; }
+div.list > :nth-child(3) { animation-delay: 100ms; }
+div.list > :nth-child(4) { animation-delay: 150ms; }
+div.list > :nth-child(5) { animation-delay: 200ms; }
+div.list > :nth-child(6) { animation-delay: 250ms; }
+div.list > :nth-child(n + 7) { animation-delay: 300ms; }
+@keyframes lineIn {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+.addCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 190px;
+  padding: 18px;
+  background: transparent;
+  font: inherit;
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+  border: 1.5px dashed var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.addCard:hover { color: var(--text-1); }
+.addCard:focus-visible { outline: 2px solid var(--ac); outline-offset: -2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  div.list > * { animation: none; }
+}
+
+header.headerRow { position: relative; padding-bottom: 20px; }
+/* A short accent rule draws itself under the page title when the page opens. */
+header.headerRow::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--ac), var(--ac-hi));
+  animation: ruleDraw 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+}
+[dir='rtl'] header.headerRow::after { background: linear-gradient(270deg, var(--ac), var(--ac-hi)); }
+@keyframes ruleDraw { from { width: 0; } to { width: 96px; } }
+@media (prefers-reduced-motion: reduce) { header.headerRow::after { animation: none; width: 96px; } }

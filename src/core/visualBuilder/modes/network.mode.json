@@ -1,0 +1,79 @@
+{
+  "format": 1,
+  "id": "network",
+  "label": {
+    "key": "modes.network.label"
+  },
+  "note": {
+    "key": "modes.network.note"
+  },
+  "icon": "⛭",
+  "filters": {
+    "categories": [
+      "network"
+    ],
+    "presets": [
+      "box",
+      "text",
+      "caption",
+      "arrow",
+      "line"
+    ],
+    "effects": [
+      "travel",
+      "glow",
+      "pulse",
+      "flow",
+      "reveal",
+      "callout",
+      "fill"
+    ]
+  },
+  "templates": [
+    "network/network-lan"
+  ],
+  "tools": [
+    {
+      "id": "select"
+    },
+    {
+      "id": "placePicker",
+      "label": {
+        "key": "modes.network.tools.placePicker.label"
+      },
+      "objects": [
+        "network/router",
+        "network/switch",
+        "network/firewall",
+        "network/server",
+        "network/client",
+        "network/cloud",
+        "network/hub",
+        "network/database"
+      ]
+    },
+    {
+      "id": "connect",
+      "label": {
+        "key": "modes.network.tools.connect.label"
+      },
+      "arrow": "both"
+    },
+    {
+      "id": "algorithm",
+      "label": {
+        "key": "modes.network.tools.algorithm.label"
+      },
+      "algorithms": [
+        "network/send",
+        "network/send-cost"
+      ]
+    }
+  ],
+  "inspector": {
+    "label": true,
+    "style": true,
+    "animate": true
+  },
+  "starter": "network/network-lan"
+}

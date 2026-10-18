@@ -1,0 +1,140 @@
+/* src/styles/ai/aiMessageList.css — message bubbles, feedback UI, status badge */
+.ai-message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  padding: 16px;
+  position: relative;
+  scrollbar-width: none;
+}
+
+.ai-message-list::-webkit-scrollbar {
+  display: none;
+}
+
+.ai-message-item {
+  padding: 10px 14px;
+  max-width: 88%;
+  line-height: 1.6;
+  font-size: 13px;
+  unicode-bidi: plaintext;
+  text-align: start;
+  word-break: break-word;
+}
+
+.ai-tool-icon {
+  display: inline;
+  margin-inline-end: 4px;
+}
+
+.ai-message-item.user {
+  align-self: flex-end;
+  background: var(--ac-18);
+  border: 1px solid var(--ac-35);
+  color: var(--ac-hi);
+  border-radius: 14px 14px 2px 14px;
+}
+
+.ai-message-item.assistant {
+  align-self: flex-start;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  color: var(--text-1);
+  border-radius: 14px 14px 14px 2px;
+}
+
+.ai-thought-details {
+  margin-bottom: 8px;
+  background: var(--ac-08);
+  border: 1px solid var(--border-hair);
+  border-radius: var(--radius, 6px);
+  font-size: 11.5px;
+  overflow: hidden;
+}
+
+.ai-thought-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  color: var(--text-3);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.ai-thought-summary:hover {
+  color: var(--ac-hi);
+  background: var(--bg-card);
+}
+
+.ai-thought-icon {
+  color: var(--ac-hi);
+}
+
+.ai-thought-body {
+  padding: 8px 10px;
+  border-top: 1px solid var(--border-hair);
+  color: var(--text-2);
+  font-size: 11.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.ai-message-item.tool {
+  align-self: flex-start;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-hair);
+  color: var(--text-3);
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  line-height: 1.4;
+  max-width: 95%;
+}
+
+/* Status indicator badge (in chat) */
+.ai-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--ac-08);
+  border: 1px solid var(--ac-35);
+  color: var(--ac-hi);
+  font-size: 12px;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+.ai-status-badge .status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ac);
+  animation: ai-status-pulse 1.6s ease-in-out infinite;
+}
+
+.ai-status-badge.idle .status-dot {
+  animation: none;
+  opacity: 0.5;
+}
+
+.ai-status-container {
+  position: sticky;
+  bottom: 0;
+  align-self: stretch;
+  padding: 6px 0 2px;
+  background: var(--bg-primary);
+}
+
+@keyframes ai-status-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.1); }
+}

@@ -1,0 +1,24 @@
+.button {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background-color: var(--bg-card, #1a1a20);
+  border: 1px solid var(--border-card, rgba(255, 255, 255, 0.1));
+  color: var(--text-1, #f0f0f5);
+  font-size: 11px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.15s ease;
+}
+
+.button:hover {
+  border-color: var(--ac-35);
+  color: var(--ac-hi);
+}

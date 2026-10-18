@@ -1,0 +1,110 @@
+/* A course card is led by its name. Its colour is the accent chosen in Settings, shown as a spine down the start edge. Hover lifts the card and deepens that colour. */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 190px;
+  padding: 24px 24px 20px;
+  padding-inline-start: 30px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.2s ease, box-shadow 0.25s ease, background 0.2s ease;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 5px;
+  background: var(--ac);
+  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.card:hover, .card:focus-visible {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--ac) 55%, var(--border-color));
+  background: color-mix(in srgb, var(--ac) 7%, var(--bg-secondary));
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+}
+.card:hover::before, .card:focus-visible::before { width: 9px; }
+.card:focus-visible { outline: 2px solid var(--ac); outline-offset: 3px; }
+
+/* An arrow slides in at the end of the card on hover: the card is a way in. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: 24px;
+  bottom: 26px;
+  width: 9px;
+  height: 9px;
+  border-top: 2px solid var(--ac-hi);
+  border-right: 2px solid var(--ac-hi);
+  transform: rotate(45deg);
+  opacity: 0;
+  translate: -10px 0;
+  transition: opacity 0.2s ease, translate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[dir='rtl'] .card::after { border-right: 0; border-left: 2px solid var(--ac-hi); transform: rotate(-45deg); translate: 10px 0; }
+.card:hover::after, .card:focus-visible::after { opacity: 1; translate: 0 0; }
+.card:active { transform: translateY(-1px) scale(0.985); }
+
+.cardEditing { cursor: default; }
+.cardEditing::after { display: none; }
+.cardEditing:hover { transform: none; box-shadow: none; background: var(--bg-secondary); border-color: var(--border-color); }
+.cardEditing:hover::before { width: 5px; }
+
+h4.name {
+  margin: 0;
+  transition: translate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding-inline-end: 4px;
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  line-height: var(--lh-heading);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-1);
+  unicode-bidi: isolate;
+  text-align: start;
+}
+
+p.description {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--text-2);
+  unicode-bidi: isolate;
+  text-align: start;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card:hover h4.name, .card:focus-visible h4.name { translate: 3px 0; }
+[dir='rtl'] .card:hover h4.name, [dir='rtl'] .card:focus-visible h4.name { translate: -3px 0; }
+
+.count {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+  transition: color 0.2s ease;
+}
+.card:hover .count { color: var(--text-1); }
+
+/* In edit mode the toolbar has its own row at the top of the card, so it never covers the name. */
+.actions { display: flex; justify-content: flex-end; gap: 6px; margin: -10px -10px 2px 0; }
+[dir='rtl'] .actions { margin: -10px 0 2px -10px; }
+.confirmText { font-size: var(--fs-xs); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card::before, .count, h4.name, .card::after { transition: none; }
+  .card:hover, .card:focus-visible, .card:active { transform: none; }
+  .card:hover h4.name, .card:focus-visible h4.name { translate: none; }
+}

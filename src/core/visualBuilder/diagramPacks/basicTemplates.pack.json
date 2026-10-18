@@ -1,0 +1,1311 @@
+{
+  "format": 1,
+  "id": "basic",
+  "name": {
+    "en": "Starter diagrams",
+    "he": "תרשימי פתיחה"
+  },
+  "category": "shapes",
+  "color": "blue",
+  "objects": [],
+  "templates": [
+    {
+      "id": "graph",
+      "name": {
+        "en": "Graph",
+        "he": "גרף"
+      },
+      "category": "shapes",
+      "description": {
+        "en": "Three nodes; a token walks from A to C.",
+        "he": "שלושה צמתים; אסימון עובר מ-A אל C."
+      },
+      "objects": [
+        {
+          "key": "a",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.225,
+            "y": 0.36538
+          },
+          "label": {
+            "en": "A",
+            "he": "A"
+          }
+        },
+        {
+          "key": "b",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.5,
+            "y": 0.67308
+          },
+          "label": {
+            "en": "B",
+            "he": "B"
+          }
+        },
+        {
+          "key": "c",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.775,
+            "y": 0.36538
+          },
+          "label": {
+            "en": "C",
+            "he": "C"
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "a",
+          "to": "b"
+        },
+        {
+          "from": "b",
+          "to": "c"
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "Start at A",
+            "he": "התחלה ב-A"
+          },
+          "show": [
+            "a",
+            "b",
+            "c"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "a"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Go to B",
+            "he": "מעבר אל B"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "a->b"
+            },
+            {
+              "effect": "spark",
+              "target": "a->b"
+            },
+            {
+              "effect": "glow",
+              "target": "b"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Go to C",
+            "he": "מעבר אל C"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "b->c"
+            },
+            {
+              "effect": "spark",
+              "target": "b->c"
+            },
+            {
+              "effect": "glow",
+              "target": "c"
+            },
+            {
+              "effect": "fill",
+              "target": "c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tape",
+      "name": {
+        "en": "Tape",
+        "he": "סרט"
+      },
+      "category": "shapes",
+      "description": {
+        "en": "Four cells; a head walks along the tape.",
+        "he": "ארבעה תאים; ראש עובר לאורך הסרט."
+      },
+      "objects": [
+        {
+          "key": "c1",
+          "ref": "preset/box",
+          "at": {
+            "x": 0.1375,
+            "y": 0.5
+          },
+          "label": {
+            "en": "a",
+            "he": "a"
+          }
+        },
+        {
+          "key": "c2",
+          "ref": "preset/box",
+          "at": {
+            "x": 0.3625,
+            "y": 0.5
+          },
+          "label": {
+            "en": "b",
+            "he": "b"
+          }
+        },
+        {
+          "key": "c3",
+          "ref": "preset/box",
+          "at": {
+            "x": 0.5875,
+            "y": 0.5
+          },
+          "label": {
+            "en": "a",
+            "he": "a"
+          }
+        },
+        {
+          "key": "c4",
+          "ref": "preset/box",
+          "at": {
+            "x": 0.8125,
+            "y": 0.5
+          },
+          "label": {
+            "en": "b",
+            "he": "b"
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "c1",
+          "to": "c2"
+        },
+        {
+          "from": "c2",
+          "to": "c3"
+        },
+        {
+          "from": "c3",
+          "to": "c4"
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "Start at the first cell",
+            "he": "התחלה בתא הראשון"
+          },
+          "show": [
+            "c1",
+            "c2",
+            "c3",
+            "c4"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "c1"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Move to the second cell",
+            "he": "מעבר לתא השני"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "c1->c2"
+            },
+            {
+              "effect": "spark",
+              "target": "c1->c2"
+            },
+            {
+              "effect": "glow",
+              "target": "c2"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Move to the third cell",
+            "he": "מעבר לתא השלישי"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "c2->c3"
+            },
+            {
+              "effect": "spark",
+              "target": "c2->c3"
+            },
+            {
+              "effect": "glow",
+              "target": "c3"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Move to the last cell",
+            "he": "מעבר לתא האחרון"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "c3->c4"
+            },
+            {
+              "effect": "spark",
+              "target": "c3->c4"
+            },
+            {
+              "effect": "glow",
+              "target": "c4"
+            },
+            {
+              "effect": "fill",
+              "target": "c4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pipeline",
+      "name": {
+        "en": "Pipeline",
+        "he": "צינור"
+      },
+      "category": "shapes",
+      "description": {
+        "en": "Input, process, output, left to right.",
+        "he": "קלט, עיבוד ופלט משמאל לימין."
+      },
+      "objects": [
+        {
+          "key": "input",
+          "ref": "preset/rounded",
+          "at": {
+            "x": 0.2,
+            "y": 0.5
+          },
+          "label": {
+            "en": "Input",
+            "he": "קלט"
+          }
+        },
+        {
+          "key": "process",
+          "ref": "preset/rounded",
+          "at": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "label": {
+            "en": "Process",
+            "he": "עיבוד"
+          }
+        },
+        {
+          "key": "output",
+          "ref": "preset/rounded",
+          "at": {
+            "x": 0.8,
+            "y": 0.5
+          },
+          "label": {
+            "en": "Output",
+            "he": "פלט"
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "input",
+          "to": "process"
+        },
+        {
+          "from": "process",
+          "to": "output"
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "Data enters",
+            "he": "המידע נכנס"
+          },
+          "show": [
+            "input",
+            "process",
+            "output"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "input"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Data is processed",
+            "he": "המידע מעובד"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "input->process"
+            },
+            {
+              "effect": "spark",
+              "target": "input->process"
+            },
+            {
+              "effect": "glow",
+              "target": "process"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Result leaves",
+            "he": "התוצאה יוצאת"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "process->output"
+            },
+            {
+              "effect": "spark",
+              "target": "process->output"
+            },
+            {
+              "effect": "glow",
+              "target": "output"
+            },
+            {
+              "effect": "fill",
+              "target": "output"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "graph-tree-7",
+      "name": {
+        "en": "Search tree",
+        "he": "עץ חיפוש"
+      },
+      "category": "shapes",
+      "description": {
+        "en": "Seven vertices; visit them in DFS order.",
+        "he": "שבעה קודקודים; ביקור בסדר DFS."
+      },
+      "objects": [
+        {
+          "key": "title",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.5,
+            "y": 0.08
+          },
+          "label": {
+            "en": "Search tree",
+            "he": "עץ חיפוש"
+          }
+        },
+        {
+          "key": "start",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.35,
+            "y": 0.22
+          },
+          "label": {
+            "en": "start",
+            "he": "התחלה"
+          }
+        },
+        {
+          "key": "a",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.5,
+            "y": 0.22
+          },
+          "label": {
+            "en": "A",
+            "he": "A"
+          }
+        },
+        {
+          "key": "b",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.3,
+            "y": 0.45
+          },
+          "label": {
+            "en": "B",
+            "he": "B"
+          }
+        },
+        {
+          "key": "c",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.7,
+            "y": 0.45
+          },
+          "label": {
+            "en": "C",
+            "he": "C"
+          }
+        },
+        {
+          "key": "d",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.2,
+            "y": 0.72
+          },
+          "label": {
+            "en": "D",
+            "he": "D"
+          }
+        },
+        {
+          "key": "e",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.4,
+            "y": 0.72
+          },
+          "label": {
+            "en": "E",
+            "he": "E"
+          }
+        },
+        {
+          "key": "f",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.6,
+            "y": 0.72
+          },
+          "label": {
+            "en": "F",
+            "he": "F"
+          }
+        },
+        {
+          "key": "g",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.8,
+            "y": 0.72
+          },
+          "label": {
+            "en": "G",
+            "he": "G"
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "a",
+          "to": "b",
+          "arrow": false
+        },
+        {
+          "from": "a",
+          "to": "c",
+          "arrow": false
+        },
+        {
+          "from": "b",
+          "to": "d",
+          "arrow": false
+        },
+        {
+          "from": "b",
+          "to": "e",
+          "arrow": false
+        },
+        {
+          "from": "f",
+          "to": "c",
+          "arrow": false
+        },
+        {
+          "from": "c",
+          "to": "g",
+          "arrow": false
+        },
+        {
+          "from": "e",
+          "to": "f",
+          "arrow": false
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "Visit A: the root, start here",
+            "he": "מבקרים ב-A: השורש, מתחילים כאן"
+          },
+          "show": [
+            "title",
+            "start",
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g"
+          ],
+          "effects": [
+            {
+              "effect": "fill",
+              "target": "a"
+            },
+            {
+              "effect": "glow",
+              "target": "a"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "From A go to its first neighbour B",
+            "he": "מ-A עוברים לשכן הראשון, B"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "a->b"
+            },
+            {
+              "effect": "fill",
+              "target": "b"
+            },
+            {
+              "effect": "glow",
+              "target": "b"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "B has D and E unvisited: take D first",
+            "he": "ל-B שכנים D ו-E: קודם D"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "b->d"
+            },
+            {
+              "effect": "fill",
+              "target": "d"
+            },
+            {
+              "effect": "glow",
+              "target": "d"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "D is a dead end: back to B, then E",
+            "he": "D ללא המשך: חוזרים ל-B, אז E"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "b->e"
+            },
+            {
+              "effect": "fill",
+              "target": "e"
+            },
+            {
+              "effect": "glow",
+              "target": "e"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "E has unvisited F: go to F",
+            "he": "ל-E שכן לא מבוקר F: עוברים ל-F"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "e->f"
+            },
+            {
+              "effect": "fill",
+              "target": "f"
+            },
+            {
+              "effect": "glow",
+              "target": "f"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "F leads to unvisited C: go to C",
+            "he": "מ-F ל-C שטרם בוקר: עוברים ל-C"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "f->c"
+            },
+            {
+              "effect": "fill",
+              "target": "c"
+            },
+            {
+              "effect": "glow",
+              "target": "c"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "C has unvisited G: go to G",
+            "he": "ל-C שכן לא מבוקר G: עוברים ל-G"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "c->g"
+            },
+            {
+              "effect": "fill",
+              "target": "g"
+            },
+            {
+              "effect": "glow",
+              "target": "g"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Done: A-C skipped, C reached via F",
+            "he": "סיום: A-C מדולג, C הגיע דרך F"
+          },
+          "show": [],
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "tape-cells",
+      "name": {
+        "en": "Tape with head",
+        "he": "סרט עם ראש"
+      },
+      "category": "shapes",
+      "description": {
+        "en": "Four cells and a read head.",
+        "he": "ארבעה תאים וראש קריאה."
+      },
+      "objects": [
+        {
+          "key": "c0",
+          "ref": "preset/box",
+          "at": {
+            "x": 0.17,
+            "y": 0.5
+          },
+          "label": {
+            "en": "1",
+            "he": "1"
+          }
+        },
+        {
+          "key": "c1",
+          "ref": "preset/box",
+          "at": {
+            "x": 0.39,
+            "y": 0.5
+          },
+          "label": {
+            "en": "0",
+            "he": "0"
+          }
+        },
+        {
+          "key": "c2",
+          "ref": "preset/box",
+          "at": {
+            "x": 0.61,
+            "y": 0.5
+          },
+          "label": {
+            "en": "0",
+            "he": "0"
+          }
+        },
+        {
+          "key": "c3",
+          "ref": "preset/box",
+          "at": {
+            "x": 0.83,
+            "y": 0.5
+          },
+          "label": {
+            "en": "1",
+            "he": "1"
+          }
+        },
+        {
+          "key": "head",
+          "ref": "preset/triangle",
+          "at": {
+            "x": 0.61,
+            "y": 0.78
+          }
+        },
+        {
+          "key": "headlabel",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.61,
+            "y": 0.93
+          },
+          "label": {
+            "en": "head",
+            "he": "ראש"
+          }
+        },
+        {
+          "key": "i0",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.17,
+            "y": 0.63
+          },
+          "label": {
+            "en": "0",
+            "he": "0"
+          }
+        },
+        {
+          "key": "i1",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.39,
+            "y": 0.63
+          },
+          "label": {
+            "en": "1",
+            "he": "1"
+          }
+        },
+        {
+          "key": "i2",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.61,
+            "y": 0.63
+          },
+          "label": {
+            "en": "2",
+            "he": "2"
+          }
+        },
+        {
+          "key": "i3",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.83,
+            "y": 0.63
+          },
+          "label": {
+            "en": "3",
+            "he": "3"
+          }
+        }
+      ],
+      "links": [],
+      "steps": [
+        {
+          "caption": {
+            "en": "The head reads cell 3: it holds 0",
+            "he": "הראש קורא תא 3: בו 0"
+          },
+          "show": [
+            "c0",
+            "c1",
+            "c2",
+            "c3",
+            "head",
+            "headlabel",
+            "i0",
+            "i1",
+            "i2",
+            "i3"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "c2"
+            },
+            {
+              "effect": "bounce",
+              "target": "head"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Scan: cell 4",
+            "he": "סריקה: תא 4"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "c3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "graph-weighted-6",
+      "name": {
+        "en": "Weighted graph",
+        "he": "גרף ממושקל"
+      },
+      "category": "shapes",
+      "description": {
+        "en": "Six vertices, edge weights.",
+        "he": "שישה קודקודים ומשקלים."
+      },
+      "objects": [
+        {
+          "key": "title",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.5,
+            "y": 0.06
+          },
+          "label": {
+            "en": "Weighted graph",
+            "he": "גרף ממושקל"
+          }
+        },
+        {
+          "key": "a",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.14,
+            "y": 0.55
+          },
+          "label": {
+            "en": "A",
+            "he": "A"
+          }
+        },
+        {
+          "key": "b",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.33,
+            "y": 0.2
+          },
+          "label": {
+            "en": "B",
+            "he": "B"
+          }
+        },
+        {
+          "key": "d",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.72,
+            "y": 0.2
+          },
+          "label": {
+            "en": "D",
+            "he": "D"
+          }
+        },
+        {
+          "key": "e",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.88,
+            "y": 0.55
+          },
+          "label": {
+            "en": "E",
+            "he": "E"
+          }
+        },
+        {
+          "key": "f",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.66,
+            "y": 0.88
+          },
+          "label": {
+            "en": "F",
+            "he": "F"
+          }
+        },
+        {
+          "key": "c",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.5,
+            "y": 0.55
+          },
+          "label": {
+            "en": "C",
+            "he": "C"
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "a",
+          "to": "b",
+          "label": {
+            "en": "7",
+            "he": "7"
+          },
+          "arrow": false
+        },
+        {
+          "from": "a",
+          "to": "c",
+          "label": {
+            "en": "9",
+            "he": "9"
+          },
+          "arrow": false
+        },
+        {
+          "from": "a",
+          "to": "f",
+          "label": {
+            "en": "14",
+            "he": "14"
+          },
+          "arrow": false
+        },
+        {
+          "from": "b",
+          "to": "c",
+          "label": {
+            "en": "10",
+            "he": "10"
+          },
+          "arrow": false
+        },
+        {
+          "from": "b",
+          "to": "d",
+          "label": {
+            "en": "15",
+            "he": "15"
+          },
+          "arrow": false
+        },
+        {
+          "from": "c",
+          "to": "d",
+          "label": {
+            "en": "11",
+            "he": "11"
+          },
+          "arrow": false
+        },
+        {
+          "from": "c",
+          "to": "f",
+          "label": {
+            "en": "2",
+            "he": "2"
+          },
+          "arrow": false
+        },
+        {
+          "from": "d",
+          "to": "e",
+          "label": {
+            "en": "6",
+            "he": "6"
+          },
+          "arrow": false
+        },
+        {
+          "from": "e",
+          "to": "f",
+          "label": {
+            "en": "9",
+            "he": "9"
+          },
+          "arrow": false
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "Each edge carries a weight",
+            "he": "לכל קשת יש משקל"
+          },
+          "show": [
+            "title",
+            "a",
+            "b",
+            "d",
+            "e",
+            "f",
+            "c"
+          ],
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "flow-network-6",
+      "name": {
+        "en": "Flow network",
+        "he": "רשת זרימה"
+      },
+      "category": "shapes",
+      "description": {
+        "en": "Source S, sink T, capacities.",
+        "he": "מקור S, יעד T, קיבולים."
+      },
+      "objects": [
+        {
+          "key": "title",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.5,
+            "y": 0.06
+          },
+          "label": {
+            "en": "Flow network",
+            "he": "רשת זרימה"
+          }
+        },
+        {
+          "key": "s",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.1,
+            "y": 0.5
+          },
+          "label": {
+            "en": "S",
+            "he": "S"
+          }
+        },
+        {
+          "key": "a",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.3,
+            "y": 0.2
+          },
+          "label": {
+            "en": "A",
+            "he": "A"
+          }
+        },
+        {
+          "key": "c",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.3,
+            "y": 0.8
+          },
+          "label": {
+            "en": "C",
+            "he": "C"
+          }
+        },
+        {
+          "key": "d",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.58,
+            "y": 0.5
+          },
+          "label": {
+            "en": "D",
+            "he": "D"
+          }
+        },
+        {
+          "key": "b",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.78,
+            "y": 0.2
+          },
+          "label": {
+            "en": "B",
+            "he": "B"
+          }
+        },
+        {
+          "key": "t",
+          "ref": "preset/circle",
+          "at": {
+            "x": 0.92,
+            "y": 0.5
+          },
+          "label": {
+            "en": "T",
+            "he": "T"
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "s",
+          "to": "a",
+          "label": {
+            "en": "10",
+            "he": "10"
+          }
+        },
+        {
+          "from": "s",
+          "to": "c",
+          "label": {
+            "en": "10",
+            "he": "10"
+          }
+        },
+        {
+          "from": "a",
+          "to": "b",
+          "label": {
+            "en": "4",
+            "he": "4"
+          }
+        },
+        {
+          "from": "a",
+          "to": "c",
+          "label": {
+            "en": "2",
+            "he": "2"
+          }
+        },
+        {
+          "from": "a",
+          "to": "d",
+          "label": {
+            "en": "8",
+            "he": "8"
+          }
+        },
+        {
+          "from": "c",
+          "to": "d",
+          "label": {
+            "en": "9",
+            "he": "9"
+          }
+        },
+        {
+          "from": "d",
+          "to": "b",
+          "label": {
+            "en": "6",
+            "he": "6"
+          }
+        },
+        {
+          "from": "d",
+          "to": "t",
+          "label": {
+            "en": "10",
+            "he": "10"
+          }
+        },
+        {
+          "from": "b",
+          "to": "t",
+          "label": {
+            "en": "10",
+            "he": "10"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "Each arrow has a capacity",
+            "he": "לכל חץ יש קיבול"
+          },
+          "show": [
+            "title",
+            "s",
+            "a",
+            "c",
+            "d",
+            "b",
+            "t"
+          ],
+          "effects": []
+        }
+      ]
+    }
+  ]
+}

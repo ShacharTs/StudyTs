@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StudyTS Locale Pack Schema",
+  "type": "object",
+  "required": ["meta", "strings"],
+  "additionalProperties": true,
+  "properties": {
+    "$schema": { "type": "string" },
+    "meta": {
+      "type": "object",
+      "required": ["code", "nativeName", "englishName"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"
+        },
+        "nativeName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "englishName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dir": {
+          "type": "string",
+          "enum": ["ltr", "rtl"]
+        },
+        "flag": {
+          "type": "string"
+        }
+      }
+    },
+    "strings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

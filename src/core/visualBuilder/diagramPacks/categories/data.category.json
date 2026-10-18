@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "id": "data",
+  "label": { "en": "Data structures", "he": "מבני נתונים" },
+  "icon": "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><rect x=\"2\" y=\"9\" width=\"5\" height=\"6\"/><rect x=\"9.5\" y=\"9\" width=\"5\" height=\"6\"/><rect x=\"17\" y=\"9\" width=\"5\" height=\"6\"/></g>",
+  "order": 70,
+  "description": { "en": "Arrays, lists, trees and heaps", "he": "מערכים, רשימות, עצים וערימות" }
+}

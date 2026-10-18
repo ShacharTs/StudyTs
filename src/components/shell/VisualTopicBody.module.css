@@ -1,0 +1,6 @@
+.editor {
+  height: calc(100vh - 170px);
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+}

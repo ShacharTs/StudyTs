@@ -1,0 +1,14 @@
+{
+  "format": 1,
+  "id": "graph/dijkstra",
+  "model": "graph",
+  "label": "dijkstra",
+  "frontier": {
+    "policy": "priority",
+    "priority": "distance"
+  },
+  "mark": "visit",
+  "relax": {
+    "cost": "weight"
+  }
+}

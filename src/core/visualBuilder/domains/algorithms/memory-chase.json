@@ -1,0 +1,7 @@
+{
+  "format": 1,
+  "id": "memory/chase",
+  "model": "memory",
+  "label": "memChase",
+  "mode": "chase"
+}

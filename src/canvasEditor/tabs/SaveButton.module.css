@@ -1,0 +1,60 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--border-hair);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text-1);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.pill:hover:not(:disabled) {
+  background: var(--bg-hover, var(--bg-card));
+}
+
+.pill:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+.pill:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.dotIdle {
+  background: var(--text-3, var(--text-2));
+}
+
+.dotSaving {
+  background: var(--warn, #d97706);
+  animation: savePulse 1s ease-in-out infinite;
+}
+
+.dotSaved {
+  background: var(--ok, #16a34a);
+}
+
+@keyframes savePulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dotSaving {
+    animation: none;
+  }
+}

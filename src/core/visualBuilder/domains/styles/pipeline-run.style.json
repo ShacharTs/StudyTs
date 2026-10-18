@@ -1,0 +1,17 @@
+{
+  "format": 1,
+  "id": "pipeline/run",
+  "colors": {
+    "stalled": "red",
+    "bottleneck": "orange"
+  },
+  "captions": {
+    "tick": "pipeTick",
+    "done": "pipeDone"
+  },
+  "whys": {
+    "tick": "pipeWhyTick",
+    "bottleneck": "pipeWhyBottleneck",
+    "clear": "pipeWhyClear"
+  }
+}

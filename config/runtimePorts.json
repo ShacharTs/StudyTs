@@ -1,0 +1,6 @@
+{
+  "frontendPort": 7300,
+  "apiPort": 7301,
+  "omniRoutePort": 20128,
+  "loopbackHost": "127.0.0.1"
+}

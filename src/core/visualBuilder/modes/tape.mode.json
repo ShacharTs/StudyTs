@@ -1,0 +1,73 @@
+{
+  "format": 1,
+  "id": "tape",
+  "label": {
+    "key": "modes.tape.label"
+  },
+  "note": {
+    "key": "modes.tape.note"
+  },
+  "icon": "▤",
+  "filters": {
+    "categories": [],
+    "presets": [
+      "box",
+      "caption",
+      "triangle"
+    ],
+    "effects": [
+      "glow",
+      "bounce",
+      "move",
+      "fill",
+      "callout",
+      "reveal",
+      "pulse"
+    ]
+  },
+  "templates": [],
+  "starter": "action/newTape",
+  "tools": [
+    {
+      "id": "select"
+    },
+    {
+      "id": "input",
+      "label": {
+        "key": "modes.tape.tools.input.label"
+      },
+      "key": "tape",
+      "pattern": "[^ ]{1,24}"
+    },
+    {
+      "id": "action",
+      "label": {
+        "key": "modes.tape.tools.2.label"
+      },
+      "run": "headLeft"
+    },
+    {
+      "id": "action",
+      "label": {
+        "key": "modes.tape.tools.3.label"
+      },
+      "run": "headRight"
+    },
+    {
+      "id": "action",
+      "label": {
+        "key": "modes.tape.tools.4.label"
+      },
+      "run": "scanTape",
+      "primary": true
+    }
+  ],
+  "inspector": {
+    "label": true,
+    "size": true,
+    "animate": true
+  },
+  "starterLabel": {
+    "key": "modes.tape.starterLabel"
+  }
+}

@@ -1,0 +1,3 @@
+.icon { display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.canvas { color: var(--kind-canvas); }
+.player { color: var(--kind-player); }

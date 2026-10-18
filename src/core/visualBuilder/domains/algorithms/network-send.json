@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "id": "network/send",
+  "model": "network",
+  "label": "networkSend",
+  "routeSearch": "graph/bfs",
+  "ttl": 64
+}

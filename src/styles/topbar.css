@@ -1,0 +1,161 @@
+/* Nocturne Top Bar Styles */
+.sticky-top-bar {
+  position: relative;
+  height: calc(var(--topbar-height, 48px) * var(--ui-scale, 1));
+  min-height: calc(var(--topbar-height, 48px) * var(--ui-scale, 1));
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-hair);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(16px * var(--ui-scale, 1));
+  z-index: 100;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  font-size: calc(13px * var(--ui-scale, 1));
+}
+
+.topbar-left-cluster {
+  display: flex;
+  align-items: center;
+  gap: calc(10px * var(--ui-scale, 1));
+}
+
+.topbar-right-cluster {
+  display: flex;
+  align-items: center;
+  gap: calc(8px * var(--ui-scale, 1));
+  position: relative;
+}
+
+.topbar-divider {
+  width: 1px;
+  height: calc(18px * var(--ui-scale, 1));
+  background: var(--border-hair);
+}
+
+.topbar-sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: calc(7px * var(--ui-scale, 1));
+  height: calc(28px * var(--ui-scale, 1));
+  padding: 0 calc(10px * var(--ui-scale, 1));
+  border-radius: var(--radius);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-2);
+  font-size: calc(12px * var(--ui-scale, 1));
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.topbar-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: calc(6px * var(--ui-scale, 1));
+  font-size: calc(12px * var(--ui-scale, 1));
+  font-family: var(--font-mono);
+}
+
+.topbar-breadcrumb-btn {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: var(--radius);
+  font-size: calc(12px * var(--ui-scale, 1));
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.topbar-breadcrumb-btn:hover,
+.topbar-breadcrumb-btn.active {
+  color: var(--ac-hi);
+}
+
+.topbar-breadcrumb-slash {
+  opacity: 0.3;
+  color: var(--text-4);
+}
+
+.topbar-breadcrumb-title {
+  color: var(--text-1);
+  padding: 2px 4px;
+}
+
+.topbar-settings-btn {
+  display: flex;
+  align-items: center;
+  gap: calc(5px * var(--ui-scale, 1));
+  height: calc(28px * var(--ui-scale, 1));
+  padding: 0 calc(9px * var(--ui-scale, 1));
+  border-radius: var(--radius);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-2);
+  font-size: calc(12px * var(--ui-scale, 1));
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.topbar-settings-btn:hover {
+  background: var(--ac-18);
+  border-color: var(--ac-35);
+  color: var(--ac-hi);
+}
+
+.topbar-profile-container {
+  display: flex;
+  align-items: center;
+  gap: calc(7px * var(--ui-scale, 1));
+  color: var(--text-3);
+  font-size: calc(12px * var(--ui-scale, 1));
+  margin-inline-end: calc(6px * var(--ui-scale, 1));
+}
+
+.topbar-profile-avatar {
+  width: calc(20px * var(--ui-scale, 1));
+  height: calc(20px * var(--ui-scale, 1));
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--ac-35);
+}
+
+.topbar-profile-link {
+  color: var(--text-3);
+  text-decoration: none;
+}
+
+.topbar-profile-link:hover {
+  color: var(--text-1);
+}
+
+.topbar-ai-btn {
+  display: flex;
+  align-items: center;
+  gap: calc(6px * var(--ui-scale, 1));
+  height: calc(28px * var(--ui-scale, 1));
+  padding: 0 calc(11px * var(--ui-scale, 1));
+  border-radius: var(--radius);
+  background: var(--ac-08);
+  border: 1px solid var(--ac-35);
+  color: var(--ac-hi);
+  font-size: calc(12px * var(--ui-scale, 1));
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.topbar-ai-btn.active,
+.topbar-ai-btn:hover {
+  background: var(--ac-18);
+  border-color: var(--ac);
+}
+
+@media (max-width: 900px) {
+  .topbar-breadcrumbs {
+    display: none !important;
+  }
+}

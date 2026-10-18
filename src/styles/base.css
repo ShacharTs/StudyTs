@@ -1,0 +1,262 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 138, 58, 0.35) rgba(10, 10, 11, 0.4);
+}
+
+/* Custom High-End Dark Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 10, 11, 0.5);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(201, 138, 58, 0.4), rgba(221, 156, 71, 0.4));
+  border-radius: 6px;
+  border: 1px solid var(--viz-hairline);
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #c98a3a, #dd9c47);
+  box-shadow: 0 0 10px rgba(201, 138, 58, 0.6);
+}
+
+.studio-canvas-viewport.synced-scrollbar-hidden::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+html, body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(ellipse 1200px 800px at 50% -10%, #161414 0%, #0a0a0b 60%);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  padding: 0;
+}
+
+.unselectable, .canvas-wrapper, .player-controls, .brand-header, .nav-item, .badge, .ctrl-btn {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Card Styling System for Topics & Courses */
+/* Mirrors directional icons (e.g. the "explore" arrow) when the app shell is RTL. */
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+.topic-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.topic-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--ac-35);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--ac-08);
+}
+
+.topic-card.practice-card:hover {
+  border-color: var(--ac-35);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--ac-08);
+}
+
+.smooth-transition {
+  transition: all 0.25s ease-in-out;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+/* Nocturne card & interactive button styles */
+.wg {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.wg:hover {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--ac-08) !important;
+}
+.wg:hover .wgact {
+  opacity: 1 !important;
+}
+.ib {
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.ib:hover {
+  background: var(--ac-18) !important;
+  border-color: var(--ac-35) !important;
+  color: var(--ac-hi) !important;
+}
+.nvi:hover {
+  background: rgba(255, 255, 255, 0.045);
+  color: #e8e6e1;
+}
+.toolbar-btn {
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.toolbar-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-1);
+}
+
+/* MultiModalCanvas Connecting Mode */
+.multimodal-canvas-board.connecting-mode {
+  cursor: crosshair;
+}
+
+/* Print-optimized stylesheet for clean multi-page presentation export */
+@media print {
+  html, body, #root, .app-container, .studio-pro-container {
+    height: auto !important;
+    width: 100% !important;
+    overflow: visible !important;
+    background: var(--viz-white) !important;
+    color: var(--viz-black) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .app-container > div {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+  .app-container > div > main {
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+  .sticky-top-bar,
+  .top-bar-header,
+  header,
+  nav,
+  aside,
+  .sidebar-nav,
+  [data-testid="sidebar-nav"],
+  .debug-overlay,
+  button,
+  [data-testid="canvas-editor-pane"],
+  [data-testid="canvas-header-bar"],
+  .studio-editor-viewport,
+  .studio-top-ribbon,
+  .studio-left-rail,
+  .studio-right-inspector,
+  .studio-bottom-status-bar,
+  .editable-block-frame,
+  .canvas-marquee-overlay,
+  .canvas-split-divider,
+  [data-testid="page-deck-drawer"],
+  [data-testid="canvas-layers-panel"],
+  .badge {
+    display: none !important;
+  }
+  [data-testid="canvas-preview-pane"],
+  .studio-preview-viewport {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: static !important;
+  }
+  .multimodal-canvas-board {
+    box-shadow: none !important;
+    border: 1px solid #d1d5db !important;
+    background: var(--viz-white) !important;
+    margin-bottom: 0 !important;
+    transform: none !important;
+  }
+  /* .pageStackItem is a CSS-module class (hashed at build time) — this global
+     stylesheet can't select it by name, so break-after is scoped via the
+     plain data-page-index attribute every page wrapper carries instead. Real
+     siblings live at this level (EditorCanvasPane.tsx / PreviewCanvasPane.tsx
+     .map() wrapper), not at .multimodal-canvas-board (each board sits alone
+     inside its own .sizer, so :not(:last-child) there never matches). */
+  [data-page-index]:not(:last-child) .multimodal-canvas-board {
+    break-after: page !important;
+    page-break-after: always !important;
+  }
+  /* Print-margin guide is an editor-only visual aid, never part of printed output. */
+  [data-testid="print-margin-guide"] {
+    display: none !important;
+  }
+  iframe {
+    break-inside: avoid;
+  }
+}
+
+.connecting-source {
+  outline: 2px solid var(--ac, #c98a3a) !important;
+  box-shadow: 0 0 16px var(--ac-glow, rgba(201, 138, 58, 0.5)) !important;
+  animation: pulse-ring 1.8s ease-in-out infinite;
+}
+
+.connecting-target-glow {
+  cursor: pointer !important;
+  transition: outline 0.15s ease, box-shadow 0.15s ease;
+}
+
+.connecting-target-glow:hover {
+  outline: 2px dashed var(--ac-hi, #e0a353) !important;
+  box-shadow: 0 0 14px var(--ac-glow, rgba(201, 138, 58, 0.45)) !important;
+}
+
+/* Canvas split divider: invisible until interacted with, so the dual-pane
+   editor doesn't carry a permanent decorative line between its panes. */
+.canvas-split-divider:hover .canvas-split-divider__hairline,
+.canvas-split-divider:focus-visible .canvas-split-divider__hairline {
+  opacity: 1;
+}
+
+.canvas-split-divider:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: -2px;
+}

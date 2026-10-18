@@ -1,0 +1,262 @@
+{
+  "automata": {
+    "label": "Automata",
+    "note": "States, transitions, input",
+    "tools": {
+      "1": {
+        "label": "Add state"
+      },
+      "connect": {
+        "label": "Add transition"
+      },
+      "input": {
+        "label": "Input"
+      },
+      "action": {
+        "label": "Run input"
+      },
+      "autoRun": {
+        "label": "Run by itself"
+      }
+    },
+    "starterLabel": "a DFA with its input tape",
+    "verdict": {
+      "accept": "Accepts",
+      "reject": "Rejects",
+      "stuck": "Stuck on {symbol}",
+      "noStart": "Needs a start state",
+      "empty": "Type a word"
+    },
+    "runChoice": {
+      "question": "This drawing already has steps. Add the run after them, or replace them?",
+      "add": "Add steps",
+      "replace": "Replace steps",
+      "cancel": "Cancel"
+    }
+  },
+  "diagrams": {
+    "label": "Diagrams",
+    "note": "Flowcharts, UML, architecture",
+    "tools": {
+      "1": {
+        "label": "Shapes"
+      },
+      "2": {
+        "label": "Parts"
+      },
+      "connect": {
+        "label": "Add edge"
+      },
+      "algorithm": {
+        "label": "Simulate"
+      },
+      "chart": {
+        "label": "Chart",
+        "charts": {
+          "flowchart": {
+            "label": "Flowchart",
+            "note": "Steps, decisions and loops."
+          },
+          "pipeline": {
+            "label": "Pipeline",
+            "note": "Stages that pass data along."
+          }
+        }
+      }
+    }
+  },
+  "free": {
+    "label": "Free",
+    "note": "Everything, as before",
+    "tools": {
+      "placePicker": {
+        "label": "Shapes"
+      },
+      "connect": {
+        "label": "Add edge"
+      }
+    }
+  },
+  "graph": {
+    "label": "Graph",
+    "note": "Vertices, edges, weights",
+    "tools": {
+      "3": {
+        "label": "Directed"
+      },
+      "4": {
+        "label": "Weighted"
+      },
+      "place": {
+        "label": "Add vertex"
+      },
+      "connect": {
+        "label": "Add edge"
+      },
+      "algorithm": {
+        "label": "Algorithm"
+      }
+    }
+  },
+  "memory": {
+    "label": "Memory",
+    "note": "Stack, heap, pointers",
+    "tools": {
+      "placePicker": {
+        "label": "Objects"
+      },
+      "connect": {
+        "label": "Pointer"
+      },
+      "algorithm": {
+        "label": "Analyse"
+      }
+    }
+  },
+  "network": {
+    "label": "Network",
+    "note": "Devices, links, packets",
+    "tools": {
+      "placePicker": {
+        "label": "Devices"
+      },
+      "connect": {
+        "label": "Add link"
+      },
+      "algorithm": {
+        "label": "Send"
+      }
+    }
+  },
+  "tape": {
+    "label": "Tape",
+    "note": "Cells, head, scanning",
+    "tools": {
+      "2": {
+        "label": "Head ◀"
+      },
+      "3": {
+        "label": "Head ▶"
+      },
+      "4": {
+        "label": "Scan"
+      },
+      "input": {
+        "label": "Tape"
+      }
+    },
+    "starterLabel": "a new tape"
+  },
+  "venn": {
+    "label": "Venn",
+    "note": "Sets, elements and regions",
+    "tools": {
+      "3": {
+        "label": "Re-arrange"
+      },
+      "4": {
+        "label": "Shared regions"
+      },
+      "stepper": {
+        "label": "Sets"
+      },
+      "place": {
+        "label": "Add element"
+      }
+    }
+  },
+  "chartUse": "Use this chart",
+  "algorithmText": {
+    "bfs": "Breadth-first search",
+    "dfs": "Depth-first search",
+    "dijkstra": "Dijkstra shortest paths",
+    "prim": "Prim spanning tree",
+    "edmondsKarp": "Max flow (Edmonds-Karp)",
+    "fordFulkerson": "Max flow (Ford-Fulkerson)",
+    "automataRun": "Run the word",
+    "networkSend": "Send a packet (fewest hops)",
+    "networkSendCost": "Send a packet (lowest cost)",
+    "searchStart": "Start at {vertex}",
+    "searchVisit": "Visit {vertex}",
+    "searchDiscover": "Found {vertex}",
+    "searchDone": "Done: {order}",
+    "stripFifo": "Queue",
+    "stripLifo": "Stack",
+    "stripPriority": "Waiting",
+    "stripOrder": "Order",
+    "distance": "d = {value}",
+    "nameStrip": "Algorithm strip",
+    "nameDistance": "Distance",
+    "nameFlowLabel": "Flow label",
+    "inputWord": "Input word",
+    "inputPrefix": "Input: ",
+    "recipeStart": "Start at {vertex}",
+    "recipeGo": "Go to {vertex}",
+    "recipeShow": "Show {vertex}",
+    "recipeMove": "Move from {from} to {to}.",
+    "tapeCellName": "Cell",
+    "tapeIndexName": "Index",
+    "tapeHeadName": "Head",
+    "tapeHeadLabelName": "Head label",
+    "tapeStripName": "Tape strip",
+    "tapeHeadText": "head",
+    "tapeRead": "Read {symbol}",
+    "tapeBlank": "blank",
+    "tapeWhy": "The head is on cell {number}.",
+    "flowStart": "Flow from {source} to {sink}",
+    "flowAugment": "Path {path}: push {pushed}",
+    "flowDone": "Maximum flow = {value}",
+    "flowStrip": "Flow",
+    "autoStart": "Start at {states}",
+    "autoRead": "Read {symbol}",
+    "autoAccept": "Accept",
+    "autoReject": "Reject",
+    "autoStuck": "Reject: no move on {symbol}",
+    "autoWhyRead": "{from} reads {symbol} and goes to {to}.",
+    "autoWhyAccept": "{states} accepts: {word} is accepted.",
+    "autoWhyReject": "{states} does not accept: {word} is rejected.",
+    "autoWhyStuck": "{states} has no transition on {symbol}.",
+    "netStart": "{device} sends a packet",
+    "netHop": "Hop {number}: {to}",
+    "netDelivered": "Delivered to {device}",
+    "netUnreachable": "No route from {device}",
+    "netExpired": "Dropped at {device}: TTL ended",
+    "netWhyStart": "The packet starts with TTL {ttl}.",
+    "netWhyHop": "{from} forwards it to {to}; TTL left {ttlLeft}.",
+    "netWhyDelivered": "It arrived after {hops} hops.",
+    "netWhyUnreachable": "No cable path leads to the destination.",
+    "netWhyExpired": "A router drops a packet whose TTL is zero."
+  },
+  "memoryText": {
+    "memLeaks": "Leak search",
+    "memChase": "Follow pointers",
+    "memRoot": "Start from {cell}",
+    "memWhyRoot": "Every variable on the stack is a root: the blocks its pointers reach are alive.",
+    "memReach": "{block} is reachable",
+    "memWhyReach": "Reached from {via}.",
+    "memLeak": "Leak: {block} is unreachable",
+    "memWhyLeak": "No variable leads to it, so nothing can free it.",
+    "memVerdict": "Leaked: {leaks}",
+    "memWhyVerdict": "Reachable: {reachable}.",
+    "memNone": "none",
+    "memFollow": "Step {number}: {from} points to {to}",
+    "memWhyFollow": "Follow the address stored in {from}.",
+    "memBlock": "The chain ends at block {at}",
+    "memWhyBlock": "{at} points nowhere, so the value is the block.",
+    "memNull": "The chain ends at null",
+    "memWhyNull": "{at} holds no address.",
+    "memCycle": "The chain loops back to {at}",
+    "memWhyCycle": "Following the pointers returns to a node already visited.",
+    "memDangling": "The pointer to {at} leads nowhere",
+    "memWhyDangling": "{at} is neither a variable nor a heap block."
+  },
+  "pipelineText": {
+    "pipeRun": "Run a pipeline (tick by tick)",
+    "pipeTick": "Tick {number}",
+    "pipeWhyTick": "A stage passes items on when the next stage has room. Stalled: {stalled}.",
+    "pipeNone": "none",
+    "pipeDone": "Finished {done} of {tokens} items in {ticks} ticks",
+    "pipeWhyBottleneck": "Bottleneck: {stage}, the stage that stalled most often.",
+    "pipeWhyClear": "No stage stalled, so nothing waited."
+  }
+}

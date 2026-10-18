@@ -1,0 +1,22 @@
+.page {
+  position: relative;
+  background: var(--bg-secondary);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--grid);
+  background-size: 10mm 10mm;
+}
+
+/* The page a dragged object would land on. */
+.dropTarget {
+  outline: 3px solid var(--ac);
+  outline-offset: 2px;
+}

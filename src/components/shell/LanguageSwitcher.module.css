@@ -1,0 +1,150 @@
+/* src/components/styles/LanguageSwitcher.module.css */
+.container {
+  position: relative;
+  display: inline-block;
+  z-index: 500;
+}
+
+.triggerBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--radius, 6px);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.triggerBtn:hover {
+  background: var(--bg-hover, rgba(255, 255, 255, 0.05));
+  border-color: var(--border-hover, rgba(255, 255, 255, 0.2));
+  color: var(--text-1);
+}
+
+.triggerBtnActive {
+  background: var(--ac-18) !important;
+  border-color: var(--ac) !important;
+  color: var(--ac-hi) !important;
+}
+
+.flag {
+  font-size: 13px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+.label {
+  unicode-bidi: isolate;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chevron {
+  opacity: 0.6;
+  margin-inline-start: 2px;
+  transition: transform 0.15s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  inset-inline-start: 0;
+  min-width: 180px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--viz-hairline);
+  border-radius: 9px;
+  padding: 6px;
+  box-shadow: 0 16px 40px var(--viz-scrim);
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: dropdownFadeIn 0.12s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownHeader {
+  font-size: 10px;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-4);
+  padding: 4px 8px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 4px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 12px;
+  font-family: var(--font-mono, monospace);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  text-align: start;
+}
+
+.menuItem:hover,
+.menuItem:focus-visible {
+  background: var(--ac-18);
+  color: var(--ac-hi);
+  outline: none;
+}
+
+.menuItemActive {
+  background: var(--ac-08);
+  color: var(--ac-hi);
+  font-weight: 600;
+}
+
+.menuItemContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menuItemNative {
+  font-weight: 500;
+}
+
+.menuItemCode {
+  font-size: 10px;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.checkIcon {
+  color: var(--ac);
+  flex-shrink: 0;
+}

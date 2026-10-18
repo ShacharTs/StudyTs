@@ -1,0 +1,15 @@
+{
+  "format": 1,
+  "id": "system",
+  "name": {"en":"System design","he":"תכנון מערכות"},
+  "category": "system",
+  "color": "blue",
+  "objects": [
+    {"id":"microservice","label":{"en":"Microservice","he":"מיקרו-שירות"},"size":{"w":0.15,"h":0.1},"kind":"closed","svg":"<polygon points=\"-30 -40 30 -40 60 0 30 40 -30 40 -60 0\"/>","labelAt":"center","keywords":["service","api"]},
+    {"id":"api-gateway","label":{"en":"API gateway","he":"שער API"},"size":{"w":0.17,"h":0.08},"kind":"box","svg":"<rect x=\"-68\" y=\"-32\" width=\"{w}\" height=\"{h}\" rx=\"16\"/><line x1=\"-46\" y1=\"-24\" x2=\"-46\" y2=\"24\"/>","labelAt":"center","keywords":["gateway","proxy","edge"]},
+    {"id":"load-balancer","label":{"en":"Load balancer","he":"מאזן עומסים"},"size":{"w":0.14,"h":0.1},"kind":"closed","svg":"<polygon points=\"0 -40 56 0 0 40 -56 0\"/><path d=\"M -22.4 0 L 22.4 0\"/>","labelAt":"center","keywords":["balancer","traffic","lb"]},
+    {"id":"cache","label":{"en":"Cache","he":"מטמון"},"size":{"w":0.07,"h":0.09},"kind":"closed","svg":"<path d=\"M -28.000000000000004 -25.92 C -28.000000000000004 -31.49 -15.46 -36 0 -36 C 15.46 -36 28.000000000000004 -31.49 28.000000000000004 -25.92 L 28.000000000000004 25.92 C 28.000000000000004 31.49 15.46 36 0 36 C -15.46 36 -28.000000000000004 31.49 -28.000000000000004 25.92 Z\"/><path d=\"M -28.000000000000004 -25.92 C -28.000000000000004 -20.35 -15.46 -15.84 0 -15.84 C 15.46 -15.84 28.000000000000004 -20.35 28.000000000000004 -25.92\"/>","labelAt":"below","keywords":["redis","memory"]},
+    {"id":"message-queue","label":{"en":"Message queue","he":"תור הודעות"},"size":{"w":0.17,"h":0.07},"kind":"box","svg":"<polygon points=\"-40.8 -28 68 -28 40.8 28 -68 28\"/><path d=\"M -13.6 -28 L -27.2 28 M 13.6 -28 L 0 28\"/>","labelAt":"center","keywords":["kafka","broker","stream"]},
+    {"id":"storage-bucket","label":{"en":"Storage bucket","he":"דלי אחסון"},"size":{"w":0.07,"h":0.09},"kind":"closed","svg":"<path d=\"M -28.000000000000004 -25.92 C -28.000000000000004 -31.49 -15.46 -36 0 -36 C 15.46 -36 28.000000000000004 -31.49 28.000000000000004 -25.92 L 28.000000000000004 25.92 C 28.000000000000004 31.49 15.46 36 0 36 C -15.46 36 -28.000000000000004 31.49 -28.000000000000004 25.92 Z\"/><path d=\"M -28.000000000000004 -25.92 C -28.000000000000004 -20.35 -15.46 -15.84 0 -15.84 C 15.46 -15.84 28.000000000000004 -20.35 28.000000000000004 -25.92\"/>","labelAt":"below","keywords":["s3","object","blob"]}
+  ]
+}

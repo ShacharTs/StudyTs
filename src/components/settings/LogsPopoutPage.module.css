@@ -1,0 +1,9 @@
+.popoutContainer {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary, #090d16);
+  padding: 12px;
+  box-sizing: border-box;
+}

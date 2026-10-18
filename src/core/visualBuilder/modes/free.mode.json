@@ -1,0 +1,52 @@
+{
+  "format": 1,
+  "id": "free",
+  "label": {
+    "key": "modes.free.label"
+  },
+  "note": {
+    "key": "modes.free.note"
+  },
+  "icon": "✦",
+  "filters": {
+    "categories": null,
+    "presets": null,
+    "effects": []
+  },
+  "templates": [],
+  "tools": [
+    {
+      "id": "select"
+    },
+    {
+      "id": "placePicker",
+      "label": {
+        "key": "modes.free.tools.placePicker.label"
+      },
+      "objects": [
+        "preset/circle",
+        "preset/box",
+        "preset/diamond",
+        "preset/text",
+        "preset/caption",
+        "preset/note",
+        "preset/ellipse",
+        "preset/rounded",
+        "preset/triangle"
+      ]
+    },
+    {
+      "id": "connect",
+      "label": {
+        "key": "modes.free.tools.connect.label"
+      },
+      "arrow": "directed"
+    }
+  ],
+  "inspector": {
+    "label": true,
+    "size": true,
+    "style": true,
+    "animate": true
+  }
+}

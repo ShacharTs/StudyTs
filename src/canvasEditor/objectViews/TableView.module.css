@@ -1,0 +1,71 @@
+/* Fixed layout keeps columns equal to the object's width; text wraps inside its cell instead of widening it. */
+.root {
+  position: relative;
+  width: 100%;
+  color: var(--c);
+  pointer-events: auto;
+}
+
+.handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  margin-left: -4px;
+  cursor: col-resize;
+  left: var(--left);
+  z-index: 1;
+}
+
+.handle:hover {
+  background: var(--ac-35);
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: var(--fs);
+  line-height: 1.35;
+}
+
+.col {
+  width: var(--w);
+}
+
+.cell {
+  border: var(--sw) solid var(--stroke);
+  padding: 0.6mm 1.2mm;
+  height: 8mm;
+  vertical-align: middle;
+  text-align: start;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font: inherit;
+  font-size: var(--fs);
+  cursor: text;
+}
+
+th.cell {
+  background: var(--fill);
+  font-weight: 700;
+}
+
+.editor {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 1px dashed var(--border-hair);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  resize: none;
+  field-sizing: content;
+  outline: none;
+  overflow: hidden;
+}

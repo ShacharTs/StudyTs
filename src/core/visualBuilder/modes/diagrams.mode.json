@@ -1,0 +1,126 @@
+{
+  "format": 1,
+  "id": "diagrams",
+  "label": {
+    "key": "modes.diagrams.label"
+  },
+  "note": {
+    "key": "modes.diagrams.note"
+  },
+  "icon": "▦",
+  "filters": {
+    "categories": [
+      "flowchart",
+      "uml",
+      "system",
+      "shapes"
+    ],
+    "presets": [
+      "circle",
+      "ellipse",
+      "box",
+      "rounded",
+      "triangle",
+      "line",
+      "arrow",
+      "text",
+      "heading",
+      "caption",
+      "note"
+    ],
+    "effects": [
+      "reveal",
+      "glow",
+      "fill",
+      "travel",
+      "draw",
+      "callout",
+      "fade"
+    ]
+  },
+  "templates": [
+    "flowchart/flowchart-login",
+    "flowchart/flowchart-loop",
+    "basic/pipeline"
+  ],
+  "starter": "flowchart/flowchart-login",
+  "tools": [
+    {
+      "id": "select"
+    },
+    {
+      "id": "placePicker",
+      "label": {
+        "key": "modes.diagrams.tools.1.label"
+      },
+      "objects": [
+        "flowchart/process",
+        "flowchart/decision",
+        "flowchart/terminator",
+        "flowchart/io-data"
+      ]
+    },
+    {
+      "id": "placePicker",
+      "label": {
+        "key": "modes.diagrams.tools.2.label"
+      },
+      "objects": [
+        "uml/class",
+        "uml/actor",
+        "system/microservice",
+        "system/message-queue"
+      ]
+    },
+    {
+      "id": "connect",
+      "label": {
+        "key": "modes.diagrams.tools.connect.label"
+      },
+      "arrow": "directed"
+    },
+    {
+      "id": "chart",
+      "label": {
+        "key": "modes.diagrams.tools.chart.label"
+      },
+      "charts": [
+        {
+          "id": "flowchart",
+          "label": {
+            "key": "modes.diagrams.tools.chart.charts.flowchart.label"
+          },
+          "note": {
+            "key": "modes.diagrams.tools.chart.charts.flowchart.note"
+          },
+          "starter": "flowchart/flowchart-login"
+        },
+        {
+          "id": "pipeline",
+          "label": {
+            "key": "modes.diagrams.tools.chart.charts.pipeline.label"
+          },
+          "note": {
+            "key": "modes.diagrams.tools.chart.charts.pipeline.note"
+          },
+          "starter": "basic/pipeline"
+        }
+      ]
+    },
+    {
+      "id": "algorithm",
+      "label": {
+        "key": "modes.diagrams.tools.algorithm.label"
+      },
+      "algorithms": [
+        "pipeline/run"
+      ]
+    }
+  ],
+  "inspector": {
+    "label": true,
+    "size": true,
+    "style": true,
+    "animate": true
+  }
+}

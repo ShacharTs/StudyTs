@@ -1,0 +1,48 @@
+.box {
+  position: absolute;
+  inset: 0;
+  outline: 1px solid var(--ac, #4f46e5);
+  pointer-events: none;
+}
+
+.handle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--ac, #4f46e5);
+  border-radius: 2px;
+  pointer-events: auto;
+}
+
+.rotate {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--ac, #4f46e5);
+  border-radius: 50%;
+  cursor: grab;
+  pointer-events: auto;
+}
+
+.rotate::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 1px;
+  height: 8px;
+  margin-left: -0.5px;
+  background: var(--ac, #4f46e5);
+  pointer-events: none;
+}
+
+.box.boxLine {
+  top: 50%;
+  bottom: 50%;
+}

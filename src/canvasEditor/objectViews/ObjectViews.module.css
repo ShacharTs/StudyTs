@@ -1,0 +1,101 @@
+/* Shared static styles for canvas object views. Dynamic values arrive as custom properties. */
+.fill { position: relative; width: 100%; height: 100%; }
+.layerSvg { position: absolute; inset: 0; pointer-events: none; opacity: var(--op, 1); }
+.label {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  text-align: center; color: var(--c); font-size: var(--fs); pointer-events: none;
+}
+.labelPad { padding: 1mm; }
+/* A device's label hangs under its icon; a zone frame's title sits on its top edge. */
+.labelBelow { inset: 100% -50% auto -50%; align-items: flex-start; white-space: nowrap; }
+.labelTop { inset: 0 0 auto 0; align-items: flex-start; justify-content: flex-start; }
+.labelBorderBox { box-sizing: border-box; }
+.labelInput {
+  pointer-events: auto; font: inherit; color: inherit; text-align: center; background: transparent;
+  border: 1px dashed var(--border-hair); min-width: 20px;
+}
+.labelInputWide { min-width: 40px; }
+.labelText { pointer-events: auto; cursor: text; min-width: 14px; min-height: 14px; display: inline-block; }
+.labelTextWide { min-width: 20px; }
+
+.formulaRoot { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.formulaEdit { display: flex; flex-direction: column; gap: 4px; width: 100%; height: 100%; }
+.formulaInput {
+  width: 100%; flex: 1; font: inherit; font-size: var(--fs); background: transparent;
+  border: 1px dashed var(--border-hair); color: var(--text-1); resize: none;
+}
+.formulaPreview { font-size: var(--fs); color: var(--text-1); min-height: 14px; }
+.formulaMath { font-size: var(--fs); color: var(--text-1); cursor: text; min-width: 20px; min-height: 14px; }
+div.formulaErr { color: #dc2626; }
+
+.imageEmpty {
+  width: 100%; height: 100%; display: grid; place-items: center;
+  background: var(--bg-secondary); color: var(--text-3); font-size: 3mm;
+}
+.image { width: 100%; height: 100%; pointer-events: auto; }
+
+.textEmpty {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  border: 1px dashed var(--border-hair); border-radius: 4px; color: var(--text-3);
+  font-size: 11px; cursor: text; pointer-events: auto;
+}
+.textRoot {
+  position: relative; width: 100%; height: 100%; box-sizing: border-box; padding: 2px 4px;
+  overflow-wrap: break-word; text-align: var(--ta); font-size: var(--fs); color: var(--c); pointer-events: auto;
+}
+.sticky { background: var(--sticky-bg); border-radius: 1px; }
+/* One typography contract for the text editor and the committed display, so a text box wraps identically in both. */
+.textBody {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: var(--fs);
+  font-weight: inherit;
+  line-height: 1.35;
+  letter-spacing: normal;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: var(--ta);
+  vertical-align: top;
+  color: inherit;
+}
+.textArea {
+  height: 100%;
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--border-hair);
+  resize: none;
+  outline: none;
+  overflow: hidden;
+}
+.textContent {
+  height: auto;
+  min-height: 14px;
+}
+
+.arrowSvg { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
+.arrowSelected { filter: drop-shadow(0 0 1px var(--ac)); }
+.strokeNone { pointer-events: none; }
+.strokeHit { cursor: pointer; pointer-events: stroke; }
+.edgeLabelBox { overflow: visible; pointer-events: none; }
+.edgeLabelActive { pointer-events: auto; }
+/* Sizes inside an edge's svg are user units (1 = 1mm), so these use px on purpose; font-size and color come inline. */
+.edgeLabelRow { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.edgeInput {
+  width: 100%; font: inherit; text-align: center; background: var(--bg-card);
+  border: 1px dashed var(--border-hair); color: var(--text-1);
+}
+.edgeText {
+  display: inline-block; max-width: 100%; box-sizing: border-box; padding: 0.3px 1.2px; border-radius: 1.2px;
+  text-align: center; line-height: 1.25; overflow-wrap: anywhere; color: var(--text-1);
+  background: var(--bg-card); cursor: text; pointer-events: auto;
+}
+
+.editableText {
+  cursor: text;
+}

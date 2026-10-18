@@ -1,0 +1,5 @@
+/* src/styles/aiSettings.css — every stylesheet of the AI assistant modal, in the cascade order they were imported in. */
+@import './ai/aiSettingsShell.css';
+@import './ai/aiMessageList.css';
+@import './ai/aiProviderSettingsPanel.css';
+@import './ai/aiSettingsSectionControls.css';

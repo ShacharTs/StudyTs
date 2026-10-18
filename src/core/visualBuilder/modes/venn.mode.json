@@ -1,0 +1,80 @@
+{
+  "format": 1,
+  "id": "venn",
+  "label": {
+    "key": "modes.venn.label"
+  },
+  "note": {
+    "key": "modes.venn.note"
+  },
+  "icon": "◎",
+  "filters": {
+    "categories": [
+      "sets"
+    ],
+    "presets": [
+      "circle",
+      "box",
+      "text",
+      "caption",
+      "arrow"
+    ],
+    "effects": [
+      "reveal",
+      "remove",
+      "glow",
+      "pulse",
+      "fill",
+      "tint",
+      "callout"
+    ]
+  },
+  "templates": [
+    "sets/sets-venn-3",
+    "sets/sets-venn-2",
+    "sets/sets-nested-classes"
+  ],
+  "starter": "sets/sets-venn-3",
+  "tools": [
+    {
+      "id": "select"
+    },
+    {
+      "id": "stepper",
+      "label": {
+        "key": "modes.venn.tools.stepper.label"
+      },
+      "action": "setCount",
+      "min": 2,
+      "max": 6,
+      "object": "sets/set"
+    },
+    {
+      "id": "place",
+      "label": {
+        "key": "modes.venn.tools.place.label"
+      },
+      "object": "sets/element"
+    },
+    {
+      "id": "action",
+      "label": {
+        "key": "modes.venn.tools.3.label"
+      },
+      "run": "rearrange"
+    },
+    {
+      "id": "action",
+      "label": {
+        "key": "modes.venn.tools.4.label"
+      },
+      "run": "overlaps"
+    }
+  ],
+  "inspector": {
+    "label": true,
+    "size": true,
+    "membership": true,
+    "animate": true
+  }
+}

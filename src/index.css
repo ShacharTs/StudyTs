@@ -1,0 +1,12 @@
+/**
+ * Central CSS Aggregator.
+ * Imports modularized domain stylesheets for design system, layout, topbar, sidebar, player, and animations.
+ */
+
+@import './styles/variables.css';
+@import './styles/vizTokens.css';
+@import './styles/base.css';
+@import './styles/animations.css';
+@import './styles/topbar.css';
+@import './styles/sidebar.css';
+@import './styles/player.css';

@@ -1,0 +1,98 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-3);
+  font-size: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.floatingLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 500;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  min-height: 0;
+  height: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+.slot {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.vDivider {
+  flex: 0 0 auto;
+  width: 5px;
+  cursor: col-resize;
+  background: var(--border-hair);
+}
+
+.vDivider:hover {
+  background: var(--ac);
+}
+
+.hDivider {
+  flex: 0 0 auto;
+  height: 5px;
+  cursor: row-resize;
+  background: var(--border-hair);
+}
+
+.hDivider:hover {
+  background: var(--ac);
+}
+
+.contents {
+  display: contents;
+}
+
+.mergeHighlight {
+  position: fixed;
+  outline: 2px solid var(--ac);
+  outline-offset: -2px;
+  background: var(--ac-08);
+  pointer-events: none;
+}
+
+.splitHighlight {
+  position: fixed;
+  background: var(--ac-18);
+  border: 2px solid var(--ac);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.floatGhost {
+  position: fixed;
+  padding: 5px 10px;
+  background: var(--bg-card);
+  color: var(--text-1);
+  font-size: 12px;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  opacity: 0.9;
+}

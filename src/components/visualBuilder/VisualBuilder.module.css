@@ -1,0 +1,197 @@
+.canvasWrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--stage-pad);
+  background-color: var(--wb-outside, var(--bg-primary));
+  overflow: hidden;
+}
+
+.canvasWrap[data-panning='1'] {
+  cursor: grabbing;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  cursor: default;
+}
+
+.canvasCrosshair {
+  cursor: crosshair;
+}
+
+.boundary {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.outsideWarning {
+  fill: var(--accent-danger);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.canvasHud {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+}
+
+.canvasReadout {
+  padding: 2px 8px;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  pointer-events: none;
+}
+
+.zoomControls {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+}
+
+.port {
+  fill: var(--bg-secondary);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  cursor: crosshair;
+}
+
+.port:hover {
+  fill: var(--accent);
+}
+
+.rubber {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-dasharray: 7 6;
+  pointer-events: none;
+}
+
+.frameMarch {
+  fill: none;
+  stroke: var(--viz-orange);
+  stroke-width: 2.5;
+  stroke-dasharray: 3 4 8 4;
+  pointer-events: none;
+  animation: march 0.6s linear infinite;
+}
+
+@keyframes march {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frameMarch {
+    animation: none;
+  }
+}
+
+.hint {
+  margin: 0;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  font-size: 0.85rem;
+}
+
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fieldLabel {
+  min-width: 5.5rem;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.swatch {
+  background: var(--swatch-color);
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.swatch[aria-pressed='true'] {
+  border-color: var(--text-primary);
+}
+
+.noneSwatch {
+  background: repeating-linear-gradient(45deg, transparent 0 4px, var(--accent-danger) 4px 5px);
+  border: 2px solid var(--border-color);
+}
+
+.colorInput {
+  width: 2rem;
+  height: 1.6rem;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: transparent;
+}
+
+.select,
+.textInput,
+.textArea {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.select option {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.textArea {
+  min-width: 14rem;
+  min-height: 3.5rem;
+}
+
+.slider {
+  width: 9rem;
+}
+
+.lifeFaint {
+  opacity: 0.3;
+}
+
+.lifeFrame {
+  color: var(--text-muted);
+  stroke-width: 1.5;
+}

@@ -1,0 +1,21 @@
+{
+  "format": 1,
+  "id": "graph/discover-visit",
+  "granularity": "perVisit",
+  "colors": {
+    "discovered": "orange",
+    "visited": "green"
+  },
+  "captions": {
+    "start": "searchStart",
+    "visit": "searchVisit",
+    "discover": "searchDiscover",
+    "done": "searchDone"
+  },
+  "strip": {
+    "fifo": "stripFifo",
+    "lifo": "stripLifo",
+    "priority": "stripPriority",
+    "order": "stripOrder"
+  }
+}

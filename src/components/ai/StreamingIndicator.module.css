@@ -1,0 +1,45 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  opacity: 0.8;
+}
+
+.dot1,
+.dot2,
+.dot3 {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--ac, #c98a3a);
+  animation: aiWavePulse 1.2s infinite ease-in-out;
+}
+
+.dot2 {
+  animation-delay: 0.2s;
+}
+
+.dot3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes aiWavePulse {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot1,
+  .dot2,
+  .dot3 {
+    animation: none !important;
+    opacity: 0.8;
+  }
+}

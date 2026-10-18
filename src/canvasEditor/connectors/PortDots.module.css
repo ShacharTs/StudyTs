@@ -1,0 +1,15 @@
+.svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ring {
+  pointer-events: none;
+}
+
+.hit {
+  pointer-events: auto;
+  cursor: crosshair;
+}

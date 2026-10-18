@@ -1,0 +1,203 @@
+/* Shared by SidebarNav, SidebarCourseList, SidebarWeekSection and SidebarNavItem.
+   State classes are compound selectors (div.row.active) so they outrank the global
+   .nvi / .nvi.active-nav rules in styles/sidebar.css that the old inline styles beat.
+   Hover colors still come from the global .nvi:hover (!important). */
+
+aside.aside {
+  width: 0;
+  flex: none;
+  min-height: 0;
+  /* Hidden on x so the width transition doesn't flash a scrollbar; y scrolls when the course list outgrows the viewport. */
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--bg-secondary);
+  border-inline-end: 1px solid var(--border-color);
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+aside.aside.open {
+  width: 264px;
+}
+
+div.inner {
+  width: 264px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-sizing: border-box;
+}
+
+div.sectionLabel {
+  font-size: 10px;
+  font-family: 'Fira Code', monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-4, #5c5c64);
+  padding: 0 8px 8px;
+}
+
+div.sectionLabel.practiceLabel {
+  padding: 10px 8px 4px;
+}
+
+div.courseList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+
+div.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-card) 24px, var(--border-card) calc(100% - 24px), transparent);
+  margin: 0 0 12px;
+}
+
+div.weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Rows (hub link, course row, topic item) */
+div.row {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-2, #b9b9c2);
+  background: transparent;
+  box-shadow: none;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+div.row.hub {
+  gap: 9px;
+  padding: 7px 10px;
+  color: var(--text-3, #8e8e96);
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+div.row.course {
+  gap: 8px;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+div.row.topic {
+  gap: 9px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+div.row.active {
+  color: var(--ac-hi);
+  background: var(--ac-08);
+  box-shadow: inset 2px 0 0 var(--ac);
+}
+
+div.row.active.rtl {
+  box-shadow: inset -2px 0 0 var(--ac);
+}
+
+div.row.hub.active {
+  font-weight: 500;
+}
+
+div.row.course.active,
+div.row.topic.active {
+  font-weight: 600;
+}
+
+span.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+span.code {
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+span.ellipsis {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+span.ellipsis.isolate {
+  unicode-bidi: isolate;
+}
+
+span.num {
+  width: 14px;
+  text-align: center;
+  color: var(--text-4, #5c5c64);
+  font-size: 10px;
+  font-family: 'Fira Code', monospace;
+}
+
+div.row.active span.num {
+  color: var(--ac);
+}
+
+/* Week section */
+div.week,
+div.weekItems {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+div.weekHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  font-family: 'Fira Code', monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3, #8e8e96);
+  padding: 8px 8px 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  background: transparent;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+div.weekHeader:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+div.weekHeader.expanded {
+  color: var(--ac-hi);
+}
+
+span.isolate {
+  unicode-bidi: isolate;
+}
+
+svg.chevron {
+  transform: rotate(-90deg);
+  transition: transform 0.18s ease;
+  opacity: 0.6;
+}
+
+svg.chevron.chevronRtl {
+  transform: rotate(90deg);
+}
+
+svg.chevron.chevronOpen {
+  transform: rotate(0deg);
+}

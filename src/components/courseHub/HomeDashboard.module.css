@@ -1,0 +1,64 @@
+/* Element-qualified to beat global rules such as .smooth-transition. */
+div.root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  position: relative;
+}
+header.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+div.actionError {
+  color: var(--accent-danger);
+  font-size: var(--fs-xs);
+}
+div.cascade {
+  color: var(--accent-danger);
+  font-size: var(--fs-sm);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+div.weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.addWeek {
+  background: transparent;
+  font: inherit;
+  font-size: var(--fs-sm);
+  border: 1.5px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-3);
+  transition: color 0.15s ease;
+}
+.addWeek:hover { color: var(--text-1); }
+.addWeek:focus-visible { outline: 2px solid var(--ac); outline-offset: -2px; }
+
+header.pageHeader { position: relative; padding-bottom: 20px; }
+/* A short accent rule draws itself under the page title when the page opens. */
+header.pageHeader::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--ac), var(--ac-hi));
+  animation: ruleDraw 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+}
+[dir='rtl'] header.pageHeader::after { background: linear-gradient(270deg, var(--ac), var(--ac-hi)); }
+@keyframes ruleDraw { from { width: 0; } to { width: 96px; } }
+@media (prefers-reduced-motion: reduce) { header.pageHeader::after { animation: none; width: 96px; } }
+.headerActions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }

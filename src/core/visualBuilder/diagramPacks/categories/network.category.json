@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "id": "network",
+  "label": { "en": "Network", "he": "רשת" },
+  "icon": "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"12\" cy=\"6\" r=\"2\"/><circle cx=\"6\" cy=\"18\" r=\"2\"/><circle cx=\"18\" cy=\"18\" r=\"2\"/><line x1=\"12\" y1=\"8\" x2=\"6\" y2=\"16\"/><line x1=\"12\" y1=\"8\" x2=\"18\" y2=\"16\"/></g>",
+  "order": 40,
+  "description": { "en": "Routers, hosts and links", "he": "נתבים, מחשבים וקישורים" }
+}

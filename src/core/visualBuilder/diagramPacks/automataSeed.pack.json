@@ -1,0 +1,410 @@
+{
+  "format": 1,
+  "id": "automata",
+  "name": {
+    "en": "Automata",
+    "he": "אוטומטים"
+  },
+  "category": "automata-graph",
+  "color": "blue",
+  "objects": [
+    {
+      "id": "state",
+      "label": {
+        "en": "State",
+        "he": "מצב"
+      },
+      "size": {
+        "w": 0.1,
+        "h": 0.1
+      },
+      "kind": "closed",
+      "color": "blue",
+      "svg": "<circle cx=\"0\" cy=\"0\" r=\"{hw}\"/>",
+      "labelAt": "center",
+      "keywords": [
+        "state",
+        "node"
+      ]
+    },
+    {
+      "id": "accepting-state",
+      "label": {
+        "en": "Accepting state",
+        "he": "מצב מקבל"
+      },
+      "size": {
+        "w": 0.1,
+        "h": 0.1
+      },
+      "kind": "closed",
+      "color": "green",
+      "svg": "<circle cx=\"0\" cy=\"0\" r=\"{hw}\"/><circle cx=\"0\" cy=\"0\" r=\"{inner}\"/>",
+      "labelAt": "center",
+      "keywords": [
+        "accept",
+        "final"
+      ]
+    },
+    {
+      "id": "start-marker",
+      "label": {
+        "en": "Start marker",
+        "he": "סימון התחלה"
+      },
+      "size": {
+        "w": 0.06,
+        "h": 0.02
+      },
+      "kind": "arrow",
+      "color": "orange",
+      "svg": "<path d=\"M -48 0 L 0 0 M -8 -8 L 0 0 L -8 8\"/>",
+      "labelAt": "top",
+      "keywords": [
+        "start",
+        "initial"
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "id": "wiggle",
+      "label": {
+        "en": "Wiggle",
+        "he": "ריטוט"
+      },
+      "description": {
+        "en": "Shakes side to side and settles.",
+        "he": "מתנדנד הצידה וחוזר למקומו."
+      },
+      "kinds": [
+        "closed",
+        "box",
+        "text"
+      ],
+      "duration": 600,
+      "icon": "≋",
+      "tone": "look",
+      "anime": {
+        "translateX": [
+          0,
+          -10,
+          10,
+          -6,
+          0
+        ],
+        "easing": "easeInOutSine"
+      }
+    }
+  ],
+  "templates": [
+    {
+      "id": "automata-dfa-mini",
+      "name": {
+        "en": "Mini DFA",
+        "he": "אוטומט סופי קטן"
+      },
+      "category": "automata-graph",
+      "description": {
+        "en": "Three states; input walks to accept.",
+        "he": "שלושה מצבים; קלט מגיע למצב מקבל."
+      },
+      "objects": [
+        {
+          "key": "start",
+          "ref": "automata/start-marker",
+          "at": {
+            "x": 0.12,
+            "y": 0.5
+          }
+        },
+        {
+          "key": "q0",
+          "ref": "automata/state",
+          "at": {
+            "x": 0.25,
+            "y": 0.5
+          },
+          "label": {
+            "en": "q0",
+            "he": "q0"
+          }
+        },
+        {
+          "key": "q1",
+          "ref": "automata/state",
+          "at": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "label": {
+            "en": "q1",
+            "he": "q1"
+          }
+        },
+        {
+          "key": "q2",
+          "ref": "automata/accepting-state",
+          "at": {
+            "x": 0.75,
+            "y": 0.5
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "q0",
+          "to": "q1",
+          "label": {
+            "en": "a",
+            "he": "a"
+          }
+        },
+        {
+          "from": "q1",
+          "to": "q2",
+          "label": {
+            "en": "b",
+            "he": "b"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "Start in q0",
+            "he": "התחלה ב-q0"
+          },
+          "show": [
+            "start",
+            "q0"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "q0"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Read a: go to q1",
+            "he": "קריאת a: מעבר אל q1"
+          },
+          "show": [
+            "q1"
+          ],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "q0->q1"
+            },
+            {
+              "effect": "glow",
+              "target": "q1"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Read b: go to q2",
+            "he": "קריאת b: מעבר אל q2"
+          },
+          "show": [
+            "q2"
+          ],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "q1->q2"
+            },
+            {
+              "effect": "glow",
+              "target": "q2"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "q2 accepts the word",
+            "he": "q2 מקבל את המילה"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "pulse",
+              "target": "q2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "automata-dfa-even-ones",
+      "name": {
+        "en": "DFA: even number of 1s",
+        "he": "אוטומט: מספר זוגי של 1"
+      },
+      "category": "automata-graph",
+      "description": {
+        "en": "Loops on 0, 1 switches states.",
+        "he": "לולאה על 0, ‏1 מחליף מצב."
+      },
+      "objects": [
+        {
+          "key": "start",
+          "ref": "automata/start-marker",
+          "at": {
+            "x": 0.235,
+            "y": 0.55
+          }
+        },
+        {
+          "key": "q0",
+          "ref": "automata/accepting-state",
+          "at": {
+            "x": 0.3,
+            "y": 0.55
+          },
+          "label": {
+            "en": "q0",
+            "he": "q0"
+          }
+        },
+        {
+          "key": "q1",
+          "ref": "automata/state",
+          "at": {
+            "x": 0.7,
+            "y": 0.55
+          },
+          "label": {
+            "en": "q1",
+            "he": "q1"
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "q0",
+          "to": "q0",
+          "label": {
+            "en": "0",
+            "he": "0"
+          },
+          "route": "loop"
+        },
+        {
+          "from": "q1",
+          "to": "q1",
+          "label": {
+            "en": "0",
+            "he": "0"
+          },
+          "route": "loop"
+        },
+        {
+          "from": "q0",
+          "to": "q1",
+          "label": {
+            "en": "1",
+            "he": "1"
+          },
+          "route": "curve",
+          "fromPort": "n",
+          "toPort": "n"
+        },
+        {
+          "from": "q1",
+          "to": "q0",
+          "label": {
+            "en": "1",
+            "he": "1"
+          },
+          "route": "curve",
+          "fromPort": "s",
+          "toPort": "s"
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "Start in q0: zero 1s so far, accept",
+            "he": "מתחילים ב-q0: אפס 1, מקבל"
+          },
+          "show": [
+            "start",
+            "q0",
+            "q1"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "q0"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Read 0: stay in q0",
+            "he": "קוראים 0: נשארים ב-q0"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "q0->q0"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Read 1: go to q1 (odd)",
+            "he": "קוראים 1: עוברים ל-q1 (אי-זוגי)"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "q0->q1"
+            },
+            {
+              "effect": "glow",
+              "target": "q1"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Read 1: back to q0 (even)",
+            "he": "קוראים 1: חוזרים ל-q0 (זוגי)"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "q1->q0"
+            },
+            {
+              "effect": "glow",
+              "target": "q0"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "q0 accepts the word 0110",
+            "he": "q0 מקבל את המילה 0110"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "pulse",
+              "target": "q0"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

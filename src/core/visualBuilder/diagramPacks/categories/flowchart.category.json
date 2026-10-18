@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "id": "flowchart",
+  "label": { "en": "Flowchart", "he": "תרשים זרימה" },
+  "icon": "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"10\" rx=\"5\"/></g>",
+  "order": 80,
+  "description": { "en": "Input and output shapes", "he": "צורות קלט ופלט" }
+}

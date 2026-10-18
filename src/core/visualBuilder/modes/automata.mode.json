@@ -1,0 +1,92 @@
+{
+  "format": 1,
+  "id": "automata",
+  "label": {
+    "key": "modes.automata.label"
+  },
+  "note": {
+    "key": "modes.automata.note"
+  },
+  "icon": "◉",
+  "filters": {
+    "categories": [
+      "automata-graph"
+    ],
+    "presets": [
+      "circle",
+      "text",
+      "caption",
+      "arrow"
+    ],
+    "effects": [
+      "glow",
+      "pulse",
+      "travel",
+      "tint",
+      "fill",
+      "callout",
+      "reveal"
+    ]
+  },
+  "templates": [
+    "automata/automata-dfa-even-ones",
+    "automata/automata-dfa-mini"
+  ],
+  "starter": "action/newAutomaton",
+  "tools": [
+    {
+      "id": "select"
+    },
+    {
+      "id": "place",
+      "label": {
+        "key": "modes.automata.tools.1.label"
+      },
+      "object": "automata/state"
+    },
+    {
+      "id": "connect",
+      "label": {
+        "key": "modes.automata.tools.connect.label"
+      },
+      "arrow": "directed",
+      "labelCycle": [
+        "0",
+        "1",
+        "0,1"
+      ],
+      "autoLabel": true
+    },
+    {
+      "id": "input",
+      "label": {
+        "key": "modes.automata.tools.input.label"
+      },
+      "key": "word",
+      "pattern": "[^ ]{1,24}"
+    },
+    {
+      "id": "autoRun",
+      "label": {
+        "key": "modes.automata.tools.autoRun.label"
+      }
+    },
+    {
+      "id": "action",
+      "label": {
+        "key": "modes.automata.tools.action.label"
+      },
+      "run": "runInput",
+      "primary": true
+    }
+  ],
+  "inspector": {
+    "label": true,
+    "stateFlags": true,
+    "edgeLabel": true,
+    "animate": true
+  },
+  "starterLabel": {
+    "key": "modes.automata.starterLabel"
+  }
+}

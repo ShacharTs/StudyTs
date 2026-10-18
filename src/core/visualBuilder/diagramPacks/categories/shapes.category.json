@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "id": "shapes",
+  "label": { "en": "Shapes", "he": "צורות" },
+  "icon": "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><rect x=\"3\" y=\"3\" width=\"10\" height=\"10\"/><circle cx=\"16\" cy=\"16\" r=\"5\"/></g>",
+  "order": 10,
+  "description": { "en": "Basic shapes and arrows", "he": "צורות בסיסיות וחצים" }
+}

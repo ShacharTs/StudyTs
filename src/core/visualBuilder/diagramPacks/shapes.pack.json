@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "id": "shapes",
+  "name": {"en":"Shapes","he":"צורות"},
+  "category": "shapes",
+  "color": "blue",
+  "objects": [
+    {"id":"pentagon","label":{"en":"Pentagon","he":"מחומש"},"size":{"w":0.15,"h":0.125},"kind":"closed","svg":"<polygon points=\"0 -50 60 -12 37.2 50 -37.2 50 -60 -12\"/>","labelAt":"center","keywords":["polygon","five"]},
+    {"id":"hexagon","label":{"en":"Hexagon","he":"משושה"},"size":{"w":0.175,"h":0.1},"kind":"closed","svg":"<polygon points=\"-35 -40 35 -40 70 0 35 40 -35 40 -70 0\"/>","labelAt":"center","keywords":["polygon","six"]},
+    {"id":"star","label":{"en":"Star","he":"כוכב"},"size":{"w":0.125,"h":0.125},"kind":"closed","svg":"<polygon points=\"0 -50 12.37 -12.61 50 -11.81 20 12.1 30.9 50 0 27.38 -30.9 50 -20 12.1 -50 -11.81 -12.37 -12.61\"/>","labelAt":"below","keywords":["rating","favourite"]},
+    {"id":"callout","label":{"en":"Callout","he":"בועת דיבור"},"size":{"w":0.175,"h":0.125},"kind":"closed","svg":"<polygon points=\"-70 -50 70 -50 70 28 -30.8 28 -42 50 -53.2 28 -70 28\"/>","labelAt":"center","keywords":["speech","bubble","comment"]}
+  ]
+}

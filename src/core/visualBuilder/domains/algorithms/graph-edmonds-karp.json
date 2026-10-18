@@ -1,0 +1,7 @@
+{
+  "format": 1,
+  "id": "graph/edmonds-karp",
+  "model": "flow",
+  "label": "edmondsKarp",
+  "pathSearch": "graph/bfs"
+}

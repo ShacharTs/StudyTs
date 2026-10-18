@@ -1,0 +1,40 @@
+.root {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.handle {
+  position: absolute;
+  left: var(--l);
+  top: var(--t);
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  margin-top: -5px;
+  pointer-events: auto;
+  transform: scale(var(--z));
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.curve {
+  border-radius: 50%;
+  background-color: #22c55e;
+  border: 1.5px solid white;
+  cursor: ns-resize;
+}
+
+.endpoint {
+  border-radius: 2px;
+  background-color: var(--viz-white);
+  border: 2px solid #f59e0b;
+  cursor: move;
+}

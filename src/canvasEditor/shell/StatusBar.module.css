@@ -1,0 +1,78 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 2px 12px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-hair);
+  font-size: 11px;
+  color: var(--text-2);
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.divider {
+  width: 1px;
+  height: 14px;
+  background: var(--border-hair);
+}
+
+.navBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.navBtn:hover:not(:disabled) {
+  color: var(--ac);
+}
+
+.navBtn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.zoomValue {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+.zoomValue:hover {
+  color: var(--ac);
+}
+
+.cluster {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.themeToggle {
+  margin-left: 0;
+  font-size: 11px;
+  color: var(--text-2);
+  background: transparent;
+  border: 1px solid var(--border-hair);
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.themeToggle:hover {
+  color: var(--ac);
+  border-color: var(--ac);
+}

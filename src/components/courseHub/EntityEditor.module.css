@@ -1,0 +1,62 @@
+div.panel {
+  position: absolute;
+  top: 24px;
+  inset-inline-start: 24px;
+  width: min(560px, calc(100vw - 48px));
+  max-height: 75vh;
+  overflow-y: auto;
+  z-index: 30;
+  padding: 22px;
+}
+
+div.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+span.heading {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--text-1);
+  font-size: var(--fs-lg);
+  text-transform: capitalize;
+}
+
+div.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+p.hint {
+  margin: -4px 0 0;
+  font-size: var(--fs-xs);
+  color: var(--text-2);
+  line-height: 1.4;
+}
+
+div.footer {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+div.colorRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+div.errorBanner {
+  background: rgba(229, 116, 104, 0.08);
+  border: 1px solid rgba(229, 116, 104, 0.35);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: var(--fs-xs);
+  color: var(--accent-danger);
+  margin-bottom: 14px;
+  line-height: var(--lh-body);
+  white-space: pre-wrap;
+}

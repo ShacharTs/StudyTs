@@ -1,0 +1,11 @@
+{
+  "format": 1,
+  "id": "graph/prim",
+  "model": "graph",
+  "label": "prim",
+  "frontier": {
+    "policy": "priority",
+    "priority": "edge"
+  },
+  "mark": "visit"
+}

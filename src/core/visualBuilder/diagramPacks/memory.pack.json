@@ -1,0 +1,237 @@
+{
+  "format": 1,
+  "id": "memory",
+  "name": {
+    "en": "Memory",
+    "he": "זיכרון"
+  },
+  "category": "data",
+  "color": "purple",
+  "objects": [
+    {
+      "id": "stack-cell",
+      "label": {
+        "en": "Variable",
+        "he": "משתנה"
+      },
+      "size": {
+        "w": 0.1,
+        "h": 0.075
+      },
+      "kind": "box",
+      "svg": "<rect x=\"-40\" y=\"-30\" width=\"{w}\" height=\"{h}\" rx=\"2\"/>",
+      "labelAt": "top",
+      "keywords": [
+        "variable",
+        "stack",
+        "cell",
+        "value"
+      ]
+    },
+    {
+      "id": "heap-block",
+      "label": {
+        "en": "Heap block",
+        "he": "בלוק בערימה"
+      },
+      "size": {
+        "w": 0.12,
+        "h": 0.09
+      },
+      "kind": "box",
+      "svg": "<rect x=\"-48\" y=\"-36\" width=\"{w}\" height=\"{h}\" rx=\"2\"/><rect x=\"-48\" y=\"-36\" width=\"{w}\" height=\"12\" fill=\"currentColor\" stroke=\"none\"/>",
+      "labelAt": "below",
+      "keywords": [
+        "heap",
+        "new",
+        "allocated",
+        "block"
+      ]
+    },
+    {
+      "id": "null-cell",
+      "label": {
+        "en": "Null variable",
+        "he": "משתנה null"
+      },
+      "size": {
+        "w": 0.1,
+        "h": 0.075
+      },
+      "kind": "box",
+      "svg": "<rect x=\"-40\" y=\"-30\" width=\"{w}\" height=\"{h}\" rx=\"2\"/><path d=\"M -40 30 L 40 -30\"/>",
+      "labelAt": "top",
+      "keywords": [
+        "null",
+        "nullptr",
+        "empty",
+        "pointer"
+      ]
+    },
+    {
+      "id": "stack-frame",
+      "label": {
+        "en": "Stack frame",
+        "he": "מסגרת מחסנית"
+      },
+      "size": {
+        "w": 0.2,
+        "h": 0.45
+      },
+      "kind": "box",
+      "svg": "<rect x=\"-80\" y=\"-180\" width=\"{w}\" height=\"{h}\" rx=\"4\"/><path d=\"M -80 -150 L 80 -150\"/>",
+      "labelAt": "top",
+      "keywords": [
+        "frame",
+        "function",
+        "call",
+        "scope"
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "id": "memory-pointers",
+      "name": {
+        "en": "Pointers and a leak",
+        "he": "מצביעים ודליפה"
+      },
+      "category": "data",
+      "description": {
+        "en": "Three variables, two blocks, one leak.",
+        "he": "שלושה משתנים, שני בלוקים, דליפה אחת."
+      },
+      "objects": [
+        {
+          "key": "f",
+          "ref": "memory/stack-frame",
+          "at": {
+            "x": 0.2,
+            "y": 0.5
+          },
+          "label": {
+            "en": "main()",
+            "he": "main()"
+          }
+        },
+        {
+          "key": "a",
+          "ref": "memory/stack-cell",
+          "at": {
+            "x": 0.2,
+            "y": 0.36
+          },
+          "label": {
+            "en": "a",
+            "he": "a"
+          }
+        },
+        {
+          "key": "p",
+          "ref": "memory/stack-cell",
+          "at": {
+            "x": 0.2,
+            "y": 0.55
+          },
+          "label": {
+            "en": "p",
+            "he": "p"
+          }
+        },
+        {
+          "key": "q",
+          "ref": "memory/stack-cell",
+          "at": {
+            "x": 0.2,
+            "y": 0.74
+          },
+          "label": {
+            "en": "q",
+            "he": "q"
+          }
+        },
+        {
+          "key": "h1",
+          "ref": "memory/heap-block",
+          "at": {
+            "x": 0.7,
+            "y": 0.3
+          },
+          "label": {
+            "en": "h1",
+            "he": "h1"
+          }
+        },
+        {
+          "key": "h2",
+          "ref": "memory/heap-block",
+          "at": {
+            "x": 0.7,
+            "y": 0.72
+          },
+          "label": {
+            "en": "h2",
+            "he": "h2"
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "p",
+          "to": "h1",
+          "fromPort": "e",
+          "toPort": "w",
+          "route": "straight",
+          "arrow": true
+        },
+        {
+          "from": "q",
+          "to": "h1",
+          "fromPort": "e",
+          "toPort": "w",
+          "route": "straight",
+          "arrow": true
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "p and q both hold the address of h1",
+            "he": "p ו-q שניהם שומרים את הכתובת של h1"
+          },
+          "show": [
+            "f",
+            "a",
+            "p",
+            "q",
+            "h1",
+            "h2"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "p"
+            },
+            {
+              "effect": "glow",
+              "target": "q"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "h2 has no pointer: a leak",
+            "he": "אין מצביע אל h2: דליפה"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "pulse",
+              "target": "h2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

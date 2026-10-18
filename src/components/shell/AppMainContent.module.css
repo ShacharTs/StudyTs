@@ -1,0 +1,14 @@
+.error { padding: 32px; text-align: center; color: #ef4444; }
+.errorIcon { margin-bottom: 8px; }
+.errorActions { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+button.errorBtn { padding: 8px 16px; background: #1e293b; border: 1px solid #334155; color: var(--viz-white); border-radius: 6px; cursor: pointer; }
+button.errorBtn.ghost { background: transparent; }
+.btnIcon { margin-right: 6px; }
+.canvasHost { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+.steps { display: flex; flex-direction: column; flex: 1; min-height: 0; height: 100%; gap: 6px; }
+.stepsHeader { flex-shrink: 0; border-bottom: 1px solid var(--border-subtle); padding-bottom: 4px; display: flex; align-items: center; justify-content: flex-end; }
+h1.stepsTitle { font-size: 1.25rem; font-weight: 700; margin: 0; color: #f3f4f6; }
+.stepsBody { flex: 1; min-height: 0; height: 100%; display: flex; flex-direction: column; }
+.authoringButton { padding: 0.35rem 0.9rem; border: 1px solid var(--border-color); border-radius: 8px; color: inherit; text-decoration: none; font-size: 0.85rem; }
+.authoringButton:hover { border-color: var(--accent); color: var(--accent); }
+.emptyPlayer { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; opacity: 0.85; }

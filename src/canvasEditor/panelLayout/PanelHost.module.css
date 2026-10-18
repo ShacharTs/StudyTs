@@ -1,0 +1,1 @@
+.wrapper { display: flex; flex: 0 0 auto; height: 100%; min-height: 0; } .column { min-height: 0; overflow: hidden; background: var(--bg-secondary); } .wDivider { flex: 0 0 auto; width: 5px; cursor: col-resize; background: var(--border-hair); } .wDivider:hover { background: var(--ac); }

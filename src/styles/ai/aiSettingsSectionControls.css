@@ -1,0 +1,95 @@
+/* src/styles/ai/aiSettingsSectionControls.css — settings-panel section grouping + storage notice */
+.ai-settings-panel-inner .ai-setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ai-settings-panel-inner .ai-setting-group label {
+  font-size: 10.5px;
+  font-family: 'Fira Code', monospace;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-4);
+}
+
+.ai-settings-panel-inner .ai-model-select {
+  width: 100%;
+  padding: 9px 11px;
+  border-radius: 6px;
+  border: 1px solid var(--border-card);
+  background: var(--bg-primary);
+  color: var(--text-1);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ai-settings-panel-inner .ai-model-select:focus {
+  outline: none;
+  border-color: var(--ac);
+  box-shadow: 0 0 0 2px var(--ac-18);
+}
+
+/* Settings section (inside panel) */
+.ai-settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-hair);
+}
+
+.ai-settings-section:last-child {
+  border-bottom: none;
+  padding-bottom: 4px;
+}
+
+.ai-settings-section:first-child {
+  padding-top: 0;
+}
+
+.ai-settings-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-2);
+}
+
+.ai-advanced-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ai-advanced-chevron {
+  transition: transform 0.15s ease;
+}
+
+.ai-advanced-chevron.open {
+  transform: rotate(180deg);
+}
+
+.ai-monospace-input {
+  font-family: 'Fira Code', monospace;
+}
+
+/* Storage notice — compact */
+.ai-settings-storage-notice {
+  font-size: 10px;
+  font-family: 'Fira Code', monospace;
+  color: var(--text-4, #5c5c64);
+  margin: 0;
+  unicode-bidi: isolate;
+}
+
+/* The AI panel is a fixed overlay on top of the canvas; left in, it prints as an extra half page. */
+@media print {
+  .ai-settings-backdrop {
+    display: none !important;
+  }
+}

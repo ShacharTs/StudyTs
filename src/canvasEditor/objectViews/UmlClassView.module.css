@@ -1,0 +1,56 @@
+.box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+  border-radius: 2px;
+  overflow: hidden;
+  font-size: 0.7rem;
+  box-sizing: border-box;
+  background: var(--fill);
+  border-color: var(--stroke);
+}
+
+.compartment {
+  padding: 3px 6px;
+  border-bottom: 1px solid var(--border-hair);
+  min-height: 16px;
+  flex: 1;
+}
+
+.compartment:first-child {
+  font-weight: 600;
+  text-align: center;
+  flex: 0 0 auto;
+}
+
+.compartment:last-child {
+  border-bottom: none;
+}
+
+.line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.placeholder {
+  color: var(--text-3);
+  font-style: italic;
+}
+
+.editorInput {
+  width: 100%;
+  font: inherit;
+  background: transparent;
+  border: 1px dashed var(--border-hair);
+  color: inherit;
+  resize: none;
+  outline: none;
+}
+
+.compartmentText {
+  cursor: text;
+  min-height: 14px;
+}

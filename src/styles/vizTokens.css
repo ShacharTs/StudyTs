@@ -1,0 +1,20 @@
+/**
+ * Algorithm-visualizer palette (Tailwind sky/cyan/slate values used by src/engine/**).
+ * Values are the exact literals they replaced — see docs/superpowers/plans/40-*.md.
+ * NOT the app theme: --accent-cyan is a deprecated alias of the amber accent.
+ */
+:root {
+  --viz-active: #38bdf8;
+  --viz-cyan: #06b6d4;
+  --viz-white: #ffffff;
+  --viz-black: #000000;
+  --viz-slate-50: #f8fafc;
+  --viz-slate-200: #e2e8f0;
+  --viz-slate-300: #cbd5e1;
+  --viz-slate-400: #94a3b8;
+  --viz-hairline: rgba(255, 255, 255, 0.1);
+  --viz-hairline-strong: rgba(255, 255, 255, 0.12);
+  --viz-scrim: rgba(0, 0, 0, 0.9);
+  --viz-panel: rgba(15, 23, 42, 0.85);
+  --viz-cyan-35: rgba(6, 182, 212, 0.35);
+}

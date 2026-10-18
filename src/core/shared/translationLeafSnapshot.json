@@ -1,0 +1,3122 @@
+{
+  "AI_TEXT.assistantTitle": {
+    "en": "AI Assistant",
+    "he": "עוזר AI"
+  },
+  "AI_TEXT.assistantIntro": {
+    "en": "Bring your own API key (Claude, OpenAI, DeepSeek, Gemini) to chat with an AI assistant inside the app.",
+    "he": "הזן מפתח API אישי (Claude, OpenAI, DeepSeek, Gemini) כדי לשוחח עם עוזר AI בתוך האפליקציה."
+  },
+  "AI_TEXT.providerLabel": {
+    "en": "AI Provider",
+    "he": "ספק AI"
+  },
+  "AI_TEXT.keyLabel": {
+    "en": "API key",
+    "he": "מפתח API"
+  },
+  "AI_TEXT.keyPlaceholder": {
+    "en": "Paste your API key",
+    "he": "הדבק כאן את מפתח ה-API שלך"
+  },
+  "AI_TEXT.keyStorageNotice": {
+    "en": "Stored only in this browser tab (cleared when you close it). Sent directly to the selected AI provider.",
+    "he": "נשמר רק בטאב הדפדפן הזה (נמחק בסגירתו). נשלח ישירות לספק ה-AI הנבחר."
+  },
+  "AI_TEXT.testConnection": {
+    "en": "Save & Test Connection",
+    "he": "שמור ובדוק חיבור"
+  },
+  "AI_TEXT.testing": {
+    "en": "Testing...",
+    "he": "בודק..."
+  },
+  "AI_TEXT.connected": {
+    "en": "Connected",
+    "he": "מחובר"
+  },
+  "AI_TEXT.connectionFailed": {
+    "en": "Connection failed",
+    "he": "החיבור נכשל"
+  },
+  "AI_TEXT.removeKey": {
+    "en": "Remove key",
+    "he": "הסר מפתח"
+  },
+  "AI_TEXT.modelLabel": {
+    "en": "Model",
+    "he": "מודל"
+  },
+  "AI_TEXT.chatPlaceholder": {
+    "en": "Type a message...",
+    "he": "הקלד הודעה..."
+  },
+  "AI_TEXT.send": {
+    "en": "Send",
+    "he": "שלח"
+  },
+  "AI_TEXT.estimatedCost": {
+    "en": "Estimated cost",
+    "he": "עלות משוערת"
+  },
+  "AI_TEXT.confirmSend": {
+    "en": "This will cost approximately {cost}. Send anyway?",
+    "he": "הפעולה תעלה כ-{cost}. לשלוח בכל זאת?"
+  },
+  "AI_TEXT.sendingWarningThreshold": {
+    "en": "This message is large and may cost more than usual.",
+    "he": "ההודעה גדולה ועשויה לעלות יותר מהרגיל."
+  },
+  "AI_TEXT.requestFailed": {
+    "en": "Request failed",
+    "he": "הבקשה נכשלה"
+  },
+  "AI_TEXT.modeOmniRoute": {
+    "en": "OmniRoute (Docker)",
+    "he": "OmniRoute (Docker)"
+  },
+  "AI_TEXT.modeDirect": {
+    "en": "Direct API",
+    "he": "API ישיר"
+  },
+  "AI_TEXT.omniRouteKeyLabel": {
+    "en": "OmniRoute API key",
+    "he": "מפתח API של OmniRoute"
+  },
+  "AI_TEXT.omniRouteKeyPlaceholder": {
+    "en": "Paste your OmniRoute API key",
+    "he": "הדבק כאן את מפתח ה-OmniRoute שלך"
+  },
+  "AI_TEXT.omniRouteKeyStorageNotice": {
+    "en": "Stored only in this browser tab (cleared when you close it). Sent only to your local OmniRoute instance.",
+    "he": "נשמר רק בטאב הדפדפן הזה (נמחק בסגירתו). נשלח רק למופע ה-OmniRoute המקומי שלך."
+  },
+  "AI_TEXT.omniRouteModelLabel": {
+    "en": "Model / routing strategy",
+    "he": "מודל / אסטרטגיית ניתוב"
+  },
+  "AI_TEXT.costVariesNotice": {
+    "en": "Cost varies by provider and is not estimated here.",
+    "he": "העלות משתנה לפי ספק ואינה מוערכת כאן."
+  },
+  "AI_TEXT.clearChat": {
+    "en": "Clear chat",
+    "he": "נקה שיחה"
+  },
+  "AI_TEXT.executingTool": {
+    "en": "Executing tool...",
+    "he": "מבצע פעולה..."
+  },
+  "AI_TEXT.toolSuccess": {
+    "en": "Done",
+    "he": "בוצע"
+  },
+  "AI_TEXT.toolDoneSchema": {
+    "en": "Checked the database: {n} tables",
+    "he": "בדק את מסד הנתונים: {n} טבלאות"
+  },
+  "AI_TEXT.toolDoneQuery": {
+    "en": "Looked up {table}: {n} rows found",
+    "he": "חיפש ב-{table}: נמצאו {n} שורות"
+  },
+  "AI_TEXT.toolDoneQueryNone": {
+    "en": "Looked up {table}: nothing found",
+    "he": "חיפש ב-{table}: לא נמצא כלום"
+  },
+  "AI_TEXT.toolDoneTopics": {
+    "en": "Listed topics: {n} found",
+    "he": "רשם נושאים: נמצאו {n}"
+  },
+  "AI_TEXT.toolOpConverted": {
+    "en": "blocks converted: {n}",
+    "he": "בלוקים שהומרו: {n}"
+  },
+  "AI_TEXT.toolOpTidied": {
+    "en": "tidied the layout",
+    "he": "סידר את הפריסה"
+  },
+  "AI_TEXT.toolOpAdded": {
+    "en": "blocks added: {n}",
+    "he": "בלוקים שנוספו: {n}"
+  },
+  "AI_TEXT.toolOpRemoved": {
+    "en": "blocks removed: {n}",
+    "he": "בלוקים שהוסרו: {n}"
+  },
+  "AI_TEXT.toolOpChanged": {
+    "en": "blocks changed: {n}",
+    "he": "בלוקים ששונו: {n}"
+  },
+  "AI_TEXT.toolDoneEdit": {
+    "en": "Edited \"{scene}\": {what}",
+    "he": "ערך את \"{scene}\": {what}"
+  },
+  "AI_TEXT.toolDoneBuild": {
+    "en": "Built canvas \"{title}\" ({n} blocks)",
+    "he": "בנה קנבס \"{title}\" ({n} בלוקים)"
+  },
+  "AI_TEXT.toolDoneDiagram": {
+    "en": "Added a {type} diagram to \"{scene}\"",
+    "he": "הוסיף דיאגרמת {type} ל-\"{scene}\""
+  },
+  "AI_TEXT.toolActionCreated": {
+    "en": "created",
+    "he": "נוצר"
+  },
+  "AI_TEXT.toolActionUpdated": {
+    "en": "updated",
+    "he": "עודכן"
+  },
+  "AI_TEXT.toolActionDeleted": {
+    "en": "deleted",
+    "he": "נמחק"
+  },
+  "AI_TEXT.toolActionMoved": {
+    "en": "moved",
+    "he": "הוזז"
+  },
+  "AI_TEXT.toolErrWrongName": {
+    "en": "wrong table or column name",
+    "he": "שם טבלה או עמודה שגוי"
+  },
+  "AI_TEXT.toolErrNotFound": {
+    "en": "couldn't find the target",
+    "he": "לא נמצא היעד"
+  },
+  "AI_TEXT.toolErrBadInput": {
+    "en": "the AI sent invalid input",
+    "he": "ה-AI שלח קלט לא תקין"
+  },
+  "AI_TEXT.toolErrConnection": {
+    "en": "connection problem",
+    "he": "בעיית חיבור"
+  },
+  "AI_TEXT.toolFailed": {
+    "en": "Action failed",
+    "he": "הפעולה נכשלה"
+  },
+  "AI_TEXT.toolReadSchema": {
+    "en": "Database schema",
+    "he": "מבנה מסד הנתונים"
+  },
+  "AI_TEXT.toolQueryData": {
+    "en": "Course data search",
+    "he": "חיפוש בנתוני הקורס"
+  },
+  "AI_TEXT.toolListTopics": {
+    "en": "Topic list",
+    "he": "רשימת נושאים"
+  },
+  "AI_TEXT.toolListCourses": {
+    "en": "Course list",
+    "he": "רשימת קורסים"
+  },
+  "AI_TEXT.toolEditCanvas": {
+    "en": "Canvas edit",
+    "he": "עריכת קנבס"
+  },
+  "AI_TEXT.toolBuildCanvas": {
+    "en": "New canvas",
+    "he": "קנבס חדש"
+  },
+  "AI_TEXT.toolMakeDiagram": {
+    "en": "UML diagram",
+    "he": "דיאגרמת UML"
+  },
+  "AI_TEXT.toolEditCourse": {
+    "en": "Course update",
+    "he": "עדכון קורס"
+  },
+  "AI_TEXT.toolEditSection": {
+    "en": "Section update",
+    "he": "עדכון פרק"
+  },
+  "AI_TEXT.toolEditTopic": {
+    "en": "Topic update",
+    "he": "עדכון נושא"
+  },
+  "AI_TEXT.toolPublishVisual": {
+    "en": "Step player lecture",
+    "he": "הרצאת נגן צעדים"
+  },
+  "AI_TEXT.toolEditCode": {
+    "en": "Code edit",
+    "he": "עריכת קוד"
+  },
+  "AI_TEXT.toolWriteLecture": {
+    "en": "Lecture write",
+    "he": "כתיבת הרצאה"
+  },
+  "AI_TEXT.toolUpdateCatalog": {
+    "en": "Catalog update",
+    "he": "עדכון קטלוג"
+  },
+  "AI_TEXT.uploadFile": {
+    "en": "Attach file",
+    "he": "צרף קובץ"
+  },
+  "AI_TEXT.contextActive": {
+    "en": "Active context",
+    "he": "הקשר פעיל"
+  },
+  "AI_TEXT.stop": {
+    "en": "Stop",
+    "he": "עצור"
+  },
+  "AI_TEXT.stopped": {
+    "en": "Stopped by user",
+    "he": "הופסק על ידי המשתמש"
+  },
+  "AI_TEXT.interruptedByReload": {
+    "en": "Interrupted by reload.",
+    "he": "הופסק ברענון."
+  },
+  "AI_TEXT.emptyReplyAfterTools": {
+    "en": "⚠️ No change made. Try again, more specific.",
+    "he": "⚠️ לא בוצע שינוי. נסה שוב, ביתר פירוט."
+  },
+  "AI_TEXT.quickFixPage": {
+    "en": "Fix this page",
+    "he": "תקן את הדף"
+  },
+  "AI_TEXT.quickFixPagePrompt": {
+    "en": "Please review this page for mistakes (wrong content, broken blocks, bad translations) and fix them directly.",
+    "he": "בבקשה בדוק את הדף הזה לטעויות (תוכן שגוי, בלוקים שבורים, תרגומים לא טובים) ותקן אותן ישירות."
+  },
+  "AI_TEXT.quickCreateCourse": {
+    "en": "Create course",
+    "he": "צור קורס"
+  },
+  "AI_TEXT.quickCreateCoursePrompt": {
+    "en": "Create a new course about: ",
+    "he": "צור קורס חדש בנושא: "
+  },
+  "AI_TEXT.quickCreateTopic": {
+    "en": "Create topic",
+    "he": "צור נושא"
+  },
+  "AI_TEXT.quickCreateTopicPrompt": {
+    "en": "Add a new topic to this course about: ",
+    "he": "הוסף נושא חדש לקורס הזה בנושא: "
+  },
+  "AI_TEXT.quickCreateCanvas": {
+    "en": "Create canvas",
+    "he": "צור קנבס"
+  },
+  "AI_TEXT.quickCreateCanvasPrompt": {
+    "en": "Create a canvas page for this topic about: ",
+    "he": "צור דף קנבס לנושא הזה בנושא: "
+  },
+  "AI_TEXT.askAi": {
+    "en": "Ask AI",
+    "he": "שאל AI"
+  },
+  "AI_TEXT.askAiCustom": {
+    "en": "Ask anything…",
+    "he": "שאל משהו…"
+  },
+  "AI_TEXT.askAiCustomPrompt": {
+    "en": "My question about this:",
+    "he": "השאלה שלי על זה:"
+  },
+  "AI_TEXT.askAiTidy": {
+    "en": "Fix overlaps and empty space",
+    "he": "תקן חפיפות ורווחים ריקים"
+  },
+  "AI_TEXT.askAiTidyPrompt": {
+    "en": "Fix overlapping blocks and big empty gaps on this page. Use one apply_scene_ops call with a tidyLayout op for this page; do not change any content.",
+    "he": "תקן בלוקים חופפים ורווחים ריקים גדולים בעמוד הזה. השתמש בקריאה אחת ל-apply_scene_ops עם פעולת tidyLayout לעמוד הזה; אל תשנה תוכן."
+  },
+  "AI_TEXT.askAiExplainPage": {
+    "en": "Explain this page",
+    "he": "הסבר את העמוד"
+  },
+  "AI_TEXT.askAiExplainPagePrompt": {
+    "en": "Explain what is on this page in plain words. Do not change anything.",
+    "he": "הסבר במילים פשוטות מה יש בעמוד הזה. אל תשנה דבר."
+  },
+  "AI_TEXT.askAiConvertTable": {
+    "en": "Convert to table",
+    "he": "המר לטבלה"
+  },
+  "AI_TEXT.askAiConvertTablePrompt": {
+    "en": "Convert this into a table. Edit the open scene directly (replaceBlock keeps its place).",
+    "he": "המר את זה לטבלה. ערוך ישירות את הסצנה הפתוחה (replaceBlock שומר על המיקום)."
+  },
+  "AI_TEXT.askAiConvertUml": {
+    "en": "Convert to UML diagram",
+    "he": "המר לדיאגרמת UML"
+  },
+  "AI_TEXT.askAiConvertUmlPrompt": {
+    "en": "Convert this into a UML diagram on the same page.",
+    "he": "המר את זה לדיאגרמת UML באותו עמוד."
+  },
+  "AI_TEXT.askAiRewrite": {
+    "en": "Rewrite",
+    "he": "שכתב"
+  },
+  "AI_TEXT.askAiRewritePrompt": {
+    "en": "Rewrite this to be clearer and shorter. Keep its meaning.",
+    "he": "שכתב את זה כך שיהיה ברור וקצר יותר. שמור על המשמעות."
+  },
+  "AI_TEXT.askAiExplain": {
+    "en": "Explain",
+    "he": "הסבר"
+  },
+  "AI_TEXT.askAiExplainPrompt": {
+    "en": "Explain this to me in plain words. Do not change anything.",
+    "he": "הסבר לי את זה במילים פשוטות. אל תשנה דבר."
+  },
+  "AI_TEXT.quickExplain": {
+    "en": "What can you do?",
+    "he": "מה אתה יכול לעשות?"
+  },
+  "AI_TEXT.quickExplainPrompt": {
+    "en": "What can you do on this page? List your capabilities briefly.",
+    "he": "מה אתה מסוגל לעשות בדף הזה? פרט בקצרה את היכולות שלך."
+  },
+  "AI_TEXT.fileUnsupported": {
+    "en": "Only text files are supported for now (.md, .txt, .json). PDF support is coming soon.",
+    "he": "כרגע נתמכים רק קבצי טקסט (md, txt, json). תמיכה ב-PDF תגיע בקרוב."
+  },
+  "AI_TEXT.fileTooLarge": {
+    "en": "File is too large (max 200KB).",
+    "he": "הקובץ גדול מדי (מקסימום 200KB)."
+  },
+  "AI_TEXT.pdfConverting": {
+    "en": "Converting PDF...",
+    "he": "ממיר PDF..."
+  },
+  "AI_TEXT.pdfConvertFailed": {
+    "en": "Could not read this PDF.",
+    "he": "לא ניתן היה לקרוא את קובץ ה-PDF הזה."
+  },
+  "AI_TEXT.toolArgsInvalidJson": {
+    "en": "The AI sent malformed data for this action",
+    "he": "הבינה שלחה נתונים פגומים לפעולה הזו"
+  },
+  "AI_TEXT.showSettings": {
+    "en": "Show Settings",
+    "he": "הצג הגדרות"
+  },
+  "AI_TEXT.hideSettings": {
+    "en": "Hide Settings",
+    "he": "הסתר הגדרות"
+  },
+  "AI_TEXT.enableSourceEditing": {
+    "en": "Enable source code editing (Docker verified)",
+    "he": "אפשר עריכת קוד מקור (מאומת Docker)"
+  },
+  "AI_TEXT.clear": {
+    "en": "Clear",
+    "he": "נקה"
+  },
+  "AI_TEXT.attachFile": {
+    "en": "Attach file",
+    "he": "צרף קובץ"
+  },
+  "AI_TEXT.statusIdle": {
+    "en": "Idle",
+    "he": "מוכן"
+  },
+  "AI_TEXT.statusReading": {
+    "en": "Reading context…",
+    "he": "קורא הקשר…"
+  },
+  "AI_TEXT.statusSearching": {
+    "en": "Searching…",
+    "he": "מחפש…"
+  },
+  "AI_TEXT.statusGenerating": {
+    "en": "Generating…",
+    "he": "מייצר תשובה…"
+  },
+  "AI_TEXT.statusExecuting": {
+    "en": "Running tool…",
+    "he": "מריץ כלי…"
+  },
+  "AI_TEXT.statusConnecting": {
+    "en": "Connecting…",
+    "he": "מתחבר…"
+  },
+  "AI_TEXT.statusRetrying": {
+    "en": "Connection failed, retrying",
+    "he": "החיבור נכשל, מנסה שוב"
+  },
+  "AI_TEXT.changeModel": {
+    "en": "Change model",
+    "he": "שנה מודל"
+  },
+  "AI_TEXT.currentModel": {
+    "en": "Model",
+    "he": "מודל"
+  },
+  "AI_TEXT.noApiKey": {
+    "en": "No API key — click Setting to configure",
+    "he": "אין מפתח API — לחץ על הגדרות לקביעת תצורה"
+  },
+  "AI_TEXT.needApiKeyFirst": {
+    "en": "Please connect an API key first",
+    "he": "יש לחבר מפתח API תחילה"
+  },
+  "AI_TEXT.actionCompleted": {
+    "en": "Done",
+    "he": "בוצע"
+  },
+  "AI_TEXT.errorTimeout": {
+    "en": "⚠️ AI timed out. Try again.",
+    "he": "⚠️ ה-AI לא הגיב בזמן. נסה שוב."
+  },
+  "AI_TEXT.errorRateLimit": {
+    "en": "⚠️ Too many requests. Wait a moment.",
+    "he": "⚠️ יותר מדי בקשות. המתן רגע."
+  },
+  "AI_TEXT.errorAuth": {
+    "en": "⚠️ API key rejected. Check Settings.",
+    "he": "⚠️ מפתח ה-API נדחה. בדוק בהגדרות."
+  },
+  "AI_TEXT.errorBadRequest": {
+    "en": "⚠️ Invalid request. Rephrase and retry.",
+    "he": "⚠️ בקשה לא תקינה. נסח מחדש."
+  },
+  "AI_TEXT.errorProvider": {
+    "en": "⚠️ AI provider error. Try again shortly.",
+    "he": "⚠️ תקלה אצל ספק ה-AI. נסה שוב בקרוב."
+  },
+  "AI_TEXT.errorNetwork": {
+    "en": "⚠️ Cannot reach the AI provider.",
+    "he": "⚠️ אין חיבור לספק ה-AI."
+  },
+  "AI_TEXT.errorAborted": {
+    "en": "⚠️ Request interrupted. Try again.",
+    "he": "⚠️ הבקשה הופסקה. נסה שוב."
+  },
+  "AI_TEXT.attachment_empty": {
+    "en": "File is empty",
+    "he": "הקובץ ריק"
+  },
+  "AI_TEXT.attachment_too_large": {
+    "en": "File exceeds 5MB limit",
+    "he": "הקובץ חורג ממגבלת 5MB"
+  },
+  "AI_TEXT.attachment_archive_extension": {
+    "en": "Archive files (.zip, .rar, .7z, etc.) are blocked",
+    "he": "קבצי ארכיון (.zip, .rar, .7z וכו׳) חסומים"
+  },
+  "AI_TEXT.attachment_archive_signature": {
+    "en": "Archive file signature detected (blocked)",
+    "he": "זוהתה חתימת ארכיון (חסום)"
+  },
+  "AI_TEXT.attachment_archive_mime": {
+    "en": "Archive MIME type detected (blocked)",
+    "he": "סוג קובץ ארכיון (חסום)"
+  },
+  "AI_TEXT.attachment_unsupported_extension": {
+    "en": "Unsupported file extension",
+    "he": "סיומת קובץ לא נתמכת"
+  },
+  "AI_TEXT.attachment_pdf_signature": {
+    "en": "Invalid PDF signature",
+    "he": "חתימת PDF לא תקינה"
+  },
+  "AI_TEXT.attachment_binary_content": {
+    "en": "Binary content detected (unsupported)",
+    "he": "זוהה תוכן בינארי (לא נתמך)"
+  },
+  "AI_TEXT.attachment_too_many": {
+    "en": "Max 10 attachments allowed",
+    "he": "ניתן לצרף עד 10 קבצים"
+  },
+  "AI_TEXT.attachment_duplicate": {
+    "en": "Duplicate file already attached",
+    "he": "קובץ כפול כבר צורף"
+  },
+  "AI_TEXT.attachment_total_too_large": {
+    "en": "Total attachment size exceeds 20MB",
+    "he": "גודל הקבצים הכולל חורג מ-20MB"
+  },
+  "AI_TEXT.attachment_server_unavailable": {
+    "en": "Attachment validation server unavailable",
+    "he": "שרת אימות הקבצים אינו זמין"
+  },
+  "AI_TEXT.copyCode": {
+    "en": "Copy",
+    "he": "העתק"
+  },
+  "AI_TEXT.copied": {
+    "en": "Copied!",
+    "he": "הועתק!"
+  },
+  "AI_TEXT.copyFailed": {
+    "en": "Failed to copy",
+    "he": "ההעתקה נכשלה"
+  },
+  "AI_TEXT.scrollToBottom": {
+    "en": "Scroll to bottom",
+    "he": "גלול לתחתית"
+  },
+  "AI_TEXT.thinkingProcess": {
+    "en": "Thinking process",
+    "he": "תהליך חשיבה"
+  },
+  "ALGORITHM_TEXT.bfs": {
+    "en": "Breadth-first search",
+    "he": "חיפוש לרוחב"
+  },
+  "ALGORITHM_TEXT.dfs": {
+    "en": "Depth-first search",
+    "he": "חיפוש לעומק"
+  },
+  "ALGORITHM_TEXT.dijkstra": {
+    "en": "Dijkstra shortest paths",
+    "he": "מסלולים קצרים (דייקסטרה)"
+  },
+  "ALGORITHM_TEXT.prim": {
+    "en": "Prim spanning tree",
+    "he": "עץ פורש (פרים)"
+  },
+  "ALGORITHM_TEXT.edmondsKarp": {
+    "en": "Max flow (Edmonds-Karp)",
+    "he": "זרימה מקסימלית (אדמונדס-קרפ)"
+  },
+  "ALGORITHM_TEXT.fordFulkerson": {
+    "en": "Max flow (Ford-Fulkerson)",
+    "he": "זרימה מקסימלית (פורד-פולקרסון)"
+  },
+  "ALGORITHM_TEXT.automataRun": {
+    "en": "Run the word",
+    "he": "הרצת המילה"
+  },
+  "ALGORITHM_TEXT.networkSend": {
+    "en": "Send a packet (fewest hops)",
+    "he": "שליחת חבילה (מעט קפיצות)"
+  },
+  "ALGORITHM_TEXT.networkSendCost": {
+    "en": "Send a packet (lowest cost)",
+    "he": "שליחת חבילה (עלות נמוכה)"
+  },
+  "ALGORITHM_TEXT.searchStart": {
+    "en": "Start at {vertex}",
+    "he": "מתחילים ב-{vertex}"
+  },
+  "ALGORITHM_TEXT.searchVisit": {
+    "en": "Visit {vertex}",
+    "he": "מבקרים ב-{vertex}"
+  },
+  "ALGORITHM_TEXT.searchDiscover": {
+    "en": "Found {vertex}",
+    "he": "מצאנו את {vertex}"
+  },
+  "ALGORITHM_TEXT.searchDone": {
+    "en": "Done: {order}",
+    "he": "סיום: {order}"
+  },
+  "ALGORITHM_TEXT.stripFifo": {
+    "en": "Queue",
+    "he": "תור"
+  },
+  "ALGORITHM_TEXT.stripLifo": {
+    "en": "Stack",
+    "he": "מחסנית"
+  },
+  "ALGORITHM_TEXT.stripPriority": {
+    "en": "Waiting",
+    "he": "ממתינים"
+  },
+  "ALGORITHM_TEXT.stripOrder": {
+    "en": "Order",
+    "he": "סדר"
+  },
+  "ALGORITHM_TEXT.distance": {
+    "en": "d = {value}",
+    "he": "d = {value}"
+  },
+  "ALGORITHM_TEXT.nameStrip": {
+    "en": "Algorithm strip",
+    "he": "פס האלגוריתם"
+  },
+  "ALGORITHM_TEXT.nameDistance": {
+    "en": "Distance",
+    "he": "מרחק"
+  },
+  "ALGORITHM_TEXT.nameFlowLabel": {
+    "en": "Flow label",
+    "he": "תווית זרימה"
+  },
+  "ALGORITHM_TEXT.inputWord": {
+    "en": "Input word",
+    "he": "מילת קלט"
+  },
+  "ALGORITHM_TEXT.inputPrefix": {
+    "en": "Input: ",
+    "he": "קלט: "
+  },
+  "ALGORITHM_TEXT.recipeStart": {
+    "en": "Start at {vertex}",
+    "he": "מתחילים ב-{vertex}"
+  },
+  "ALGORITHM_TEXT.recipeGo": {
+    "en": "Go to {vertex}",
+    "he": "עוברים ל-{vertex}"
+  },
+  "ALGORITHM_TEXT.recipeShow": {
+    "en": "Show {vertex}",
+    "he": "מציגים את {vertex}"
+  },
+  "ALGORITHM_TEXT.recipeMove": {
+    "en": "Move from {from} to {to}.",
+    "he": "עוברים מ-{from} ל-{to}."
+  },
+  "ALGORITHM_TEXT.tapeCellName": {
+    "en": "Cell",
+    "he": "תא"
+  },
+  "ALGORITHM_TEXT.tapeIndexName": {
+    "en": "Index",
+    "he": "אינדקס"
+  },
+  "ALGORITHM_TEXT.tapeHeadName": {
+    "en": "Head",
+    "he": "ראש"
+  },
+  "ALGORITHM_TEXT.tapeHeadLabelName": {
+    "en": "Head label",
+    "he": "תווית ראש"
+  },
+  "ALGORITHM_TEXT.tapeStripName": {
+    "en": "Tape strip",
+    "he": "סרט"
+  },
+  "ALGORITHM_TEXT.tapeHeadText": {
+    "en": "head",
+    "he": "ראש"
+  },
+  "ALGORITHM_TEXT.tapeRead": {
+    "en": "Read {symbol}",
+    "he": "קוראים {symbol}"
+  },
+  "ALGORITHM_TEXT.tapeBlank": {
+    "en": "blank",
+    "he": "ריק"
+  },
+  "ALGORITHM_TEXT.tapeWhy": {
+    "en": "The head is on cell {number}.",
+    "he": "הראש נמצא בתא {number}."
+  },
+  "ALGORITHM_TEXT.flowStart": {
+    "en": "Flow from {source} to {sink}",
+    "he": "זרימה מ-{source} ל-{sink}"
+  },
+  "ALGORITHM_TEXT.flowAugment": {
+    "en": "Path {path}: push {pushed}",
+    "he": "מסלול {path}: דוחפים {pushed}"
+  },
+  "ALGORITHM_TEXT.flowDone": {
+    "en": "Maximum flow = {value}",
+    "he": "זרימה מקסימלית = {value}"
+  },
+  "ALGORITHM_TEXT.flowStrip": {
+    "en": "Flow",
+    "he": "זרימה"
+  },
+  "ALGORITHM_TEXT.autoStart": {
+    "en": "Start at {states}",
+    "he": "מתחילים ב-{states}"
+  },
+  "ALGORITHM_TEXT.autoRead": {
+    "en": "Read {symbol}",
+    "he": "קוראים {symbol}"
+  },
+  "ALGORITHM_TEXT.autoAccept": {
+    "en": "Accept",
+    "he": "מקבל"
+  },
+  "ALGORITHM_TEXT.autoReject": {
+    "en": "Reject",
+    "he": "דוחה"
+  },
+  "ALGORITHM_TEXT.autoStuck": {
+    "en": "Reject: no move on {symbol}",
+    "he": "דוחה: אין מעבר על {symbol}"
+  },
+  "ALGORITHM_TEXT.autoWhyRead": {
+    "en": "{from} reads {symbol} and goes to {to}.",
+    "he": "{from} קורא {symbol} ועובר ל-{to}."
+  },
+  "ALGORITHM_TEXT.autoWhyAccept": {
+    "en": "{states} accepts: {word} is accepted.",
+    "he": "{states} מקבל: המילה {word} התקבלה."
+  },
+  "ALGORITHM_TEXT.autoWhyReject": {
+    "en": "{states} does not accept: {word} is rejected.",
+    "he": "{states} לא מקבל: המילה {word} נדחתה."
+  },
+  "ALGORITHM_TEXT.autoWhyStuck": {
+    "en": "{states} has no transition on {symbol}.",
+    "he": "ל-{states} אין מעבר על {symbol}."
+  },
+  "ALGORITHM_TEXT.netStart": {
+    "en": "{device} sends a packet",
+    "he": "{device} שולח חבילה"
+  },
+  "ALGORITHM_TEXT.netHop": {
+    "en": "Hop {number}: {to}",
+    "he": "קפיצה {number}: {to}"
+  },
+  "ALGORITHM_TEXT.netDelivered": {
+    "en": "Delivered to {device}",
+    "he": "נמסר ל-{device}"
+  },
+  "ALGORITHM_TEXT.netUnreachable": {
+    "en": "No route from {device}",
+    "he": "אין מסלול מ-{device}"
+  },
+  "ALGORITHM_TEXT.netExpired": {
+    "en": "Dropped at {device}: TTL ended",
+    "he": "נפלה ב-{device}: ה-TTL נגמר"
+  },
+  "ALGORITHM_TEXT.netWhyStart": {
+    "en": "The packet starts with TTL {ttl}.",
+    "he": "החבילה יוצאת עם TTL {ttl}."
+  },
+  "ALGORITHM_TEXT.netWhyHop": {
+    "en": "{from} forwards it to {to}; TTL left {ttlLeft}.",
+    "he": "{from} מעביר ל-{to}; נשאר TTL {ttlLeft}."
+  },
+  "ALGORITHM_TEXT.netWhyDelivered": {
+    "en": "It arrived after {hops} hops.",
+    "he": "הגיעה אחרי {hops} קפיצות."
+  },
+  "ALGORITHM_TEXT.netWhyUnreachable": {
+    "en": "No cable path leads to the destination.",
+    "he": "אין נתיב כבלים ליעד."
+  },
+  "ALGORITHM_TEXT.netWhyExpired": {
+    "en": "A router drops a packet whose TTL is zero.",
+    "he": "נתב מוריד חבילה שה-TTL שלה אפס."
+  },
+  "ALGORITHM_TEXT.pipeRun": {
+    "en": "Run a pipeline (tick by tick)",
+    "he": "הרצת צינור (מחזור אחר מחזור)"
+  },
+  "ALGORITHM_TEXT.pipeTick": {
+    "en": "Tick {number}",
+    "he": "מחזור {number}"
+  },
+  "ALGORITHM_TEXT.pipeWhyTick": {
+    "en": "A stage passes items on when the next stage has room. Stalled: {stalled}.",
+    "he": "שלב מעביר פריטים הלאה כשלשלב הבא יש מקום. נתקעו: {stalled}."
+  },
+  "ALGORITHM_TEXT.pipeNone": {
+    "en": "none",
+    "he": "אין"
+  },
+  "ALGORITHM_TEXT.pipeDone": {
+    "en": "Finished {done} of {tokens} items in {ticks} ticks",
+    "he": "הסתיימו {done} מתוך {tokens} פריטים ב-{ticks} מחזורים"
+  },
+  "ALGORITHM_TEXT.pipeWhyBottleneck": {
+    "en": "Bottleneck: {stage}, the stage that stalled most often.",
+    "he": "צוואר בקבוק: {stage}, השלב שנתקע הכי הרבה פעמים."
+  },
+  "ALGORITHM_TEXT.pipeWhyClear": {
+    "en": "No stage stalled, so nothing waited.",
+    "he": "אף שלב לא נתקע, ולכן אף פריט לא המתין."
+  },
+  "ALGORITHM_TEXT.memLeaks": {
+    "en": "Leak search",
+    "he": "חיפוש דליפות"
+  },
+  "ALGORITHM_TEXT.memChase": {
+    "en": "Follow pointers",
+    "he": "מעקב אחרי מצביעים"
+  },
+  "ALGORITHM_TEXT.memRoot": {
+    "en": "Start from {cell}",
+    "he": "מתחילים מ-{cell}"
+  },
+  "ALGORITHM_TEXT.memWhyRoot": {
+    "en": "Every variable on the stack is a root: the blocks its pointers reach are alive.",
+    "he": "כל משתנה במחסנית הוא שורש: בלוקים שהמצביעים שלו מגיעים אליהם הם חיים."
+  },
+  "ALGORITHM_TEXT.memReach": {
+    "en": "{block} is reachable",
+    "he": "אפשר להגיע ל-{block}"
+  },
+  "ALGORITHM_TEXT.memWhyReach": {
+    "en": "Reached from {via}.",
+    "he": "מגיעים אליו מ-{via}."
+  },
+  "ALGORITHM_TEXT.memLeak": {
+    "en": "Leak: {block} is unreachable",
+    "he": "דליפה: אי אפשר להגיע ל-{block}"
+  },
+  "ALGORITHM_TEXT.memWhyLeak": {
+    "en": "No variable leads to it, so nothing can free it.",
+    "he": "אף משתנה לא מוביל אליו, ולכן אי אפשר לשחרר אותו."
+  },
+  "ALGORITHM_TEXT.memVerdict": {
+    "en": "Leaked: {leaks}",
+    "he": "דלפו: {leaks}"
+  },
+  "ALGORITHM_TEXT.memWhyVerdict": {
+    "en": "Reachable: {reachable}.",
+    "he": "נגישים: {reachable}."
+  },
+  "ALGORITHM_TEXT.memNone": {
+    "en": "none",
+    "he": "אין"
+  },
+  "ALGORITHM_TEXT.memFollow": {
+    "en": "Step {number}: {from} points to {to}",
+    "he": "שלב {number}: {from} מצביע על {to}"
+  },
+  "ALGORITHM_TEXT.memWhyFollow": {
+    "en": "Follow the address stored in {from}.",
+    "he": "עוקבים אחרי הכתובת ששמורה ב-{from}."
+  },
+  "ALGORITHM_TEXT.memBlock": {
+    "en": "The chain ends at block {at}",
+    "he": "השרשרת נגמרת בבלוק {at}"
+  },
+  "ALGORITHM_TEXT.memWhyBlock": {
+    "en": "{at} points nowhere, so the value is the block.",
+    "he": "{at} לא מצביע לשום מקום, והערך הוא הבלוק."
+  },
+  "ALGORITHM_TEXT.memNull": {
+    "en": "The chain ends at null",
+    "he": "השרשרת נגמרת ב-null"
+  },
+  "ALGORITHM_TEXT.memWhyNull": {
+    "en": "{at} holds no address.",
+    "he": "ב-{at} אין כתובת."
+  },
+  "ALGORITHM_TEXT.memCycle": {
+    "en": "The chain loops back to {at}",
+    "he": "השרשרת חוזרת אל {at}"
+  },
+  "ALGORITHM_TEXT.memWhyCycle": {
+    "en": "Following the pointers returns to a node already visited.",
+    "he": "המעקב אחרי המצביעים חוזר לצומת שכבר ביקרנו בו."
+  },
+  "ALGORITHM_TEXT.memDangling": {
+    "en": "The pointer to {at} leads nowhere",
+    "he": "המצביע אל {at} לא מוביל לשום מקום"
+  },
+  "ALGORITHM_TEXT.memWhyDangling": {
+    "en": "{at} is neither a variable nor a heap block.",
+    "he": "{at} אינו משתנה ואינו בלוק בערימה."
+  },
+  "AUTHOR_TEXT.websiteAuthorLongPrefix": {
+    "en": "Website made by ",
+    "he": "האתר נבנה על ידי "
+  },
+  "AUTHOR_TEXT.websiteAuthorLongSuffix": {
+    "en": ", check my website for my other projects",
+    "he": ", בקר באתר שלי למיזמים נוספים"
+  },
+  "AUTHOR_TEXT.websiteAuthorShortPrefix": {
+    "en": "By ",
+    "he": "על ידי "
+  },
+  "BUILDER_TEXT.hintSelect": {
+    "en": "Select: click to select, drag to move, double click to rename. Use the Arrow tool (L) to connect shapes.",
+    "he": "בחירה: לחיצה לבחירה, גרירה להזזה, לחיצה כפולה לשינוי שם. כלי החץ (L) מחבר צורות."
+  },
+  "BUILDER_TEXT.hintArrow": {
+    "en": "Arrow: drag from a shape or a ● port onto another shape · Esc to cancel",
+    "he": "חץ: גררו מצורה או מנקודת ● אל צורה אחרת · Esc לביטול"
+  },
+  "BUILDER_TEXT.hintFrom": {
+    "en": "From {name}: click the shape to connect to · Esc to cancel",
+    "he": "מ-{name}: לחצו על הצורה לחיבור · Esc לביטול"
+  },
+  "BUILDER_TEXT.hintDrag": {
+    "en": "Release on a shape to connect, or on empty space to add a new one · Esc to cancel",
+    "he": "שחררו על צורה לחיבור, או על מקום ריק להוספת צורה חדשה · Esc לביטול"
+  },
+  "BUILDER_TEXT.hintQuickAdd": {
+    "en": "Choose a shape to add here and connect, or press Esc",
+    "he": "בחרו צורה להוספה וחיבור כאן, או לחצו Esc"
+  },
+  "BUILDER_TEXT.hintWalkStart": {
+    "en": "Walk a path: click the shapes in order · Enter to finish · Esc to cancel",
+    "he": "מסלול: לחצו על הצורות לפי הסדר · Enter לסיום · Esc לביטול"
+  },
+  "BUILDER_TEXT.hintWalk": {
+    "en": "Walk: {path} · Enter to finish · Esc to cancel",
+    "he": "מסלול: {path} · Enter לסיום · Esc לביטול"
+  },
+  "BUILDER_TEXT.hintPickSpot": {
+    "en": "Click the canvas where the shape should go · Esc to cancel",
+    "he": "לחצו על הקנבס במקום שבו הצורה צריכה להיות · Esc לביטול"
+  },
+  "BUILDER_TEXT.hintPickTarget": {
+    "en": "{effect}: click the {kinds} to animate · Esc to cancel",
+    "he": "{effect}: לחצו על ה{kinds} להנפשה · Esc לביטול"
+  },
+  "BUILDER_TEXT.noticePickShape": {
+    "en": "Pick a shape, not a link.",
+    "he": "בחרו צורה, לא קשר."
+  },
+  "BUILDER_TEXT.noticeSecond": {
+    "en": "Pick a second shape, or press Esc to cancel.",
+    "he": "בחרו צורה שנייה, או לחצו Esc לביטול."
+  },
+  "BUILDER_TEXT.noticeFirst": {
+    "en": "Click the first shape, or press Esc to cancel.",
+    "he": "לחצו על הצורה הראשונה, או לחצו Esc לביטול."
+  },
+  "BUILDER_TEXT.noticeKinds": {
+    "en": "Pick {kinds} for this animation.",
+    "he": "בחרו {kinds} להנפשה הזו."
+  },
+  "BUILDER_TEXT.layoutOutline": {
+    "en": "\"{a}\" sits on the outline of \"{b}\"",
+    "he": "\"{a}\" יושב על קו המתאר של \"{b}\""
+  },
+  "BUILDER_TEXT.layoutCrossed": {
+    "en": "\"{a}\" is crossed by the line \"{b}\"",
+    "he": "\"{a}\" נחתך בידי הקו \"{b}\""
+  },
+  "BUILDER_TEXT.layoutOverlap": {
+    "en": "\"{a}\" overlaps \"{b}\"",
+    "he": "\"{a}\" חופף את \"{b}\""
+  },
+  "BUILDER_TEXT.layoutOutside": {
+    "en": "\"{a}\" leaves the viewBox",
+    "he": "\"{a}\" יוצא מגבולות הבד"
+  },
+  "BUILDER_TEXT.layoutPartlyOutside": {
+    "en": "\"{a}\" partly leaves the viewBox",
+    "he": "\"{a}\" יוצא חלקית מגבולות הבד"
+  },
+  "BUILDER_TEXT.layoutOrphan": {
+    "en": "\"{a}\" has a missing parent or link end",
+    "he": "\"{a}\" חסר הורה או קצה קישור"
+  },
+  "BUILDER_TEXT.cvBringInside": {
+    "en": "Bring inside",
+    "he": "החזרה לתוך הבד"
+  },
+  "BUILDER_TEXT.nameArrow": {
+    "en": "Arrow {from} to {to}",
+    "he": "חץ {from} אל {to}"
+  },
+  "BUILDER_TEXT.nameLabelled": {
+    "en": "{shape} “{label}”",
+    "he": "{shape} “{label}”"
+  },
+  "BUILDER_TEXT.nameIdentified": {
+    "en": "{shape} ({id})",
+    "he": "{shape} ({id})"
+  },
+  "BUILDER_TEXT.shapeCircle": {
+    "en": "Circle",
+    "he": "עיגול"
+  },
+  "BUILDER_TEXT.shapeOval": {
+    "en": "Oval",
+    "he": "אליפסה"
+  },
+  "BUILDER_TEXT.shapeBox": {
+    "en": "Box",
+    "he": "תיבה"
+  },
+  "BUILDER_TEXT.shapeRounded": {
+    "en": "Rounded box",
+    "he": "תיבה מעוגלת"
+  },
+  "BUILDER_TEXT.shapeDiamond": {
+    "en": "Diamond",
+    "he": "מעוין"
+  },
+  "BUILDER_TEXT.shapeTriangle": {
+    "en": "Triangle",
+    "he": "משולש"
+  },
+  "BUILDER_TEXT.shapeLine": {
+    "en": "Line",
+    "he": "קו"
+  },
+  "BUILDER_TEXT.shapeArrow": {
+    "en": "Arrow",
+    "he": "חץ"
+  },
+  "BUILDER_TEXT.shapeText": {
+    "en": "Text",
+    "he": "טקסט"
+  },
+  "BUILDER_TEXT.shapeHeading": {
+    "en": "Heading",
+    "he": "כותרת"
+  },
+  "BUILDER_TEXT.shapeCaption": {
+    "en": "Caption",
+    "he": "כיתוב"
+  },
+  "BUILDER_TEXT.shapeNote": {
+    "en": "Note",
+    "he": "הערה"
+  },
+  "BUILDER_TEXT.shapeUnknown": {
+    "en": "Shape",
+    "he": "צורה"
+  },
+  "BUILDER_TEXT.cvBuilderSettings": {
+    "en": "Builder settings",
+    "he": "הגדרות הבונה"
+  },
+  "BUILDER_TEXT.cvHistory": {
+    "en": "History",
+    "he": "היסטוריה"
+  },
+  "BUILDER_TEXT.cvAdd": {
+    "en": "Add",
+    "he": "הוספה"
+  },
+  "BUILDER_TEXT.cvView": {
+    "en": "View",
+    "he": "תצוגה"
+  },
+  "BUILDER_TEXT.cvGridNone": {
+    "en": "No grid",
+    "he": "ללא רשת"
+  },
+  "BUILDER_TEXT.cvGridLines": {
+    "en": "Grid lines",
+    "he": "קווי רשת"
+  },
+  "BUILDER_TEXT.cvGridDots": {
+    "en": "Dot grid",
+    "he": "רשת נקודות"
+  },
+  "BUILDER_TEXT.cvDocument": {
+    "en": "Document",
+    "he": "מסמך"
+  },
+  "BUILDER_TEXT.cvTool": {
+    "en": "Tool",
+    "he": "כלי"
+  },
+  "BUILDER_TEXT.cvLayout": {
+    "en": "Layout",
+    "he": "פריסה"
+  },
+  "BUILDER_TEXT.cvUndo": {
+    "en": "Undo",
+    "he": "ביטול"
+  },
+  "BUILDER_TEXT.cvRedo": {
+    "en": "Redo",
+    "he": "חזרה"
+  },
+  "BUILDER_TEXT.cvSelect": {
+    "en": "Select",
+    "he": "בחירה"
+  },
+  "BUILDER_TEXT.cvArrow": {
+    "en": "Arrow",
+    "he": "חץ"
+  },
+  "BUILDER_TEXT.cvAnimate": {
+    "en": "Animate",
+    "he": "אנימציה"
+  },
+  "BUILDER_TEXT.cvAnimateSelected": {
+    "en": "Animate the selected object (A)",
+    "he": "הפעלת אנימציה לאובייקט הנבחר (A)"
+  },
+  "BUILDER_TEXT.cvSelectToAnimate": {
+    "en": "Select an object on the canvas first, then animate it",
+    "he": "בחרו קודם אובייקט בקנבס, ואז הפעילו עליו אנימציה"
+  },
+  "BUILDER_TEXT.cvBuildLarge": {
+    "en": "Build large",
+    "he": "בנייה מוגדלת"
+  },
+  "BUILDER_TEXT.cvSplit": {
+    "en": "Split",
+    "he": "פיצול"
+  },
+  "BUILDER_TEXT.cvPreviewLarge": {
+    "en": "Preview large",
+    "he": "תצוגה מקדימה מוגדלת"
+  },
+  "BUILDER_TEXT.cvSnapToGrid": {
+    "en": "Snap to grid",
+    "he": "הצמדה לרשת"
+  },
+  "BUILDER_TEXT.cvProject": {
+    "en": "Project",
+    "he": "פרויקט"
+  },
+  "BUILDER_TEXT.cvSectionLocal": {
+    "en": "Local spec",
+    "he": "מפרט מקומי"
+  },
+  "BUILDER_TEXT.cvSectionPublish": {
+    "en": "Publish to course",
+    "he": "פרסום לקורס"
+  },
+  "BUILDER_TEXT.cvSectionTransfer": {
+    "en": "Import / export",
+    "he": "ייבוא / ייצוא"
+  },
+  "BUILDER_TEXT.cvKeyboardShortcuts": {
+    "en": "Keyboard shortcuts",
+    "he": "קיצורי מקלדת"
+  },
+  "BUILDER_TEXT.cvAppearsAtStep": {
+    "en": "appears step {n}",
+    "he": "מופיע בשלב {n}"
+  },
+  "BUILDER_TEXT.cvRemovedAtStep": {
+    "en": "removed at step {n}",
+    "he": "נמחק בשלב {n}"
+  },
+  "BUILDER_TEXT.cvCanvasLabel": {
+    "en": "Builder canvas",
+    "he": "קנבס הבונה"
+  },
+  "BUILDER_TEXT.cvZoomHint": {
+    "en": "Wheel zooms, middle button drags",
+    "he": "הגלגל מגדיל ומקטין, לחצן האמצע גורר"
+  },
+  "BUILDER_TEXT.cvZoomReadout": {
+    "en": "Zoom {percent}%",
+    "he": "זום {percent}%"
+  },
+  "BUILDER_TEXT.cvOutsideStage": {
+    "en": "! outside the real stage",
+    "he": "! מחוץ לבמה האמיתית"
+  },
+  "BUILDER_TEXT.cvLayoutNotes": {
+    "en": "Layout notes",
+    "he": "הערות על הפריסה"
+  },
+  "BUILDER_TEXT.cvCanvasActions": {
+    "en": "Canvas actions",
+    "he": "פעולות על הקנבס"
+  },
+  "BUILDER_TEXT.cvAddText": {
+    "en": "Add text",
+    "he": "הוספת טקסט"
+  },
+  "BUILDER_TEXT.cvAddCaption": {
+    "en": "Add caption",
+    "he": "הוספת כיתוב"
+  },
+  "BUILDER_TEXT.cvInsertObject": {
+    "en": "Insert object…",
+    "he": "הוספת אובייקט…"
+  },
+  "BUILDER_TEXT.cvRemoveLabel": {
+    "en": "Remove label",
+    "he": "הסרת תווית"
+  },
+  "BUILDER_TEXT.cvAddLabel": {
+    "en": "Add label",
+    "he": "הוספת תווית"
+  },
+  "BUILDER_TEXT.cvRename": {
+    "en": "Rename",
+    "he": "שינוי שם"
+  },
+  "BUILDER_TEXT.cvConnect": {
+    "en": "Connect",
+    "he": "חיבור"
+  },
+  "BUILDER_TEXT.cvDuplicate": {
+    "en": "Duplicate",
+    "he": "שכפול"
+  },
+  "BUILDER_TEXT.cvDelete": {
+    "en": "Delete",
+    "he": "מחיקה"
+  },
+  "BUILDER_TEXT.cvReverse": {
+    "en": "Reverse",
+    "he": "היפוך כיוון"
+  },
+  "BUILDER_TEXT.cvStraight": {
+    "en": "Straight",
+    "he": "ישר"
+  },
+  "BUILDER_TEXT.cvElbow": {
+    "en": "Elbow",
+    "he": "זוויתי"
+  },
+  "BUILDER_TEXT.cvCurve": {
+    "en": "Curve",
+    "he": "מעוקל"
+  },
+  "BUILDER_TEXT.cvShapeTools": {
+    "en": "Shape tools",
+    "he": "כלי צורה"
+  },
+  "BUILDER_TEXT.cvArrowTools": {
+    "en": "Arrow tools",
+    "he": "כלי חץ"
+  },
+  "BUILDER_TEXT.cvRoute": {
+    "en": "Route",
+    "he": "מסלול"
+  },
+  "BUILDER_TEXT.cvArrowHead": {
+    "en": "Arrow head",
+    "he": "ראש חץ"
+  },
+  "BUILDER_TEXT.cvArrowLabel": {
+    "en": "Arrow label",
+    "he": "תווית החץ"
+  },
+  "BUILDER_TEXT.cvLabelPlaceholder": {
+    "en": "label",
+    "he": "תווית"
+  },
+  "BUILDER_TEXT.cvColourName": {
+    "en": "Colour {name}",
+    "he": "צבע {name}"
+  },
+  "BUILDER_TEXT.cvBlue": {
+    "en": "Blue",
+    "he": "כחול"
+  },
+  "BUILDER_TEXT.cvPurple": {
+    "en": "Purple",
+    "he": "סגול"
+  },
+  "BUILDER_TEXT.cvGreen": {
+    "en": "Green",
+    "he": "ירוק"
+  },
+  "BUILDER_TEXT.cvOrange": {
+    "en": "Orange",
+    "he": "כתום"
+  },
+  "BUILDER_TEXT.cvPink": {
+    "en": "Pink",
+    "he": "ורוד"
+  },
+  "BUILDER_TEXT.cvAddAndConnect": {
+    "en": "Add a shape and connect",
+    "he": "הוספת צורה וחיבור"
+  },
+  "BUILDER_TEXT.cvAddShapeHere": {
+    "en": "Add a new shape here and connect",
+    "he": "הוספת צורה חדשה כאן וחיבור"
+  },
+  "BUILDER_TEXT.cvCircle": {
+    "en": "Circle",
+    "he": "עיגול"
+  },
+  "BUILDER_TEXT.cvBox": {
+    "en": "Box",
+    "he": "תיבה"
+  },
+  "BUILDER_TEXT.cvDiamond": {
+    "en": "Diamond",
+    "he": "מעוין"
+  },
+  "BUILDER_TEXT.cvShapeText": {
+    "en": "Shape text",
+    "he": "טקסט הצורה"
+  },
+  "BUILDER_TEXT.cvLivePreview": {
+    "en": "Live preview",
+    "he": "תצוגה מקדימה חיה"
+  },
+  "BUILDER_TEXT.cvPopOut": {
+    "en": "Pop out",
+    "he": "פתיחה בחלון נפרד"
+  },
+  "BUILDER_TEXT.cvShortcutSelectTool": {
+    "en": "Select tool",
+    "he": "כלי הבחירה"
+  },
+  "BUILDER_TEXT.cvShortcutArrowTool": {
+    "en": "Arrow tool",
+    "he": "כלי החץ"
+  },
+  "BUILDER_TEXT.cvShortcutAddShapes": {
+    "en": "Add circle, box, diamond, text, heading, caption, note, custom",
+    "he": "הוספת עיגול, תיבה, מעוין, טקסט, כותרת, כיתוב, הערה, מותאם אישית"
+  },
+  "BUILDER_TEXT.cvShortcutAnimate": {
+    "en": "Add an animation",
+    "he": "הוספת אנימציה"
+  },
+  "BUILDER_TEXT.cvShortcutNewStep": {
+    "en": "New step",
+    "he": "שלב חדש"
+  },
+  "BUILDER_TEXT.cvShortcutPrevNext": {
+    "en": "Previous or next step",
+    "he": "השלב הקודם או הבא"
+  },
+  "BUILDER_TEXT.cvShortcutPlayPause": {
+    "en": "Play or pause the preview",
+    "he": "הפעלה או השהיה של התצוגה המקדימה"
+  },
+  "BUILDER_TEXT.cvShortcutDelete": {
+    "en": "Delete selected",
+    "he": "מחיקת הנבחר"
+  },
+  "BUILDER_TEXT.cvShortcutEdit": {
+    "en": "Edit selected",
+    "he": "עריכת הנבחר"
+  },
+  "BUILDER_TEXT.cvShortcutCancel": {
+    "en": "Cancel and go back to Select",
+    "he": "ביטול וחזרה לכלי הבחירה"
+  },
+  "BUILDER_TEXT.cvShortcutUndoRedo": {
+    "en": "Undo or redo",
+    "he": "ביטול או חזרה"
+  },
+  "BUILDER_TEXT.cvShortcutDuplicate": {
+    "en": "Duplicate selected",
+    "he": "שכפול הנבחר"
+  },
+  "BUILDER_TEXT.cvShortcutNudge": {
+    "en": "Nudge selected, Shift for 10",
+    "he": "הזזת הנבחר, Shift להזזה של 10"
+  },
+  "BUILDER_TEXT.cvClose": {
+    "en": "Close",
+    "he": "סגירה"
+  },
+  "BUILDER_TEXT.edEditShape": {
+    "en": "Edit shape",
+    "he": "עריכת צורה"
+  },
+  "BUILDER_TEXT.edName": {
+    "en": "Name",
+    "he": "שם"
+  },
+  "BUILDER_TEXT.edText": {
+    "en": "Text",
+    "he": "טקסט"
+  },
+  "BUILDER_TEXT.edColour": {
+    "en": "Colour",
+    "he": "צבע"
+  },
+  "BUILDER_TEXT.edWidth": {
+    "en": "Width",
+    "he": "רוחב"
+  },
+  "BUILDER_TEXT.edHeight": {
+    "en": "Height",
+    "he": "גובה"
+  },
+  "BUILDER_TEXT.edDone": {
+    "en": "Done",
+    "he": "סיום"
+  },
+  "BUILDER_TEXT.edFill": {
+    "en": "Fill",
+    "he": "מילוי"
+  },
+  "BUILDER_TEXT.edFillStrength": {
+    "en": "Fill strength",
+    "he": "עוצמת מילוי"
+  },
+  "BUILDER_TEXT.edOutline": {
+    "en": "Outline",
+    "he": "קו מתאר"
+  },
+  "BUILDER_TEXT.edLineColor": {
+    "en": "Color",
+    "he": "צבע"
+  },
+  "BUILDER_TEXT.edThickness": {
+    "en": "Thickness",
+    "he": "עובי"
+  },
+  "BUILDER_TEXT.edOutlineWidth": {
+    "en": "Outline width",
+    "he": "עובי קו מתאר"
+  },
+  "BUILDER_TEXT.edLine": {
+    "en": "Line",
+    "he": "קו"
+  },
+  "BUILDER_TEXT.edOutlineStyle": {
+    "en": "Outline style",
+    "he": "סגנון קו מתאר"
+  },
+  "BUILDER_TEXT.edSolid": {
+    "en": "Solid",
+    "he": "רציף"
+  },
+  "BUILDER_TEXT.edDashed": {
+    "en": "Dashed",
+    "he": "מקווקו"
+  },
+  "BUILDER_TEXT.edDotted": {
+    "en": "Dotted",
+    "he": "מנוקד"
+  },
+  "BUILDER_TEXT.edAccent": {
+    "en": "Accent",
+    "he": "הדגשה"
+  },
+  "BUILDER_TEXT.edTextColor": {
+    "en": "Text color",
+    "he": "צבע טקסט"
+  },
+  "BUILDER_TEXT.edTextSize": {
+    "en": "Text size",
+    "he": "גודל טקסט"
+  },
+  "BUILDER_TEXT.edSmall": {
+    "en": "Small",
+    "he": "קטן"
+  },
+  "BUILDER_TEXT.edMedium": {
+    "en": "Medium",
+    "he": "בינוני"
+  },
+  "BUILDER_TEXT.edLarge": {
+    "en": "Large",
+    "he": "גדול"
+  },
+  "BUILDER_TEXT.edHuge": {
+    "en": "Huge",
+    "he": "ענק"
+  },
+  "BUILDER_TEXT.edSize": {
+    "en": "Size",
+    "he": "גודל"
+  },
+  "BUILDER_TEXT.edNone": {
+    "en": "none",
+    "he": "ללא"
+  },
+  "BUILDER_TEXT.edCustomColor": {
+    "en": "custom color",
+    "he": "צבע מותאם אישית"
+  },
+  "BUILDER_TEXT.edColourBlue": {
+    "en": "Blue",
+    "he": "כחול"
+  },
+  "BUILDER_TEXT.edColourPurple": {
+    "en": "Purple",
+    "he": "סגול"
+  },
+  "BUILDER_TEXT.edColourCyan": {
+    "en": "Cyan",
+    "he": "טורקיז"
+  },
+  "BUILDER_TEXT.edColourGreen": {
+    "en": "Green",
+    "he": "ירוק"
+  },
+  "BUILDER_TEXT.edColourYellow": {
+    "en": "Yellow",
+    "he": "צהוב"
+  },
+  "BUILDER_TEXT.edColourOrange": {
+    "en": "Orange",
+    "he": "כתום"
+  },
+  "BUILDER_TEXT.edColourPink": {
+    "en": "Pink",
+    "he": "ורוד"
+  },
+  "BUILDER_TEXT.edColourRed": {
+    "en": "Red",
+    "he": "אדום"
+  },
+  "BUILDER_TEXT.edColourAmber": {
+    "en": "Amber",
+    "he": "ענבר"
+  },
+  "BUILDER_TEXT.edColourWhite": {
+    "en": "White",
+    "he": "לבן"
+  },
+  "BUILDER_TEXT.edChooseAnimation": {
+    "en": "Choose an animation",
+    "he": "בחירת אנימציה"
+  },
+  "BUILDER_TEXT.edFor": {
+    "en": "for",
+    "he": "עבור"
+  },
+  "BUILDER_TEXT.edOr": {
+    "en": "or",
+    "he": "או"
+  },
+  "BUILDER_TEXT.edAnyObject": {
+    "en": "any object",
+    "he": "כל אובייקט"
+  },
+  "BUILDER_TEXT.edKindShapes": {
+    "en": "shapes",
+    "he": "צורות"
+  },
+  "BUILDER_TEXT.edKindBoxes": {
+    "en": "boxes",
+    "he": "תיבות"
+  },
+  "BUILDER_TEXT.edKindArrows": {
+    "en": "arrows",
+    "he": "חצים"
+  },
+  "BUILDER_TEXT.edKindLines": {
+    "en": "lines",
+    "he": "קווים"
+  },
+  "BUILDER_TEXT.edKindText": {
+    "en": "text",
+    "he": "טקסט"
+  },
+  "BUILDER_TEXT.edEffectFill": {
+    "en": "Fill",
+    "he": "מילוי"
+  },
+  "BUILDER_TEXT.edEffectFillDesc": {
+    "en": "The shape fills with colour.",
+    "he": "הצורה מתמלאת בצבע."
+  },
+  "BUILDER_TEXT.edEffectReveal": {
+    "en": "Reveal",
+    "he": "הופעה"
+  },
+  "BUILDER_TEXT.edEffectRevealDesc": {
+    "en": "The shape fades in.",
+    "he": "הצורה מופיעה בהדרגה."
+  },
+  "BUILDER_TEXT.edEffectRemove": {
+    "en": "Remove",
+    "he": "הסרה"
+  },
+  "BUILDER_TEXT.edEffectRemoveDesc": {
+    "en": "The shape fades out and stays gone.",
+    "he": "הצורה נעלמת בהדרגה ונשארת נעלמת."
+  },
+  "BUILDER_TEXT.edEffectDraw": {
+    "en": "Draw in",
+    "he": "ציור"
+  },
+  "BUILDER_TEXT.edEffectDrawDesc": {
+    "en": "The arrow draws from start to end.",
+    "he": "החץ מצטייר מהתחלה ועד סוף."
+  },
+  "BUILDER_TEXT.edEffectTravel": {
+    "en": "Travel",
+    "he": "מסע"
+  },
+  "BUILDER_TEXT.edEffectTravelDesc": {
+    "en": "A token rides along the arrow.",
+    "he": "אסימון נע לאורך החץ."
+  },
+  "BUILDER_TEXT.edEffectFlow": {
+    "en": "Flow",
+    "he": "זרימה"
+  },
+  "BUILDER_TEXT.edEffectFlowDesc": {
+    "en": "Dashes stream along the arrow.",
+    "he": "קווים מקווקווים זורמים לאורך החץ."
+  },
+  "BUILDER_TEXT.edEffectSpark": {
+    "en": "Zigzag",
+    "he": "זיגזג"
+  },
+  "BUILDER_TEXT.edEffectSparkDesc": {
+    "en": "A zigzag spark runs along the arrow.",
+    "he": "ניצוץ זיגזג רץ לאורך החץ."
+  },
+  "BUILDER_TEXT.edEffectFrame": {
+    "en": "Zigzag outline",
+    "he": "קו מתאר זיגזג"
+  },
+  "BUILDER_TEXT.edEffectFrameDesc": {
+    "en": "A marching dashed frame, like the swap marker.",
+    "he": "מסגרת מקווקוות נעה, כמו סמן ההחלפה."
+  },
+  "BUILDER_TEXT.edEffectPulse": {
+    "en": "Pulse",
+    "he": "פעימה"
+  },
+  "BUILDER_TEXT.edEffectPulseDesc": {
+    "en": "The shape swells and settles.",
+    "he": "הצורה מתנפחת ומתייצבת."
+  },
+  "BUILDER_TEXT.edEffectGlow": {
+    "en": "Glow",
+    "he": "זוהר"
+  },
+  "BUILDER_TEXT.edEffectGlowDesc": {
+    "en": "Glows until the step ends or you calm it down.",
+    "he": "זוהרת עד סוף השלב או עד שתכבו אותה."
+  },
+  "BUILDER_TEXT.edEffectSweep": {
+    "en": "Highlight sweep",
+    "he": "סריקת הדגשה"
+  },
+  "BUILDER_TEXT.edEffectSweepDesc": {
+    "en": "A bar of light crosses the shape from left to right.",
+    "he": "פס אור חוצה את הצורה משמאל לימין."
+  },
+  "BUILDER_TEXT.edEffectCallout": {
+    "en": "Callout",
+    "he": "הערת הדגשה"
+  },
+  "BUILDER_TEXT.edEffectCalloutDesc": {
+    "en": "A short note appears beside the shape for the step.",
+    "he": "הערה קצרה מופיעה לצד הצורה לאורך השלב."
+  },
+  "BUILDER_TEXT.edEffectFade": {
+    "en": "Fade",
+    "he": "דהייה"
+  },
+  "BUILDER_TEXT.edEffectFadeDesc": {
+    "en": "The object dims to make the rest stand out.",
+    "he": "האובייקט מתעמעם כדי שהשאר יבלטו."
+  },
+  "BUILDER_TEXT.edEffectTint": {
+    "en": "Colour change",
+    "he": "שינוי צבע"
+  },
+  "BUILDER_TEXT.edEffectTintDesc": {
+    "en": "The object switches to another colour.",
+    "he": "האובייקט עובר לצבע אחר."
+  },
+  "BUILDER_TEXT.edEffectOutline": {
+    "en": "Emphasise outline",
+    "he": "הדגשת קו מתאר"
+  },
+  "BUILDER_TEXT.edEffectOutlineDesc": {
+    "en": "The outline thickens.",
+    "he": "קו המתאר מתעבה."
+  },
+  "BUILDER_TEXT.edEffectSoften": {
+    "en": "Soft highlight",
+    "he": "הדגשה רכה"
+  },
+  "BUILDER_TEXT.edEffectSoftenDesc": {
+    "en": "The fill brightens softly.",
+    "he": "המילוי מתבהר בעדינות."
+  },
+  "BUILDER_TEXT.edEffectMove": {
+    "en": "Move",
+    "he": "הזזה"
+  },
+  "BUILDER_TEXT.edEffectMoveDesc": {
+    "en": "The object slides to a new spot.",
+    "he": "האובייקט מחליק למיקום חדש."
+  },
+  "BUILDER_TEXT.edEffectGrow": {
+    "en": "Grow or shrink",
+    "he": "הגדלה או הקטנה"
+  },
+  "BUILDER_TEXT.edEffectGrowDesc": {
+    "en": "The object grows to a larger size.",
+    "he": "האובייקט גדל לגודל גדול יותר."
+  },
+  "BUILDER_TEXT.edEffectBounce": {
+    "en": "Bounce",
+    "he": "קפיצה"
+  },
+  "BUILDER_TEXT.edEffectBounceDesc": {
+    "en": "The object hops up and settles back.",
+    "he": "האובייקט קופץ למעלה וחוזר למקומו."
+  },
+  "BUTTONS_TEXT.launchModel": {
+    "en": "Launch Model",
+    "he": "הפעל מודל"
+  },
+  "BUTTONS_TEXT.retryLoading": {
+    "en": "Retry Loading",
+    "he": "נסה שוב"
+  },
+  "BUTTONS_TEXT.close": {
+    "en": "Close",
+    "he": "סגור"
+  },
+  "BUTTONS_TEXT.sidebar": {
+    "en": "Sidebar",
+    "he": "תפריט צד"
+  },
+  "BUTTONS_TEXT.patchNotes": {
+    "en": "Patch Notes",
+    "he": "עדכונים"
+  },
+  "BUTTONS_TEXT.aiAssistant": {
+    "en": "AI Assistant",
+    "he": "עוזר AI"
+  },
+  "COMMON_TEXT.save": {
+    "en": "Save",
+    "he": "שמור"
+  },
+  "COMMON_TEXT.cancel": {
+    "en": "Cancel",
+    "he": "ביטול"
+  },
+  "COMMON_TEXT.close": {
+    "en": "Close",
+    "he": "סגור"
+  },
+  "COMMON_TEXT.apply": {
+    "en": "Apply",
+    "he": "החל"
+  },
+  "COMMON_TEXT.delete": {
+    "en": "Delete",
+    "he": "מחק"
+  },
+  "COMMON_TEXT.edit": {
+    "en": "Edit",
+    "he": "ערוך"
+  },
+  "COMMON_TEXT.back": {
+    "en": "Back",
+    "he": "חזור"
+  },
+  "COMMON_TEXT.next": {
+    "en": "Next",
+    "he": "הבא"
+  },
+  "COMMON_TEXT.confirm": {
+    "en": "Confirm",
+    "he": "אישור"
+  },
+  "COMMON_TEXT.loading": {
+    "en": "Loading...",
+    "he": "טוען..."
+  },
+  "COMMON_TEXT.error": {
+    "en": "Error",
+    "he": "שגיאה"
+  },
+  "COMMON_TEXT.success": {
+    "en": "Success",
+    "he": "הצלחה"
+  },
+  "COMMON_TEXT.retry": {
+    "en": "Retry",
+    "he": "נסה שוב"
+  },
+  "COMMON_TEXT.search": {
+    "en": "Search...",
+    "he": "חיפוש..."
+  },
+  "COMMON_TEXT.empty": {
+    "en": "(empty)",
+    "he": "(ריק)"
+  },
+  "COMMON_TEXT.networkError": {
+    "en": "Network Error loading content",
+    "he": "שגיאת תקשורת בטעינת התוכן"
+  },
+  "COMMON_TEXT.tryAgain": {
+    "en": "Try Again",
+    "he": "נסה שוב"
+  },
+  "COMMON_TEXT.backToHub": {
+    "en": "Back to Hub",
+    "he": "חזרה לדף הבית"
+  },
+  "COMMON_TEXT.canvasRenderError": {
+    "en": "This canvas failed to render.",
+    "he": "שגיאה בטעינת הקנבס"
+  },
+  "HEADERS_TEXT.week1Header": {
+    "en": "Week 1: Computational Models",
+    "he": "שבוע 1: מודלים חישוביים"
+  },
+  "HEADERS_TEXT.week2Header": {
+    "en": "Week 2: Turing Machines & Reductions",
+    "he": "שבוע 2: מכונות טורינג ורדוקציות"
+  },
+  "HEADERS_TEXT.sidebarBrandTitle": {
+    "en": "Complexity Theory",
+    "he": "תורת הסיבוכיות"
+  },
+  "HEADERS_TEXT.mainHeaderHome": {
+    "en": "Complexity & Computability",
+    "he": "סיבוכיות וחישוביות"
+  },
+  "HEADERS_TEXT.mainHeaderDefault": {
+    "en": "Interactive Course Portal",
+    "he": "פורטל קורס אינטראקטיבי"
+  },
+  "HOME_TEXT.title": {
+    "en": "Home Dashboard",
+    "he": "דף הבית"
+  },
+  "HOME_TEXT.welcomeTitle": {
+    "en": "Welcome to the Computability & Complexity Course Website",
+    "he": "ברוכים הבאים לאתר האינטראקטיבי של קורס חישוביות וסיבוכיות"
+  },
+  "HOME_TEXT.welcomeSubtitle": {
+    "en": "An interactive learning platform for step-by-step visualization of Turing machines, time and space hierarchy theorems, and polynomial time reductions.",
+    "he": "פלטפורמת למידה אינטראקטיבית להמחשה ויזואלית של מכונות טורינג, משפטי היררכיה, ורדוקציות פולינומיאליות."
+  },
+  "HOME_TEXT.heroPlatformTag": {
+    "en": "Computability & Complexity Platform",
+    "he": "פלטפורמת חישוביות וסיבוכיות"
+  },
+  "HOME_TEXT.week1Title": {
+    "en": "Week 1 Topics & Visual Models",
+    "he": "שבוע 1: מבוא ונושאים אינטראקטיביים"
+  },
+  "HOME_TEXT.lectures": {
+    "en": "Lectures",
+    "he": "הרצאות"
+  },
+  "HOME_TEXT.practice": {
+    "en": "Practice",
+    "he": "תרגולים"
+  },
+  "HUB_TEXT.topics": {
+    "en": "topics",
+    "he": "נושאים"
+  },
+  "HUB_TEXT.addTopic": {
+    "en": "Add topic",
+    "he": "הוספת נושא"
+  },
+  "HUB_TEXT.coursesTitle": {
+    "en": "Courses",
+    "he": "קורסים"
+  },
+  "HUB_TEXT.coursesIntro": {
+    "en": "Pick a course to start.",
+    "he": "בחרו קורס כדי להתחיל."
+  },
+  "HUB_TEXT.platformTagline": {
+    "en": "Interactive Complexity Platform",
+    "he": "פלטפורמת חישוביות וסיבוכיות"
+  },
+  "HUB_TEXT.hubTitle": {
+    "en": "Course Hub & Learning Modules",
+    "he": "פורטל הקורסים ויחידות הלימוד"
+  },
+  "HUB_TEXT.hubSubtitle": {
+    "en": "Select a course to explore interactive visualizations, lectures, and practice modules.",
+    "he": "בחר קורס כדי לצפות בהדמיות אינטראקטיביות, הרצאות ותרגולים."
+  },
+  "HUB_TEXT.availableCourses": {
+    "en": "Available Courses",
+    "he": "קורסים זמינים"
+  },
+  "HUB_TEXT.exploreCourse": {
+    "en": "Explore Course",
+    "he": "כניסה לקורס"
+  },
+  "HUB_TEXT.weeksLabel": {
+    "en": "Weeks",
+    "he": "שבועות"
+  },
+  "HUB_TEXT.interactiveModules": {
+    "en": "Interactive Modules",
+    "he": "יחידות אינטראקטיביות"
+  },
+  "HUB_TEXT.coursesHub": {
+    "en": "Courses Hub",
+    "he": "מרכז הקורסים"
+  },
+  "HUB_TEXT.allCourses": {
+    "en": "All Courses",
+    "he": "כל הקורסים"
+  },
+  "HUB_TEXT.fieldTitle": {
+    "en": "Title",
+    "he": "כותרת"
+  },
+  "HUB_TEXT.fieldDescription": {
+    "en": "Description",
+    "he": "תיאור"
+  },
+  "HUB_TEXT.titlePlaceholder": {
+    "en": "e.g. Data Structures",
+    "he": "לדוגמה: מבני נתונים"
+  },
+  "HUB_TEXT.descriptionPlaceholder": {
+    "en": "A short description",
+    "he": "תיאור קצר"
+  },
+  "HUB_TEXT.apply": {
+    "en": "Apply",
+    "he": "החל"
+  },
+  "HUB_TEXT.saving": {
+    "en": "Saving…",
+    "he": "שומר…"
+  },
+  "HUB_TEXT.cancel": {
+    "en": "Cancel",
+    "he": "ביטול"
+  },
+  "HUB_TEXT.close": {
+    "en": "Close",
+    "he": "סגירה"
+  },
+  "HUB_TEXT.editCourse": {
+    "en": "Edit course",
+    "he": "עריכת קורס"
+  },
+  "HUB_TEXT.editSection": {
+    "en": "Edit section",
+    "he": "עריכת פרק"
+  },
+  "HUB_TEXT.editTopic": {
+    "en": "Edit topic",
+    "he": "עריכת נושא"
+  },
+  "HUB_TEXT.courseIdLabel": {
+    "en": "Course ID",
+    "he": "מזהה קורס"
+  },
+  "HUB_TEXT.sectionIdLabel": {
+    "en": "Section ID",
+    "he": "מזהה פרק"
+  },
+  "HUB_TEXT.topicIdLabel": {
+    "en": "Topic ID",
+    "he": "מזהה נושא"
+  },
+  "HUB_TEXT.idDerivedNote": {
+    "en": "derived automatically, can't be changed later.",
+    "he": "נוצר אוטומטית ולא ניתן לשינוי אחר כך."
+  },
+  "HUB_TEXT.idWaitingForTitle": {
+    "en": "(type a title above)",
+    "he": "(הקלידו כותרת למעלה)"
+  },
+  "HUB_TEXT.idCannotDerive": {
+    "en": "Couldn't derive an ID from the title. Use some English letters or digits in the title.",
+    "he": "לא ניתן ליצור מזהה מהכותרת. הוסיפו אותיות באנגלית או ספרות לכותרת."
+  },
+  "HUB_TEXT.idInvalid": {
+    "en": "The ID \"{id}\" is invalid. Use lowercase letters, numbers, hyphens and underscores, starting with a letter or number.",
+    "he": "המזהה \"{id}\" אינו תקין. השתמשו באותיות קטנות באנגלית, ספרות, מקפים וקווים תחתונים, והתחילו באות או בספרה."
+  },
+  "HUB_TEXT.exportCourse": {
+    "en": "Export course as ZIP",
+    "he": "ייצוא הקורס כקובץ ZIP"
+  },
+  "HUB_TEXT.importCourseFromZip": {
+    "en": "Import course from ZIP",
+    "he": "ייבוא קורס מקובץ ZIP"
+  },
+  "HUB_TEXT.deleteCourse": {
+    "en": "Delete course",
+    "he": "מחיקת הקורס"
+  },
+  "HUB_TEXT.deleteSection": {
+    "en": "Delete section",
+    "he": "מחיקת הפרק"
+  },
+  "HUB_TEXT.deleteTopic": {
+    "en": "Delete topic",
+    "he": "מחיקת הנושא"
+  },
+  "HUB_TEXT.exportPdfCourse": {
+    "en": "Export course as PDF",
+    "he": "ייצוא הקורס ל-PDF"
+  },
+  "HUB_TEXT.openStepMaker": {
+    "en": "Step maker",
+    "he": "יוצר צעדים"
+  },
+  "HUB_TEXT.exportPdfWeek": {
+    "en": "Export section as PDF",
+    "he": "ייצוא הפרק ל-PDF"
+  },
+  "HUB_TEXT.exportPdfSectionLabel": {
+    "en": "Section",
+    "he": "פרק"
+  },
+  "HUB_TEXT.exportingPdf": {
+    "en": "Preparing PDF… {done}/{total}",
+    "he": "מכין PDF… {done}/{total}"
+  },
+  "HUB_TEXT.exportPdfEmpty": {
+    "en": "No canvas topics to export.",
+    "he": "אין נושאי קנבס לייצוא."
+  },
+  "HUB_TEXT.exportPdfFailed": {
+    "en": "Could not load: {names}",
+    "he": "לא ניתן לטעון: {names}"
+  },
+  "HUB_TEXT.confirmDelete": {
+    "en": "Confirm?",
+    "he": "לאשר?"
+  },
+  "HUB_TEXT.addCourse": {
+    "en": "Add course",
+    "he": "הוספת קורס"
+  },
+  "HUB_TEXT.addSection": {
+    "en": "Add section",
+    "he": "הוספת פרק"
+  },
+  "HUB_TEXT.edit": {
+    "en": "Edit",
+    "he": "עריכה"
+  },
+  "HUB_TEXT.doneEditing": {
+    "en": "Done editing",
+    "he": "סיום עריכה"
+  },
+  "HUB_TEXT.noTopicsYet": {
+    "en": "No topics yet. Turn on editing to add one.",
+    "he": "עדיין אין נושאים. הפעילו עריכה כדי להוסיף."
+  },
+  "HUB_TEXT.deleteAnyway": {
+    "en": "Delete anyway",
+    "he": "למחוק בכל זאת"
+  },
+  "HUB_TEXT.sectionHasTopics": {
+    "en": "Section \"{name}\" still has topics. Delete it and all its topics anyway?",
+    "he": "לפרק \"{name}\" עדיין יש נושאים. למחוק אותו ואת כל הנושאים שלו?"
+  },
+  "HUB_TEXT.importCourseTitle": {
+    "en": "Import course",
+    "he": "ייבוא קורס"
+  },
+  "HUB_TEXT.importCourseHint": {
+    "en": "Upload a course ZIP exported from this app.",
+    "he": "העלו קובץ ZIP של קורס שיוצא מהאפליקציה הזו."
+  },
+  "HUB_TEXT.importing": {
+    "en": "Importing…",
+    "he": "מייבא…"
+  },
+  "HUB_TEXT.importAction": {
+    "en": "Import",
+    "he": "ייבוא"
+  },
+  "HUB_TEXT.importFailed": {
+    "en": "Import failed",
+    "he": "הייבוא נכשל"
+  },
+  "HUB_TEXT.topicKindCanvas": {
+    "en": "Canvas",
+    "he": "קנבס"
+  },
+  "HUB_TEXT.topicKindFile": {
+    "en": "Document",
+    "he": "מסמך"
+  },
+  "HUB_TEXT.topicTypeFileHint": {
+    "en": "Upload a PDF, Word, PowerPoint, Excel or CSV file",
+    "he": "העלאת מסמך הרצאה לשיעור"
+  },
+  "HUB_TEXT.fileTopicEmpty": {
+    "en": "This document topic has no file yet.",
+    "he": "לנושא המסמך הזה עדיין אין קובץ."
+  },
+  "HUB_TEXT.attachmentTypeRefused": {
+    "en": "This file type is not supported",
+    "he": "סוג הקובץ אינו נתמך"
+  },
+  "HUB_TEXT.attachFileChoose": {
+    "en": "Choose a file",
+    "he": "בחירת קובץ"
+  },
+  "HUB_TEXT.attachFileChange": {
+    "en": "Change file",
+    "he": "החלפת קובץ"
+  },
+  "HUB_TEXT.topicKindPlayer": {
+    "en": "Step player",
+    "he": "נגן שלבים"
+  },
+  "HUB_TEXT.funnyTopicName1": {
+    "en": "I was too lazy to name my topic",
+    "he": "הייתי עצלן מדי לתת שם לנושא שלי"
+  },
+  "HUB_TEXT.funnyTopicName2": {
+    "en": "Untitled, but make it fancy",
+    "he": "ללא כותרת, אבל בסטייל"
+  },
+  "HUB_TEXT.funnyTopicName3": {
+    "en": "The topic formerly known as nameless",
+    "he": "הנושא שפעם היה בלי שם"
+  },
+  "HUB_TEXT.funnyTopicName4": {
+    "en": "Final final v2 (really)",
+    "he": "סופי סופי v2 (באמת)"
+  },
+  "HUB_TEXT.funnyTopicName5": {
+    "en": "Name TBD, vibes confirmed",
+    "he": "השם ייקבע, האווירה אושרה"
+  },
+  "HUB_TEXT.funnyTopicName6": {
+    "en": "Somebody please name me",
+    "he": "מישהו בבקשה ייתן לי שם"
+  },
+  "HUB_TEXT.funnyTopicName7": {
+    "en": "Nameless topic, big energy",
+    "he": "נושא בלי שם, אנרגיה גדולה"
+  },
+  "HUB_TEXT.funnyTopicName8": {
+    "en": "I typed nothing and it still worked",
+    "he": "לא הקלדתי כלום וזה עדיין עבד"
+  },
+  "HUB_TEXT.attachmentsLabel": {
+    "en": "Lecture documents",
+    "he": "מסמכי הרצאה"
+  },
+  "HUB_TEXT.attachmentsEmpty": {
+    "en": "No documents yet. Attach PDF, Word or PowerPoint files.",
+    "he": "אין מסמכים עדיין. צרפו קבצי PDF, Word או PowerPoint."
+  },
+  "HUB_TEXT.attachmentAdd": {
+    "en": "Attach file",
+    "he": "צירוף קובץ"
+  },
+  "HUB_TEXT.attachmentRemove": {
+    "en": "Remove",
+    "he": "הסרה"
+  },
+  "HUB_TEXT.topicTypeLabel": {
+    "en": "Topic type",
+    "he": "סוג נושא"
+  },
+  "HUB_TEXT.topicTypeCanvasHint": {
+    "en": "Freeform diagrams, tables and formulas",
+    "he": "דיאגרמות חופשיות, טבלאות ונוסחאות"
+  },
+  "HUB_TEXT.topicTypePlayerHint": {
+    "en": "Interactive step-by-step animation",
+    "he": "אנימציה אינטראקטיבית שלב אחר שלב"
+  },
+  "HUB_TEXT.importArchiveTitle": {
+    "en": "Import archive",
+    "he": "ייבוא ארכיון"
+  },
+  "HUB_TEXT.importArchiveChoose": {
+    "en": "Choose ZIP file",
+    "he": "בחירת קובץ ZIP"
+  },
+  "HUB_TEXT.importKindCourse": {
+    "en": "Single Course",
+    "he": "קורס בודד"
+  },
+  "HUB_TEXT.importKindCourses": {
+    "en": "Course Bundle",
+    "he": "חבילת קורסים"
+  },
+  "HUB_TEXT.importKindBackup": {
+    "en": "Full Backup",
+    "he": "גיבוי מלא"
+  },
+  "HUB_TEXT.importConflictLabel": {
+    "en": "Conflict resolution",
+    "he": "פתרון התנגשויות"
+  },
+  "HUB_TEXT.importPolicySkip": {
+    "en": "Skip existing",
+    "he": "דלג על קיים"
+  },
+  "HUB_TEXT.importPolicyReplace": {
+    "en": "Replace existing",
+    "he": "החלף קיים"
+  },
+  "HUB_TEXT.importPolicyDuplicate": {
+    "en": "Import as copy (new ID)",
+    "he": "ייבא כעותק (מזהה חדש)"
+  },
+  "HUB_TEXT.importConfirm": {
+    "en": "Import now",
+    "he": "ייבוא עכשיו"
+  },
+  "HUB_TEXT.importPartialNone": {
+    "en": "No courses imported",
+    "he": "לא יובאו קורסים"
+  },
+  "HUB_TEXT.importErrorUnsupportedVersion": {
+    "en": "Archive format is newer than supported; please update the app",
+    "he": "גרסת פורמט הארכיון חדשה מהנתמכת; אנא עדכנו את האפליקציה"
+  },
+  "HUB_TEXT.importErrorCorrupt": {
+    "en": "File is not a valid zip archive or is corrupted",
+    "he": "הקובץ אינו ארכיון ZIP תקין או פגום"
+  },
+  "HUB_TEXT.importErrorUnsafe": {
+    "en": "Archive contains unsafe file paths",
+    "he": "הארכיון מכיל נתיבים לא בטוחים"
+  },
+  "HUB_TEXT.importErrorTooLarge": {
+    "en": "Archive size exceeds upload limits",
+    "he": "גודל הארכיון חורג מהמגבלה"
+  },
+  "MCP_TEXT.tabMcp": {
+    "en": "StudyTs-MCP",
+    "he": "StudyTs-MCP"
+  },
+  "MCP_TEXT.tabAiProvider": {
+    "en": "AI Provider",
+    "he": "ספק AI"
+  },
+  "MCP_TEXT.mcpTitle": {
+    "en": "StudyTs-MCP Daemon",
+    "he": "דמון StudyTs-MCP"
+  },
+  "MCP_TEXT.mcpSubtitle": {
+    "en": "Unified local daemon connecting tools, database, and notebooks directly to the AI assistant.",
+    "he": "דמון מקומי מאוחד המחבר כלים, מסד נתונים ומחברות ישירות לעוזר ה-AI."
+  },
+  "MCP_TEXT.addServer": {
+    "en": "Add MCP Server",
+    "he": "הוסף שרת MCP"
+  },
+  "MCP_TEXT.serverName": {
+    "en": "Server Name",
+    "he": "שם השרת"
+  },
+  "MCP_TEXT.command": {
+    "en": "Command",
+    "he": "פקודה"
+  },
+  "MCP_TEXT.args": {
+    "en": "Arguments (space separated)",
+    "he": "ארגומנטים (מופרדים ברווח)"
+  },
+  "MCP_TEXT.autoStart": {
+    "en": "Auto-start with backend",
+    "he": "הפעל אוטומטית עם השרת"
+  },
+  "MCP_TEXT.statusConnected": {
+    "en": "Connected",
+    "he": "מחובר"
+  },
+  "MCP_TEXT.statusConnecting": {
+    "en": "Connecting...",
+    "he": "מתחבר..."
+  },
+  "MCP_TEXT.statusStopped": {
+    "en": "Stopped",
+    "he": "מופסק"
+  },
+  "MCP_TEXT.statusError": {
+    "en": "Error",
+    "he": "שגיאה"
+  },
+  "MCP_TEXT.start": {
+    "en": "Start",
+    "he": "הפעל"
+  },
+  "MCP_TEXT.stop": {
+    "en": "Stop",
+    "he": "עצור"
+  },
+  "MCP_TEXT.ping": {
+    "en": "Ping",
+    "he": "בדיקת קשר"
+  },
+  "MCP_TEXT.delete": {
+    "en": "Delete",
+    "he": "מחק"
+  },
+  "MCP_TEXT.toolsCount": {
+    "en": "{count} tools available",
+    "he": "{count} כלים זמינים"
+  },
+  "MCP_TEXT.noServers": {
+    "en": "StudyTs-MCP is not running.",
+    "he": "StudyTs-MCP אינו פועל כעת."
+  },
+  "MCP_TEXT.tutorialBtn": {
+    "en": "How StudyTs-MCP Works",
+    "he": "איך StudyTs-MCP פועל"
+  },
+  "MCP_TEXT.tutorialTitle": {
+    "en": "StudyTs-MCP Architecture & Guide",
+    "he": "ארכיטקטורה ומדריך StudyTs-MCP"
+  },
+  "MCP_TEXT.step1Title": {
+    "en": "1. What is StudyTs-MCP?",
+    "he": "1. מה זה StudyTs-MCP?"
+  },
+  "MCP_TEXT.step1Desc": {
+    "en": "StudyTs-MCP is a unified local daemon running on your machine over stdio JSON-RPC. It connects the AI assistant directly to your local database, notebooks, and course content without cloud lock-in.",
+    "he": "StudyTs-MCP הוא דמון מקומי מאוחד הפועל במחשבך מעל stdio JSON-RPC. הוא מחבר את עוזר ה-AI ישירות למסד הנתונים, למחברות ולתוכן הקורסים ללא תלות בענן."
+  },
+  "MCP_TEXT.step2Title": {
+    "en": "2. Unified Domains & Capabilities",
+    "he": "2. תחומי אחריות ויכולות"
+  },
+  "MCP_TEXT.step2Desc": {
+    "en": "StudyTs-MCP groups all 12 tools into 3 distinct domains: Research & Notebooks, SQLite Course Database, and Course Authoring.",
+    "he": "StudyTs-MCP מאגד את כל 12 הכלים תחת 3 תחומים: מחקר ומחברות, מסד נתוני קורסים ב-SQLite, ויצירת קורסים."
+  },
+  "MCP_TEXT.step3Title": {
+    "en": "3. Live Daemon Test",
+    "he": "3. בדיקת דמון חיה"
+  },
+  "MCP_TEXT.step3Desc": {
+    "en": "Run an instant, side-effect-free test query against the running StudyTs-MCP daemon.",
+    "he": "הרץ שאילתת בדיקה מיידית ונקייה מתופעות לוואי מול דמון StudyTs-MCP הפעיל."
+  },
+  "MCP_TEXT.testSnippetPlaceholder": {
+    "en": "Enter query or leave blank to test...",
+    "he": "הזן שאילתה או השאר ריק לבדיקה..."
+  },
+  "MCP_TEXT.testSendBtn": {
+    "en": "Run Daemon Test",
+    "he": "הרץ בדיקת דמון"
+  },
+  "MCP_TEXT.sending": {
+    "en": "Sending...",
+    "he": "שולח..."
+  },
+  "MCP_TEXT.testSuccess": {
+    "en": "StudyTs-MCP daemon responded successfully!",
+    "he": "דמון StudyTs-MCP הגיב בהצלחה!"
+  },
+  "MCP_TEXT.testFailed": {
+    "en": "Test failed:",
+    "he": "הבדיקה נכשלה:"
+  },
+  "MCP_TEXT.close": {
+    "en": "Close",
+    "he": "סגור"
+  },
+  "MCP_TEXT.nextStep": {
+    "en": "Next",
+    "he": "הבא"
+  },
+  "MCP_TEXT.prevStep": {
+    "en": "Back",
+    "he": "חזור"
+  },
+  "MCP_TEXT.saveServer": {
+    "en": "Save Server",
+    "he": "שמור שרת"
+  },
+  "MCP_TEXT.cancel": {
+    "en": "Cancel",
+    "he": "ביטול"
+  },
+  "MCP_TEXT.activeTools": {
+    "en": "Active Tools",
+    "he": "כלים פעילים"
+  },
+  "MCP_TEXT.domainNotebooks": {
+    "en": "Research & Notebooks",
+    "he": "מחקר ומחברות"
+  },
+  "MCP_TEXT.domainDatabase": {
+    "en": "Course Database",
+    "he": "מסד נתוני קורסים"
+  },
+  "MCP_TEXT.domainAuthoring": {
+    "en": "Course Authoring",
+    "he": "יצירת ועריכת קורסים"
+  },
+  "MCP_TEXT.howItWorksTitle": {
+    "en": "How StudyTs-MCP Works",
+    "he": "איך StudyTs-MCP פועל"
+  },
+  "MCP_TEXT.howItWorksSubtitle": {
+    "en": "Local-first, model-agnostic MCP integration pipeline",
+    "he": "צינור אינטגרציה MCP מקומי ובלתי-תלוי במודל"
+  },
+  "MCP_TEXT.architectureClient": {
+    "en": "AI Chat Assistant",
+    "he": "עוזר שיחת AI"
+  },
+  "MCP_TEXT.architectureClientDesc": {
+    "en": "Web UI invokes tools during study & course authoring",
+    "he": "ממשק המשתמש מפעיל כלים בזמן לימוד ועריכת קורסים"
+  },
+  "MCP_TEXT.architectureGateway": {
+    "en": "Express API Gateway",
+    "he": "שער ה-API של Express"
+  },
+  "MCP_TEXT.architectureGatewayDesc": {
+    "en": "Routes /api/mcp calls over stdio JSON-RPC",
+    "he": "מנתב קריאות בנתיב /api/mcp מעל stdio ב-JSON-RPC"
+  },
+  "MCP_TEXT.architectureDaemon": {
+    "en": "StudyTs-MCP Daemon",
+    "he": "דמון StudyTs-MCP"
+  },
+  "MCP_TEXT.architectureDaemonDesc": {
+    "en": "Single background process managing 12 domain tools",
+    "he": "תהליך רקע יחיד המנהל 12 כלי תחום מקומיים"
+  },
+  "MCP_TEXT.architectureStorage": {
+    "en": "Local Database & Files",
+    "he": "מסד נתונים וקבצים מקומיים"
+  },
+  "MCP_TEXT.architectureStorageDesc": {
+    "en": "Read-only SQLite and atomic data/ file operations",
+    "he": "שאילתות SQLite לקריאה בלבד ושמירת קבצים אטומית ב-data/"
+  },
+  "PATCH_NOTES_TEXT.patchNotesTitle": {
+    "en": "Platform Updates & Patch Notes",
+    "he": "עדכוני מערכת ויומן גרסאות"
+  },
+  "PATCH_NOTES_TEXT.patchNotesVersion": {
+    "en": "Version 2.4.0",
+    "he": "גרסה 2.4.0"
+  },
+  "PATCH_NOTES_TEXT.patchNotesDesc": {
+    "en": "Interactive Canvas improvements, Nocturne theme integration, and Docker verification engine.",
+    "he": "שיפורי קנבס אינטראקטיבי, עיצוב Nocturne ומנוע אימות Docker."
+  },
+  "PLAYER_TEXT.activeStep": {
+    "en": "Active Step",
+    "he": "שלב נוכחי"
+  },
+  "PLAYER_TEXT.stepPlayer": {
+    "en": "Step Player",
+    "he": "נגן שלבים"
+  },
+  "PLAYER_TEXT.whatChanged": {
+    "en": "What changed",
+    "he": "מה השתנה"
+  },
+  "PLAYER_TEXT.why": {
+    "en": "Why",
+    "he": "מדוע"
+  },
+  "PLAYER_TEXT.speedLabel": {
+    "en": "Speed",
+    "he": "מהירות"
+  },
+  "PLAYER_TEXT.fullscreen": {
+    "en": "Fullscreen",
+    "he": "מסך מלא"
+  },
+  "PLAYER_TEXT.exitFullscreen": {
+    "en": "Exit Fullscreen",
+    "he": "יציאה ממסך מלא"
+  },
+  "PLAYER_TEXT.failedToLoad": {
+    "en": "Failed to load visual model",
+    "he": "טעינת המודל החזותי נכשלה"
+  },
+  "PLAYER_TEXT.reset": {
+    "en": "Reset",
+    "he": "איפוס"
+  },
+  "PLAYER_TEXT.previous": {
+    "en": "Previous",
+    "he": "הקודם"
+  },
+  "PLAYER_TEXT.next": {
+    "en": "Next",
+    "he": "הבא"
+  },
+  "PLAYER_TEXT.play": {
+    "en": "Play",
+    "he": "ניגון"
+  },
+  "PLAYER_TEXT.pause": {
+    "en": "Pause",
+    "he": "השהיה"
+  },
+  "PLAYER_TEXT.scrubber": {
+    "en": "Preview scrubber",
+    "he": "מחוון התצוגה המקדימה"
+  },
+  "PLAYER_TEXT.part": {
+    "en": "Part",
+    "he": "קטע"
+  },
+  "PLAYER_TEXT.partTitle": {
+    "en": "Play only a part of this step",
+    "he": "נגנו רק קטע מהשלב הזה"
+  },
+  "PLAYER_TEXT.loop": {
+    "en": "Loop",
+    "he": "חזרה"
+  },
+  "PLAYER_TEXT.loopTitle": {
+    "en": "Repeat the part",
+    "he": "חזרה על הקטע"
+  },
+  "PLAYER_TEXT.milliseconds": {
+    "en": "{value} ms",
+    "he": "{value} מ״ש"
+  },
+  "PLAYER_TEXT.seconds": {
+    "en": "{value}s",
+    "he": "{value} שנ׳"
+  },
+  "SETTINGS_TEXT.settingsTitle": {
+    "en": "Settings",
+    "he": "הגדרות"
+  },
+  "SETTINGS_TEXT.tabAppearance": {
+    "en": "Appearance & Theme",
+    "he": "עיצוב וערכת נושא"
+  },
+  "SETTINGS_TEXT.tabAi": {
+    "en": "AI Assistant",
+    "he": "עוזר AI"
+  },
+  "SETTINGS_TEXT.tabMcp": {
+    "en": "MCP Integrations",
+    "he": "חיבורי MCP"
+  },
+  "SETTINGS_TEXT.tabStorage": {
+    "en": "Storage & Data",
+    "he": "אחסון ונתונים"
+  },
+  "SETTINGS_TEXT.tabLogs": {
+    "en": "Logs & Diagnostics",
+    "he": "יומני מערכת ודיאגנוסטיקה"
+  },
+  "SETTINGS_TEXT.popoutLogs": {
+    "en": "Pop out to window",
+    "he": "פתח בחלון נפרד"
+  },
+  "SETTINGS_TEXT.dockLogs": {
+    "en": "Dock to settings",
+    "he": "החזר להגדרות"
+  },
+  "SETTINGS_TEXT.refreshLogs": {
+    "en": "Refresh",
+    "he": "רענן"
+  },
+  "SETTINGS_TEXT.autoRefreshLogs": {
+    "en": "Auto refresh",
+    "he": "רענון אוטומטי"
+  },
+  "SETTINGS_TEXT.autoScrollLogs": {
+    "en": "Auto-scroll",
+    "he": "גלילה אוטומטית"
+  },
+  "SETTINGS_TEXT.scrollToBottom": {
+    "en": "Scroll to bottom",
+    "he": "גלול לתחתית"
+  },
+  "SETTINGS_TEXT.copyLogs": {
+    "en": "Copy",
+    "he": "העתק"
+  },
+  "SETTINGS_TEXT.copiedLogs": {
+    "en": "Copied!",
+    "he": "הועתק!"
+  },
+  "SETTINGS_TEXT.runLogsTab": {
+    "en": "Current Run",
+    "he": "ריצה נוכחית"
+  },
+  "SETTINGS_TEXT.runtimeErrorsTab": {
+    "en": "Runtime Errors",
+    "he": "שגיאות זמן ריצה"
+  },
+  "SETTINGS_TEXT.allRunsTab": {
+    "en": "All Runs",
+    "he": "כל הריצות"
+  },
+  "SETTINGS_TEXT.searchLogs": {
+    "en": "Search logs...",
+    "he": "חיפוש ביומנים..."
+  },
+  "SETTINGS_TEXT.noLogs": {
+    "en": "No logs recorded yet.",
+    "he": "אין יומנים עדיין."
+  },
+  "SETTINGS_TEXT.accentColor": {
+    "en": "Accent Color",
+    "he": "צבע הדגשה"
+  },
+  "SETTINGS_TEXT.themeMode": {
+    "en": "Light / Dark Mode",
+    "he": "מצב בהיר / כהה"
+  },
+  "SETTINGS_TEXT.themeModeLight": {
+    "en": "Light",
+    "he": "בהיר"
+  },
+  "SETTINGS_TEXT.themeModeDark": {
+    "en": "Dark",
+    "he": "כהה"
+  },
+  "SETTINGS_TEXT.language": {
+    "en": "Language",
+    "he": "שפה"
+  },
+  "SETTINGS_TEXT.selectLanguage": {
+    "en": "Select Language",
+    "he": "בחר שפה"
+  },
+  "SETTINGS_TEXT.hebrew": {
+    "en": "Hebrew",
+    "he": "עברית"
+  },
+  "SETTINGS_TEXT.english": {
+    "en": "English",
+    "he": "אנגלית"
+  },
+  "SETTINGS_TEXT.clearAutoSaves": {
+    "en": "Clear Canvas Auto-Saves",
+    "he": "נקה שמירות אוטומטיות של קנבס"
+  },
+  "SETTINGS_TEXT.clearChatHistory": {
+    "en": "Clear AI Conversation History",
+    "he": "נקה היסטוריית שיחות AI"
+  },
+  "SETTINGS_TEXT.resetAll": {
+    "en": "Reset All Local Settings",
+    "he": "אפס את כל ההגדרות המקומיות"
+  },
+  "SETTINGS_TEXT.clearedSuccess": {
+    "en": "Cleared successfully",
+    "he": "נוקה בהצלחה"
+  },
+  "SETTINGS_TEXT.close": {
+    "en": "Close",
+    "he": "סגור"
+  },
+  "STATUS_TEXT.accept": {
+    "en": "Accept",
+    "he": "קבלה"
+  },
+  "STATUS_TEXT.reject": {
+    "en": "Reject",
+    "he": "דחייה"
+  },
+  "STATUS_TEXT.looping": {
+    "en": "Looping",
+    "he": "לולאה אינסופית"
+  },
+  "STATUS_TEXT.currentState": {
+    "en": "Current State",
+    "he": "מצב נוכחי"
+  },
+  "STATUS_TEXT.stepCount": {
+    "en": "Step Count",
+    "he": "מונה צעדים"
+  },
+  "STATUS_TEXT.headPointer": {
+    "en": "Head Pointer",
+    "he": "מיקום ראש"
+  },
+  "STATUS_TEXT.inputInstance": {
+    "en": "Input Instance",
+    "he": "מופע קלט"
+  },
+  "STATUS_TEXT.polyReduction": {
+    "en": "Polynomial Reduction",
+    "he": "רדוקציה פולינומית"
+  },
+  "STATUS_TEXT.targetDecider": {
+    "en": "Target Decider",
+    "he": "מכריע יעד"
+  },
+  "TOPICS_TEXT.recallPTitle": {
+    "en": "Class P Review",
+    "he": "חזרה על המחלקה P"
+  },
+  "TOPICS_TEXT.recallPDesc": {
+    "en": "Deterministic polynomial time decision problems and complexity characteristics.",
+    "he": "בעיות הכרעה פולינומיאליות דטרמיניסטיות ומאפייני סיבוכיות."
+  },
+  "TOPICS_TEXT.timeHierarchyTitle": {
+    "en": "Time Hierarchy Theorem",
+    "he": "משפט היררכיית הזמן"
+  },
+  "TOPICS_TEXT.timeHierarchyDesc": {
+    "en": "Deterministic time separation and simulation diagonalization visual proof.",
+    "he": "הוכחה חזותית להפרדה בין מחלקות זמן ודיאגונליזציה."
+  },
+  "TOPICS_TEXT.reductionPipelineTitle": {
+    "en": "Reduction Pipeline",
+    "he": "צינור רדוקציה"
+  },
+  "TOPICS_TEXT.reductionPipelineDesc": {
+    "en": "Step-by-step polynomial reduction mapping between computational problems.",
+    "he": "מיפוי צעד-אחר-צעד של רדוקציה פולינומית בין בעיות חישוביות."
+  },
+  "TOPICS_TEXT.gadgetGraphTitle": {
+    "en": "Gadget Graph Construction",
+    "he": "בניית גרף גאדג׳טים"
+  },
+  "TOPICS_TEXT.gadgetGraphDesc": {
+    "en": "Visual clause-to-subgraph gadget transformations and verification.",
+    "he": "טרנספורמציות חזותיות מפסוקיות לתתי-גרפים ואימות."
+  },
+  "TOPICS_TEXT.dfsColoringTitle": {
+    "en": "DFS Graph Coloring",
+    "he": "צביעת גרף ב-DFS"
+  },
+  "TOPICS_TEXT.dfsColoringDesc": {
+    "en": "Interactive 3-Colorability search and vertex constraint validation.",
+    "he": "חיפוש אינטראקטיבי לצביעה ב-3 צבעים ובדיקת אילוצי צמתים."
+  },
+  "CANVAS_TEXT.headerHidden": {
+    "en": "Header Hidden",
+    "he": "כותרת מוסתרת"
+  },
+  "CANVAS_TEXT.headerVisible": {
+    "en": "Header Visible",
+    "he": "כותרת מוצגת"
+  },
+  "CANVAS_TEXT.cardTitle": {
+    "en": "Card Title",
+    "he": "כותרת כרטיס"
+  },
+  "CANVAS_TEXT.direction": {
+    "en": "Direction",
+    "he": "כיוון"
+  },
+  "CANVAS_TEXT.untitledBlock": {
+    "en": "Untitled block...",
+    "he": "בלוק ללא שם..."
+  },
+  "CANVAS_TEXT.editBlock": {
+    "en": "Edit {kind} block",
+    "he": "ערוך בלוק {kind}"
+  },
+  "CANVAS_TEXT.addBlock": {
+    "en": "Add Block",
+    "he": "הוסף בלוק"
+  },
+  "CANVAS_TEXT.duplicate": {
+    "en": "Duplicate",
+    "he": "שכפל"
+  },
+  "CANVAS_TEXT.movePageTo": {
+    "en": "Move to page",
+    "he": "העבר לעמוד"
+  },
+  "CANVAS_TEXT.movePageLabel": {
+    "en": "Page {n}",
+    "he": "עמוד {n}"
+  },
+  "CANVAS_TEXT.moveToNewPage": {
+    "en": "Move to new page",
+    "he": "העבר לעמוד חדש"
+  },
+  "CANVAS_TEXT.delete": {
+    "en": "Delete",
+    "he": "מחק"
+  },
+  "CANVAS_TEXT.lock": {
+    "en": "Lock",
+    "he": "נעל"
+  },
+  "CANVAS_TEXT.unlock": {
+    "en": "Unlock",
+    "he": "בטל נעילה"
+  },
+  "CANVAS_TEXT.fitToContent": {
+    "en": "Fit to Content",
+    "he": "התאם לתוכן"
+  },
+  "CANVAS_TEXT.autoHeight": {
+    "en": "Auto Height",
+    "he": "גובה אוטומטי"
+  },
+  "CANVAS_TEXT.zoomIn": {
+    "en": "Zoom In",
+    "he": "הגדל"
+  },
+  "CANVAS_TEXT.zoomOut": {
+    "en": "Zoom Out",
+    "he": "הקטן"
+  },
+  "CANVAS_TEXT.resetZoom": {
+    "en": "Reset Zoom",
+    "he": "אפס תצוגה"
+  },
+  "CANVAS_TEXT.stylePreset": {
+    "en": "Style Preset",
+    "he": "ערכת סגנון"
+  },
+  "CANVAS_TEXT.custom": {
+    "en": "Custom",
+    "he": "מותאם אישית"
+  },
+  "CANVAS_TEXT.newStylePlaceholder": {
+    "en": "New style name…",
+    "he": "שם סגנון חדש…"
+  },
+  "CANVAS_TEXT.add": {
+    "en": "Add",
+    "he": "הוסף"
+  },
+  "CANVAS_PATTERNS_TEXT.blank": {
+    "en": "Clean Blank",
+    "he": "נקי ללא רשת"
+  },
+  "CANVAS_PATTERNS_TEXT.dots": {
+    "en": "Subtle Dots",
+    "he": "נקודות עדינות"
+  },
+  "CANVAS_PATTERNS_TEXT.grid": {
+    "en": "Square Grid",
+    "he": "רשת משבצות"
+  },
+  "CANVAS_PATTERNS_TEXT.isometric": {
+    "en": "Isometric",
+    "he": "איזומטרי"
+  },
+  "CANVAS_PATTERNS_TEXT.blueprint": {
+    "en": "Blueprint",
+    "he": "שרטוט הנדסי"
+  },
+  "CANVAS_PATTERNS_TEXT.mesh": {
+    "en": "Gradient Mesh",
+    "he": "רשת גרדיאנט"
+  },
+  "CANVAS_PRESETS_TEXT.plain": {
+    "en": "Plain",
+    "he": "רגיל"
+  },
+  "CANVAS_PRESETS_TEXT.card": {
+    "en": "Card",
+    "he": "כרטיס"
+  },
+  "CANVAS_PRESETS_TEXT.proof": {
+    "en": "Formal Proof",
+    "he": "הוכחה פורמלית"
+  },
+  "CANVAS_PRESETS_TEXT.callout": {
+    "en": "Callout",
+    "he": "הערת הדגשה"
+  },
+  "CANVAS_PRESETS_TEXT.code": {
+    "en": "Code Block",
+    "he": "בלוק קוד"
+  },
+  "CANVAS_HEADER_TEXT.editModeEnter": {
+    "en": "Edit Mode",
+    "he": "מצב עריכה"
+  },
+  "CANVAS_HEADER_TEXT.editModeExit": {
+    "en": "Exit Edit Mode",
+    "he": "יציאה מעריכה"
+  },
+  "CANVAS_HEADER_TEXT.restoreSave": {
+    "en": "Restore last save",
+    "he": "שחזר שמירה אחרונה"
+  },
+  "CANVAS_HEADER_TEXT.restoring": {
+    "en": "Restoring...",
+    "he": "משחזר..."
+  },
+  "CANVAS_HEADER_TEXT.noPreviousSave": {
+    "en": "No previous save to restore",
+    "he": "אין גרסאות קודמות לשחזור"
+  },
+  "CANVAS_HEADER_TEXT.undo": {
+    "en": "Undo",
+    "he": "בטל"
+  },
+  "CANVAS_HEADER_TEXT.undoTooltip": {
+    "en": "Undo (Ctrl+Z)",
+    "he": "בטל (Ctrl+Z)"
+  },
+  "CANVAS_HEADER_TEXT.redo": {
+    "en": "Redo",
+    "he": "בצע שוב"
+  },
+  "CANVAS_HEADER_TEXT.redoTooltip": {
+    "en": "Redo (Ctrl+Shift+Z)",
+    "he": "בצע שוב (Ctrl+Shift+Z)"
+  },
+  "CANVAS_HEADER_TEXT.layers": {
+    "en": "Layers",
+    "he": "שכבות"
+  },
+  "CANVAS_HEADER_TEXT.layersTooltip": {
+    "en": "Layers panel",
+    "he": "לוח שכבות"
+  },
+  "CANVAS_HEADER_TEXT.properties": {
+    "en": "Properties",
+    "he": "מאפיינים"
+  },
+  "CANVAS_HEADER_TEXT.propertiesTooltip": {
+    "en": "Properties & Settings panel",
+    "he": "לוח מאפיינים והגדרות"
+  },
+  "CANVAS_HEADER_TEXT.splitView": {
+    "en": "Split",
+    "he": "מפוצל"
+  },
+  "CANVAS_HEADER_TEXT.splitViewTooltip": {
+    "en": "Dual Pane: Live Editor & Presentation",
+    "he": "תצוגה מפוצלת: עורך ותצוגה חיה"
+  },
+  "CANVAS_HEADER_TEXT.editorOnly": {
+    "en": "Editor",
+    "he": "עורך"
+  },
+  "CANVAS_HEADER_TEXT.editorOnlyTooltip": {
+    "en": "Editor only",
+    "he": "מצב עורך בלבד"
+  },
+  "CANVAS_HEADER_TEXT.previewOnly": {
+    "en": "Preview",
+    "he": "תצוגה חיה"
+  },
+  "CANVAS_HEADER_TEXT.previewOnlyTooltip": {
+    "en": "Live presentation preview only",
+    "he": "מצב תצוגה חיה ופרזנטציה"
+  },
+  "CANVAS_HEADER_TEXT.syncViewport": {
+    "en": "Synchronize scroll & zoom between editor and preview",
+    "he": "סנכרן גלילה וזום בין שני החלונות"
+  },
+  "CANVAS_HEADER_TEXT.print": {
+    "en": "Print",
+    "he": "הדפסה"
+  },
+  "CANVAS_HEADER_TEXT.printTooltip": {
+    "en": "Print / Export to PDF",
+    "he": "הדפס / ייצא כ-PDF"
+  },
+  "CANVAS_HEADER_TEXT.restore": {
+    "en": "Restore",
+    "he": "שחזור"
+  },
+  "DUALITY_TEXT.certificate": {
+    "en": "Strong Duality Certificate",
+    "he": "תעודת דואליות (Strong Duality)"
+  },
+  "DUALITY_TEXT.primalOptimal": {
+    "en": "Primal Optimal Value",
+    "he": "ערך אופטימלי ראשי (Primal)"
+  },
+  "DUALITY_TEXT.dualOptimal": {
+    "en": "Dual Optimal Value",
+    "he": "ערך אופטימלי דואלי (Dual)"
+  },
+  "DUALITY_TEXT.dualityGap": {
+    "en": "Duality Gap",
+    "he": "פער דואליות (Duality Gap)"
+  },
+  "PIPELINE_TEXT.addStage": {
+    "en": "Add Stage",
+    "he": "הוסף שלב"
+  },
+  "PIPELINE_TEXT.removeStage": {
+    "en": "Remove Stage",
+    "he": "הסר שלב"
+  },
+  "MEDIA_TEXT.image": {
+    "en": "Image",
+    "he": "תמונה"
+  },
+  "MEDIA_TEXT.pdf": {
+    "en": "PDF",
+    "he": "PDF"
+  },
+  "MEDIA_TEXT.video": {
+    "en": "Video",
+    "he": "וידאו"
+  },
+  "MEDIA_TEXT.expandPreview": {
+    "en": "Expand preview",
+    "he": "הגדל תמונה"
+  },
+  "MEDIA_TEXT.downloadImage": {
+    "en": "Download image",
+    "he": "הורד תמונה"
+  },
+  "MEDIA_TEXT.download": {
+    "en": "Download",
+    "he": "הורד"
+  },
+  "MEDIA_TEXT.close": {
+    "en": "Close",
+    "he": "סגור"
+  },
+  "MEDIA_TEXT.expandVideo": {
+    "en": "Expand video",
+    "he": "הגדל וידאו"
+  },
+  "MEDIA_TEXT.expandYouTube": {
+    "en": "Expand YouTube video",
+    "he": "הגדל סרטון YouTube"
+  },
+  "MEDIA_TEXT.openPdf": {
+    "en": "Open PDF",
+    "he": "פתח PDF"
+  },
+  "MEDIA_TEXT.openNewTab": {
+    "en": "Open in new tab",
+    "he": "פתח בלשונית חדשה"
+  },
+  "MEDIA_TEXT.openInYouTube": {
+    "en": "Open in YouTube",
+    "he": "פתח ב-YouTube"
+  },
+  "MEDIA_TEXT.loadingPreview": {
+    "en": "Loading preview…",
+    "he": "טוען תצוגה מקדימה…"
+  },
+  "MEDIA_TEXT.clickToExpandPdf": {
+    "en": "Click to expand PDF",
+    "he": "לחץ להרחבת המסמך"
+  },
+  "MEDIA_TEXT.pdfEmptyTitle": {
+    "en": "No PDF URL provided",
+    "he": "לא נבחר קובץ PDF"
+  },
+  "MEDIA_TEXT.pdfEmptyDesc": {
+    "en": "Select this block in Edit Mode and use the Content Editor to paste a PDF URL.",
+    "he": "בחר בלוק זה במצב עריכה והשתמש בעורך התוכן כדי להדביק כתובת PDF."
+  },
+  "MEDIA_TEXT.uploadPdf": {
+    "en": "Upload PDF",
+    "he": "העלאת PDF"
+  },
+  "MEDIA_TEXT.url": {
+    "en": "URL",
+    "he": "כתובת URL"
+  },
+  "MEDIA_TEXT.set": {
+    "en": "Set",
+    "he": "הגדר"
+  },
+  "COMPLEXITY_CLASSES.P.name": {
+    "en": "Class P",
+    "he": "מחלקת P"
+  },
+  "COMPLEXITY_CLASSES.P.description": {
+    "en": "Problems decidable in polynomial time on a deterministic Turing machine.",
+    "he": "בעיות הניתנות להכרעה בזמן פולינומיאלי במכונת טורינג דטרמיניסטית."
+  },
+  "COMPLEXITY_CLASSES.NP.name": {
+    "en": "Class NP",
+    "he": "מחלקת NP"
+  },
+  "COMPLEXITY_CLASSES.NP.description": {
+    "en": "Problems verifiable in polynomial time or decidable on a non-deterministic Turing machine.",
+    "he": "בעיות הניתנות לאימות בזמן פולינומיאלי או להכרעה במכונת טורינג אי-דטרמיניסטית."
+  },
+  "COMPLEXITY_CLASSES.NPC.name": {
+    "en": "Class NP-Complete",
+    "he": "מחלקת NP-Complete"
+  },
+  "COMPLEXITY_CLASSES.NPC.description": {
+    "en": "The hardest problems in NP, to which every problem in NP polynomial-time reduces.",
+    "he": "הבעיות הקשות ביותר ב-NP, אליהן כל בעיה ב-NP ניתנת לרדוקציה פולינומית."
+  },
+  "COMPLEXITY_CLASSES.PSPACE.name": {
+    "en": "Class PSPACE",
+    "he": "מחלקת PSPACE"
+  },
+  "COMPLEXITY_CLASSES.PSPACE.description": {
+    "en": "Problems decidable using a polynomial amount of memory space.",
+    "he": "בעיות הניתנות להכרעה בזיכרון (מקום) פולינומיאלי."
+  },
+  "COMPLEXITY_CLASSES.EXPTIME.name": {
+    "en": "Class EXPTIME",
+    "he": "מחלקת EXPTIME"
+  },
+  "COMPLEXITY_CLASSES.EXPTIME.description": {
+    "en": "Problems decidable in exponential time $O(2^{p(n)})$.",
+    "he": "בעיות הניתנות להכרעה בזמן אקספוננציאלי $O(2^{p(n)})$."
+  }
+}

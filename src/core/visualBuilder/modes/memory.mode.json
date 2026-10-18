@@ -1,0 +1,71 @@
+{
+  "format": 1,
+  "id": "memory",
+  "label": {
+    "key": "modes.memory.label"
+  },
+  "note": {
+    "key": "modes.memory.note"
+  },
+  "icon": "▦",
+  "filters": {
+    "categories": [
+      "data"
+    ],
+    "presets": [
+      "caption",
+      "arrow"
+    ],
+    "effects": [
+      "glow",
+      "pulse",
+      "travel",
+      "tint",
+      "callout",
+      "reveal"
+    ]
+  },
+  "templates": [
+    "memory/memory-pointers"
+  ],
+  "starter": "memory/memory-pointers",
+  "tools": [
+    {
+      "id": "select"
+    },
+    {
+      "id": "placePicker",
+      "label": {
+        "key": "modes.memory.tools.placePicker.label"
+      },
+      "objects": [
+        "memory/stack-cell",
+        "memory/heap-block",
+        "memory/null-cell",
+        "memory/stack-frame"
+      ]
+    },
+    {
+      "id": "connect",
+      "label": {
+        "key": "modes.memory.tools.connect.label"
+      },
+      "arrow": "directed"
+    },
+    {
+      "id": "algorithm",
+      "label": {
+        "key": "modes.memory.tools.algorithm.label"
+      },
+      "algorithms": [
+        "memory/leaks",
+        "memory/chase"
+      ]
+    }
+  ],
+  "inspector": {
+    "label": true,
+    "style": true,
+    "animate": true
+  }
+}

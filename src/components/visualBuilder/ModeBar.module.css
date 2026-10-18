@@ -1,0 +1,58 @@
+.toolbar, .inspector {
+  zoom: var(--ui-scale, 1);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 6px 10px;
+  background: var(--wb-panel);
+  border: 1px solid var(--wb-line);
+  border-radius: 12px;
+}
+
+/* One row that scrolls sideways when the build column is narrow, so Run input is never pushed onto a second line. */
+.toolbar { flex-wrap: nowrap; overflow-x: auto; min-width: 0; }
+.toolbar > * { flex: 0 0 auto; }
+.toolbar:empty { display: none; }
+/* Same height for the summary and for the fields, so selecting an object never moves the canvas. */
+.inspector { min-height: 46px; box-sizing: border-box; }
+.stepper { display: inline-flex; align-items: center; gap: 4px; }
+.count { min-width: 5.5em; text-align: center; font-variant-numeric: tabular-nums; }
+.field { display: inline-flex; align-items: center; gap: 6px; color: var(--wb-muted); font-size: 0.85rem; }
+.field input[type='text'] { width: 14ch; }
+@container (max-width: 620px) {
+  .fieldLabel { display: none; }
+}
+
+.muted { color: var(--wb-muted); font-size: 0.85rem; }
+.pills { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.pill { padding: 1px 8px; border: 1px solid var(--wb-accent); border-radius: 999px; font-size: 0.8rem; }
+
+.starter {
+  position: absolute;
+  inset-inline: 0;
+  top: 38%;
+  z-index: 3;
+  margin-inline: auto;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 22px;
+  background: var(--wb-panel);
+  border: 1px solid var(--wb-line);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  animation: starterIn 180ms ease-out;
+}
+
+.starterIcon { font-size: 1.6rem; color: var(--wb-accent); line-height: 1; }
+.starterTitle { font-size: 1rem; }
+.starterButton { padding: 6px 14px; border-radius: 8px; border: 1px solid var(--wb-accent); background: var(--wb-accent); color: var(--wb-on-accent); cursor: pointer; font-weight: 600; }
+.starterButton:hover { filter: brightness(1.08); }
+
+@keyframes starterIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) { .starter { animation: none; } }

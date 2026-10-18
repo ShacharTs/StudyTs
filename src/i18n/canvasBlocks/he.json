@@ -1,0 +1,67 @@
+{
+  "properties": {
+    "hex": "קוד צבע",
+    "close": "סגירה",
+    "categories": {
+      "label": "קטגוריית מאפיינים",
+      "general": "כללי",
+      "dimensions": "מידות",
+      "colors": "צבעים",
+      "more": "עוד",
+      "empty": "אין מאפיינים לאובייקט זה"
+    }
+  },
+  "toolbox": {
+    "chips": { "all": "הכול", "favorites": "מועדפים", "uml": "UML", "automata": "אוטומטים", "system": "עיצוב", "network": "רשת" }
+  },
+  "layout": {
+    "guides": {
+      "title": "קווי מדריך חכמים: הצגת קווי יישור ומרווחים בזמן גרירה"
+    }
+  },
+  "ribbon": {
+    "groups": { "arrange": "סידור", "align": "יישור" },
+    "save": { "idle": "שמירה", "saving": "שומר…", "saved": "נשמר", "error": "שמירה", "title": "שמירה (Ctrl+S)" },
+    "arrange": {
+      "duplicate": { "label": "שכפול", "title": "שכפול (Ctrl+D)" },
+      "toBack": { "label": "לתחתית", "title": "שלח לתחתית" },
+      "back": { "label": "אחורה", "title": "שלח אחורה" },
+      "forward": { "label": "קדימה", "title": "הבא קדימה" },
+      "toFront": { "label": "לחזית", "title": "הבא לחזית" },
+      "lock": { "label": "נעילה", "title": "נעילה/ביטול נעילה" },
+      "locked": { "label": "נעול", "title": "נעילה/ביטול נעילה" },
+      "hide": { "label": "הסתרה", "title": "הסתרה/הצגה" },
+      "hidden": { "label": "מוסתר", "title": "הסתרה/הצגה" },
+      "group": { "label": "קבץ", "title": "קיבוץ (Ctrl+G)" },
+      "ungroup": { "label": "פרק", "title": "פירוק קבוצה (Ctrl+Shift+G)" }
+    },
+    "align": {
+      "left": { "label": "שמאל", "title": "יישור לשמאל" },
+      "center": { "label": "מרכז", "title": "יישור למרכז" },
+      "right": { "label": "ימין", "title": "יישור לימין" },
+      "top": { "label": "עליון", "title": "יישור לעליון" },
+      "middle": { "label": "אמצע", "title": "יישור לאמצע" },
+      "bottom": { "label": "תחתון", "title": "יישור לתחתון" }
+    },
+    "reason": {
+      "needSelection": "בחר אובייקט תחילה",
+      "needTwoToGroup": "בחר 2 אובייקטים או יותר לקיבוץ",
+      "needGroupedToUngroup": "בחר אובייקט מקובץ לפירוק",
+      "needTwoToAlign": "בחר 2 אובייקטים או יותר ליישור"
+    }
+  },
+  "kinds": {
+    "richText": "טקסט עשיר",
+    "box": "תיבת מבנה",
+    "graph": "גרף",
+    "automata": "אוטומט / מ\"ט",
+    "stepPlayer": "נגן שלבים",
+    "image": "תמונה",
+    "video": "וידאו",
+    "youtube": "יוטיוב",
+    "pdf": "מסמך PDF",
+    "connector": "מחבר",
+    "shape": "צורה",
+    "data": "טבלת הנתונים"
+  }
+}

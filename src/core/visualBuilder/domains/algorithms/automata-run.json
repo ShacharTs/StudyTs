@@ -1,0 +1,7 @@
+{
+  "format": 1,
+  "id": "automata/run",
+  "model": "automaton",
+  "label": "automataRun",
+  "choice": "all"
+}

@@ -1,0 +1,36 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  padding: 0 8px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-hair);
+}
+
+.toolBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 500;
+  min-width: 44px;
+}
+
+.toolBtn:hover {
+  background: var(--bg-card);
+  color: var(--text-1);
+}
+
+.toolBtn.active {
+  background: var(--ac-18);
+  color: var(--ac-hi);
+}

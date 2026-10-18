@@ -1,0 +1,29 @@
+/* Element-qualified to beat global rules such as .app-container. */
+div.root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+div.body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+  position: relative;
+}
+
+main.main {
+  flex: 1;
+  min-width: 0;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+main.dashboard { padding: 16px 24px; overflow-y: auto; }
+main.canvas { padding: 0; overflow-y: hidden; }
+main.content { padding: 8px 16px; overflow-y: hidden; }

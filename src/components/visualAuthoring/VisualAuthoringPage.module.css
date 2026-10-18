@@ -1,0 +1,25 @@
+.page {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* The workbench fills what the 8px padding leaves, so the page itself never scrolls. */
+  --workbench-top: 16px;
+}
+
+.importError {
+  position: fixed;
+  top: 56px;
+  inset-inline-end: 12px;
+  z-index: 80;
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--accent-danger);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--accent-danger);
+}

@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "id": "automata-graph",
+  "label": { "en": "Automata and graphs", "he": "אוטומטים וגרפים" },
+  "icon": "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"12\" cy=\"12\" r=\"8\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/></g>",
+  "order": 60,
+  "description": { "en": "States, transitions and graph nodes", "he": "מצבים, מעברים וצמתי גרף" }
+}

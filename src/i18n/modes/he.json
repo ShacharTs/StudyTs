@@ -1,0 +1,262 @@
+{
+  "automata": {
+    "label": "אוטומטים",
+    "note": "מצבים, מעברים, קלט",
+    "tools": {
+      "1": {
+        "label": "הוספת מצב"
+      },
+      "connect": {
+        "label": "הוספת מעבר"
+      },
+      "input": {
+        "label": "קלט"
+      },
+      "action": {
+        "label": "הרצת קלט"
+      },
+      "autoRun": {
+        "label": "הרצה אוטומטית"
+      }
+    },
+    "starterLabel": "אוטומט עם סרט הקלט שלו",
+    "verdict": {
+      "accept": "מקבל",
+      "reject": "דוחה",
+      "stuck": "תקוע על {symbol}",
+      "noStart": "צריך מצב התחלה",
+      "empty": "הקלידו מילה"
+    },
+    "runChoice": {
+      "question": "בשרטוט כבר יש צעדים. להוסיף את ההרצה אחריהם או להחליף אותם?",
+      "add": "הוספת צעדים",
+      "replace": "החלפת צעדים",
+      "cancel": "ביטול"
+    }
+  },
+  "diagrams": {
+    "label": "דיאגרמות",
+    "note": "תרשימי זרימה, UML, ארכיטקטורה",
+    "tools": {
+      "1": {
+        "label": "צורות"
+      },
+      "2": {
+        "label": "חלקים"
+      },
+      "connect": {
+        "label": "הוספת קשת"
+      },
+      "algorithm": {
+        "label": "הדמיה"
+      },
+      "chart": {
+        "label": "תרשים",
+        "charts": {
+          "flowchart": {
+            "label": "תרשים זרימה",
+            "note": "שלבים, החלטות ולולאות."
+          },
+          "pipeline": {
+            "label": "צינור",
+            "note": "שלבים שמעבירים נתונים הלאה."
+          }
+        }
+      }
+    }
+  },
+  "free": {
+    "label": "חופשי",
+    "note": "הכול, כמו קודם",
+    "tools": {
+      "placePicker": {
+        "label": "צורות"
+      },
+      "connect": {
+        "label": "הוספת קשת"
+      }
+    }
+  },
+  "graph": {
+    "label": "גרף",
+    "note": "קודקודים, קשתות, משקלים",
+    "tools": {
+      "3": {
+        "label": "מכוון"
+      },
+      "4": {
+        "label": "ממושקל"
+      },
+      "place": {
+        "label": "הוספת קודקוד"
+      },
+      "connect": {
+        "label": "הוספת קשת"
+      },
+      "algorithm": {
+        "label": "אלגוריתם"
+      }
+    }
+  },
+  "memory": {
+    "label": "זיכרון",
+    "note": "מחסנית, ערימה, מצביעים",
+    "tools": {
+      "placePicker": {
+        "label": "אובייקטים"
+      },
+      "connect": {
+        "label": "מצביע"
+      },
+      "algorithm": {
+        "label": "ניתוח"
+      }
+    }
+  },
+  "network": {
+    "label": "רשת",
+    "note": "התקנים, קישורים, חבילות",
+    "tools": {
+      "placePicker": {
+        "label": "התקנים"
+      },
+      "connect": {
+        "label": "הוספת קישור"
+      },
+      "algorithm": {
+        "label": "שליחה"
+      }
+    }
+  },
+  "tape": {
+    "label": "סרט",
+    "note": "תאים, ראש, סריקה",
+    "tools": {
+      "2": {
+        "label": "ראש ◀"
+      },
+      "3": {
+        "label": "ראש ▶"
+      },
+      "4": {
+        "label": "סריקה"
+      },
+      "input": {
+        "label": "סרט"
+      }
+    },
+    "starterLabel": "סרט חדש"
+  },
+  "venn": {
+    "label": "ון",
+    "note": "קבוצות, איברים ואזורים",
+    "tools": {
+      "3": {
+        "label": "סידור מחדש"
+      },
+      "4": {
+        "label": "אזורים משותפים"
+      },
+      "stepper": {
+        "label": "קבוצות"
+      },
+      "place": {
+        "label": "הוספת איבר"
+      }
+    }
+  },
+  "chartUse": "השתמש בתרשים זה",
+  "algorithmText": {
+    "bfs": "חיפוש לרוחב",
+    "dfs": "חיפוש לעומק",
+    "dijkstra": "מסלולים קצרים (דייקסטרה)",
+    "prim": "עץ פורש (פרים)",
+    "edmondsKarp": "זרימה מקסימלית (אדמונדס-קרפ)",
+    "fordFulkerson": "זרימה מקסימלית (פורד-פולקרסון)",
+    "automataRun": "הרצת המילה",
+    "networkSend": "שליחת חבילה (מעט קפיצות)",
+    "networkSendCost": "שליחת חבילה (עלות נמוכה)",
+    "searchStart": "מתחילים ב-{vertex}",
+    "searchVisit": "מבקרים ב-{vertex}",
+    "searchDiscover": "מצאנו את {vertex}",
+    "searchDone": "סיום: {order}",
+    "stripFifo": "תור",
+    "stripLifo": "מחסנית",
+    "stripPriority": "ממתינים",
+    "stripOrder": "סדר",
+    "distance": "d = {value}",
+    "nameStrip": "פס האלגוריתם",
+    "nameDistance": "מרחק",
+    "nameFlowLabel": "תווית זרימה",
+    "inputWord": "מילת קלט",
+    "inputPrefix": "קלט: ",
+    "recipeStart": "מתחילים ב-{vertex}",
+    "recipeGo": "עוברים ל-{vertex}",
+    "recipeShow": "מציגים את {vertex}",
+    "recipeMove": "עוברים מ-{from} ל-{to}.",
+    "tapeCellName": "תא",
+    "tapeIndexName": "אינדקס",
+    "tapeHeadName": "ראש",
+    "tapeHeadLabelName": "תווית ראש",
+    "tapeStripName": "סרט",
+    "tapeHeadText": "ראש",
+    "tapeRead": "קוראים {symbol}",
+    "tapeBlank": "ריק",
+    "tapeWhy": "הראש נמצא בתא {number}.",
+    "flowStart": "זרימה מ-{source} ל-{sink}",
+    "flowAugment": "מסלול {path}: דוחפים {pushed}",
+    "flowDone": "זרימה מקסימלית = {value}",
+    "flowStrip": "זרימה",
+    "autoStart": "מתחילים ב-{states}",
+    "autoRead": "קוראים {symbol}",
+    "autoAccept": "מקבל",
+    "autoReject": "דוחה",
+    "autoStuck": "דוחה: אין מעבר על {symbol}",
+    "autoWhyRead": "{from} קורא {symbol} ועובר ל-{to}.",
+    "autoWhyAccept": "{states} מקבל: המילה {word} התקבלה.",
+    "autoWhyReject": "{states} לא מקבל: המילה {word} נדחתה.",
+    "autoWhyStuck": "ל-{states} אין מעבר על {symbol}.",
+    "netStart": "{device} שולח חבילה",
+    "netHop": "קפיצה {number}: {to}",
+    "netDelivered": "נמסר ל-{device}",
+    "netUnreachable": "אין מסלול מ-{device}",
+    "netExpired": "נפלה ב-{device}: ה-TTL נגמר",
+    "netWhyStart": "החבילה יוצאת עם TTL {ttl}.",
+    "netWhyHop": "{from} מעביר ל-{to}; נשאר TTL {ttlLeft}.",
+    "netWhyDelivered": "הגיעה אחרי {hops} קפיצות.",
+    "netWhyUnreachable": "אין נתיב כבלים ליעד.",
+    "netWhyExpired": "נתב מוריד חבילה שה-TTL שלה אפס."
+  },
+  "memoryText": {
+    "memLeaks": "חיפוש דליפות",
+    "memChase": "מעקב אחרי מצביעים",
+    "memRoot": "מתחילים מ-{cell}",
+    "memWhyRoot": "כל משתנה במחסנית הוא שורש: בלוקים שהמצביעים שלו מגיעים אליהם הם חיים.",
+    "memReach": "אפשר להגיע ל-{block}",
+    "memWhyReach": "מגיעים אליו מ-{via}.",
+    "memLeak": "דליפה: אי אפשר להגיע ל-{block}",
+    "memWhyLeak": "אף משתנה לא מוביל אליו, ולכן אי אפשר לשחרר אותו.",
+    "memVerdict": "דלפו: {leaks}",
+    "memWhyVerdict": "נגישים: {reachable}.",
+    "memNone": "אין",
+    "memFollow": "שלב {number}: {from} מצביע על {to}",
+    "memWhyFollow": "עוקבים אחרי הכתובת ששמורה ב-{from}.",
+    "memBlock": "השרשרת נגמרת בבלוק {at}",
+    "memWhyBlock": "{at} לא מצביע לשום מקום, והערך הוא הבלוק.",
+    "memNull": "השרשרת נגמרת ב-null",
+    "memWhyNull": "ב-{at} אין כתובת.",
+    "memCycle": "השרשרת חוזרת אל {at}",
+    "memWhyCycle": "המעקב אחרי המצביעים חוזר לצומת שכבר ביקרנו בו.",
+    "memDangling": "המצביע אל {at} לא מוביל לשום מקום",
+    "memWhyDangling": "{at} אינו משתנה ואינו בלוק בערימה."
+  },
+  "pipelineText": {
+    "pipeRun": "הרצת צינור (מחזור אחר מחזור)",
+    "pipeTick": "מחזור {number}",
+    "pipeWhyTick": "שלב מעביר פריטים הלאה כשלשלב הבא יש מקום. נתקעו: {stalled}.",
+    "pipeNone": "אין",
+    "pipeDone": "הסתיימו {done} מתוך {tokens} פריטים ב-{ticks} מחזורים",
+    "pipeWhyBottleneck": "צוואר בקבוק: {stage}, השלב שנתקע הכי הרבה פעמים.",
+    "pipeWhyClear": "אף שלב לא נתקע, ולכן אף פריט לא המתין."
+  }
+}

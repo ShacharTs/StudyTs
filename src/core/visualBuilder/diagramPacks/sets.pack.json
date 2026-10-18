@@ -1,0 +1,483 @@
+{
+  "format": 1,
+  "id": "sets",
+  "name": {
+    "en": "Sets and Venn",
+    "he": "קבוצות ו-ון"
+  },
+  "category": "sets",
+  "color": "green",
+  "objects": [
+    {
+      "id": "set",
+      "label": {
+        "en": "Set",
+        "he": "קבוצה"
+      },
+      "size": {
+        "w": 0.2,
+        "h": 0.2
+      },
+      "kind": "closed",
+      "svg": "<circle cx=\"0\" cy=\"0\" r=\"{hw}\"/>",
+      "labelAt": "center",
+      "keywords": [
+        "venn",
+        "circle",
+        "group"
+      ]
+    },
+    {
+      "id": "universe",
+      "label": {
+        "en": "Universe",
+        "he": "מרחב"
+      },
+      "size": {
+        "w": 0.6,
+        "h": 0.45
+      },
+      "kind": "box",
+      "svg": "<rect x=\"-240\" y=\"-180\" width=\"{w}\" height=\"{h}\" rx=\"16\" fill=\"none\"/>",
+      "labelAt": "top",
+      "keywords": [
+        "frame",
+        "domain",
+        "u"
+      ]
+    },
+    {
+      "id": "overlap-lens",
+      "label": {
+        "en": "Overlap",
+        "he": "חיתוך"
+      },
+      "size": {
+        "w": 0.08,
+        "h": 0.16
+      },
+      "kind": "closed",
+      "svg": "<path d=\"M 0 -64 C 32 -32 32 32 0 64 C -32 32 -32 -32 0 -64 Z\" stroke-dasharray=\"6 4\"/>",
+      "labelAt": "center",
+      "keywords": [
+        "intersection",
+        "lens",
+        "venn"
+      ]
+    },
+    {
+      "id": "element",
+      "label": {
+        "en": "Element",
+        "he": "איבר"
+      },
+      "size": {
+        "w": 0.03,
+        "h": 0.03
+      },
+      "kind": "closed",
+      "svg": "<circle cx=\"0\" cy=\"0\" r=\"{hw}\" fill=\"currentColor\" data-role=\"solid\"/>",
+      "labelAt": "right",
+      "keywords": [
+        "member",
+        "dot",
+        "point"
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "id": "sets-venn-2",
+      "name": {
+        "en": "Venn: two sets",
+        "he": "ון: שתי קבוצות"
+      },
+      "category": "sets",
+      "description": {
+        "en": "Two sets, their overlap and one element.",
+        "he": "שתי קבוצות, החיתוך שלהן ואיבר אחד."
+      },
+      "objects": [
+        {
+          "key": "universe",
+          "ref": "sets/universe",
+          "at": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "label": {
+            "en": "U",
+            "he": "U"
+          }
+        },
+        {
+          "key": "a",
+          "ref": "sets/set",
+          "at": {
+            "x": 0.44,
+            "y": 0.5
+          },
+          "color": "blue"
+        },
+        {
+          "key": "name-a",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.3525,
+            "y": 0.3
+          },
+          "label": {
+            "en": "A",
+            "he": "A"
+          }
+        },
+        {
+          "key": "b",
+          "ref": "sets/set",
+          "at": {
+            "x": 0.56,
+            "y": 0.5
+          },
+          "color": "orange"
+        },
+        {
+          "key": "name-b",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.6475,
+            "y": 0.3
+          },
+          "label": {
+            "en": "B",
+            "he": "B"
+          }
+        },
+        {
+          "key": "both",
+          "ref": "sets/overlap-lens",
+          "at": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "key": "x",
+          "ref": "sets/element",
+          "at": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "links": [],
+      "steps": [
+        {
+          "caption": {
+            "en": "The universe U holds everything",
+            "he": "המרחב U מכיל הכול"
+          },
+          "show": [
+            "universe",
+            "a",
+            "name-a",
+            "b",
+            "name-b",
+            "both",
+            "x"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "universe"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Set A",
+            "he": "הקבוצה A"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "a"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Set B",
+            "he": "הקבוצה B"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "b"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "The overlap is A and B together",
+            "he": "החיתוך הוא A ו-B יחד"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "pulse",
+              "target": "both"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sets-venn-3",
+      "name": {
+        "en": "Venn: three sets",
+        "he": "ון: שלוש קבוצות"
+      },
+      "category": "sets",
+      "description": {
+        "en": "Three sets that all overlap.",
+        "he": "שלוש קבוצות שכולן חופפות."
+      },
+      "objects": [
+        {
+          "key": "universe",
+          "ref": "sets/universe",
+          "at": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "label": {
+            "en": "U",
+            "he": "U"
+          }
+        },
+        {
+          "key": "a",
+          "ref": "sets/set",
+          "at": {
+            "x": 0.44,
+            "y": 0.42
+          },
+          "color": "blue"
+        },
+        {
+          "key": "name-a",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.44,
+            "y": 0.3
+          },
+          "label": {
+            "en": "A",
+            "he": "A"
+          },
+          "width": 0.05
+        },
+        {
+          "key": "b",
+          "ref": "sets/set",
+          "at": {
+            "x": 0.56,
+            "y": 0.42
+          },
+          "color": "orange"
+        },
+        {
+          "key": "name-b",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.56,
+            "y": 0.3
+          },
+          "label": {
+            "en": "B",
+            "he": "B"
+          },
+          "width": 0.05
+        },
+        {
+          "key": "c",
+          "ref": "sets/set",
+          "at": {
+            "x": 0.5,
+            "y": 0.58
+          },
+          "color": "green"
+        },
+        {
+          "key": "name-c",
+          "ref": "preset/caption",
+          "at": {
+            "x": 0.5,
+            "y": 0.69
+          },
+          "label": {
+            "en": "C",
+            "he": "C"
+          },
+          "width": 0.05
+        }
+      ],
+      "links": [],
+      "steps": [
+        {
+          "caption": {
+            "en": "The universe U",
+            "he": "המרחב U"
+          },
+          "show": [
+            "universe",
+            "a",
+            "name-a",
+            "b",
+            "name-b",
+            "c",
+            "name-c"
+          ],
+          "effects": []
+        },
+        {
+          "caption": {
+            "en": "Set A",
+            "he": "הקבוצה A"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "a"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Set B overlaps A",
+            "he": "הקבוצה B חופפת את A"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "b"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "Set C overlaps both",
+            "he": "הקבוצה C חופפת את שתיהן"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sets-nested-classes",
+      "name": {
+        "en": "Nested classes",
+        "he": "מחלקות מקוננות"
+      },
+      "category": "sets",
+      "description": {
+        "en": "P sits inside NP inside PSPACE.",
+        "he": "P בתוך NP בתוך PSPACE."
+      },
+      "objects": [
+        {
+          "key": "pspace",
+          "ref": "sets/universe",
+          "at": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "label": {
+            "en": "PSPACE",
+            "he": "PSPACE"
+          }
+        },
+        {
+          "key": "np",
+          "ref": "sets/set",
+          "at": {
+            "x": 0.5,
+            "y": 0.55
+          },
+          "label": {
+            "en": "NP",
+            "he": "NP"
+          }
+        },
+        {
+          "key": "p",
+          "ref": "sets/element",
+          "at": {
+            "x": 0.5,
+            "y": 0.627
+          },
+          "label": {
+            "en": "P",
+            "he": "P"
+          }
+        }
+      ],
+      "links": [],
+      "steps": [
+        {
+          "caption": {
+            "en": "PSPACE is the largest class",
+            "he": "PSPACE היא המחלקה הגדולה"
+          },
+          "show": [
+            "pspace",
+            "np",
+            "p"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "pspace"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "NP sits inside PSPACE",
+            "he": "NP נמצאת בתוך PSPACE"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "np"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "P sits inside NP",
+            "he": "P נמצאת בתוך NP"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "pulse",
+              "target": "p"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

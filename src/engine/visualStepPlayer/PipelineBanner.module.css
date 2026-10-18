@@ -1,0 +1,96 @@
+.banner {
+  display: flex;
+  align-items: stretch;
+  margin: 0;
+  padding: 10px 16px;
+  list-style: none;
+  background: var(--bg-secondary, #0d0d10);
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.06));
+  flex-shrink: 0;
+}
+
+.stage {
+  --stage-color: var(--accent, #c98a3a);
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-inline-end: 24px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  opacity: 0.5;
+  transition: opacity 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+}
+
+.stage:last-child {
+  margin-inline-end: 0;
+}
+
+/* Chevron between two stages so the row reads as a flow, not four separate boxes. */
+.stage:not(:last-child)::after {
+  content: '›';
+  position: absolute;
+  inset-inline-end: -17px;
+  top: 50%;
+  transform: translateY(-52%);
+  color: var(--text-secondary, #a3a3a8);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.badge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--stage-color);
+  border-radius: 50%;
+  color: var(--stage-color);
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: background 0.25s, color 0.25s;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.description {
+  margin-top: 2px;
+  color: var(--text-secondary, #a3a3a8);
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.stage[data-state='active'] {
+  opacity: 1;
+  border-color: var(--stage-color);
+  background: color-mix(in srgb, var(--stage-color) 14%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--stage-color) 35%, transparent);
+}
+
+.stage[data-state='active'] .badge {
+  background: var(--stage-color);
+  color: var(--on-accent, #0a0a0b);
+}
+
+.stage[data-state='done'] {
+  opacity: 0.9;
+  border-color: color-mix(in srgb, var(--stage-color) 55%, transparent);
+}
+
+.stage[data-state='done'] .badge {
+  background: color-mix(in srgb, var(--stage-color) 25%, transparent);
+}

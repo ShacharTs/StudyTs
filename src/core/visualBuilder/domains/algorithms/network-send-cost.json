@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "id": "network/send-cost",
+  "model": "network",
+  "label": "networkSendCost",
+  "routeSearch": "graph/dijkstra",
+  "ttl": 64
+}

@@ -1,0 +1,117 @@
+.root {
+  unicode-bidi: isolate;
+}
+
+.heading1 {
+  display: block;
+  font-size: 1.4em;
+  font-weight: 700;
+  margin: 10px 0 4px;
+  color: var(--text-1);
+}
+
+.heading2 {
+  display: block;
+  font-size: 1.25em;
+  font-weight: 700;
+  margin: 8px 0 4px;
+  color: var(--text-1);
+}
+
+.heading3 {
+  display: block;
+  font-size: 1.12em;
+  font-weight: 600;
+  margin: 6px 0 2px;
+  color: var(--text-1);
+}
+
+.heading4 {
+  display: block;
+  font-size: 1.02em;
+  font-weight: 600;
+  margin: 4px 0 2px;
+  color: var(--text-1);
+}
+
+.strongText {
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.codeInline {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.88em;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--bg-card, rgba(255, 255, 255, 0.08));
+  color: var(--ac-hi);
+}
+
+.link {
+  color: var(--ac, #6366f1);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  pointer-events: auto;
+}
+
+.colorSpan {
+  pointer-events: auto;
+}
+
+.mark {
+  border-radius: 2px;
+  padding: 0 2px;
+  pointer-events: auto;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+
+.markDefinition {
+  background: var(--ac-08);
+  border-bottom-color: var(--ac-35);
+}
+
+.markWarning {
+  background: rgba(229, 116, 104, 0.14);
+  border-bottom-color: rgba(229, 116, 104, 0.5);
+}
+
+.markImportant {
+  background: rgba(212, 168, 67, 0.16);
+  border-bottom-color: rgba(212, 168, 67, 0.5);
+}
+
+.markConcept {
+  background: rgba(56, 189, 248, 0.14);
+  border-bottom-color: rgba(56, 189, 248, 0.5);
+}
+
+.markNote {
+  background: rgba(74, 222, 128, 0.14);
+  border-bottom-color: rgba(74, 222, 128, 0.5);
+}
+
+.katexDisplay {
+  display: block;
+  margin: 8px 0;
+  unicode-bidi: isolate;
+  text-align: center;
+}
+
+.katexInline {
+  display: inline-block;
+  margin: 0 2px;
+  unicode-bidi: isolate;
+}
+
+/* KaTeX's 1.21em default made inline formulas, and fractions especially, tower over the surrounding text. */
+.katexInline :global(.katex) {
+  font-size: 1em;
+}
+
+.fallbackCode {
+  unicode-bidi: isolate;
+}

@@ -1,0 +1,11 @@
+{
+  "format": 1,
+  "id": "graph/dfs",
+  "model": "graph",
+  "label": "dfs",
+  "frontier": {
+    "policy": "lifo"
+  },
+  "mark": "visit",
+  "pushOrder": "label-desc"
+}

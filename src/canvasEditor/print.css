@@ -1,0 +1,54 @@
+/* Printing prints every page as its own sheet, with all editor chrome removed.
+   The canvas shell is a clipped, fixed-height flex layout with an absolutely positioned world, so it
+   must be unclipped here or the printout collapses to a blank page. */
+@page {
+  size: auto;
+  margin: 0;
+}
+
+@media print {
+  .print-hide {
+    display: none !important;
+  }
+
+  .canvasPrintApp,
+  .canvasPrintStage {
+    display: block !important;
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    width: auto !important;
+    overflow: visible !important;
+    background: none !important;
+  }
+
+  .canvasPrintWorld {
+    position: static !important;
+    transform: none !important;
+    display: block !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  .canvasPrintPage {
+    display: block !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    break-after: page;
+    page-break-after: always;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .canvasPrintPage:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .canvasPrintPage * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

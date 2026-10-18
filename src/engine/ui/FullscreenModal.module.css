@@ -1,0 +1,65 @@
+.modalContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background: var(--viz-black);
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.canvasBox {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--viz-black);
+  border-radius: var(--radius-lg, 14px);
+  border: 1.5px solid var(--viz-cyan-35);
+  padding: 6px;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 12px 36px var(--viz-scrim);
+}
+
+.exitButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--accent-danger, #ef4444);
+  border: 1.5px solid var(--accent-danger, #ef4444);
+  padding: 6px 14px;
+  border-radius: var(--radius, 8px);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
+}
+
+.controlsDock {
+  direction: ltr;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+.buttonsGroup {
+  direction: ltr;
+  display: flex;
+  gap: 10px;
+}

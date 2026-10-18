@@ -1,0 +1,135 @@
+.panel { --tl-track-h: 34px; flex: 0 0 auto; height: auto; min-height: 180px; }
+.transport, .stepsRow { flex: none; }
+
+.transport {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--wb-line);
+}
+
+/* Playback sits flush left; step tools take the rest of the row, so the two groups read as separate clusters. */
+.stepsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 18px;
+  padding: 4px 10px 4px var(--tl-gutter);
+  border-bottom: 1px solid var(--wb-line);
+}
+
+.clipText { flex: 1 1 160px; min-width: 120px; max-width: 320px; }
+
+.playGroup { display: flex; align-items: center; gap: 10px; flex: none; }
+.stepTools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; justify-content: flex-end; min-width: 0; }
+.time { min-width: 72px; font-variant-numeric: tabular-nums; }
+.spacer { flex: 1 1 auto; }
+.zoomLabel { min-width: 64px; text-align: end; color: var(--wb-muted); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+
+.scroller { flex: 1 1 auto; min-height: 0; overflow: auto; position: relative; }
+
+.surface { position: relative; width: max-content; min-width: 100%; padding-inline-start: var(--tl-gutter); }
+
+.ruler {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  width: var(--width);
+  height: 22px;
+  background: var(--wb-panel);
+  border-bottom: 1px solid var(--wb-line);
+  font-size: 0.7rem;
+  color: var(--wb-muted);
+  cursor: ew-resize;
+  user-select: none;
+}
+
+.ruler span {
+  position: absolute;
+  left: var(--at);
+  top: 0;
+  bottom: 0;
+  padding: 4px 0 0 4px;
+  border-left: 1px solid var(--wb-line);
+  font-variant-numeric: tabular-nums;
+}
+
+.playheadHandle { position: absolute; left: var(--at); top: 0; width: 12px; height: 10px; margin-left: -6px; background: var(--wb-accent); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.playheadTrack { position: absolute; top: 0; bottom: 0; left: var(--tl-gutter); right: 0; z-index: 4; pointer-events: none; }
+.playheadLine { position: absolute; left: var(--at); top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--wb-accent); }
+
+.tracks { position: relative; padding: 6px 0 12px; min-height: 48px; }
+
+.track { position: relative; height: var(--tl-track-h); margin-bottom: 4px; }
+
+
+.clip {
+  position: absolute;
+  left: var(--left);
+  width: var(--width);
+  min-width: 8px;
+  top: 0;
+  height: var(--tl-track-h);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: grab;
+  user-select: none;
+  border-radius: 8px;
+  border: 1px solid var(--k);
+  background: color-mix(in srgb, var(--k) 30%, var(--wb-panel));
+}
+
+.clip:active { cursor: grabbing; }
+.clip[data-tone='fill'] { --k: var(--wb-fx-fill); }
+.clip[data-tone='flow'] { --k: var(--wb-fx-flow); }
+.clip[data-tone='zig'] { --k: var(--wb-fx-zig); }
+.clip[data-tone='look'] { --k: var(--wb-fx-look); }
+.clip[data-selected='true'] { outline: 2px solid var(--wb-accent); z-index: 2; }
+.clip[data-dim='true'] { opacity: 0.35; }
+/* Raised while dragged: packing runs on drop, so neighbours may sit underneath until then. */
+.clip[data-dragging='true'] { z-index: 4; box-shadow: 0 6px 18px rgb(0 0 0 / 0.35); opacity: 0.92; }
+
+.clipIcon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 6px;
+  color: var(--wb-on-accent);
+  font-size: 0.8rem;
+  background: var(--k);
+}
+
+.clipTarget { font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+.clipLabel { color: var(--wb-muted); }
+
+.edgeStart, .edgeEnd { position: absolute; top: 0; bottom: 0; width: 8px; cursor: ew-resize; }
+.edgeStart { inset-inline-start: 0; }
+.edgeEnd { inset-inline-end: 0; }
+
+.edgeStart::after, .edgeEnd::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 3px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--k);
+}
+
+.magnet { position: absolute; top: 0; bottom: 0; left: var(--at); width: 1px; background: var(--wb-accent); z-index: 3; pointer-events: none; }
+
+/* Right-click menu on a clip: fixed so the scrolling timeline cannot clip it. */
+.clipMenu { position: fixed; z-index: 20; display: flex; flex-direction: column; min-width: 180px; padding: 4px; background: var(--wb-panel); border: 1px solid var(--wb-line); border-radius: 8px; box-shadow: 0 6px 18px rgb(0 0 0 / 0.35); }
+.clipMenu button { display: flex; justify-content: space-between; gap: 12px; padding: 6px 10px; background: transparent; border: 0; border-radius: 6px; color: var(--wb-fg); font: inherit; text-align: start; cursor: pointer; }
+.clipMenu button:hover { background: var(--wb-hover, color-mix(in srgb, var(--wb-accent) 14%, transparent)); }
+.clipMenu kbd { color: var(--wb-muted); font: inherit; font-size: 0.75rem; }

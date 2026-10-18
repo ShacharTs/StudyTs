@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "id": "system",
+  "label": { "en": "System design", "he": "תכנון מערכות" },
+  "icon": "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><polygon points=\"12,3 20,7.5 20,16.5 12,21 4,16.5 4,7.5\"/></g>",
+  "order": 50,
+  "description": { "en": "Servers, queues and caches", "he": "שרתים, תורים ומטמונים" }
+}

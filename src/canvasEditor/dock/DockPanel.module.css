@@ -1,0 +1,126 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--bg-primary);
+}
+
+.header {
+  display: flex;
+  align-items: stretch;
+  flex: 0 0 auto;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-hair);
+  cursor: default;
+  user-select: none;
+}
+
+.headerBottom {
+  border-bottom: none;
+  border-top: 1px solid var(--border-hair);
+}
+
+.tabs {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 7px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: grab;
+  white-space: nowrap;
+}
+
+.tabFixed {
+  cursor: default;
+}
+
+.tab:hover {
+  color: var(--text-1);
+  background: var(--bg-card);
+}
+
+.tabActive {
+  color: var(--ac);
+  border-bottom-color: var(--ac);
+  background: var(--bg-primary);
+}
+
+.collapseBtn {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  border: none;
+  border-left: 1px solid var(--border-hair);
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+}
+
+.collapseBtn:hover {
+  color: var(--text-1);
+  background: var(--bg-card);
+}
+
+.collapseIcon,
+.collapseIconCollapsed {
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.collapseIconCollapsed {
+  transform: rotate(-90deg);
+}
+
+.closeBtn {
+  flex: 0 0 auto;
+  width: 22px;
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.closeBtn:hover {
+  color: var(--text-1);
+  background: var(--accent-danger, #dc2626);
+}
+
+.contentExpand,
+.contentCollapse {
+  display: grid;
+  min-height: 0;
+  transition: grid-template-rows var(--duration-base) var(--ease-standard);
+}
+
+.contentExpand {
+  grid-template-rows: 1fr;
+  flex: 1;
+}
+
+.contentCollapse {
+  grid-template-rows: 0fr;
+  flex: 0 0 auto;
+}
+
+.content {
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.contentCollapse .content {
+  overflow: hidden;
+}

@@ -1,0 +1,32 @@
+.versionRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-sm, 8px);
+}
+
+.version {
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.muted {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.notes {
+  white-space: pre-wrap;
+  font-size: 12px;
+  color: var(--text-2, var(--text-3));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm, 8px);
+}
+
+.warning {
+  color: var(--danger, #ef4444);
+  font-size: 12px;
+}

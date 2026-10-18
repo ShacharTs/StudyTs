@@ -1,0 +1,106 @@
+.controlRail {
+  zoom: var(--ui-scale, 1);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--rail-line);
+  background: var(--rail-bg);
+  flex-shrink: 0;
+  direction: ltr;
+}
+
+.stepCounterGroup {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.stepCounter {
+  font: 11px 'Fira Code', monospace;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.ticksContainer {
+  display: flex;
+  gap: 4px;
+}
+
+/* Many steps: thinner ticks so the counter and the transport keep one line. */
+.ticksDense .tickMark { width: 8px; }
+
+.tickMark {
+  width: 20px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--rail-track);
+  transition: background 0.2s ease;
+}
+
+.tickMarkActive {
+  background: var(--ac);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.leadingGroup {
+  display: flex;
+  align-items: center;
+}
+
+.transportGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* The .controlRail prefix beats the workbench "button { color: inherit }", which would take the page text colour. */
+.controlRail .iconButton {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: transparent;
+  border: 1px solid var(--rail-hairline);
+  color: var(--text-3);
+  cursor: pointer;
+}
+
+.disabledButton {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.controlRail .playButton {
+  width: 46px;
+  height: 30px;
+  border-radius: 7px;
+  background: var(--ac-18);
+  border: 1px solid var(--ac);
+  color: var(--text-1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.extraGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controlRail .fullscreenButton {
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid var(--rail-hairline);
+  color: var(--text-3);
+  cursor: pointer;
+  font-size: 11px;
+  white-space: nowrap;
+}

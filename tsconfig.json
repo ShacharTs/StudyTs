@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": ["src/core/*"],
+      "@data/*": ["data/*"],
+      "@components/*": ["src/components/*"],
+      "@engine": ["src/engine/index.ts"],
+      "@engine/*": ["src/engine/*"],
+      "@canvasStore": ["src/canvasStore/index.ts"],
+      "@canvasStore/*": ["src/canvasStore/*"],
+      "@canvasEditor/*": ["src/canvasEditor/*"],
+      "@ai/*": ["src/ai/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@i18n": ["src/i18n/index.ts"],
+      "@i18n/*": ["src/i18n/*"]
+    }
+  },
+  "include": ["src", "data", "server", "scripts", "prisma", "vite-plugins", "test"]
+}

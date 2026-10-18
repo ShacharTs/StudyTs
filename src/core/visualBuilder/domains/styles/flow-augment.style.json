@@ -1,0 +1,16 @@
+{
+  "format": 1,
+  "id": "flow/augment",
+  "colors": {
+    "path": "orange",
+    "cut": "pink"
+  },
+  "captions": {
+    "start": "flowStart",
+    "augment": "flowAugment",
+    "done": "flowDone"
+  },
+  "strip": {
+    "flow": "flowStrip"
+  }
+}

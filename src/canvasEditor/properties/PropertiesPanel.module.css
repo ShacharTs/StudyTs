@@ -1,0 +1,274 @@
+.panel {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px;
+  background: var(--bg-secondary);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 4px 10px;
+  border-bottom: 1px solid var(--border-hair);
+  font-weight: 600;
+  font-size: var(--fs-md);
+  color: var(--text-1);
+}
+
+.title {
+  overflow-wrap: anywhere;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-3);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.closeBtn:hover {
+  color: var(--text-1);
+}
+
+.empty {
+  padding: 16px;
+  color: var(--text-3);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 2px 4px;
+  container-type: inline-size;
+}
+
+.categoryBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px 4px 8px;
+}
+
+.categoryButton {
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--border-hair);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  color: var(--text-2);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.categoryButton:hover {
+  border-color: var(--border-color);
+  color: var(--text-1);
+}
+
+.categoryButton[aria-pressed='true'] {
+  border-color: var(--ac);
+  color: var(--text-1);
+  background: var(--ac-18);
+}
+
+.categoryButton:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 1px;
+}
+
+.groupHeading {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-1);
+  margin: 10px 0 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-hair);
+  text-align: start;
+}
+
+.groupHeading:first-child {
+  margin-top: 2px;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 10px;
+}
+
+/* Wider panels use the free width for more columns; the panel is resized by dragging its edge. */
+@container (min-width: 420px) {
+  .fieldGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 600px) {
+  .fieldGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.fieldRow {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 3px;
+  font-size: 0.75rem;
+  min-width: 0;
+}
+
+.fieldRowSpan2 {
+  grid-column: span 2;
+}
+
+.fieldLabel {
+  width: auto;
+  flex-shrink: 0;
+  color: var(--text-2);
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.textInput,
+.selectInput {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--border-hair);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  color: var(--text-1);
+  font-size: 0.8rem;
+  transition: background var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+
+.textInput:hover,
+.selectInput:hover {
+  border-color: var(--border-color);
+}
+
+.textInput:focus,
+.selectInput:focus {
+  border-color: var(--ac);
+  box-shadow: 0 0 0 2px var(--ac-18);
+  outline: none;
+}
+
+.numberInput {
+  width: 100%;
+  min-width: 0;
+  height: 30px;
+  padding: 0 8px;
+  direction: ltr;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--border-hair);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  color: var(--text-1);
+  font-size: 0.8rem;
+  transition: background var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+
+.numberInput:hover {
+  border-color: var(--border-color);
+}
+
+.numberInput:focus {
+  border-color: var(--ac);
+  box-shadow: 0 0 0 2px var(--ac-18);
+  outline: none;
+}
+
+.colorInput {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--border-hair);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+.colorWithClear { display: inline-flex; align-items: center; gap: 4px; }
+.clearColor {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--border-hair);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.clearColor:disabled { opacity: 0.4; cursor: default; }
+
+@media (pointer: coarse) {
+  .textInput,
+  .selectInput,
+  .numberInput {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .textInput,
+  .selectInput,
+  .numberInput {
+    transition: none;
+  }
+}
+
+.objectIcon {
+  flex: 0 0 auto;
+  color: var(--text-2);
+}
+
+.numberWithUnit {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.numberWithUnit .numberInput {
+  padding-right: 26px;
+}
+
+.unit {
+  position: absolute;
+  right: 8px;
+  color: var(--text-3, var(--text-2));
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.textArea {
+  width: 100%;
+  min-height: 28px;
+  padding: 4px 8px;
+  border: 1px solid var(--border-hair);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-1);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  resize: none;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.textArea:focus {
+  outline: 2px solid var(--ac);
+  outline-offset: 1px;
+}

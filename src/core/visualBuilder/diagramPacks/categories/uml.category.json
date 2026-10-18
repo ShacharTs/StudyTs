@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "id": "uml",
+  "label": { "en": "UML", "he": "תרשימי UML" },
+  "icon": "<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\"/><line x1=\"4\" y1=\"9\" x2=\"20\" y2=\"9\"/><line x1=\"4\" y1=\"15\" x2=\"20\" y2=\"15\"/></g>",
+  "order": 20,
+  "description": { "en": "Class, interface and package boxes", "he": "מחלקות, ממשקים וחבילות" }
+}

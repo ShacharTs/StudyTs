@@ -1,0 +1,673 @@
+{
+  "format": 1,
+  "id": "network",
+  "name": {
+    "en": "Network",
+    "he": "רשת"
+  },
+  "category": "network",
+  "color": "orange",
+  "objects": [
+    {
+      "id": "router",
+      "label": {
+        "en": "Router",
+        "he": "נתב"
+      },
+      "size": {
+        "w": 0.09,
+        "h": 0.09
+      },
+      "kind": "closed",
+      "view": {
+        "w": 18,
+        "h": 18
+      },
+      "outline": "ellipse",
+      "anchors": [
+        {
+          "id": "top",
+          "x": 0.5,
+          "y": 0,
+          "nx": 0,
+          "ny": -1
+        },
+        {
+          "id": "right",
+          "x": 1,
+          "y": 0.5,
+          "nx": 1,
+          "ny": 0
+        },
+        {
+          "id": "bottom",
+          "x": 0.5,
+          "y": 1,
+          "nx": 0,
+          "ny": 1
+        },
+        {
+          "id": "left",
+          "x": 0,
+          "y": 0.5,
+          "nx": -1,
+          "ny": 0
+        }
+      ],
+      "svg": "<circle cx=\"0\" cy=\"0\" r=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M 0 -6 V -3 M 0 3 V 6 M -6 0 H -3 M 3 0 H 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>",
+      "labelAt": "below",
+      "keywords": [
+        "route",
+        "gateway",
+        "forward"
+      ]
+    },
+    {
+      "id": "switch",
+      "label": {
+        "en": "Switch",
+        "he": "מתג"
+      },
+      "size": {
+        "w": 0.09,
+        "h": 0.045
+      },
+      "kind": "box",
+      "view": {
+        "w": 20,
+        "h": 10
+      },
+      "outline": "rect",
+      "anchors": [
+        {
+          "id": "top",
+          "x": 0.5,
+          "y": 0,
+          "nx": 0,
+          "ny": -1
+        },
+        {
+          "id": "right",
+          "x": 1,
+          "y": 0.5,
+          "nx": 1,
+          "ny": 0
+        },
+        {
+          "id": "bottom",
+          "x": 0.5,
+          "y": 1,
+          "nx": 0,
+          "ny": 1
+        },
+        {
+          "id": "left",
+          "x": 0,
+          "y": 0.5,
+          "nx": -1,
+          "ny": 0
+        }
+      ],
+      "svg": "<rect x=\"-10\" y=\"-5\" width=\"20\" height=\"10\" rx=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M -6 -2 H 5 M 6 2 H -5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>",
+      "labelAt": "below",
+      "keywords": [
+        "l2",
+        "frames"
+      ]
+    },
+    {
+      "id": "firewall",
+      "label": {
+        "en": "Firewall",
+        "he": "חומת אש"
+      },
+      "size": {
+        "w": 0.09,
+        "h": 0.07
+      },
+      "kind": "box",
+      "view": {
+        "w": 18,
+        "h": 14
+      },
+      "outline": "rect",
+      "anchors": [
+        {
+          "id": "top",
+          "x": 0.5,
+          "y": 0,
+          "nx": 0,
+          "ny": -1
+        },
+        {
+          "id": "right",
+          "x": 1,
+          "y": 0.5,
+          "nx": 1,
+          "ny": 0
+        },
+        {
+          "id": "bottom",
+          "x": 0.5,
+          "y": 1,
+          "nx": 0,
+          "ny": 1
+        },
+        {
+          "id": "left",
+          "x": 0,
+          "y": 0.5,
+          "nx": -1,
+          "ny": 0
+        }
+      ],
+      "svg": "<rect x=\"-9\" y=\"-7\" width=\"18\" height=\"14\" rx=\"0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M -9 -2.3 H 9 M -9 2.3 H 9 M 0 -7 V -2.3 M -4.5 -2.3 V 2.3 M 4.5 -2.3 V 2.3 M 0 2.3 V 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>",
+      "labelAt": "below",
+      "keywords": [
+        "security",
+        "filter",
+        "wall"
+      ]
+    },
+    {
+      "id": "server",
+      "label": {
+        "en": "Server",
+        "he": "שרת"
+      },
+      "size": {
+        "w": 0.07,
+        "h": 0.08
+      },
+      "kind": "box",
+      "view": {
+        "w": 16,
+        "h": 18
+      },
+      "outline": "rect",
+      "anchors": [
+        {
+          "id": "top",
+          "x": 0.5,
+          "y": 0,
+          "nx": 0,
+          "ny": -1
+        },
+        {
+          "id": "right",
+          "x": 1,
+          "y": 0.5,
+          "nx": 1,
+          "ny": 0
+        },
+        {
+          "id": "bottom",
+          "x": 0.5,
+          "y": 1,
+          "nx": 0,
+          "ny": 1
+        },
+        {
+          "id": "left",
+          "x": 0,
+          "y": 0.5,
+          "nx": -1,
+          "ny": 0
+        }
+      ],
+      "svg": "<rect x=\"-8\" y=\"-9\" width=\"16\" height=\"18\" rx=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M -5 -3 H 5 M -5 1 H 5 M -5 5 H 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>",
+      "labelAt": "below",
+      "keywords": [
+        "host",
+        "machine"
+      ]
+    },
+    {
+      "id": "client",
+      "label": {
+        "en": "Client",
+        "he": "לקוח"
+      },
+      "size": {
+        "w": 0.08,
+        "h": 0.07
+      },
+      "kind": "box",
+      "view": {
+        "w": 18,
+        "h": 16
+      },
+      "outline": "rect",
+      "anchors": [
+        {
+          "id": "top",
+          "x": 0.5,
+          "y": 0,
+          "nx": 0,
+          "ny": -1
+        },
+        {
+          "id": "right",
+          "x": 1,
+          "y": 0.5,
+          "nx": 1,
+          "ny": 0
+        },
+        {
+          "id": "bottom",
+          "x": 0.5,
+          "y": 1,
+          "nx": 0,
+          "ny": 1
+        },
+        {
+          "id": "left",
+          "x": 0,
+          "y": 0.5,
+          "nx": -1,
+          "ny": 0
+        }
+      ],
+      "svg": "<path d=\"M -9 -8 H 9 V 4 H -9 Z M 0 4 V 7 M -4 8 H 4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>",
+      "labelAt": "below",
+      "aliases": [
+        "pc"
+      ],
+      "keywords": [
+        "pc",
+        "computer",
+        "workstation"
+      ]
+    },
+    {
+      "id": "cloud",
+      "label": {
+        "en": "Cloud",
+        "he": "ענן"
+      },
+      "size": {
+        "w": 0.12,
+        "h": 0.081
+      },
+      "kind": "closed",
+      "view": {
+        "w": 19,
+        "h": 12.8
+      },
+      "outline": "ellipse",
+      "anchors": [
+        {
+          "id": "top",
+          "x": 0.5,
+          "y": 0,
+          "nx": 0,
+          "ny": -1
+        },
+        {
+          "id": "right",
+          "x": 1,
+          "y": 0.5,
+          "nx": 1,
+          "ny": 0
+        },
+        {
+          "id": "bottom",
+          "x": 0.5,
+          "y": 1,
+          "nx": 0,
+          "ny": 1
+        },
+        {
+          "id": "left",
+          "x": 0,
+          "y": 0.5,
+          "nx": -1,
+          "ny": 0
+        }
+      ],
+      "svg": "<path d=\"M -5 6 A 4 4 0 0 1 -5.5 -2 A 5.5 5.5 0 0 1 5 -3.5 A 4.5 4.5 0 0 1 5 6 Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>",
+      "labelAt": "below",
+      "keywords": [
+        "internet",
+        "wan"
+      ]
+    },
+    {
+      "id": "hub",
+      "label": {
+        "en": "Hub",
+        "he": "רכזת"
+      },
+      "size": {
+        "w": 0.08,
+        "h": 0.032
+      },
+      "kind": "box",
+      "view": {
+        "w": 20,
+        "h": 8
+      },
+      "outline": "rect",
+      "anchors": [
+        {
+          "id": "top",
+          "x": 0.5,
+          "y": 0,
+          "nx": 0,
+          "ny": -1
+        },
+        {
+          "id": "right",
+          "x": 1,
+          "y": 0.5,
+          "nx": 1,
+          "ny": 0
+        },
+        {
+          "id": "bottom",
+          "x": 0.5,
+          "y": 1,
+          "nx": 0,
+          "ny": 1
+        },
+        {
+          "id": "left",
+          "x": 0,
+          "y": 0.5,
+          "nx": -1,
+          "ny": 0
+        }
+      ],
+      "svg": "<rect x=\"-10\" y=\"-4\" width=\"20\" height=\"8\" rx=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><circle cx=\"-6\" cy=\"0\" r=\"1.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><circle cx=\"-2\" cy=\"0\" r=\"1.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><circle cx=\"2\" cy=\"0\" r=\"1.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><circle cx=\"6\" cy=\"0\" r=\"1.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>",
+      "labelAt": "below",
+      "keywords": [
+        "repeater",
+        "ports"
+      ]
+    },
+    {
+      "id": "database",
+      "label": {
+        "en": "Database",
+        "he": "מסד נתונים"
+      },
+      "size": {
+        "w": 0.07,
+        "h": 0.08
+      },
+      "kind": "closed",
+      "view": {
+        "w": 16,
+        "h": 18
+      },
+      "outline": "rect",
+      "anchors": [
+        {
+          "id": "top",
+          "x": 0.5,
+          "y": 0,
+          "nx": 0,
+          "ny": -1
+        },
+        {
+          "id": "right",
+          "x": 1,
+          "y": 0.5,
+          "nx": 1,
+          "ny": 0
+        },
+        {
+          "id": "bottom",
+          "x": 0.5,
+          "y": 1,
+          "nx": 0,
+          "ny": 1
+        },
+        {
+          "id": "left",
+          "x": 0,
+          "y": 0.5,
+          "nx": -1,
+          "ny": 0
+        }
+      ],
+      "svg": "<path d=\"M -8 -6 A 8 3 0 0 1 8 -6 V 6 A 8 3 0 0 1 -8 6 Z M -8 -6 A 8 3 0 0 0 8 -6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>",
+      "labelAt": "below",
+      "aliases": [
+        "cylinder"
+      ],
+      "keywords": [
+        "db",
+        "sql",
+        "storage"
+      ]
+    },
+    {
+      "id": "subnet",
+      "label": {
+        "en": "Subnet",
+        "he": "תת-רשת"
+      },
+      "size": {
+        "w": 0.3,
+        "h": 0.2
+      },
+      "kind": "box",
+      "svg": "<rect x=\"-120\" y=\"-80\" width=\"{w}\" height=\"{h}\" rx=\"16\" fill=\"none\" stroke-dasharray=\"8 6\"/>",
+      "labelAt": "top",
+      "keywords": [
+        "vpc",
+        "boundary",
+        "region",
+        "zone"
+      ]
+    },
+    {
+      "id": "packet",
+      "label": {
+        "en": "Packet",
+        "he": "מנת מידע"
+      },
+      "size": {
+        "w": 0.025,
+        "h": 0.02
+      },
+      "kind": "closed",
+      "svg": "<rect x=\"-10\" y=\"-8\" width=\"{w}\" height=\"{h}\" fill=\"currentColor\" stroke=\"none\" data-role=\"solid\"/>",
+      "labelAt": "none",
+      "keywords": [
+        "frame",
+        "datagram",
+        "message"
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "id": "network-lan",
+      "name": {
+        "en": "Small LAN",
+        "he": "רשת קטנה"
+      },
+      "category": "network",
+      "description": {
+        "en": "Clients, a switch, a router, a server.",
+        "he": "לקוחות, מתג, נתב ושרת."
+      },
+      "objects": [
+        {
+          "key": "c1",
+          "ref": "network/client",
+          "at": {
+            "x": 0.14,
+            "y": 0.8
+          },
+          "label": {
+            "en": "PC 1",
+            "he": "PC 1"
+          }
+        },
+        {
+          "key": "c2",
+          "ref": "network/client",
+          "at": {
+            "x": 0.14,
+            "y": 0.3
+          },
+          "label": {
+            "en": "PC 2",
+            "he": "PC 2"
+          }
+        },
+        {
+          "key": "sw",
+          "ref": "network/switch",
+          "at": {
+            "x": 0.38,
+            "y": 0.55
+          },
+          "label": {
+            "en": "Switch",
+            "he": "Switch"
+          }
+        },
+        {
+          "key": "rt",
+          "ref": "network/router",
+          "at": {
+            "x": 0.62,
+            "y": 0.55
+          },
+          "label": {
+            "en": "Router",
+            "he": "Router"
+          }
+        },
+        {
+          "key": "cl",
+          "ref": "network/cloud",
+          "at": {
+            "x": 0.86,
+            "y": 0.3
+          },
+          "label": {
+            "en": "Internet",
+            "he": "Internet"
+          }
+        },
+        {
+          "key": "sv",
+          "ref": "network/server",
+          "at": {
+            "x": 0.86,
+            "y": 0.78
+          },
+          "label": {
+            "en": "Server",
+            "he": "Server"
+          }
+        }
+      ],
+      "links": [
+        {
+          "from": "c1",
+          "to": "sw",
+          "arrow": false
+        },
+        {
+          "from": "c2",
+          "to": "sw",
+          "arrow": false
+        },
+        {
+          "from": "sw",
+          "to": "rt",
+          "arrow": false
+        },
+        {
+          "from": "rt",
+          "to": "cl",
+          "arrow": false
+        },
+        {
+          "from": "rt",
+          "to": "sv",
+          "arrow": false
+        }
+      ],
+      "steps": [
+        {
+          "caption": {
+            "en": "PC 1 has a packet to send",
+            "he": "למחשב 1 יש חבילה לשליחה"
+          },
+          "show": [
+            "c1",
+            "c2",
+            "sw",
+            "rt",
+            "cl",
+            "sv"
+          ],
+          "effects": [
+            {
+              "effect": "glow",
+              "target": "c1"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "The switch forwards it",
+            "he": "המתג מעביר אותה"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "c1->sw"
+            },
+            {
+              "effect": "glow",
+              "target": "sw"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "The router picks the next hop",
+            "he": "הנתב בוחר את הקפיצה הבאה"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "sw->rt"
+            },
+            {
+              "effect": "glow",
+              "target": "rt"
+            }
+          ]
+        },
+        {
+          "caption": {
+            "en": "The server receives it",
+            "he": "השרת מקבל אותה"
+          },
+          "show": [],
+          "effects": [
+            {
+              "effect": "travel",
+              "target": "rt->sv"
+            },
+            {
+              "effect": "pulse",
+              "target": "sv"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

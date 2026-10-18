@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id          String   @id
+  code        String
+  title       Json
+  subtitle    Json
+  description Json
+  icon        String
+  color       String
+  accent      String
+  badge       Json
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  weeks       Week[]
+
+  @@map("courses")
+}
+
+model Week {
+  id        Int      @id @default(autoincrement())
+  courseId   String   @map("course_id")
+  weekKey   String   @map("week_key")
+  title     Json
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  topics    Topic[]
+
+  @@unique([courseId, weekKey])
+  @@map("weeks")
+}
+
+model Topic {
+  id          Int           @id @default(autoincrement())
+  weekId      Int           @map("week_id")
+  section     String
+  topicId     String        @map("topic_id")
+  position    Int           @default(0)
+  title       Json
+  description Json
+  scene       Json?
+  content     Json?
+  model       Json?
+  attachments Json?
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  week        Week          @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  sceneHistory SceneHistory[]
+
+  @@unique([weekId, section, topicId])
+  @@map("topics")
+}
+
+model SceneHistory {
+  id        Int      @id @default(autoincrement())
+  topicId   Int      @map("topic_id")
+  scene     Json
+  createdAt DateTime @default(now()) @map("created_at")
+  topic     Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@index([topicId, createdAt])
+  @@map("scene_history")
+}
+
+model ChatSession {
+  id                 String   @id @default("default")
+  displayMessages    Json     @map("display_messages")
+  conversationHistory Json    @map("conversation_history")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("chat_sessions")
+}
+
+model CanvasStoreDoc {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  doc       Json
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("canvas_store_docs")
+}
+
+model VisualSpecDoc {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  spec      Json
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("visual_spec_docs")
+}

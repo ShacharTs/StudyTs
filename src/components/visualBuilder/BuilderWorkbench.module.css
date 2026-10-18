@@ -1,0 +1,406 @@
+.workbench {
+  --wb-bg: var(--bg-primary);
+  --wb-panel: var(--bg-secondary);
+  --wb-canvas: color-mix(in srgb, var(--bg-primary) 60%, var(--bg-secondary));
+  --wb-grid: var(--border-subtle);
+  --wb-fg: var(--text-primary);
+  --wb-muted: var(--text-secondary);
+  --wb-line: var(--border-color);
+  --wb-accent: var(--accent);
+  --wb-on-accent: var(--on-accent);
+  --wb-ok: var(--accent-green);
+  --wb-danger: var(--accent-danger);
+  --wb-fx-fill: var(--viz-blue);
+  --wb-fx-flow: var(--accent-green);
+  --wb-fx-zig: var(--viz-purple);
+  --wb-fx-look: var(--viz-orange);
+
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--workbench-top, 0px));
+  min-height: calc(640px * min(1, var(--ui-scale, 1)));
+  background: var(--wb-bg);
+  color: var(--wb-fg);
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.workbench *, .workbench *::before, .workbench *::after { box-sizing: inherit; }
+
+.workbench button, .workbench select, .workbench input, .workbench textarea { font: inherit; color: inherit; }
+
+.workbench :focus-visible { outline: 2px solid var(--wb-accent); outline-offset: 2px; }
+
+.workbench select { background: var(--wb-panel); color: var(--wb-fg); border: 1px solid var(--wb-line); border-radius: 8px; padding: 6px 8px; }
+.workbench select option { background: var(--wb-panel); color: var(--wb-fg); }
+.workbench input[type='text'], .workbench input:not([type]), .workbench textarea { background: var(--wb-canvas); color: var(--wb-fg); border: 1px solid var(--wb-line); border-radius: 8px; padding: 6px 8px; }
+
+.workbench kbd {
+  font-family: var(--font-mono, ui-monospace, Consolas, monospace);
+  font-size: 0.72rem;
+  padding: 0 5px;
+  border: 1px solid var(--wb-line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  color: var(--wb-muted);
+}
+
+.topBar {
+  zoom: var(--ui-scale, 1);
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px 18px;
+  min-height: 48px;
+  padding: 4px 12px;
+  position: relative;
+  z-index: 20;
+  container-type: inline-size;
+  container-name: topbar;
+  background: var(--wb-panel);
+  border-bottom: 1px solid var(--wb-line);
+}
+
+.spacer { flex: 1 1 auto; min-width: 8px; }
+.field { display: inline-flex; align-items: center; gap: 6px; color: var(--wb-muted); }
+
+/* The File menu repeats the View entries; they only show once the group they stand in for has collapsed. */
+.topBar .fileView { display: none; }
+
+@container topbar (max-width: 840px) {
+  .viewMenu { display: none; }
+  .topBar .fileView { display: flex; }
+}
+
+.bench {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 16px 16px;
+  container-type: size;
+  --flow-min-height: calc(240px * var(--ui-scale, 1));
+  grid-template-rows: minmax(0, 1fr) auto;
+  overflow-y: auto;
+  align-items: start;
+}
+
+/* The timeline is the bench's second row and spans both columns, whatever the layout. */
+.bench > .flow { grid-column: 1 / -1; align-self: stretch; }
+/* Both columns fill the first row, so the player's own controls can never run into the timeline. */
+.bench > .buildColumn, .bench > .preview { height: 100%; min-height: 0; align-self: stretch; }
+
+.bench[data-layout='build'] { grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr); }
+.bench[data-layout='preview'] { grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); }
+.bench[data-layout='build'] > .preview { position: sticky; top: 0; max-height: 85vh; }
+.bench[data-layout='preview'] > .buildColumn { position: sticky; top: 0; max-height: 85vh; overflow-y: auto; }
+.bench[data-layout='preview'] > .preview { overflow: visible; }
+
+@media (max-width: 960px) {
+  .workbench { height: auto; }
+  .bench { grid-template-columns: minmax(0, 1fr); }
+}
+
+.buildColumn, .previewColumn { display: flex; flex-direction: column; gap: 12px; min-height: 0; min-width: 0; }
+
+.card, .stage, .flow, .preview { background: var(--wb-panel); border: 1px solid var(--wb-line); border-radius: 12px; }
+
+/* Build frame and the player's canvas get the same height from the column width: stage ratio plus the screen-scaled padding. */
+.buildColumn, .preview { container-type: inline-size; }
+/* Width gives the height; the bench height caps it so the step lanes (their min height, scaled) always stay on screen. */
+.stage, .previewStage [data-stage-canvas] {
+  flex: none;
+  height: max(0px, min(calc((100cqw - 2 * var(--stage-pad)) * var(--stage-ratio, 0.65) + 2 * var(--stage-pad)), 100%));
+}
+.stage { position: relative; overflow: hidden; }
+
+/* An overlay on the stage: a row of its own would push the canvas and the timeline down when a mode starts. */
+.pill {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-start: 8px;
+  z-index: 3;
+  pointer-events: none;
+  margin: 0;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  max-width: calc(100% - 16px);
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--wb-panel);
+  border: 1px solid var(--wb-line);
+  font-size: 0.82rem;
+}
+
+.pill::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--wb-muted); flex: none; }
+.pill[data-mode='connect'], .pill[data-mode='pick'], .pill[data-mode='drag'], .pill[data-mode='walk'] { border-color: var(--wb-accent); }
+.pill[data-mode='connect']::before, .pill[data-mode='pick']::before, .pill[data-mode='drag']::before, .pill[data-mode='walk']::before { background: var(--wb-accent); }
+
+.floating {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--wb-panel);
+  border: 1px solid var(--wb-line);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+  /* A shrink-to-fit width depends on `left`, which depends on the measured width: wrapping would then oscillate. */
+  width: max-content;
+  max-width: 100%;
+}
+
+.floating select { background: transparent; border: 0; border-radius: 6px; padding: 5px 8px; cursor: pointer; }
+.floating { flex-wrap: wrap; }
+.floatingNote { flex-basis: 100%; }
+.floating input[type='text'] { width: 9ch; padding: 3px 6px; }
+
+.swatch {
+  width: 18px;
+  height: 18px;
+  margin: 4px 2px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: var(--swatch);
+}
+
+.floating .swatch[aria-pressed='true'] { border-color: var(--wb-fg); background: var(--swatch); }
+
+.quickAdd {
+  translate: var(--fit-x, 0px) var(--fit-y, 0px);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 150px;
+  padding: 6px;
+  background: var(--wb-panel);
+  border: 1px solid var(--wb-line);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+}
+
+.quickAdd small, .popoverTitle { color: var(--wb-muted); padding: 2px 6px; }
+
+.popover {
+  translate: var(--fit-x, 0px) var(--fit-y, 0px);
+  position: absolute;
+  inset-inline-start: 50%;
+  top: 56px;
+  z-index: 5;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(360px, calc(100% - 24px));
+  padding: 12px;
+  background: var(--wb-panel);
+  border: 1px solid var(--wb-line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.flow { zoom: var(--ui-scale, 1); height: 240px; display: flex; flex-direction: column; overflow: hidden; }
+
+.tabsRow { display: flex; align-items: center; gap: 6px; padding-right: 10px; border-bottom: 1px solid var(--wb-line); }
+
+/* Visible overflow so the rename popout is not clipped; tabs wrap instead of scrolling. */
+/* One row that scrolls sideways: more steps must not wrap or squeeze the canvas and preview. */
+.tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; align-items: center; gap: 6px; padding: 0; min-width: 0; flex: 0 1 auto; }
+
+.tab {
+  flex: none;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--wb-line);
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  position: relative;
+  background: var(--wb-canvas);
+  cursor: pointer;
+}
+
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--wb-accent); }
+
+.tab[aria-current='true'] { border-color: var(--wb-accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--wb-accent) 28%, transparent); }
+.tab[data-over='true'] { border-style: dashed; border-color: var(--wb-accent); }
+.tabNumber { color: var(--wb-muted); font-variant-numeric: tabular-nums; }
+.tabName { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.82rem; }
+.renamePop { position: absolute; top: calc(100% + 6px); inset-inline-start: 0; z-index: 10; padding: 6px; background: var(--wb-panel); border: 1px solid var(--wb-line); border-radius: 8px; box-shadow: 0 6px 18px rgb(0 0 0 / 0.35); }
+.tabInput { width: auto; font: inherit; font-size: 0.82rem; padding: 0 4px; border: 1px solid var(--wb-accent); border-radius: 4px; background: var(--wb-canvas); color: var(--wb-fg, inherit); }
+
+.miniButton {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  font-size: 0.82rem;
+  background: transparent;
+  border: 1px solid var(--wb-line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.miniButton:hover:not(:disabled) { border-color: var(--wb-accent); }
+.miniButton:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.metaButtons { display: flex; gap: 6px; }
+
+.empty { color: var(--wb-muted); padding: 10px 0; }
+
+.anchor { display: inline-flex; }
+
+/* The same pop-out as the Mode and Insert menus: under its button, fitted to the window. */
+.gallery {
+  translate: var(--fit-x, 0px) var(--fit-y, 0px);
+  position: fixed;
+  top: 56px;
+  inset-inline-start: 16px;
+  width: min(520px, calc(100vw - 32px));
+  z-index: 8;
+  max-height: 70vh;
+  overflow: auto;
+  padding: 12px;
+  background: var(--wb-panel);
+  border: 1px solid var(--wb-line);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+}
+
+.galleryTitle { margin: 0 0 8px; font-size: 0.98rem; font-weight: 700; }
+/* Cards wrap into columns that fit the container, so every option is visible without sideways scrolling. */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; padding-bottom: 4px; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: start;
+  padding: 8px;
+  border: 1px solid var(--wb-line);
+  border-radius: 10px;
+  background: var(--wb-canvas);
+  cursor: pointer;
+}
+
+.card:hover, .card:focus-visible { border-color: var(--wb-accent); }
+.card b { font-size: 0.88rem; }
+.card small { color: var(--wb-muted); line-height: 1.3; }
+.cardFor { font-size: 0.7rem; color: var(--wb-muted); }
+.demo { width: 100%; height: 54px; }
+
+
+.preview { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: auto; }
+.previewHeader { flex: none; display: flex; justify-content: flex-end; padding: 6px 10px; border-bottom: 1px solid var(--wb-line); }
+.previewBar { display: flex; justify-content: flex-end; padding: 4px 8px; }
+.previewStage { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.problem { padding: 8px 14px; border-top: 1px solid var(--wb-line); color: var(--wb-muted); font-size: 0.85rem; }
+
+.sheet {
+  translate: var(--fit-x, 0px) var(--fit-y, 0px);
+  position: fixed;
+  inset: auto 16px 16px auto;
+  z-index: 9;
+  width: min(360px, calc(100% - 32px));
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 12px;
+  background: var(--wb-panel);
+  border: 1px solid var(--wb-line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.sheetRow { display: contents; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .demoFill { transform-origin: 50% 100%; transform-box: fill-box; animation: demoFill 1.6s ease-in-out infinite; }
+  .demoReveal { animation: demoReveal 1.6s ease-in-out infinite; }
+  .demoRemove { animation: demoRemove 1.6s ease-in-out infinite; }
+  .demoDraw { stroke-dasharray: 90; animation: demoDraw 1.6s ease-in-out infinite; }
+  .demoTravel { animation: demoTravel 1.6s ease-in-out infinite; }
+  .demoFlow { stroke-dasharray: 8 8; animation: demoMarch 0.5s linear infinite; }
+  .demoZig { stroke-dasharray: 160; animation: demoDraw 1.2s linear infinite; }
+  .demoOutline { stroke-dasharray: 3 4 8 4; animation: demoMarch 0.6s linear infinite; }
+  .demoPulse { transform-origin: center; transform-box: fill-box; animation: demoPulse 1.2s ease-in-out infinite; }
+  .demoGrow { transform-origin: center; transform-box: fill-box; animation: demoGrow 1.2s ease-in-out infinite; }
+  .demoBounce { animation: demoBounce 1.2s ease-in-out infinite; }
+  .demoGlow { animation: demoGlow 1.4s ease-in-out infinite; }
+  .demoSweep { animation: demoSweep 1.4s ease-in-out infinite; }
+  .demoCallout { animation: demoReveal 1.6s ease-in-out infinite; }
+}
+
+@keyframes demoFill { 0% { transform: scaleY(0); } 70%, 100% { transform: scaleY(1); } }
+@keyframes demoReveal { 0%, 15% { opacity: 0; } 60%, 100% { opacity: 1; } }
+@keyframes demoRemove { 0%, 15% { opacity: 1; } 60%, 100% { opacity: 0; } }
+@keyframes demoDraw { 0% { stroke-dashoffset: 90; } 70%, 100% { stroke-dashoffset: 0; } }
+@keyframes demoTravel { 0% { transform: translateX(0); } 80%, 100% { transform: translateX(78px); } }
+@keyframes demoMarch { to { stroke-dashoffset: -26; } }
+@keyframes demoPulse { 50% { transform: scale(1.25); } }
+@keyframes demoGrow { 50% { transform: scale(1.3); } }
+@keyframes demoBounce { 50% { transform: translateY(-8px); } }
+@keyframes demoSweep { 0% { transform: translateX(0); } 80%, 100% { transform: translateX(46px); } }
+@keyframes demoGlow { 50% { filter: drop-shadow(0 0 8px currentColor); } }
+
+.contextMenu {
+  translate: var(--fit-x, 0px) var(--fit-y, 0px);
+  position: absolute;
+  left: min(var(--x), calc(100% - 170px));
+  top: min(var(--y), calc(100% - (var(--rows) * 30px + 14px)));
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 160px;
+  padding: 6px;
+  background: var(--wb-panel);
+  border: 1px solid var(--wb-line);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+}
+
+
+.lifeChip { padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; white-space: nowrap; background: var(--wb-panel); color: var(--wb-muted); }
+
+.inlineText {
+  position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); z-index: 5;
+  width: 160px; padding: 4px 8px; text-align: center; background: var(--wb-panel); color: var(--wb-fg);
+  border: 1px solid var(--wb-line); border-radius: 6px; box-shadow: var(--shadow-card);
+}
+
+
+/* Fullscreen is the player alone: its stage area grows to the monitor instead of keeping the builder's capped height. */
+.previewStage :fullscreen [data-stage-canvas] { flex: 1 1 auto; height: auto; aspect-ratio: auto; }
+/* Preview large: the preview column takes the whole bench height and its stage area takes whatever the head, scrubber and rail leave. */
+.bench[data-layout='preview'] { grid-template-rows: minmax(0, 1fr); }
+.bench[data-layout='preview'] > .preview { align-self: stretch; }
+.bench .previewStage [data-stage-canvas] { flex: 1 1 0; height: auto; min-height: 0; }
+/* The mode toolbar and inspector sit above the canvas, so the canvas takes what they leave instead of overflowing into the timeline. */
+.buildColumn { position: relative; }
+.buildColumn .stage { flex: 1 1 0; height: auto; min-height: 120px; }
+
+
+@container topbar (max-width: 1100px) { .zoomCluster { display: none; } }
+@container topbar (max-width: 840px) { .viewMenu { display: none; } .fileView { display: block; } }
+
+/* The selected object's settings in the top row: the same 32px height as the controls around them. */
+.selection { display: inline-flex; align-items: center; gap: 6px; height: 32px; }
+.selection label { display: inline-flex; align-items: center; gap: 6px; height: 32px; font-size: 0.85rem; color: var(--wb-muted); }
+.selection input[type='text'] { height: 26px; width: 12ch; box-sizing: border-box; }

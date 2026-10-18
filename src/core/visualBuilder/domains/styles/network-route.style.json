@@ -1,0 +1,22 @@
+{
+  "format": 1,
+  "id": "network/route",
+  "colors": {
+    "delivered": "green",
+    "failed": "red"
+  },
+  "captions": {
+    "start": "netStart",
+    "hop": "netHop",
+    "delivered": "netDelivered",
+    "unreachable": "netUnreachable",
+    "expired": "netExpired"
+  },
+  "whys": {
+    "start": "netWhyStart",
+    "hop": "netWhyHop",
+    "delivered": "netWhyDelivered",
+    "unreachable": "netWhyUnreachable",
+    "expired": "netWhyExpired"
+  }
+}

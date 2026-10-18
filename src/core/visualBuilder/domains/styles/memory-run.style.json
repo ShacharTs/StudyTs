@@ -1,0 +1,30 @@
+{
+  "format": 1,
+  "id": "memory/run",
+  "colors": {
+    "leak": "red",
+    "reachable": "green"
+  },
+  "captions": {
+    "root": "memRoot",
+    "reach": "memReach",
+    "leak": "memLeak",
+    "verdict": "memVerdict",
+    "follow": "memFollow",
+    "block": "memBlock",
+    "null": "memNull",
+    "cycle": "memCycle",
+    "dangling": "memDangling"
+  },
+  "whys": {
+    "root": "memWhyRoot",
+    "reach": "memWhyReach",
+    "leak": "memWhyLeak",
+    "verdict": "memWhyVerdict",
+    "follow": "memWhyFollow",
+    "block": "memWhyBlock",
+    "null": "memWhyNull",
+    "cycle": "memWhyCycle",
+    "dangling": "memWhyDangling"
+  }
+}

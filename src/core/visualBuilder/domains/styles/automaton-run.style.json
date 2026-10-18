@@ -1,0 +1,21 @@
+{
+  "format": 1,
+  "id": "automaton/run",
+  "colors": {
+    "accept": "green",
+    "reject": "red"
+  },
+  "captions": {
+    "start": "autoStart",
+    "read": "autoRead",
+    "accept": "autoAccept",
+    "reject": "autoReject",
+    "stuck": "autoStuck"
+  },
+  "whys": {
+    "read": "autoWhyRead",
+    "accept": "autoWhyAccept",
+    "reject": "autoWhyReject",
+    "stuck": "autoWhyStuck"
+  }
+}

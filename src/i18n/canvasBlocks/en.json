@@ -1,0 +1,67 @@
+{
+  "properties": {
+    "hex": "Hex colour",
+    "close": "Close",
+    "categories": {
+      "label": "Property category",
+      "general": "General",
+      "dimensions": "Dimensions",
+      "colors": "Colors",
+      "more": "More",
+      "empty": "No properties for this object"
+    }
+  },
+  "toolbox": {
+    "chips": { "all": "All", "favorites": "Favorites", "uml": "UML", "automata": "Automata", "system": "Design", "network": "Network" }
+  },
+  "layout": {
+    "guides": {
+      "title": "Smart guides: show alignment lines and gaps while dragging"
+    }
+  },
+  "ribbon": {
+    "groups": { "arrange": "Arrange", "align": "Align" },
+    "save": { "idle": "Save", "saving": "Saving…", "saved": "Saved", "error": "Save", "title": "Save (Ctrl+S)" },
+    "arrange": {
+      "duplicate": { "label": "Duplicate", "title": "Duplicate (Ctrl+D)" },
+      "toBack": { "label": "To back", "title": "Send to Back" },
+      "back": { "label": "Back", "title": "Send Backward" },
+      "forward": { "label": "Forward", "title": "Bring Forward" },
+      "toFront": { "label": "To front", "title": "Bring to Front" },
+      "lock": { "label": "Lock", "title": "Lock/Unlock" },
+      "locked": { "label": "Locked", "title": "Lock/Unlock" },
+      "hide": { "label": "Hide", "title": "Hide/Show" },
+      "hidden": { "label": "Hidden", "title": "Hide/Show" },
+      "group": { "label": "Group", "title": "Group (Ctrl+G)" },
+      "ungroup": { "label": "Ungroup", "title": "Ungroup (Ctrl+Shift+G)" }
+    },
+    "align": {
+      "left": { "label": "Left", "title": "Align Left" },
+      "center": { "label": "Center", "title": "Align Center" },
+      "right": { "label": "Right", "title": "Align Right" },
+      "top": { "label": "Top", "title": "Align Top" },
+      "middle": { "label": "Middle", "title": "Align Middle" },
+      "bottom": { "label": "Bottom", "title": "Align Bottom" }
+    },
+    "reason": {
+      "needSelection": "Select an object first",
+      "needTwoToGroup": "Select 2 or more objects to group",
+      "needGroupedToUngroup": "Select a grouped object to ungroup",
+      "needTwoToAlign": "Select 2 or more objects to align"
+    }
+  },
+  "kinds": {
+    "richText": "Rich Text",
+    "box": "Container Box",
+    "graph": "Graph Diagram",
+    "automata": "Turing Machine",
+    "stepPlayer": "Step Player",
+    "image": "Image",
+    "video": "Video",
+    "youtube": "YouTube",
+    "pdf": "PDF",
+    "connector": "Connector",
+    "shape": "Shape",
+    "data": "Data Table"
+  }
+}

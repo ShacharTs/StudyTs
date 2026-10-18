@@ -1,0 +1,10 @@
+{
+  "format": 1,
+  "id": "graph/bfs",
+  "model": "graph",
+  "label": "bfs",
+  "frontier": {
+    "policy": "fifo"
+  },
+  "mark": "discover"
+}
