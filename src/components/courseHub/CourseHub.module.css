@@ -17,19 +17,19 @@ header.headerRow {
 }
 
 h1.title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: var(--fs-2xl);
   line-height: var(--lh-heading);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--text-1);
+  letter-spacing: -0.6px;
+  color: var(--color-ink);
   margin: 0;
 }
 
 p.intro {
   font-size: var(--fs-md);
   line-height: var(--lh-body);
-  color: var(--text-2);
+  color: var(--color-ink-muted);
   margin: 6px 0 0;
 }
 
@@ -38,13 +38,22 @@ div.error { color: var(--accent-danger); font-size: var(--fs-xs); }
 
 /* The list opens once, line by line; nothing else on the page moves by itself. */
 div.list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-div.list > * { animation: lineIn 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-div.list > :nth-child(2) { animation-delay: 50ms; }
-div.list > :nth-child(3) { animation-delay: 100ms; }
-div.list > :nth-child(4) { animation-delay: 150ms; }
-div.list > :nth-child(5) { animation-delay: 200ms; }
-div.list > :nth-child(6) { animation-delay: 250ms; }
-div.list > :nth-child(n + 7) { animation-delay: 300ms; }
+@media (prefers-reduced-motion: no-preference) {
+  div.list > * { animation: entry-fade-up var(--motion-entry) both; }
+  div.list > :nth-child(1) { animation-delay: calc(0 * var(--motion-stagger)); }
+  div.list > :nth-child(2) { animation-delay: calc(1 * var(--motion-stagger)); }
+  div.list > :nth-child(3) { animation-delay: calc(2 * var(--motion-stagger)); }
+  div.list > :nth-child(4) { animation-delay: calc(3 * var(--motion-stagger)); }
+  div.list > :nth-child(5) { animation-delay: calc(4 * var(--motion-stagger)); }
+  div.list > :nth-child(6) { animation-delay: calc(5 * var(--motion-stagger)); }
+  div.list > :nth-child(7) { animation-delay: calc(6 * var(--motion-stagger)); }
+  div.list > :nth-child(8) { animation-delay: calc(7 * var(--motion-stagger)); }
+  div.list > :nth-child(9) { animation-delay: calc(8 * var(--motion-stagger)); }
+  div.list > :nth-child(10) { animation-delay: calc(9 * var(--motion-stagger)); }
+  div.list > :nth-child(11) { animation-delay: calc(10 * var(--motion-stagger)); }
+  div.list > :nth-child(12) { animation-delay: calc(11 * var(--motion-stagger)); }
+  div.list > :nth-child(n + 13) { animation-delay: calc(11 * var(--motion-stagger)); }
+}
 @keyframes lineIn {
   from { opacity: 0; transform: translateY(8px); }
 }
@@ -55,35 +64,35 @@ div.list > :nth-child(n + 7) { animation-delay: 300ms; }
   justify-content: center;
   gap: 8px;
   min-height: 190px;
-  padding: 18px;
+  padding: 24px;
   background: transparent;
   font: inherit;
   font-size: var(--fs-sm);
-  color: var(--text-3);
-  border: 1.5px dashed var(--border-color);
-  border-radius: 12px;
+  color: var(--color-ink-subtle);
+  border: 1.5px dashed var(--color-hairline-strong);
+  border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
-.addCard:hover { color: var(--text-1); }
-.addCard:focus-visible { outline: 2px solid var(--ac); outline-offset: -2px; }
+.addCard:hover { color: var(--color-ink); border-color: var(--color-primary); }
+.addCard:focus-visible { outline: 2px solid var(--focus-ring-color); outline-offset: -2px; }
 
 @media (prefers-reduced-motion: reduce) {
   div.list > * { animation: none; }
 }
 
 header.headerRow { position: relative; padding-bottom: 20px; }
-/* A short accent rule draws itself under the page title when the page opens. */
+/* The accent rule under the page title is gone: the flat title needs no underline flourish. The rule still exists so the animation rules keep their selectors. */
 header.headerRow::after {
   content: '';
   position: absolute;
   inset-inline-start: 0;
   bottom: 0;
-  height: 3px;
+  height: 0;
   border-radius: 2px;
-  background: linear-gradient(90deg, var(--ac), var(--ac-hi));
+  background: transparent;
   animation: ruleDraw 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
 }
-[dir='rtl'] header.headerRow::after { background: linear-gradient(270deg, var(--ac), var(--ac-hi)); }
-@keyframes ruleDraw { from { width: 0; } to { width: 96px; } }
-@media (prefers-reduced-motion: reduce) { header.headerRow::after { animation: none; width: 96px; } }
+[dir='rtl'] header.headerRow::after { background: transparent; }
+@keyframes ruleDraw { from { width: 0; } to { width: 0; } }
+@media (prefers-reduced-motion: reduce) { header.headerRow::after { animation: none; width: 0; } }

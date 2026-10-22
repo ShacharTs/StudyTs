@@ -2,10 +2,10 @@
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background: color-mix(in srgb, var(--bg-secondary) 72%, transparent);
+  background: color-mix(in srgb, var(--color-surface-1) 72%, transparent);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border-hair);
+  border-bottom: 1px solid var(--color-hairline);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   flex: 0 0 auto;
   flex-wrap: wrap;
@@ -22,7 +22,7 @@
 
 @media (prefers-reduced-transparency: reduce) {
   .ribbon {
-    background: var(--bg-secondary);
+    background: var(--color-surface-1);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }

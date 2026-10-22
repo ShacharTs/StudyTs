@@ -12,15 +12,15 @@
   padding: 8px;
   background: var(--wb-panel);
   border: 1px solid var(--wb-line);
-  border-radius: 10px;
-  box-shadow: var(--shadow-card);
+  border-radius: 8px;
+  box-shadow: var(--shadow-menu);
 }
 
 .used { display: flex; flex-direction: row; gap: 6px; }
 
 .used > * { flex: none; width: 22px; height: 22px; }
 
-.slider { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; white-space: nowrap; }
+.slider { display: flex; align-items: center; gap: 6px; font-size: var(--fs-xs); white-space: nowrap; }
 .slider input[type='range'] { width: 110px; }
-.number { width: 64px; padding: 3px 6px; font: inherit; font-size: 0.82rem; color: var(--wb-fg, inherit); background: var(--wb-canvas); border: 1px solid var(--wb-line); border-radius: 6px; }
+.number { width: 64px; padding: 3px 6px; font: inherit; font-size: var(--fs-xs); color: var(--wb-fg, inherit); background: var(--wb-canvas); border: 1px solid var(--wb-line); border-radius: 6px; }
 .number:focus { outline: none; border-color: var(--wb-accent); }

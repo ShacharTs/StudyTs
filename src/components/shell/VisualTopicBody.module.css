@@ -4,3 +4,8 @@
   display: flex;
   flex-direction: column;
 }
+
+.exportError {
+  color: var(--accent-danger);
+  font-size: var(--fs-xs);
+}

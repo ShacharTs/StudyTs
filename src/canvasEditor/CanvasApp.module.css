@@ -24,7 +24,7 @@
 }
 
 .loadError {
-  color: var(--accent-danger, #ef4444);
+  color: var(--color-danger);
   padding: 4px 12px;
   font-size: 0.8rem;
 }

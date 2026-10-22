@@ -1,20 +1,20 @@
 /* A topic is a numbered tile. Its number is real (topics are an ordered sequence; the counter lives on the list).
-   A spine and an icon in the kind's colour say what the topic opens: the Canvas editor or the Step player. */
+   The kind badge says what the topic opens: the Canvas editor or the Step player. The tile itself stays flat. */
 .tile {
-  --kind-color: var(--ac);
+  --kind-color: var(--color-primary);
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 8px;
   min-height: 148px;
-  padding: 16px 20px 18px;
+  padding: 24px;
   padding-inline-start: 24px;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--bg-secondary);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-1);
   overflow: hidden;
   counter-increment: topic;
-  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.2s ease, box-shadow 0.25s ease, background 0.2s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 .canvas { --kind-color: var(--kind-canvas); }
 .player { --kind-color: var(--kind-player); }
@@ -24,37 +24,37 @@
   position: absolute;
   inset-block: 0;
   inset-inline-start: 0;
-  width: 4px;
-  background: var(--kind-color);
-  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+  width: 0;
+  background: transparent;
+  transition: width 0.15s ease;
 }
 .tileLink { cursor: pointer; }
 .tileLink:hover, .tileLink:focus-visible {
-  transform: translateY(-3px);
-  border-color: color-mix(in srgb, var(--kind-color) 55%, var(--border-color));
-  background: color-mix(in srgb, var(--kind-color) 6%, var(--bg-secondary));
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  border-color: var(--color-hairline-strong);
+  background: var(--color-surface-2);
+  box-shadow: none;
 }
-.tileLink:hover::before, .tileLink:focus-visible::before { width: 7px; }
-.tileLink:active { transform: translateY(-1px) scale(0.985); }
-.tileLink:focus-visible { outline: 2px solid var(--ac); outline-offset: 3px; }
+.tileLink:hover::before, .tileLink:focus-visible::before { width: 0; }
+.tileLink:active { transform: translateY(-1px); }
+.tileLink:focus-visible { outline: 2px solid var(--focus-ring-color); outline-offset: 3px; }
 .tileStatic { cursor: default; }
 
-.index { display: inline-block; transition: translate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.tileLink:hover .index { translate: 3px 0; }
-[dir='rtl'] .tileLink:hover .index { translate: -3px 0; }
+.index { display: inline-block; transition: translate 0.15s ease; }
+.tileLink:hover .index { translate: 0 0; }
+[dir='rtl'] .tileLink:hover .index { translate: 0 0; }
 
 .meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 28px; }
 .index::before {
   content: counter(topic, decimal-leading-zero);
-  font-family: var(--font-serif);
-  font-size: var(--fs-lg);
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
-  color: color-mix(in srgb, var(--kind-color) 75%, var(--text-3));
-  transition: color 0.2s ease;
+  color: var(--color-ink-subtle);
+  transition: color 0.15s ease;
 }
-.tileLink:hover .index::before { color: var(--kind-color); }
+.tileLink:hover .index::before { color: var(--color-ink-muted); }
 
 .kind {
   display: inline-flex;
@@ -64,31 +64,32 @@
   border-radius: 999px;
   font-size: var(--fs-xs);
   font-weight: 600;
-  color: var(--kind-color);
-  background: color-mix(in srgb, var(--kind-color) 14%, transparent);
-  border: 1px solid color-mix(in srgb, var(--kind-color) 38%, transparent);
-  transition: background 0.2s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: var(--color-primary);
+  background: var(--ac-18);
+  border: 0;
+  transition: background 0.15s ease;
 }
-.kind svg { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.tileLink:hover .kind { background: color-mix(in srgb, var(--kind-color) 24%, transparent); transform: translateY(-1px); }
-/* The play triangle moves forward; the page tilts, as if picked up. */
-.player.tileLink:hover .kind svg { transform: translateX(3px) scale(1.15); }
-.canvas.tileLink:hover .kind svg { transform: rotate(-10deg) scale(1.15); }
+.kind svg { transition: transform 0.15s ease; }
+.tileLink:hover .kind { background: var(--ac-35); transform: none; }
+/* The play triangle and the page keep their tilt on hover; they are the only motion on the tile. */
+.player.tileLink:hover .kind svg { transform: translateX(2px); }
+.canvas.tileLink:hover .kind svg { transform: rotate(-6deg); }
 
 .title {
   margin: 0;
-  font-family: var(--font-sans);
+  font-family: inherit;
   font-size: var(--fs-md);
   line-height: var(--lh-heading);
   font-weight: 600;
-  color: var(--text-1);
+  letter-spacing: -0.4px;
+  color: var(--color-ink);
   unicode-bidi: isolate;
   text-align: start;
 }
 .description {
   margin: 0;
   font-size: var(--fs-sm);
-  color: var(--text-2);
+  color: var(--color-ink-muted);
   line-height: var(--lh-body);
   unicode-bidi: isolate;
   text-align: start;

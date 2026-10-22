@@ -10,8 +10,8 @@ aside.aside {
   /* Hidden on x so the width transition doesn't flash a scrollbar; y scrolls when the course list outgrows the viewport. */
   overflow-x: hidden;
   overflow-y: auto;
-  background: var(--bg-secondary);
-  border-inline-end: 1px solid var(--border-color);
+  background: var(--color-surface-1);
+  border-inline-end: 1px solid var(--color-hairline);
   transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -29,11 +29,11 @@ div.inner {
 }
 
 div.sectionLabel {
-  font-size: 10px;
-  font-family: 'Fira Code', monospace;
+  font-size: var(--fs-micro);
+  font-family: var(--font-mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-4, #5c5c64);
+  color: var(--color-ink-subtle);
   padding: 0 8px 8px;
 }
 
@@ -50,7 +50,7 @@ div.courseList {
 
 div.divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border-card) 24px, var(--border-card) calc(100% - 24px), transparent);
+  background: var(--color-hairline);
   margin: 0 0 12px;
 }
 
@@ -66,18 +66,27 @@ div.row {
   align-items: center;
   border-radius: 6px;
   cursor: pointer;
-  color: var(--text-2, #b9b9c2);
+  color: var(--color-ink-muted);
   background: transparent;
   box-shadow: none;
-  transition: background 0.12s ease, color 0.12s ease;
+  transition: background 0.12s ease, color 0.12s ease, transform 0.12s ease;
+}
+
+div.row:active {
+  transform: scale(0.98);
+}
+
+div.row:focus-visible {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: -2px;
 }
 
 div.row.hub {
   gap: 9px;
   padding: 7px 10px;
-  color: var(--text-3, #8e8e96);
+  color: var(--color-ink-subtle);
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 12px;
 }
 
@@ -96,13 +105,13 @@ div.row.topic {
 }
 
 div.row.active {
-  color: var(--ac-hi);
+  color: var(--color-primary-text);
   background: var(--ac-08);
-  box-shadow: inset 2px 0 0 var(--ac);
+  box-shadow: none;
 }
 
 div.row.active.rtl {
-  box-shadow: inset -2px 0 0 var(--ac);
+  box-shadow: none;
 }
 
 div.row.hub.active {
@@ -143,13 +152,13 @@ span.ellipsis.isolate {
 span.num {
   width: 14px;
   text-align: center;
-  color: var(--text-4, #5c5c64);
+  color: var(--color-ink-tertiary);
   font-size: 10px;
-  font-family: 'Fira Code', monospace;
+  font-family: var(--font-mono);
 }
 
 div.row.active span.num {
-  color: var(--ac);
+  color: var(--color-primary-text);
 }
 
 /* Week section */
@@ -164,11 +173,11 @@ div.weekHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 10px;
-  font-family: 'Fira Code', monospace;
+  font-size: var(--fs-micro);
+  font-family: var(--font-mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-3, #8e8e96);
+  color: var(--color-ink-subtle);
   padding: 8px 8px 6px;
   cursor: pointer;
   border-radius: 6px;
@@ -177,11 +186,24 @@ div.weekHeader {
 }
 
 div.weekHeader:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--state-hover);
+  color: var(--color-ink);
 }
 
 div.weekHeader.expanded {
-  color: var(--ac-hi);
+  color: var(--color-primary-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  aside.aside,
+  div.row,
+  svg.chevron {
+    transition: none;
+  }
+
+  div.row:active {
+    transform: none;
+  }
 }
 
 span.isolate {

@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: var(--scrim);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(6px);
 }
 
@@ -17,10 +17,10 @@
   overflow: auto;
   box-sizing: border-box;
   padding: 24px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-hair);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
   border-radius: var(--radius-lg);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-overlay);
   position: relative;
   outline: none;
 }

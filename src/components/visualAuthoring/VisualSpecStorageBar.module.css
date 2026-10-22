@@ -26,7 +26,8 @@
 }
 
 .button:hover:not(:disabled) {
-  border-color: var(--accent);
+  background: var(--color-surface-2);
+  border-color: var(--color-hairline-strong);
 }
 
 .button:disabled {
@@ -36,7 +37,7 @@
 
 .hint {
   color: var(--accent-danger);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 
 .status[data-kind='error'] {

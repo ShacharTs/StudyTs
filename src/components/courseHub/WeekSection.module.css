@@ -1,19 +1,30 @@
 .week { display: flex; flex-direction: column; gap: 4px; }
 .weekHeader { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0; }
-.weekTitle { font-family: var(--font-serif); font-size: var(--fs-xl); line-height: var(--lh-heading); font-weight: 600; letter-spacing: -0.01em; color: var(--text-1); margin: 0; }
-/* An accent bar in front of each section title. */
-.weekTitle::before { content: ''; display: inline-block; width: 5px; height: 0.9em; margin-inline-end: 12px; border-radius: 3px; background: var(--ac); vertical-align: -0.08em; }
+/* Section label: mono, uppercase, widely tracked, quiet. Size is the nearest token; the tracking carries the hierarchy. */
+.weekTitle { font-family: var(--font-mono); font-size: var(--fs-micro); line-height: var(--lh-heading); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-ink-subtle); margin: 0; }
+/* The accent bar in front of each section title is gone: the label is quiet on its own. */
+.weekTitle::before { content: ''; display: inline-block; width: 0; height: 0.9em; margin-inline-end: 0; border-radius: 3px; background: transparent; vertical-align: -0.08em; }
 .isolate { unicode-bidi: isolate; }
 .actions { display: flex; gap: 6px; }
 .confirmText { font-size: var(--fs-xs); }
-.emptyHint { font-size: var(--fs-sm); color: var(--text-3); margin: 10px 0 0; }
+.emptyHint { font-size: var(--fs-sm); color: var(--color-ink-subtle); margin: 10px 0 0; }
 .groupHeader { display: flex; justify-content: flex-end; margin: 10px 0 2px; }
 /* Topics are an ordered sequence, so each line carries its number (the counter lives on the list). */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; counter-reset: topic; }
-.grid > * { animation: tileIn 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-.grid > :nth-child(2) { animation-delay: 40ms; }
-.grid > :nth-child(3) { animation-delay: 80ms; }
-.grid > :nth-child(4) { animation-delay: 120ms; }
-.grid > :nth-child(n + 5) { animation-delay: 160ms; }
-@keyframes tileIn { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: no-preference) {
+  .grid > * { animation: entry-fade-up var(--motion-entry) both; }
+  .grid > :nth-child(1) { animation-delay: calc(0 * var(--motion-stagger)); }
+  .grid > :nth-child(2) { animation-delay: calc(1 * var(--motion-stagger)); }
+  .grid > :nth-child(3) { animation-delay: calc(2 * var(--motion-stagger)); }
+  .grid > :nth-child(4) { animation-delay: calc(3 * var(--motion-stagger)); }
+  .grid > :nth-child(5) { animation-delay: calc(4 * var(--motion-stagger)); }
+  .grid > :nth-child(6) { animation-delay: calc(5 * var(--motion-stagger)); }
+  .grid > :nth-child(7) { animation-delay: calc(6 * var(--motion-stagger)); }
+  .grid > :nth-child(8) { animation-delay: calc(7 * var(--motion-stagger)); }
+  .grid > :nth-child(9) { animation-delay: calc(8 * var(--motion-stagger)); }
+  .grid > :nth-child(10) { animation-delay: calc(9 * var(--motion-stagger)); }
+  .grid > :nth-child(11) { animation-delay: calc(10 * var(--motion-stagger)); }
+  .grid > :nth-child(12) { animation-delay: calc(11 * var(--motion-stagger)); }
+  .grid > :nth-child(n + 13) { animation-delay: calc(11 * var(--motion-stagger)); }
+}
 @media (prefers-reduced-motion: reduce) { .grid > * { animation: none; } }

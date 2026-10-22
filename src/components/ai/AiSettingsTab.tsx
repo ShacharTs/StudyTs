@@ -9,23 +9,18 @@ import { useChatPreferences } from './useChatPreferences';
 import styles from './AiSettingsTab.module.css';
 
 interface AiAdvancedSectionProps {
-  val: (input?: unknown) => string;
+  val?: (input?: unknown) => string;
   activeProviderConfig: DirectProviderConfig;
   customBaseUrl: string;
   setCustomBaseUrl: (v: string) => void;
   sourceEditingEnabled?: boolean;
   setSourceEditingEnabled?: (v: boolean) => void;
-  autoScroll: boolean;
-  setAutoScroll: (v: boolean) => void;
 }
 
 export function AiAdvancedSection({
-  val,
   activeProviderConfig,
   customBaseUrl,
   setCustomBaseUrl,
-  autoScroll,
-  setAutoScroll,
 }: AiAdvancedSectionProps) {
   const [open, setOpen] = useState(false);
   return (
@@ -53,14 +48,6 @@ export function AiAdvancedSection({
               />
             </div>
           )}
-          <label className="ai-toggle-label">
-            <input
-              type="checkbox"
-              checked={autoScroll}
-              onChange={(e) => setAutoScroll(e.target.checked)}
-            />
-            <span>{val(AI_TEXT.scrollToBottom)} (Auto-scroll chat)</span>
-          </label>
         </>
       )}
     </div>
@@ -219,9 +206,18 @@ export function AiSettingsTab({
         setCustomBaseUrl={conn.setCustomBaseUrl}
         sourceEditingEnabled={sourceEditingEnabled}
         setSourceEditingEnabled={setSourceEditingEnabled}
-        autoScroll={prefs.autoScroll}
-        setAutoScroll={prefs.setAutoScroll}
       />
+
+      <div className="settings-section-card">
+        <label className="ai-toggle-label">
+          <input
+            type="checkbox"
+            checked={prefs.autoScroll}
+            onChange={(e) => prefs.setAutoScroll(e.target.checked)}
+          />
+          <span>{val(AI_TEXT.scrollToBottom)} (Auto-scroll chat)</span>
+        </label>
+      </div>
     </div>
   );
 }

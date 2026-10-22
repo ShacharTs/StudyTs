@@ -1,9 +1,8 @@
 import React from 'react';
-import { useTheme, ACCENT_PALETTES, UI_SCALE_CONFIG, type AccentHue, type UiScale, type ThemeMode } from '../../core/theme/ThemeContext';
+import { useTheme, UI_SCALE_CONFIG, type UiScale, type ThemeMode } from '../../core/theme/ThemeContext';
 import { useLanguageSetting } from '../../i18n/languageContext';
 import { SETTINGS_TEXT } from '../../i18n/dictionary';
 
-const ACCENTS: AccentHue[] = ['ember', 'blurple', 'red', 'pink', 'green', 'gold', 'white'];
 const UI_SCALES: UiScale[] = ['default', 'medium', 'large', 'xlarge'];
 const THEME_MODES: ThemeMode[] = ['dark', 'light'];
 
@@ -12,7 +11,7 @@ interface AppearanceSettingsTabProps {
 }
 
 export const AppearanceSettingsTab: React.FC<AppearanceSettingsTabProps> = ({ val }) => {
-  const { accent, setAccent, uiScale, setUiScale, mode, setMode } = useTheme();
+  const { uiScale, setUiScale, mode, setMode } = useTheme();
   const { lang, setLang, languages } = useLanguageSetting();
 
   const modeLabel = (m: ThemeMode) =>
@@ -34,28 +33,6 @@ export const AppearanceSettingsTab: React.FC<AppearanceSettingsTabProps> = ({ va
                 data-testid={`appearance-theme-mode-${m}`}
               >
                 {modeLabel(m)}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="settings-section-card">
-        <div className="settings-section-title">{val(SETTINGS_TEXT.accentColor)}</div>
-        <div className="accent-picker-grid">
-          {ACCENTS.map((acc) => {
-            const p = ACCENT_PALETTES[acc];
-            const isSelected = accent === acc;
-            return (
-              <button
-                key={acc}
-                type="button"
-                onClick={() => setAccent(acc)}
-                title={p.label}
-                className={`accent-color-btn ${isSelected ? 'selected' : ''}`}
-                style={{ background: p.hi }}
-              >
-                {isSelected && <span className="accent-color-btn-dot" />}
               </button>
             );
           })}

@@ -39,16 +39,16 @@
 .composerCard {
   display: flex;
   flex-direction: column;
-  background: var(--bg-primary);
+  background: var(--color-surface-2);
   border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg, 14px);
+  border-radius: var(--radius-lg, 12px);
   padding: 8px 12px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .composerCard:focus-within {
   border-color: var(--ac);
-  box-shadow: 0 0 0 2px var(--ac-18);
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
 }
 
 .dragOver {
@@ -126,15 +126,14 @@
   height: 32px;
   border-radius: 50%;
   border: none;
-  background: var(--ac);
-  color: #121214;
+  background: var(--gradient-primary);
+  color: var(--color-on-primary);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: filter 0.15s ease, background 0.15s ease;
 }
 
 .sendBtn:hover:not(:disabled) {
-  background: var(--ac-hi);
-  transform: scale(1.04);
+  filter: brightness(1.08);
 }
 
 .sendBtn:disabled {
@@ -149,11 +148,17 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid var(--accent-danger, #ef7a6d);
+  border: 1px solid var(--color-danger);
   background: var(--bg-card);
-  color: var(--accent-danger, #ef7a6d);
+  color: var(--color-danger);
   cursor: pointer;
   animation: pulse 1.5s infinite ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stopBtn {
+    animation: none;
+  }
 }
 
 @keyframes pulse {
@@ -169,11 +174,11 @@
 
 .errorBanner {
   font-size: 11.5px;
-  color: var(--accent-danger, #ef7a6d);
+  color: var(--color-danger);
   padding: 4px 8px;
-  border-radius: 6px;
-  background: var(--bg-primary);
-  border: 1px solid var(--accent-danger, #ef7a6d);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--danger-12);
+  border: 1px solid var(--color-danger);
   display: flex;
   align-items: center;
   justify-content: space-between;

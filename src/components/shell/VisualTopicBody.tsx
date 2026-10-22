@@ -8,6 +8,7 @@ import { CourseRegistryContext } from '../../core/courseRegistry/CourseRegistryC
 import { findTopicLocation } from '../../core/courseDataLoader';
 import { useTranslation, HUB_TEXT } from '@i18n';
 import { ErrorBoundary } from './ErrorBoundary';
+import { useStepVideoExport } from './useStepVideoExport';
 import styles from './AppMainContent.module.css';
 import buttons from '../courseHub/courseHubButtons.module.css';
 import editorStyles from './VisualTopicBody.module.css';
@@ -47,6 +48,18 @@ export function VisualTopicBody({ courseId, topicId, spec, onSaved }: VisualTopi
     </button>
   ) : undefined;
 
+  // Export renders the whole topic, so it works from the player only; the editor shows the timeline instead.
+  const { progress, error, exportVideo } = useStepVideoExport(spec, topicId);
+  const playerControls = (
+    <>
+      {editButton}
+      <button type="button" className={buttons.secondary} onClick={exportVideo} disabled={Boolean(progress)}>
+        {progress ?? val(HUB_TEXT.exportVideo)}
+      </button>
+      {error && <span role="alert" className={editorStyles.exportError}>{error}</span>}
+    </>
+  );
+
   return (
     <div className={styles.steps}>
       <div className={styles.stepsBody}>
@@ -64,7 +77,7 @@ export function VisualTopicBody({ courseId, topicId, spec, onSaved }: VisualTopi
               </Suspense>
             </div>
           ) : (
-            <VisualStepPlayer spec={spec} controlsLeading={editButton} />
+            <VisualStepPlayer spec={spec} controlsLeading={playerControls} />
           )}
         </ErrorBoundary>
       </div>

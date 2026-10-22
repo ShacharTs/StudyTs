@@ -1,0 +1,149 @@
+/**
+ * Redesign overrides for shared primitives (buttons, icon buttons, badges, inputs, scrollbars).
+ * Screen only: print keeps the legacy paper rules from base.css. Imported last in index.css so it
+ * wins over base.css, player.css and tokens-v2.css at equal specificity. Delete this import to revert.
+ */
+
+@media screen {
+  * {
+    scrollbar-color: var(--color-hairline-strong) transparent;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-hairline-strong);
+    border: none;
+    border-radius: var(--radius-sm);
+    transition: background 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-tertiary);
+    box-shadow: none;
+  }
+
+  /* Chips: 6px corners, no coloured ring. Tone comes from the caller's inline colour. */
+  .badge {
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+  }
+
+  /* Icon-only ghost button: transparent at rest, surface step + hairline on hover. */
+  .ib {
+    border-radius: var(--radius-md);
+    transition: background 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1), transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ib:hover {
+    background: var(--color-surface-2) !important;
+    border-color: var(--color-hairline-strong) !important;
+    color: var(--color-ink) !important;
+  }
+
+  .ib:active {
+    transform: scale(0.97);
+  }
+
+  .ib:focus-visible,
+  .ctrl-btn:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+
+  .wg {
+    border-radius: var(--radius-lg);
+  }
+
+  /* Player dock buttons: same control language as the shared buttons. */
+  .ctrl-btn {
+    border-radius: var(--radius-md);
+    border-color: var(--color-hairline);
+    background: var(--color-surface-2);
+    color: var(--color-ink);
+    transition: background 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1), transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ctrl-btn:hover:not(:disabled) {
+    background: var(--color-surface-3);
+    border-color: var(--color-hairline-strong);
+    color: var(--color-ink);
+  }
+
+  .ctrl-btn:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  /* Text fields (also used by BlurCommitInput, which renders a plain input or textarea). */
+  input[type='text'],
+  input[type='search'],
+  input[type='url'],
+  input[type='email'],
+  input[type='password'],
+  input[type='number'],
+  input:not([type]),
+  select,
+  textarea {
+    background: var(--color-surface-1);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    color: var(--color-ink);
+    transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  input[type='text']::placeholder,
+  input[type='search']::placeholder,
+  input[type='url']::placeholder,
+  input[type='email']::placeholder,
+  input[type='password']::placeholder,
+  input[type='number']::placeholder,
+  input:not([type])::placeholder,
+  textarea::placeholder {
+    color: var(--color-ink-tertiary);
+  }
+
+  input[type='text']:hover,
+  input[type='search']:hover,
+  input[type='url']:hover,
+  input[type='email']:hover,
+  input[type='password']:hover,
+  input[type='number']:hover,
+  input:not([type]):hover,
+  select:hover,
+  textarea:hover {
+    border-color: var(--color-hairline-strong);
+  }
+
+  input[type='text']:focus,
+  input[type='search']:focus,
+  input[type='url']:focus,
+  input[type='email']:focus,
+  input[type='password']:focus,
+  input[type='number']:focus,
+  input:not([type]):focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--color-primary);
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ib,
+    .ctrl-btn,
+    input[type='text'],
+    input[type='search'],
+    input:not([type]),
+    textarea,
+    select {
+      transition: none;
+    }
+
+    .ib:active,
+    .ctrl-btn:active:not(:disabled) {
+      transform: none;
+    }
+  }
+}

@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px;
-  background: var(--bg-primary);
+  background: var(--color-surface-2);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md, 8px);
 }
@@ -30,7 +30,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--accent-green, #4ade80);
+  color: var(--color-success);
   font-size: 12px;
   font-weight: 500;
 }
@@ -45,7 +45,7 @@
 }
 
 .removeBtn:hover {
-  color: var(--accent-danger, #ef7a6d);
+  color: var(--color-danger);
 }
 
 .input {
@@ -53,7 +53,7 @@
   padding: 8px 12px;
   border-radius: var(--radius-md, 8px);
   border: 1px solid var(--border-card);
-  background: var(--bg-primary);
+  background: var(--color-surface-2);
   color: var(--text-1);
   font-size: 12.5px;
   font-family: var(--font-mono, monospace);
@@ -62,7 +62,7 @@
 
 .input:focus {
   border-color: var(--ac);
-  box-shadow: 0 0 0 2px var(--ac-18);
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
 }
 
 .select {
@@ -70,7 +70,7 @@
   padding: 8px 12px;
   border-radius: var(--radius-md, 8px);
   border: 1px solid var(--border-card);
-  background: var(--bg-primary);
+  background: var(--color-surface-2);
   color: var(--text-1);
   font-size: 12.5px;
   outline: none;
@@ -118,7 +118,7 @@
   padding: 6px 12px;
   border-radius: var(--radius-md, 8px);
   border: 1px solid var(--border-card);
-  background: var(--bg-primary);
+  background: var(--color-surface-2);
   color: var(--text-2);
   font-size: 12px;
   cursor: pointer;

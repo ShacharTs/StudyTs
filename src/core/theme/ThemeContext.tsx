@@ -7,7 +7,7 @@
 
 import { createContext, useContext } from 'react';
 
-export type AccentHue = 'ember' | 'blurple' | 'red' | 'pink' | 'green' | 'gold' | 'white';
+export type AccentHue = 'blue' | 'ember' | 'blurple' | 'red' | 'pink' | 'green' | 'gold' | 'white';
 export type BlockStyle = 'outline' | 'filled' | 'ghost';
 export type UiScale = 'default' | 'medium' | 'large' | 'xlarge';
 export type ThemeMode = 'light' | 'dark';
@@ -26,6 +26,15 @@ export const ACCENT_PALETTES: Record<
   AccentHue,
   { label: string; ac: string; hi: string; a08: string; a18: string; a35: string; description: string }
 > = {
+  blue: {
+    label: 'Blue',
+    ac: '#6478f5',
+    hi: '#8795ff',
+    a08: 'rgba(100, 120, 245, 0.09)',
+    a18: 'rgba(100, 120, 245, 0.19)',
+    a35: 'rgba(100, 120, 245, 0.38)',
+    description: 'Default blue accent',
+  },
   ember: {
     label: 'Ember',
     ac: '#c98a3a',
@@ -104,7 +113,7 @@ export interface ThemeContextType {
 }
 
 export const ThemeContext = createContext<ThemeContextType>({
-  accent: 'ember',
+  accent: 'blue',
   setAccent: () => {},
   blockStyle: 'outline',
   setBlockStyle: () => {},

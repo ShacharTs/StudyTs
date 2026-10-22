@@ -53,7 +53,7 @@
   flex-direction: column;
   padding: 0;
   border-radius: 0;
-  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
   overflow: hidden;
   pointer-events: auto;
   border-inline-start: 1px solid var(--border-card);
@@ -85,7 +85,7 @@
   gap: 10px;
   padding: 14px 20px;
   border-bottom: 1px solid var(--border-hair);
-  background: var(--bg-card);
+  background: var(--color-surface-1);
   flex-shrink: 0;
 }
 
@@ -100,7 +100,8 @@
 .ai-settings-header-title h2 {
   unicode-bidi: isolate;
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--text-1);
   white-space: nowrap;
 }
@@ -127,7 +128,7 @@
 
 .ai-settings-gear-btn:hover {
   color: var(--ac-hi);
-  background: var(--bg-primary);
+  background: var(--state-hover);
 }
 
 .ai-settings-disconnected-banner {
@@ -152,15 +153,15 @@
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
-  background: rgba(229, 116, 104, 0.15);
-  border: 1px solid var(--accent-danger);
+  background: var(--danger-12);
+  border: 1px solid var(--color-danger);
   border-radius: 8px;
-  color: var(--accent-danger);
+  color: var(--color-danger);
   font-size: 12px;
 }
 
 .ai-settings-error-detail {
-  font-family: 'Fira Code', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   opacity: 0.8;
 }
@@ -197,7 +198,7 @@
 }
 
 .ai-context-banner button:hover {
-  color: var(--accent-danger);
+  color: var(--color-danger);
 }
 
 .ai-settings-divider {
@@ -211,7 +212,7 @@
   height: 28px;
   width: 28px;
   padding: 0;
-  border-radius: 7px;
+  border-radius: 6px;
   background: transparent;
   border: 1px solid var(--border-card);
   color: var(--text-3);

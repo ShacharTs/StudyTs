@@ -1,0 +1,187 @@
+/**
+ * Redesign token layer. Loaded after variables.css and overrides it on screen only, so the legacy
+ * file stays intact for rollback and print keeps the paper palette from variables.css.
+ * Legacy variable names are kept as aliases; new spec names (--color-*) are added for later phases.
+ * Remove the import in src/index.css to revert to the previous look.
+ */
+
+@media screen {
+  /* The light selector is listed here too so the legacy aliases beat the older light block in variables.css
+     (same specificity, later source order); the light palette is then redefined in the block below. */
+  :root,
+  :root[data-theme='light'] {
+    /* Spec surface ladder: canvas -> surface-4. Hierarchy comes from these steps, not shadows. */
+    --color-canvas: #010102;
+    --color-surface-1: #0f1011;
+    --color-surface-2: #141516;
+    --color-surface-3: #18191a;
+    --color-surface-4: #191a1b;
+    --color-hairline: #23252a;
+    --color-hairline-strong: #34343a;
+    --color-hairline-tertiary: #3e3e44;
+    --color-ink: #f7f8f8;
+    --color-ink-muted: #d0d6e0;
+    --color-ink-subtle: #8a8f98;
+    --color-ink-tertiary: #62666d;
+
+    --color-primary: #6478f5;
+    --color-primary-hover: #8795ff;
+    --color-primary-text: #8795ff;
+    --color-primary-focus: #5268e8;
+    --color-on-primary: #ffffff;
+    --color-violet: #8b6cf6;
+    /* Reserved for the single primary action on a screen. */
+    --gradient-primary: linear-gradient(110deg, #6478f5 0%, #8b6cf6 100%);
+    --color-success: #27a644;
+    --color-warning: #d97706;
+    --color-danger: #e57468;
+    --success-12: rgba(39, 166, 68, 0.12);
+    --warning-12: rgba(217, 119, 6, 0.12);
+    --danger-12: rgba(229, 116, 104, 0.12);
+    --focus-ring-color: rgba(82, 104, 232, 0.5);
+    --state-hover: rgba(255, 255, 255, 0.045);
+    --state-pressed: rgba(255, 255, 255, 0.07);
+
+    /* Legacy aliases onto the new palette. */
+    --bg-primary: var(--color-canvas);
+    --bg-secondary: var(--color-surface-1);
+    --bg-card: var(--color-surface-2);
+    --border-color: var(--color-hairline);
+    --border-subtle: var(--color-hairline);
+    --text-primary: var(--color-ink);
+    --text-secondary: var(--color-ink-subtle);
+
+    /* The accent picker is gone and blue is the only accent. ThemeProvider still writes a saved accent inline
+       (an older browser profile may hold "red" or "pink"), so these !important values pin the accent to blue. */
+    --accent: var(--color-primary) !important;
+    --accent-bright: var(--color-primary-hover) !important;
+    --on-accent: var(--color-on-primary);
+    --accent-green: var(--color-success);
+    --ac: var(--color-primary) !important;
+    --ac-hi: var(--color-primary-hover) !important;
+    --ac-08: rgba(100, 120, 245, 0.09) !important;
+    --ac-18: rgba(100, 120, 245, 0.19) !important;
+    --ac-35: rgba(100, 120, 245, 0.38) !important;
+    /* No coloured glows in the new style. */
+    --ac-glow: transparent;
+    --nf: var(--color-surface-2);
+    --nsk: var(--color-primary) !important;
+
+    /* Cards are a flat surface plus a hairline. A gradient value is kept so background-image uses still work. */
+    --surface-card: linear-gradient(var(--color-surface-1), var(--color-surface-1));
+    --border-card: var(--color-hairline);
+    --border-hair: var(--color-hairline);
+    --text-1: var(--color-ink);
+    --text-2: var(--color-ink-muted);
+    --text-3: var(--color-ink-subtle);
+    --text-4: var(--color-ink-tertiary);
+
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius: 8px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    --shadow-card: none;
+    --shadow-menu: 0 8px 24px rgba(0, 0, 0, 0.45);
+    --shadow-overlay: 0 16px 48px rgba(0, 0, 0, 0.55);
+
+    --stage-bg: var(--color-canvas);
+    --rail-bg: var(--color-surface-1);
+    --rail-line: var(--color-hairline);
+    --rail-track: var(--color-hairline-strong);
+    --rail-hairline: var(--color-hairline-strong);
+
+    /* Inter for display and body, JetBrains Mono for code, IDs and counters. --font-serif stays as an alias. */
+    --font-display: 'Inter', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    --font-serif: var(--font-display);
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+    --tracking-display: -0.6px;
+
+    /* Motion: colour changes are quick, layout moves are slower, entries rise gently. */
+    --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --motion-ease-entry: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --motion-color: 150ms var(--motion-ease-standard);
+    --motion-layout: 250ms var(--motion-ease-standard);
+    --motion-sidebar: 220ms var(--motion-ease-standard);
+    --motion-entry: 450ms var(--motion-ease-entry);
+    --motion-stagger: 45ms;
+  }
+
+  :root[data-theme='light'] {
+    --color-canvas: #f5f6f6;
+    --color-surface-1: #ffffff;
+    --color-surface-2: #f5f6f6;
+    --color-surface-3: #eef0f1;
+    --color-surface-4: #e8eaeb;
+    --color-hairline: #e3e5e8;
+    --color-hairline-strong: #d0d3d8;
+    --color-hairline-tertiary: #bfc3c9;
+    --color-ink: #0f1011;
+    --color-ink-muted: #34363b;
+    --color-ink-subtle: #62666d;
+    --color-ink-tertiary: #8a8f98;
+    --color-primary-text: #4a5fe0;
+    --state-hover: rgba(15, 16, 17, 0.045);
+    --state-pressed: rgba(15, 16, 17, 0.07);
+
+    --surface-card: linear-gradient(#ffffff, #ffffff);
+    --shadow-menu: 0 8px 24px rgba(15, 16, 17, 0.12);
+    --shadow-overlay: 0 16px 48px rgba(15, 16, 17, 0.18);
+    --grid: radial-gradient(rgba(15, 16, 17, 0.08) 1px, transparent 1px);
+    --stage-bg: #ffffff;
+    --rail-bg: #f5f6f6;
+
+    /* ThemeProvider writes --ac-hi / --accent-bright inline as a light tint made for dark surfaces. Many rules
+       use them as text colour, which is unreadable on white, so on the light theme darken them. !important is
+       what lets a stylesheet beat the inline value without touching ThemeProvider. */
+    --ac-hi: color-mix(in srgb, var(--ac) 68%, black) !important;
+    --accent-bright: color-mix(in srgb, var(--ac) 68%, black) !important;
+  }
+}
+
+/* Flat surfaces: no radial body glow, no accent glows, no card shadows. These override base.css on screen only. */
+@media screen {
+  body {
+    background: var(--bg-primary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-hairline-strong);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-tertiary);
+    box-shadow: none;
+  }
+
+  .topic-card {
+    border-radius: var(--radius-lg);
+    backdrop-filter: none;
+  }
+
+  .topic-card:hover,
+  .topic-card.practice-card:hover {
+    background: var(--color-surface-2);
+    border-color: var(--color-hairline-strong);
+    box-shadow: none;
+  }
+
+  .wg:hover {
+    border-color: var(--color-hairline-strong) !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Users who ask for less motion get instant state changes; the animations still end in their final state. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

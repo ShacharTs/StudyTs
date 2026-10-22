@@ -22,19 +22,19 @@
   margin-top: -5px;
   pointer-events: auto;
   transform: scale(var(--z));
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
 }
 
 .curve {
   border-radius: 50%;
-  background-color: #22c55e;
-  border: 1.5px solid white;
+  background-color: var(--color-success);
+  border: 1.5px solid var(--viz-white);
   cursor: ns-resize;
 }
 
 .endpoint {
   border-radius: 2px;
   background-color: var(--viz-white);
-  border: 2px solid #f59e0b;
+  border: 2px solid var(--color-warning);
   cursor: move;
 }

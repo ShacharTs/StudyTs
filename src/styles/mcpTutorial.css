@@ -13,7 +13,7 @@
 }
 
 .mcp-tutorial-modal {
-  background: var(--bg-card);
+  background: var(--color-surface-1);
   border: 1px solid var(--border-card);
   border-radius: 12px;
   width: 100%;
@@ -22,7 +22,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-overlay);
 }
 
 .mcp-tutorial-header {
@@ -81,9 +81,9 @@
 
 .mcp-template-card {
   border: 1px solid var(--border-card);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 12px;
-  background: var(--bg-primary);
+  background: var(--color-surface-2);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -112,9 +112,9 @@
 }
 
 .mcp-sandbox-output {
-  font-family: 'Fira Code', monospace;
+  font-family: var(--font-mono);
   font-size: 11.5px;
-  background: var(--bg-card);
+  background: var(--color-surface-2);
   border: 1px solid var(--border-card);
   padding: 10px;
   border-radius: 6px;

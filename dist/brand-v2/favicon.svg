@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="StudyTs">
+  <title>StudyTs</title>
+  <rect width="64" height="64" rx="14" fill="#0F1011"/>
+  <g transform="translate(-8.10 -7.72) scale(0.1566)">
+    <path d="M318.76 144.79 A74 74 0 1 0 256.00 258.00 A74 74 0 1 1 193.24 371.21" fill="none" stroke="#6478F5" stroke-width="46" stroke-linecap="round"/>
+    <circle cx="193.24" cy="371.21" r="40" fill="#6478F5"/>
+  </g>
+</svg>

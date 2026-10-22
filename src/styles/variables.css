@@ -3,7 +3,9 @@
  * Every shared color, font, and radius used across the app is declared here.
  */
 
+/* Replaced by self-hosted fonts in fonts.css (redesign P1). Kept for rollback:
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@600;700&family=Fira+Code:wght@400;600&display=swap');
+*/
 
 :root {
   /* Set from the window size by installScreenScale: 1 on a 24 inch 1080p monitor, more on bigger screens. */
@@ -75,6 +77,8 @@
   --font-mono: 'Fira Code', monospace;
 
   /* Type scale: body 1rem, ratio ~1.2. Use these tokens, never raw rem values. */
+  --fs-micro: 0.625rem; /* 10px mono labels */
+  --fs-2xs: 0.6875rem; /* 11px */
   --fs-xs: 0.8125rem; /* 13px badges, helper text */
   --fs-sm: 0.875rem; /* 14px secondary text, buttons */
   --fs-md: 1rem; /* 16px body, inputs */

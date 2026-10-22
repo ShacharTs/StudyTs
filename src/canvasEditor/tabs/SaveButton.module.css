@@ -14,7 +14,7 @@
 }
 
 .pill:hover:not(:disabled) {
-  background: var(--bg-hover, var(--bg-card));
+  background: var(--color-surface-2);
 }
 
 .pill:focus-visible {
@@ -39,12 +39,12 @@
 }
 
 .dotSaving {
-  background: var(--warn, #d97706);
+  background: var(--color-warning);
   animation: savePulse 1s ease-in-out infinite;
 }
 
 .dotSaved {
-  background: var(--ok, #16a34a);
+  background: var(--color-success);
 }
 
 @keyframes savePulse {

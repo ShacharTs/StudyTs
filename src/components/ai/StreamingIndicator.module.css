@@ -12,7 +12,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background-color: var(--ac, #c98a3a);
+  background-color: var(--color-primary);
   animation: aiWavePulse 1.2s infinite ease-in-out;
 }
 

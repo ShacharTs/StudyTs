@@ -32,33 +32,33 @@ div.weeks {
   background: transparent;
   font: inherit;
   font-size: var(--fs-sm);
-  border: 1.5px dashed var(--border-color);
-  border-radius: 12px;
+  border: 1.5px dashed var(--color-hairline-strong);
+  border-radius: var(--radius-lg);
   padding: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: var(--text-3);
-  transition: color 0.15s ease;
+  color: var(--color-ink-subtle);
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
-.addWeek:hover { color: var(--text-1); }
-.addWeek:focus-visible { outline: 2px solid var(--ac); outline-offset: -2px; }
+.addWeek:hover { color: var(--color-ink); border-color: var(--color-primary); }
+.addWeek:focus-visible { outline: 2px solid var(--focus-ring-color); outline-offset: -2px; }
 
 header.pageHeader { position: relative; padding-bottom: 20px; }
-/* A short accent rule draws itself under the page title when the page opens. */
+/* The accent rule under the page title is gone: the flat title needs no underline flourish. The rule still exists so the animation rules keep their selectors. */
 header.pageHeader::after {
   content: '';
   position: absolute;
   inset-inline-start: 0;
   bottom: 0;
-  height: 3px;
+  height: 0;
   border-radius: 2px;
-  background: linear-gradient(90deg, var(--ac), var(--ac-hi));
+  background: transparent;
   animation: ruleDraw 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
 }
-[dir='rtl'] header.pageHeader::after { background: linear-gradient(270deg, var(--ac), var(--ac-hi)); }
-@keyframes ruleDraw { from { width: 0; } to { width: 96px; } }
-@media (prefers-reduced-motion: reduce) { header.pageHeader::after { animation: none; width: 96px; } }
+[dir='rtl'] header.pageHeader::after { background: transparent; }
+@keyframes ruleDraw { from { width: 0; } to { width: 0; } }
+@media (prefers-reduced-motion: reduce) { header.pageHeader::after { animation: none; width: 0; } }
 .headerActions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }

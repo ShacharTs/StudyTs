@@ -5,7 +5,7 @@ import { STORAGE_KEYS } from '@core/shared/storageKeys';
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [accent, setAccentState] = useState<AccentHue>(() => {
     const saved = (localStorage.getItem(STORAGE_KEYS.accent) || localStorage.getItem('complexity_accent')) as AccentHue;
-    return saved && saved in ACCENT_PALETTES ? saved : 'ember';
+    return saved && saved in ACCENT_PALETTES ? saved : 'blue';
   });
 
   const [blockStyle, setBlockStyleState] = useState<BlockStyle>(() => {
@@ -50,7 +50,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute('data-theme', mode);
-    const p = ACCENT_PALETTES[accent] ?? ACCENT_PALETTES.ember;
+    const p = ACCENT_PALETTES[accent] ?? ACCENT_PALETTES.blue;
     root.style.setProperty('--ac', p.ac);
     root.style.setProperty('--ac-hi', p.hi);
     root.style.setProperty('--ac-08', p.a08);

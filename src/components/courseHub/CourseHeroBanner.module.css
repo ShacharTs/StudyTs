@@ -1,16 +1,16 @@
 .root { min-width: 0; }
 .title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: var(--fs-2xl);
   line-height: var(--lh-heading);
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.6px;
   margin: 0;
-  color: var(--text-1);
+  color: var(--color-ink);
   unicode-bidi: isolate;
 }
 .subtitle {
-  color: var(--text-2);
+  color: var(--color-ink-muted);
   font-size: var(--fs-md);
   max-width: 62ch;
   margin: 6px 0 0;

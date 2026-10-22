@@ -20,6 +20,6 @@
   padding: 0.6rem 0.9rem;
   border: 1px solid var(--accent-danger);
   border-radius: 8px;
-  background: var(--bg-secondary);
+  background: var(--color-surface-2);
   color: var(--accent-danger);
 }

@@ -47,22 +47,22 @@
   flex: 0 0 auto;
   width: 5px;
   cursor: col-resize;
-  background: var(--border-hair);
+  background: var(--color-hairline);
 }
 
 .vDivider:hover {
-  background: var(--ac);
+  background: var(--color-primary);
 }
 
 .hDivider {
   flex: 0 0 auto;
   height: 5px;
   cursor: row-resize;
-  background: var(--border-hair);
+  background: var(--color-hairline);
 }
 
 .hDivider:hover {
-  background: var(--ac);
+  background: var(--color-primary);
 }
 
 .contents {
@@ -71,7 +71,7 @@
 
 .mergeHighlight {
   position: fixed;
-  outline: 2px solid var(--ac);
+  outline: 2px solid var(--color-primary);
   outline-offset: -2px;
   background: var(--ac-08);
   pointer-events: none;
@@ -80,7 +80,7 @@
 .splitHighlight {
   position: fixed;
   background: var(--ac-18);
-  border: 2px solid var(--ac);
+  border: 2px solid var(--color-primary);
   box-sizing: border-box;
   pointer-events: none;
 }
@@ -88,11 +88,11 @@
 .floatGhost {
   position: fixed;
   padding: 5px 10px;
-  background: var(--bg-card);
+  background: var(--color-surface-3);
   color: var(--text-1);
   font-size: 12px;
-  border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  box-shadow: var(--shadow-menu);
   pointer-events: none;
   opacity: 0.9;
 }

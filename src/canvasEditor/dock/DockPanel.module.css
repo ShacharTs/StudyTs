@@ -3,22 +3,22 @@
   flex-direction: column;
   min-height: 0;
   height: 100%;
-  background: var(--bg-primary);
+  background: var(--color-surface-1);
 }
 
 .header {
   display: flex;
   align-items: stretch;
   flex: 0 0 auto;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-hair);
+  background: var(--color-surface-1);
+  border-bottom: 1px solid var(--color-hairline);
   cursor: default;
   user-select: none;
 }
 
 .headerBottom {
   border-bottom: none;
-  border-top: 1px solid var(--border-hair);
+  border-top: 1px solid var(--color-hairline);
 }
 
 .tabs {
@@ -33,8 +33,11 @@
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
   color: var(--text-2);
   cursor: grab;
   white-space: nowrap;
@@ -46,13 +49,13 @@
 
 .tab:hover {
   color: var(--text-1);
-  background: var(--bg-card);
+  background: var(--color-surface-2);
 }
 
 .tabActive {
-  color: var(--ac);
-  border-bottom-color: var(--ac);
-  background: var(--bg-primary);
+  color: var(--color-ink);
+  border-bottom-color: var(--color-primary);
+  background: var(--color-surface-3);
 }
 
 .collapseBtn {
@@ -62,7 +65,7 @@
   justify-content: center;
   width: 32px;
   border: none;
-  border-left: 1px solid var(--border-hair);
+  border-left: 1px solid var(--color-hairline);
   background: transparent;
   color: var(--text-2);
   cursor: pointer;
@@ -71,7 +74,7 @@
 
 .collapseBtn:hover {
   color: var(--text-1);
-  background: var(--bg-card);
+  background: var(--color-surface-2);
 }
 
 .collapseIcon,
@@ -95,7 +98,7 @@
 
 .closeBtn:hover {
   color: var(--text-1);
-  background: var(--accent-danger, #dc2626);
+  background: var(--color-danger);
 }
 
 .contentExpand,

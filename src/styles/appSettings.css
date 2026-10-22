@@ -13,7 +13,7 @@
 }
 
 .settings-modal-card {
-  background: var(--bg-card);
+  background: var(--color-surface-1);
   border: 1px solid var(--border-card);
   border-radius: 12px;
   width: 100%;
@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-overlay);
 }
 
 .settings-modal-header {
@@ -32,12 +32,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--bg-card);
+  background: var(--color-surface-1);
 }
 
 .settings-modal-header-title {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--text-1);
   display: flex;
   align-items: center;
@@ -70,7 +70,7 @@
   align-items: center;
   gap: 10px;
   padding: 9px 12px;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
   color: var(--text-2);
@@ -82,14 +82,14 @@
 }
 
 .settings-tab-btn:hover {
-  background: var(--bg-card);
+  background: var(--state-hover);
   color: var(--text-1);
 }
 
 .settings-tab-btn.active {
-  background: var(--ac-18);
-  border-color: var(--ac-35);
-  color: var(--ac-hi);
+  background: var(--ac-08);
+  border-color: transparent;
+  color: var(--ac);
   font-weight: 600;
 }
 
@@ -148,19 +148,19 @@
   place-items: center;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   padding: 0;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: 2px solid var(--color-hairline-strong);
 }
 
 .accent-color-btn.selected {
   border: 3px solid var(--viz-white);
-  box-shadow: 0 0 14px var(--ac), 0 0 0 2px var(--viz-white);
+  box-shadow: 0 0 0 2px var(--color-ink);
 }
 
 .accent-color-btn-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #0a0a0c;
+  background: var(--color-canvas);
 }
 
 /* Language Switcher Buttons */
@@ -175,7 +175,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #22c55e;
+  color: var(--color-success);
   font-size: 12px;
 }
 
@@ -186,8 +186,8 @@
 /* AI Header Swap Model Dropdown */
 .ai-header-swap-model {
   padding: 4px 8px;
-  border-radius: 6px;
-  background: var(--bg-primary);
+  border-radius: 8px;
+  background: var(--color-surface-2);
   border: 1px solid var(--border-card);
   color: var(--text-1);
   font-size: 11.5px;
@@ -212,5 +212,13 @@
     white-space: nowrap;
     padding: 6px 10px;
     font-size: 12px;
+  }
+}
+
+/* Blur is decorative; users who ask for less transparency get an opaque scrim instead. */
+@media (prefers-reduced-transparency: reduce) {
+  .settings-modal-backdrop {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: none;
   }
 }

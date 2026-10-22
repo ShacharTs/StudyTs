@@ -24,7 +24,7 @@
 
 .iconButton:hover:not(:disabled) {
   color: var(--text-1);
-  background: var(--bg-card);
+  background: var(--color-surface-2);
 }
 
 .iconButton:active:not(:disabled) {

@@ -26,7 +26,7 @@
 }
 .formulaPreview { font-size: var(--fs); color: var(--text-1); min-height: 14px; }
 .formulaMath { font-size: var(--fs); color: var(--text-1); cursor: text; min-width: 20px; min-height: 14px; }
-div.formulaErr { color: #dc2626; }
+div.formulaErr { color: var(--color-danger); }
 
 .imageEmpty {
   width: 100%; height: 100%; display: grid; place-items: center;

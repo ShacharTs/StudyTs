@@ -32,8 +32,9 @@
 }
 
 .groupLabel {
+  font-family: var(--font-mono);
   font-size: 10px;
-  color: var(--text-3);
+  color: var(--color-ink-subtle);
   font-weight: 500;
   text-align: center;
   white-space: nowrap;
@@ -63,8 +64,8 @@
 }
 
 .buttonSmall:hover:not(:disabled) {
-  background: var(--bg-secondary);
-  border-color: var(--border-color);
+  background: var(--color-surface-2);
+  border-color: var(--color-hairline-strong);
 }
 
 .buttonSmall:focus-visible {
@@ -116,8 +117,8 @@
 .select {
   height: 24px;
   padding: 2px 6px;
-  border: 1px solid var(--border-hair);
-  border-radius: 4px;
+  border: 1px solid var(--color-hairline);
+  border-radius: 8px;
   font-size: 11px;
   background: var(--bg-card);
   color: var(--text-1);
@@ -142,7 +143,7 @@
 }
 
 .errorText {
-  color: var(--accent-danger, #ef4444);
+  color: var(--color-danger);
   font-size: 0.75rem;
   margin-left: 4px;
 }
@@ -189,7 +190,7 @@
 }
 
 .symbolKey:hover {
-  background: var(--bg-secondary);
+  background: var(--color-surface-2);
   border-color: var(--border-color);
 }
 

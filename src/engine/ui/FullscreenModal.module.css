@@ -21,12 +21,12 @@
   align-items: center;
   justify-content: center;
   background: var(--viz-black);
-  border-radius: var(--radius-lg, 14px);
-  border: 1.5px solid var(--viz-cyan-35);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-hairline);
   padding: 6px;
   box-sizing: border-box;
   overflow: hidden;
-  box-shadow: 0 12px 36px var(--viz-scrim);
+  box-shadow: none;
 }
 
 .exitButton {
@@ -34,18 +34,18 @@
   top: 16px;
   right: 16px;
   z-index: 100;
-  background: rgba(15, 23, 42, 0.9);
-  color: var(--accent-danger, #ef4444);
-  border: 1.5px solid var(--accent-danger, #ef4444);
+  background: var(--color-surface-3);
+  color: var(--color-danger);
+  border: 1px solid var(--color-hairline-strong);
   padding: 6px 14px;
-  border-radius: var(--radius, 8px);
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--fs-xs);
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
+  box-shadow: none;
 }
 
 .controlsDock {

@@ -5,28 +5,28 @@
   align-items: center;
   gap: 6px 10px;
   padding: 6px 10px;
-  background: var(--wb-panel);
-  border: 1px solid var(--wb-line);
-  border-radius: 12px;
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
+  border-radius: 8px;
 }
 
 /* One row that scrolls sideways when the build column is narrow, so Run input is never pushed onto a second line. */
-.toolbar { flex-wrap: nowrap; overflow-x: auto; min-width: 0; }
+.toolbar { flex-wrap: nowrap; overflow-x: auto; min-width: 0; min-height: 48px; box-sizing: border-box; }
 .toolbar > * { flex: 0 0 auto; }
 .toolbar:empty { display: none; }
 /* Same height for the summary and for the fields, so selecting an object never moves the canvas. */
 .inspector { min-height: 46px; box-sizing: border-box; }
 .stepper { display: inline-flex; align-items: center; gap: 4px; }
-.count { min-width: 5.5em; text-align: center; font-variant-numeric: tabular-nums; }
-.field { display: inline-flex; align-items: center; gap: 6px; color: var(--wb-muted); font-size: 0.85rem; }
+.count { min-width: 5.5em; text-align: center; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.field { display: inline-flex; align-items: center; gap: 6px; color: var(--wb-muted); font-size: var(--fs-sm); }
 .field input[type='text'] { width: 14ch; }
 @container (max-width: 620px) {
   .fieldLabel { display: none; }
 }
 
-.muted { color: var(--wb-muted); font-size: 0.85rem; }
+.muted { color: var(--wb-muted); font-size: var(--fs-sm); }
 .pills { display: inline-flex; flex-wrap: wrap; gap: 4px; }
-.pill { padding: 1px 8px; border: 1px solid var(--wb-accent); border-radius: 999px; font-size: 0.8rem; }
+.pill { padding: 1px 8px; border: 1px solid var(--wb-accent); border-radius: 999px; font-size: var(--fs-xs); }
 
 .starter {
   position: absolute;
@@ -41,17 +41,17 @@
   align-items: center;
   gap: 6px;
   padding: 14px 22px;
-  background: var(--wb-panel);
-  border: 1px solid var(--wb-line);
-  border-radius: 14px;
-  box-shadow: var(--shadow-card);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
+  border-radius: 12px;
+  box-shadow: none;
   animation: starterIn 180ms ease-out;
 }
 
-.starterIcon { font-size: 1.6rem; color: var(--wb-accent); line-height: 1; }
-.starterTitle { font-size: 1rem; }
-.starterButton { padding: 6px 14px; border-radius: 8px; border: 1px solid var(--wb-accent); background: var(--wb-accent); color: var(--wb-on-accent); cursor: pointer; font-weight: 600; }
-.starterButton:hover { filter: brightness(1.08); }
+.starterIcon { font-size: 1.6rem; color: var(--color-primary); line-height: 1; }
+.starterTitle { font-size: var(--fs-md); }
+.starterButton { padding: 6px 14px; border-radius: 8px; border: none; background: var(--gradient-primary); color: var(--color-on-primary); cursor: pointer; font-weight: 600; }
+.starterButton:hover { background: var(--color-primary); }
 
 @keyframes starterIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 

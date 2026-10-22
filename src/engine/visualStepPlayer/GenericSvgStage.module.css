@@ -24,12 +24,12 @@
 .math > * {
   padding: 1px 9px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--bg-primary, #0a0a0b) 72%, transparent);
+  background: color-mix(in srgb, var(--bg-primary) 72%, transparent);
   font-weight: var(--label-weight, 600);
-  text-shadow: 0 1px 2px color-mix(in srgb, var(--bg-primary, #0a0a0b) 90%, transparent);
+  text-shadow: none;
 }
 
-/* Explanation bubble: a card that pops in beside the part of the diagram it talks about. */
+/* Explanation bubble: a flat card that sits beside the part of the diagram it talks about. */
 .bubble {
   display: flex;
   align-items: center;
@@ -40,14 +40,14 @@
   padding: 0.6rem 1rem;
   box-sizing: border-box;
   overflow: hidden;
-  color: var(--text-primary, #f3f4f6);
-  font-size: 0.95rem;
+  color: var(--color-ink);
+  font-size: var(--fs-md);
   line-height: 1.45;
-  background: var(--surface-card, rgba(20, 20, 26, 0.95));
-  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.12));
-  border-inline-start: 4px solid var(--bubble-color, var(--accent, #c98a3a));
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-hairline);
+  border-inline-start: 4px solid var(--bubble-color, var(--accent, var(--color-primary)));
+  border-radius: 8px;
+  box-shadow: none;
   user-select: none;
   pointer-events: none;
 }

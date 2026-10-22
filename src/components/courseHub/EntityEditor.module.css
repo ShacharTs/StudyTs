@@ -6,7 +6,11 @@ div.panel {
   max-height: 75vh;
   overflow-y: auto;
   z-index: 30;
-  padding: 22px;
+  padding: 24px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-1);
+  box-shadow: none;
 }
 
 div.header {
@@ -17,9 +21,10 @@ div.header {
 }
 
 span.heading {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  color: var(--text-1);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: var(--color-ink);
   font-size: var(--fs-lg);
   text-transform: capitalize;
 }
@@ -33,7 +38,7 @@ div.fields {
 p.hint {
   margin: -4px 0 0;
   font-size: var(--fs-xs);
-  color: var(--text-2);
+  color: var(--color-ink-muted);
   line-height: 1.4;
 }
 
@@ -50,8 +55,8 @@ div.colorRow {
 }
 
 div.errorBanner {
-  background: rgba(229, 116, 104, 0.08);
-  border: 1px solid rgba(229, 116, 104, 0.35);
+  background: color-mix(in srgb, var(--accent-danger) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-danger) 35%, transparent);
   border-radius: var(--radius-md);
   padding: 10px 12px;
   font-size: var(--fs-xs);

@@ -17,8 +17,10 @@
 }
 
 .stepCounter {
-  font: 11px 'Fira Code', monospace;
-  color: var(--text-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-muted);
   white-space: nowrap;
 }
 
@@ -39,7 +41,7 @@
 }
 
 .tickMarkActive {
-  background: var(--ac);
+  background: var(--color-primary);
 }
 
 .spacer {
@@ -61,11 +63,27 @@
 .controlRail .iconButton {
   width: 30px;
   height: 30px;
-  border-radius: 7px;
+  border-radius: 8px;
   background: transparent;
   border: 1px solid var(--rail-hairline);
-  color: var(--text-3);
+  color: var(--color-ink-subtle);
   cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.controlRail .iconButton:hover:not(:disabled) {
+  background: var(--color-surface-2);
+  color: var(--color-ink);
+}
+
+.controlRail .iconButton:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .controlRail .iconButton {
+    transition: none;
+  }
 }
 
 .disabledButton {
@@ -76,15 +94,23 @@
 .controlRail .playButton {
   width: 46px;
   height: 30px;
-  border-radius: 7px;
-  background: var(--ac-18);
-  border: 1px solid var(--ac);
-  color: var(--text-1);
+  border-radius: 8px;
+  background: var(--gradient-primary);
+  border: none;
+  color: var(--color-on-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: var(--fs-xs);
+}
+
+.controlRail .playButton:hover:not(:disabled) {
+  background: var(--color-primary);
+}
+
+.controlRail .playButton:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 .extraGroup {
@@ -96,11 +122,11 @@
 .controlRail .fullscreenButton {
   height: 26px;
   padding: 0 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   background: transparent;
   border: 1px solid var(--rail-hairline);
-  color: var(--text-3);
+  color: var(--color-ink-subtle);
   cursor: pointer;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   white-space: nowrap;
 }

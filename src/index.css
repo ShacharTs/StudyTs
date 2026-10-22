@@ -3,6 +3,7 @@
  * Imports modularized domain stylesheets for design system, layout, topbar, sidebar, player, and animations.
  */
 
+@import './styles/fonts.css';
 @import './styles/variables.css';
 @import './styles/vizTokens.css';
 @import './styles/base.css';
@@ -10,3 +11,6 @@
 @import './styles/topbar.css';
 @import './styles/sidebar.css';
 @import './styles/player.css';
+/* Redesign token layer must come after every file it overrides (base.css, player.css). */
+@import './styles/tokens-v2.css';
+@import './styles/redesign-primitives.css';

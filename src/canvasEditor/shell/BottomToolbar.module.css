@@ -19,18 +19,20 @@
   background: transparent;
   color: var(--text-2);
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 10px;
   font-weight: 500;
   min-width: 44px;
 }
 
 .toolBtn:hover {
-  background: var(--bg-card);
+  background: var(--color-surface-2);
   color: var(--text-1);
 }
 
 .toolBtn.active {
   background: var(--ac-18);
+  outline: 1px solid var(--ac-35);
+  outline-offset: -1px;
   color: var(--ac-hi);
 }

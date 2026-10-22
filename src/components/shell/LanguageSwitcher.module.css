@@ -25,8 +25,8 @@
 }
 
 .triggerBtn:hover {
-  background: var(--bg-hover, rgba(255, 255, 255, 0.05));
-  border-color: var(--border-hover, rgba(255, 255, 255, 0.2));
+  background: var(--color-surface-2);
+  border-color: var(--color-hairline-strong);
   color: var(--text-1);
 }
 
@@ -66,9 +66,9 @@
   min-width: 180px;
   background: var(--bg-secondary);
   border: 1px solid var(--viz-hairline);
-  border-radius: 9px;
+  border-radius: var(--radius-md);
   padding: 6px;
-  box-shadow: 0 16px 40px var(--viz-scrim);
+  box-shadow: var(--shadow-menu);
   z-index: 600;
   display: flex;
   flex-direction: column;
@@ -94,7 +94,7 @@
   text-transform: uppercase;
   color: var(--text-4);
   padding: 4px 8px 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--color-hairline);
   margin-bottom: 4px;
 }
 

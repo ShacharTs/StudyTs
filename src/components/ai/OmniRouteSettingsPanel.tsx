@@ -18,7 +18,7 @@ export function OmniRouteSettingsPanel({ val, conn }: OmniRouteSettingsPanelProp
         {conn.isConnected ? (
           <div className={styles.connectedBadge}>
             <span className={styles.connectedStatus}>
-              <CheckCircle2 size={14} color="var(--accent-green, #4ade80)" />
+              <CheckCircle2 size={14} color="var(--color-success)" />
               {val(AI_TEXT.connected)} · OmniRoute
             </span>
             <button type="button" onClick={conn.clearActiveKey} className={styles.removeBtn}>

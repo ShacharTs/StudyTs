@@ -5,17 +5,18 @@
 .wrap .trigger {
   height: 26px;
   padding: 0 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   background: transparent;
   border: 1px solid var(--rail-hairline);
-  color: var(--text-3);
+  color: var(--color-ink-subtle);
   cursor: pointer;
-  font: 11px 'Fira Code', monospace;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
 }
 
 .trigger:focus-visible,
 .item:focus-visible {
-  outline: 1px solid var(--ac);
+  outline: 1px solid var(--focus-ring-color);
   outline-offset: 1px;
 }
 
@@ -29,25 +30,27 @@
   min-width: 96px;
   padding: 4px;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
-  background: var(--bg-card);
+  border: 1px solid var(--color-hairline);
+  background: var(--color-surface-3);
+  box-shadow: var(--shadow-menu);
 }
 
 .item {
   padding: 6px 10px;
   border: 0;
-  border-radius: 5px;
+  border-radius: 6px;
   background: transparent;
-  color: var(--text-2);
+  color: var(--color-ink-muted);
   text-align: start;
   cursor: pointer;
-  font: 11px 'Fira Code', monospace;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
 }
 
 .item:hover {
-  background: var(--ac-18);
+  background: var(--state-hover);
 }
 
 .item[aria-checked='true'] {
-  color: var(--ac-hi);
+  color: var(--color-primary-hover);
 }

@@ -7,10 +7,10 @@
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
-  background: var(--surface-card, #0f0f13);
-  border: 1px solid var(--border-card, rgba(255, 255, 255, 0.08));
-  border-radius: var(--radius, 8px);
-  box-shadow: var(--shadow-card, 0 4px 20px rgba(0, 0, 0, 0.3));
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-xl);
+  box-shadow: none;
 }
 
 .canvas {
@@ -29,7 +29,7 @@
 
 .problems {
   padding: 1rem;
-  border: 1px solid var(--accent-danger, #ef4444);
+  border: 1px solid var(--accent-danger, var(--color-danger));
   border-radius: 8px;
-  color: var(--accent-danger, #ef4444);
+  color: var(--accent-danger, var(--color-danger));
 }

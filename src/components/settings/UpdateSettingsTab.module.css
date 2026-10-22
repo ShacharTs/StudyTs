@@ -27,6 +27,6 @@
 }
 
 .warning {
-  color: var(--danger, #ef4444);
+  color: var(--color-danger);
   font-size: 12px;
 }

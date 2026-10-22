@@ -1,36 +1,36 @@
-/* A course card is led by its name. Its colour is the accent chosen in Settings, shown as a spine down the start edge. Hover lifts the card and deepens that colour. */
+/* A course card is led by its name. Flat surface and hairline; the accent only tints the focus ring and the arrow. Hover lifts the card and lightens the surface. */
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;
   min-height: 190px;
-  padding: 24px 24px 20px;
-  padding-inline-start: 30px;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--bg-secondary);
+  padding: 24px;
+  padding-inline-start: 24px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-1);
   cursor: pointer;
   overflow: hidden;
-  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.2s ease, box-shadow 0.25s ease, background 0.2s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 .card::before {
   content: '';
   position: absolute;
   inset-block: 0;
   inset-inline-start: 0;
-  width: 5px;
-  background: var(--ac);
-  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+  width: 0;
+  background: transparent;
+  transition: width 0.15s ease;
 }
 .card:hover, .card:focus-visible {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--ac) 55%, var(--border-color));
-  background: color-mix(in srgb, var(--ac) 7%, var(--bg-secondary));
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+  transform: translateY(-2px);
+  border-color: var(--color-hairline-strong);
+  background: var(--color-surface-2);
+  box-shadow: none;
 }
-.card:hover::before, .card:focus-visible::before { width: 9px; }
-.card:focus-visible { outline: 2px solid var(--ac); outline-offset: 3px; }
+.card:hover::before, .card:focus-visible::before { width: 0; }
+.card:focus-visible { outline: 2px solid var(--focus-ring-color); outline-offset: 3px; }
 
 /* An arrow slides in at the end of the card on hover: the card is a way in. */
 .card::after {
@@ -40,32 +40,32 @@
   bottom: 26px;
   width: 9px;
   height: 9px;
-  border-top: 2px solid var(--ac-hi);
-  border-right: 2px solid var(--ac-hi);
+  border-top: 2px solid var(--color-ink-muted);
+  border-inline-end: 2px solid var(--color-ink-muted);
   transform: rotate(45deg);
   opacity: 0;
   translate: -10px 0;
-  transition: opacity 0.2s ease, translate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: opacity 0.15s ease, translate 0.15s ease;
 }
-[dir='rtl'] .card::after { border-right: 0; border-left: 2px solid var(--ac-hi); transform: rotate(-45deg); translate: 10px 0; }
+[dir='rtl'] .card::after { border-right: 0; border-left: 2px solid var(--color-ink-muted); transform: rotate(-45deg); translate: 10px 0; }
 .card:hover::after, .card:focus-visible::after { opacity: 1; translate: 0 0; }
-.card:active { transform: translateY(-1px) scale(0.985); }
+.card:active { transform: translateY(-1px); }
 
 .cardEditing { cursor: default; }
 .cardEditing::after { display: none; }
-.cardEditing:hover { transform: none; box-shadow: none; background: var(--bg-secondary); border-color: var(--border-color); }
-.cardEditing:hover::before { width: 5px; }
+.cardEditing:hover { transform: none; box-shadow: none; background: var(--color-surface-1); border-color: var(--color-hairline); }
+.cardEditing:hover::before { width: 0; }
 
 h4.name {
   margin: 0;
-  transition: translate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: translate 0.15s ease;
   padding-inline-end: 4px;
-  font-family: var(--font-serif);
+  font-family: inherit;
   font-size: var(--fs-xl);
   line-height: var(--lh-heading);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--text-1);
+  letter-spacing: -0.4px;
+  color: var(--color-ink);
   unicode-bidi: isolate;
   text-align: start;
 }
@@ -74,7 +74,7 @@ p.description {
   margin: 0;
   font-size: var(--fs-sm);
   line-height: var(--lh-body);
-  color: var(--text-2);
+  color: var(--color-ink-muted);
   unicode-bidi: isolate;
   text-align: start;
   display: -webkit-box;
@@ -84,19 +84,20 @@ p.description {
   overflow: hidden;
 }
 
-.card:hover h4.name, .card:focus-visible h4.name { translate: 3px 0; }
-[dir='rtl'] .card:hover h4.name, [dir='rtl'] .card:focus-visible h4.name { translate: -3px 0; }
+.card:hover h4.name, .card:focus-visible h4.name { translate: 0 0; }
+[dir='rtl'] .card:hover h4.name, [dir='rtl'] .card:focus-visible h4.name { translate: 0 0; }
 
 .count {
   margin-top: auto;
   padding-top: 6px;
+  font-family: var(--font-mono);
   font-size: var(--fs-sm);
-  font-weight: 600;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
-  color: var(--text-3);
-  transition: color 0.2s ease;
+  color: var(--color-ink-subtle);
+  transition: color 0.15s ease;
 }
-.card:hover .count { color: var(--text-1); }
+.card:hover .count { color: var(--color-ink); }
 
 /* In edit mode the toolbar has its own row at the top of the card, so it never covers the name. */
 .actions { display: flex; justify-content: flex-end; gap: 6px; margin: -10px -10px 2px 0; }

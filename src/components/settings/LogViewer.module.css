@@ -3,11 +3,11 @@
   flex-direction: column;
   height: 100%;
   min-height: 380px;
-  background: var(--bg-primary, #0f172a);
-  color: var(--text-primary, #f8fafc);
-  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid var(--border-color, #334155);
+  border: 1px solid var(--border-color);
 }
 
 .toolbar {
@@ -16,8 +16,8 @@
   justify-content: space-between;
   gap: 8px;
   padding: 8px 12px;
-  background: var(--bg-secondary, #1e293b);
-  border-bottom: 1px solid var(--border-color, #334155);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
   flex-wrap: wrap;
 }
 
@@ -35,7 +35,7 @@
   font-weight: 500;
   border: 1px solid transparent;
   background: transparent;
-  color: var(--text-3, #8a99ad);
+  color: var(--text-3);
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
@@ -52,14 +52,14 @@
 }
 
 .tabBtn:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary, #f8fafc);
+  background: var(--state-hover);
+  color: var(--text-primary);
 }
 
 .activeTabBtn {
-  background: var(--bg-hover, #334155);
-  color: var(--text-primary, #f8fafc);
-  border-color: var(--border-color, #475569);
+  background: var(--color-surface-3);
+  color: var(--text-primary);
+  border-color: var(--color-hairline-strong);
 }
 
 .rightControls {
@@ -72,16 +72,16 @@
 .searchInput {
   padding: 4px 8px;
   border-radius: 6px;
-  border: 1px solid var(--border-color, #334155);
-  background: var(--bg-input, #0f172a);
-  color: var(--text-primary, #f8fafc);
+  border: 1px solid var(--border-color);
+  background: var(--color-surface-2);
+  color: var(--text-primary);
   font-size: 12px;
   outline: none;
   min-width: 140px;
 }
 
 .searchInput:focus {
-  border-color: var(--accent, #3b82f6);
+  border-color: var(--accent);
 }
 
 .actionBtn {
@@ -93,33 +93,33 @@
   font-size: 12px;
   white-space: nowrap;
   flex-shrink: 0;
-  background: var(--bg-input, #0f172a);
-  border: 1px solid var(--border-color, #334155);
-  color: var(--text-primary, #f8fafc);
+  background: var(--color-surface-2);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .actionBtn:hover {
-  background: var(--bg-hover, #334155);
+  background: var(--color-surface-3);
 }
 
 .actionBtnActive {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: var(--accent, #3b82f6);
-  color: var(--accent, #60a5fa);
+  background: var(--ac-18);
+  border-color: var(--accent);
+  color: var(--accent-bright);
 }
 
 .logBox {
   flex: 1;
   padding: 12px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   line-height: 1.5;
   overflow-y: auto;
   overflow-x: auto;
-  background: #090d16;
-  color: var(--text-1, #e6edf3);
+  background: var(--color-canvas);
+  color: var(--text-1);
   white-space: pre-wrap;
   word-break: break-all;
 }
@@ -129,26 +129,26 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--text-3, #8a99ad);
+  color: var(--text-3);
   font-style: italic;
   font-family: inherit;
 }
 
 .badgeOk {
-  color: #4ade80;
+  color: var(--color-success);
   font-weight: 600;
 }
 
 .badgeWarn {
-  color: #fbbf24;
+  color: var(--color-warning);
   font-weight: 600;
 }
 
 .badgeError, .badgeCrash {
-  color: #f87171;
+  color: var(--color-danger);
   font-weight: 700;
 }
 
 .badgeDebug {
-  color: var(--text-3, #8a99ad);
+  color: var(--text-3);
 }

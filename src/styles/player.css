@@ -5,16 +5,27 @@
   justify-content: center;
   padding: 6px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: var(--bg-secondary);
-  color: var(--viz-white);
+  border: 1px solid var(--color-hairline-strong);
+  background: var(--color-surface-1);
+  color: var(--color-ink-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .ctrl-btn:hover:not(:disabled) {
-  border-color: var(--accent-bright);
-  color: var(--accent-bright);
+  border-color: var(--color-hairline-strong);
+  background: var(--color-surface-2);
+  color: var(--color-ink);
+}
+
+.ctrl-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctrl-btn {
+    transition: none;
+  }
 }
 
 .ctrl-btn:disabled {
@@ -23,20 +34,26 @@
 }
 
 .ctrl-btn.play-btn {
-  background: var(--accent);
+  background: var(--gradient-primary);
   border: none;
-  color: #0a0a0b;
+  color: var(--color-on-primary);
   padding: 6px 16px;
+}
+
+.ctrl-btn.play-btn:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 .speed-select {
   padding: 5px 10px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
+  border: 1px solid var(--color-hairline);
+  background: var(--color-surface-1);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
 }
 
 .player-controls-dock {
@@ -45,11 +62,11 @@
   align-items: center;
   gap: 10px;
   margin-top: 6px;
-  background: rgba(20, 19, 21, 0.6);
-  border: 1px solid var(--border-color);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
   border-radius: 10px;
   padding: 6px 12px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: none;
 }
 
 .fs-controls-dock {
@@ -82,8 +99,8 @@
 }
 
 .symmetric-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-hairline);
   border-radius: var(--radius-md);
   padding: clamp(12px, 1.5vw, 18px);
   display: flex;
@@ -106,7 +123,7 @@
   align-items: center;
   gap: 10px;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: var(--fs-md);
   margin-bottom: 12px;
 }
 
@@ -119,8 +136,8 @@
 
 /* React Flow Dark Mode Overrides */
 .react-flow-dark-container .react-flow__controls-button {
-  background-color: #0f172a !important;
-  border-bottom: 1px solid rgba(6, 182, 212, 0.2) !important;
+  background-color: var(--color-surface-1) !important;
+  border-bottom: 1px solid var(--color-hairline) !important;
   fill: var(--viz-cyan) !important;
 }
 
@@ -129,7 +146,7 @@
 }
 
 .react-flow-dark-container .react-flow__controls-button:hover {
-  background-color: rgba(6, 182, 212, 0.2) !important;
+  background-color: var(--color-surface-3) !important;
 }
 
 .react-flow-dark-container .react-flow__attribution {

@@ -75,3 +75,10 @@ __pycache__/
 *.pyc
 .studyts.pid
 dist-server/
+
+# Local planning notes (never shipped)
+todo/
+
+# Scratch output
+*.tmp
+*.mp4

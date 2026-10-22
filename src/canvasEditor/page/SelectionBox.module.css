@@ -1,7 +1,7 @@
 .box {
   position: absolute;
   inset: 0;
-  outline: 1px solid var(--ac, #4f46e5);
+  outline: 1px solid var(--color-primary);
   pointer-events: none;
 }
 
@@ -10,8 +10,8 @@
   width: 6px;
   height: 6px;
   margin: -3px 0 0 -3px;
-  background: var(--bg-card, #ffffff);
-  border: 1px solid var(--ac, #4f46e5);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-primary);
   border-radius: 2px;
   pointer-events: auto;
 }
@@ -23,8 +23,8 @@
   width: 10px;
   height: 10px;
   margin-left: -5px;
-  background: var(--bg-card, #ffffff);
-  border: 1px solid var(--ac, #4f46e5);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-primary);
   border-radius: 50%;
   cursor: grab;
   pointer-events: auto;
@@ -38,7 +38,7 @@
   width: 1px;
   height: 8px;
   margin-left: -0.5px;
-  background: var(--ac, #4f46e5);
+  background: var(--color-primary);
   pointer-events: none;
 }
 

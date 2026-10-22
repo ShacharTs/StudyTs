@@ -6,19 +6,19 @@
 }
 
 .ai-settings-panel-inner .ai-setting-group label {
-  font-size: 10.5px;
-  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  font-family: var(--font-mono);
   text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--text-4);
+  letter-spacing: .12em;
+  color: var(--color-ink-subtle);
 }
 
 .ai-settings-panel-inner .ai-model-select {
   width: 100%;
   padding: 9px 11px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid var(--border-card);
-  background: var(--bg-primary);
+  background: var(--color-surface-2);
   color: var(--text-1);
   font-size: 13px;
   cursor: pointer;
@@ -27,7 +27,7 @@
 .ai-settings-panel-inner .ai-model-select:focus {
   outline: none;
   border-color: var(--ac);
-  box-shadow: 0 0 0 2px var(--ac-18);
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
 }
 
 /* Settings section (inside panel) */
@@ -49,11 +49,12 @@
 }
 
 .ai-settings-section-label {
-  font-size: 11px;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-2);
+  letter-spacing: 0.12em;
+  color: var(--color-ink-subtle);
 }
 
 .ai-advanced-toggle {
@@ -75,14 +76,14 @@
 }
 
 .ai-monospace-input {
-  font-family: 'Fira Code', monospace;
+  font-family: var(--font-mono);
 }
 
 /* Storage notice — compact */
 .ai-settings-storage-notice {
   font-size: 10px;
-  font-family: 'Fira Code', monospace;
-  color: var(--text-4, #5c5c64);
+  font-family: var(--font-mono);
+  color: var(--color-ink-tertiary);
   margin: 0;
   unicode-bidi: isolate;
 }

@@ -16,7 +16,7 @@ export function ScrollToBottomButton({ val, onClick }: ScrollToBottomButtonProps
       className={styles.button}
       aria-label={val(AI_TEXT.scrollToBottom)}
     >
-      <ArrowDown size={12} color="var(--ac, #c98a3a)" />
+      <ArrowDown size={12} color="var(--ac)" />
       <span>{val(AI_TEXT.scrollToBottom)}</span>
     </button>
   );

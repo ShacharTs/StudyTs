@@ -12,8 +12,11 @@
   gap: 8px;
   padding: 8px 4px 10px;
   border-bottom: 1px solid var(--border-hair);
-  font-weight: 600;
-  font-size: var(--fs-md);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
   color: var(--text-1);
 }
 
@@ -159,8 +162,8 @@
 
 .textInput:focus,
 .selectInput:focus {
-  border-color: var(--ac);
-  box-shadow: 0 0 0 2px var(--ac-18);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
   outline: none;
 }
 
@@ -185,8 +188,8 @@
 }
 
 .numberInput:focus {
-  border-color: var(--ac);
-  box-shadow: 0 0 0 2px var(--ac-18);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
   outline: none;
 }
 

@@ -11,16 +11,16 @@
   padding: 12px;
   background: var(--wb-panel);
   border: 1px solid var(--wb-line);
-  border-radius: 14px;
-  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-menu);
 }
 
 .filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
-.filter { border: 1px solid var(--wb-line); background: transparent; border-radius: 999px; padding: 3px 10px; font-size: 0.78rem; cursor: pointer; }
+.filter { border: 1px solid var(--wb-line); background: transparent; border-radius: 999px; padding: 3px 10px; font-size: var(--fs-xs); cursor: pointer; }
 .filterOn { border-color: var(--wb-accent); color: var(--wb-accent); }
 
-.title { margin: 0 0 8px; display: flex; align-items: baseline; gap: 8px; font-size: 0.98rem; font-weight: 700; }
-.titleNote { color: var(--wb-muted); font-size: 0.78rem; font-weight: 400; }
+.title { margin: 0 0 8px; display: flex; align-items: baseline; gap: 8px; font-size: var(--fs-md); font-weight: 700; }
+.titleNote { color: var(--wb-muted); font-size: var(--fs-xs); font-weight: 400; }
 
 .search {
   width: 100%;
@@ -36,7 +36,7 @@
 .search:focus-visible { border-color: var(--wb-accent); outline: none; }
 
 .section + .section { margin-top: 12px; }
-.sectionTitle { display: flex; align-items: center; gap: 6px; margin: 0 0 6px; font-size: 0.8rem; font-weight: 700; color: var(--wb-muted); }
+.sectionTitle { display: flex; align-items: center; gap: 6px; margin: 0 0 6px; font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--wb-muted); }
 .sectionToggle { padding: 0; font: inherit; color: inherit; background: transparent; border: 0; cursor: pointer; }
 .sectionToggle:hover, .sectionToggle:focus-visible { color: var(--wb-accent); }
 
@@ -58,7 +58,7 @@
 .thumbBox { display: flex; align-items: center; justify-content: center; height: 66px; color: var(--wb-fg); }
 .thumb { width: 100%; height: 100%; }
 .glyph { font-size: 1.6rem; line-height: 1; }
-.cardName { font-size: 0.88rem; }
+.cardName { font-size: var(--fs-sm); }
 .keyHint {
   position: absolute;
   inset-block-start: 6px;
@@ -71,7 +71,7 @@
   border-radius: 4px;
 }
 
-.empty, .note { margin: 8px 0 0; color: var(--wb-muted); font-size: 0.78rem; }
+.empty, .note { margin: 8px 0 0; color: var(--wb-muted); font-size: var(--fs-xs); }
 
 @media (max-width: 960px) {
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }

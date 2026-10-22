@@ -53,9 +53,9 @@ export function CodeBlock({ code, language = '', val }: CodeBlockProps) {
           aria-live="polite"
         >
           {copyState === 'copied' ? (
-            <Check size={12} color="var(--accent-green, #4ade80)" />
+            <Check size={12} color="var(--color-success)" />
           ) : copyState === 'error' ? (
-            <AlertCircle size={12} color="var(--accent-danger, #ef7a6d)" />
+            <AlertCircle size={12} color="var(--color-danger)" />
           ) : (
             <Copy size={12} />
           )}

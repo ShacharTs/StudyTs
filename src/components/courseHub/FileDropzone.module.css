@@ -4,21 +4,21 @@
   justify-content: center;
   gap: 10px;
   padding: 16px 18px;
-  border: 1.5px dashed var(--border-color);
-  border-radius: 14px;
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
+  border: 1.5px dashed var(--color-hairline-strong);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-1);
+  color: var(--color-ink-muted);
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
 .zone:hover {
-  border-color: var(--accent);
-  color: var(--text-primary);
+  border-color: var(--color-primary);
+  color: var(--color-ink);
 }
 
 .zone:focus-within {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring-color);
   outline-offset: 2px;
 }
 
