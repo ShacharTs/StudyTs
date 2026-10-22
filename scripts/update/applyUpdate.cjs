@@ -24,15 +24,33 @@ const {
 } = require('./zipStrategy.cjs');
 const { writeFileAtomic } = require('../writeFileAtomic.cjs');
 
+// Enough of the command's output to show why it failed without flooding the update notice.
+const RUN_OUTPUT_TAIL_CHARS = 600;
+
+// execFileSync's own message is just "Command failed: ..."; the useful part is what the command printed.
+function summarizeRunFailure(cmd, args, err) {
+  const output = [err.stderr, err.stdout]
+    .map((stream) => (stream ? String(stream).trim() : ''))
+    .filter(Boolean)
+    .join('\n');
+  const exit = err.status != null ? ` (exit ${err.status})` : '';
+  const detail = output ? output.slice(-RUN_OUTPUT_TAIL_CHARS) : err.message;
+  return `${cmd} ${args.join(' ')} failed${exit}: ${detail}`;
+}
+
 function defaultRun(cmd, args, cwd) {
   const isWin = process.platform === 'win32';
   const effectiveCmd = isWin && (cmd === 'npm' || cmd === 'npx') ? `${cmd}.cmd` : cmd;
-  return execFileSync(effectiveCmd, args, {
-    cwd,
-    encoding: 'utf8',
-    shell: isWin,
-    stdio: ['ignore', 'pipe', 'pipe'],
-  });
+  try {
+    return execFileSync(effectiveCmd, args, {
+      cwd,
+      encoding: 'utf8',
+      shell: isWin,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+  } catch (err) {
+    throw new Error(summarizeRunFailure(cmd, args, err), { cause: err });
+  }
 }
 
 function hashFile(file) {
@@ -136,6 +154,10 @@ async function applyUpdate({ root, config, latest, strategy = 'auto', deps = {} 
       const stagedRoot = path.join(stateDir, 'staged');
       if (fs.existsSync(stagedRoot)) fs.rmSync(stagedRoot, { recursive: true, force: true });
       fs.mkdirSync(stagedRoot, { recursive: true });
+
+      if (!latest?.zipUrl) {
+        throw new Error(`Release ${toVersion} has no source archive to download; publish it as a GitHub Release first`);
+      }
 
       const zipFile = path.join(stateDir, 'download.zip');
       await doDownloadZip({
@@ -271,4 +293,5 @@ function recoverInterrupted({ root, config, deps = {} }) {
 module.exports = {
   applyUpdate,
   recoverInterrupted,
+  defaultRun,
 };

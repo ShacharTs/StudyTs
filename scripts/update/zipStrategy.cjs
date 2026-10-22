@@ -148,6 +148,26 @@ function isPreserved(rel, config = {}, existsInRoot = false) {
   return false;
 }
 
+// On Windows an antivirus scan or an open handle briefly locks a file; waiting a moment usually clears it.
+const LOCK_RETRY_CODES = new Set(['EBUSY', 'EPERM', 'EACCES']);
+const LOCK_RETRY_ATTEMPTS = 5;
+const LOCK_RETRY_DELAY_MS = 100;
+
+function sleepSync(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
+function retryWhenLocked(operation, { attempts = LOCK_RETRY_ATTEMPTS, delayMs = LOCK_RETRY_DELAY_MS, sleep = sleepSync } = {}) {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      return operation();
+    } catch (err) {
+      if (!LOCK_RETRY_CODES.has(err && err.code) || attempt >= attempts) throw err;
+      sleep(delayMs * attempt);
+    }
+  }
+}
+
 function applyStagedTree({ stagedRoot, root, config = {}, backupDir }) {
   const created = [];
   const overwritten = [];
@@ -190,8 +210,10 @@ function applyStagedTree({ stagedRoot, root, config = {}, backupDir }) {
         }
 
         const tmp = `${destPath}.update.tmp`;
-        fs.copyFileSync(srcPath, tmp);
-        fs.renameSync(tmp, destPath);
+        retryWhenLocked(() => {
+          fs.copyFileSync(srcPath, tmp);
+          fs.renameSync(tmp, destPath);
+        });
       }
     }
   };
@@ -230,6 +252,7 @@ module.exports = {
   findExtractedRoot,
   assertInsideDir,
   isPreserved,
+  retryWhenLocked,
   applyStagedTree,
   restoreCode,
 };

@@ -126,7 +126,7 @@
     --state-hover: rgba(15, 16, 17, 0.045);
     --state-pressed: rgba(15, 16, 17, 0.07);
 
-    --surface-card: linear-gradient(#ffffff, #ffffff);
+    --surface-card: linear-gradient(var(--color-surface-1), var(--color-surface-1));
     --shadow-menu: 0 8px 24px rgba(15, 16, 17, 0.12);
     --shadow-overlay: 0 16px 48px rgba(15, 16, 17, 0.18);
     --grid: radial-gradient(rgba(15, 16, 17, 0.08) 1px, transparent 1px);

@@ -115,3 +115,12 @@
   display: inline;
   margin-inline-end: 4px;
 }
+
+.reason {
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-ink-subtle);
+  overflow-wrap: anywhere;
+  user-select: text;
+}

@@ -5,10 +5,11 @@ import { useUpdateStatus, type UpdateStatusInfo, type UpdateStatusResponse } fro
 import styles from './UpdatePrompt.module.css';
 
 interface RollbackNoticeProps {
+  reason?: string;
   onDismiss: () => void;
 }
 
-const RollbackNotice: React.FC<RollbackNoticeProps> = ({ onDismiss }) => {
+const RollbackNotice: React.FC<RollbackNoticeProps> = ({ reason, onDismiss }) => {
   const { val } = useTranslation();
   return (
     <div className={`${styles.promptBox} ${styles.rollback}`} dir="auto">
@@ -18,6 +19,12 @@ const RollbackNotice: React.FC<RollbackNoticeProps> = ({ onDismiss }) => {
           <span className={styles.badge}>Rollback</span>
           <span className={styles.hint}>{val(UPDATE_TEXT.rollbackNotice)}</span>
         </div>
+        {/* The updater records why it rolled back; without it the viewer has nothing to report or fix. */}
+        {reason && (
+          <div className={styles.reason} dir="auto">
+            {val(UPDATE_TEXT.rollbackReason).replace('{reason}', reason)}
+          </div>
+        )}
       </div>
       <div className={styles.actions}>
         <button type="button" onClick={onDismiss} className={styles.secondaryBtn}>
@@ -119,7 +126,7 @@ export const UpdatePrompt: React.FC = () => {
   if (dismissedSession || !state) return null;
 
   if (state.lastResult?.ok === false) {
-    return <RollbackNotice onDismiss={dismissResult} />;
+    return <RollbackNotice reason={state.lastResult.error} onDismiss={dismissResult} />;
   }
 
   const latest = state.latest;

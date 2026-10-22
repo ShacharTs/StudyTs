@@ -146,6 +146,7 @@
     "skipVersion": "Skip this version",
     "later": "Later",
     "rollbackNotice": "Last update was rolled back. Your data is untouched.",
+    "rollbackReason": "Reason: {reason}",
     "dismiss": "Dismiss",
     "updateBadge": "Update",
     "whatsNew": "What's new",

@@ -146,6 +146,7 @@
     "skipVersion": "דלג על גרסה זו",
     "later": "מאוחר יותר",
     "rollbackNotice": "העדכון האחרון בוטל. הנתונים שלך לא נפגעו.",
+    "rollbackReason": "סיבה: {reason}",
     "dismiss": "סגור",
     "updateBadge": "עדכון",
     "whatsNew": "מה חדש",

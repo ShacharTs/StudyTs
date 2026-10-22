@@ -1,1 +1,0 @@
-import{u as s,j as o}from"./keyRefResolver-CUG0pvnJ.js";import{L as r}from"./LogViewer-Bj9hpNxW.js";import"./refresh-cw-DubLQmik.js";import"./arrow-down-wRbdlwC1.js";const n="_popoutContainer_1mtjb_1",p={popoutContainer:n},m=()=>{const{val:t}=s();return o.jsx("div",{className:p.popoutContainer,children:o.jsx(r,{val:t,isPopout:!0})})};export{m as LogsPopoutPage};
