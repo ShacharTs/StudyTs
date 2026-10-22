@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/brand-v2/studyts-logo.svg" alt="StudyTs logo" width="300" />
+  <img src="asset/studyts-logo.svg" alt="StudyTs logo" width="300" />
 </p>
 
 <h3 align="center">Local-first study platform for computer science: canvas lessons, step animations, and an MCP server for AI tools.</h3>
