@@ -1,5 +1,5 @@
 import type { AiTool } from '@core/shared/aiTypes';
-import { listCategories } from '@core/visualBuilder/diagramPacks/categoryRegistry';
+import { storyboardSyntax } from '@core/storyboard/storyboardGuide';
 import { compileStoryboard } from '@core/storyboard/compileStoryboard';
 import { checkVisualSpecForPublish } from '@core/validation/visualSpec/visualSpecPublishCheck';
 import type { ToolExecutionResult } from '../../toolExecutionResult';
@@ -7,19 +7,10 @@ import { sendContentEditorRequest } from './contentEditorRequest';
 
 const ALREADY_EXISTS = 'already exists';
 
-// Categories only: the object list would cost a few hundred tokens on every request, so an unknown ref returns it instead.
-const PACK_CATEGORIES = listCategories().map((category) => category.id).join(', ');
-
 const DESCRIPTION =
   'Publishes a step-player lecture (an animated diagram) into a course: creates the topic if needed and saves it. PREFER a storyboard: ' +
-  '{id, layout: row|column|circle|grid, intro?, nodes: [{id, label?, shape?: circle|box|ellipse|label|note, pack?: <packId>/<objectId>, color?: token, x?, y?}], ' +
-  'links?: [{from, to, directed?, dashed?}], steps: [{title?, say?, together?, actions: [...]}]}. Actions: ' +
-  '{do: show|hide|highlight|dim, ids: [...]}, {do: draw, links: [{from, to}]} (not for dashed links), {do: move, id, to: {x, y}}. ' +
-  'A node with pack draws a style-pack object (for example an accepting state) instead of shape (an empty label draws none; leave an accepting state unlabelled); pack categories: ' + PACK_CATEGORIES + '. ' +
-  'An unknown ref is rejected with the list of valid refs. ' +
-  'The app lays the nodes out, draws the arrows, writes the animation and the speech bubbles (say text is at most 260 characters per step). ' +
-  'Colour tokens: var(--viz-blue), var(--viz-purple), var(--viz-cyan), var(--viz-yellow), var(--viz-orange), var(--viz-pink), ' +
-  'var(--accent-green), var(--accent-danger), var(--accent). Only when a storyboard cannot express the lecture, pass a raw VisualSpec ' +
+  storyboardSyntax() +
+  ' Only when a storyboard cannot express the lecture, pass a raw VisualSpec ' +
   '{id, viewBox, elements, steps} instead (element kinds circle, ellipse, rect, path with absolute M/L commands, text, math, bubble; ' +
   'tweens [{targets, params, at?}]). Either way the result is validated and layout-checked first (text clear of shape outlines and lines, ' +
   'inside the viewBox); if problems are returned, fix them and call again.';

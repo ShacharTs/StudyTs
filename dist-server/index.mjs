@@ -2,8 +2,8 @@
 import express3 from "express";
 import cors from "cors";
 import crypto7 from "crypto";
-import path18 from "path";
-import fs12 from "fs";
+import path19 from "path";
+import fs14 from "fs";
 import { PrismaClient as PrismaClient5 } from "@prisma/client";
 
 // server/routes/index.ts
@@ -760,15 +760,15 @@ function ensureDir(p) {
 }
 var ownWrites = /* @__PURE__ */ new Map();
 var sha1 = (text) => createHash("sha1").update(text).digest("hex");
-function writeTracked(path19, content) {
-  writeFileSync(path19, content);
-  ownWrites.set(resolve(path19), sha1(content));
+function writeTracked(path20, content) {
+  writeFileSync(path20, content);
+  ownWrites.set(resolve(path20), sha1(content));
 }
-function isOwnWrite(path19) {
-  const expected = ownWrites.get(resolve(path19));
+function isOwnWrite(path20) {
+  const expected = ownWrites.get(resolve(path20));
   if (!expected) return false;
   try {
-    return sha1(readFileSync(path19, "utf8")) === expected;
+    return sha1(readFileSync(path20, "utf8")) === expected;
   } catch {
     return false;
   }
@@ -783,6 +783,19 @@ async function syncCourseToFile(prisma3, courseId) {
   });
   if (!course) return;
   const catalogPath = join(DATA_DIR, courseId, "catalog.json");
+  const courseJsonPath = join(DATA_DIR, courseId, "course.json");
+  ensureDir(courseJsonPath);
+  writeTracked(courseJsonPath, toJson({
+    id: course.id,
+    code: course.code,
+    title: course.title,
+    subtitle: course.subtitle,
+    description: course.description,
+    icon: course.icon,
+    color: course.color,
+    accent: course.accent,
+    badge: course.badge
+  }));
   const weeks = {};
   for (const week of course.weeks) {
     weeks[week.weekKey] = {
@@ -1798,10 +1811,13 @@ var en_default2 = {
     justChecked: "Just checked a moment ago. Try again in a few seconds.",
     offline: "Could not reach the update server. Try again when you are online.",
     rateLimited: "Too many update checks. Try again later.",
-    noReleases: "No releases are published yet.",
+    noReleases: "No update manifest found for v{version}. You are running the latest local build, or this release does not support auto-updates.",
     checkError: "The update check failed.",
     appliedOnNextStart: "Updates are applied the next time you start StudyTS. Your settings (.env), database and course data (data/) are kept.",
-    scheduledFor: "Scheduled: version {version}"
+    scheduledFor: "Scheduled: version {version}",
+    downloadUpdate: "Download update",
+    downloadingUpdate: "Downloading update\u2026 {percent}%",
+    openReleasePage: "Open release page"
   },
   mcp: {
     tabMcp: "StudyTs-MCP",
@@ -1854,7 +1870,37 @@ var en_default2 = {
     architectureDaemon: "StudyTs-MCP Daemon",
     architectureDaemonDesc: "Single background process managing 12 domain tools",
     architectureStorage: "Local Database & Files",
-    architectureStorageDesc: "Read-only SQLite and atomic data/ file operations"
+    architectureStorageDesc: "Read-only SQLite and atomic data/ file operations",
+    connectTitle: "Connect an AI app",
+    connectDesc: "StudyTs speaks standard MCP, so any app that supports MCP servers can use it: Claude, Codex, Cursor, Gemini CLI, Windsurf, Cline and more.",
+    connectAddTo: "Add to {name}",
+    connectEditsFile: "This edits {path}. Your other settings are kept and a backup is saved next to it.",
+    connectEditsClaudeCode: "This runs the Claude Code command shown below.",
+    connectConfirm: "Confirm",
+    connectCancel: "Cancel",
+    connectDone: "Added. Restart {name} to load it.",
+    connectFailed: "Could not connect: {reason}",
+    connectOther: "Another app, or set it up by hand",
+    connectOtherDesc: "Paste one of these into the app's MCP settings.",
+    connectStandardJson: "Standard MCP config (JSON)",
+    connectCodexToml: "Codex config (~/.codex/config.toml)",
+    connectCodexCommand: "Codex command",
+    connectClaudeCodeCommand: "Claude Code command",
+    connectCopy: "Copy",
+    connectCopied: "Copied",
+    connectCopyFailed: "Copy failed. Select the text and copy it by hand.",
+    claudeCodeGlobal: "Claude Code (all folders)",
+    claudeCodeConnected: "Connected globally",
+    claudeCodeNotRegistered: "Not registered",
+    claudeCodeMissing: "Claude Code not found",
+    claudeCodeStale: "Points to another StudyTs copy",
+    claudeCodeConnect: "Connect to Claude Code",
+    claudeCodeDisconnect: "Disconnect",
+    claudeCodeWorking: "Working...",
+    claudeCodeRemoveConfirm: "This runs: claude mcp remove --scope user studyts",
+    claudeCodeRemoved: "Removed from Claude Code.",
+    openMcpFolder: "Open MCP server folder",
+    copyStandardConfig: "Copy standard config"
   },
   complexityClasses: {
     P: {
@@ -2141,10 +2187,13 @@ var he_default2 = {
     justChecked: "\u05E0\u05D1\u05D3\u05E7 \u05D4\u05E8\u05D2\u05E2. \u05E0\u05E1\u05D4 \u05E9\u05D5\u05D1 \u05D1\u05E2\u05D5\u05D3 \u05DB\u05DE\u05D4 \u05E9\u05E0\u05D9\u05D5\u05EA.",
     offline: "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05D4\u05EA\u05D7\u05D1\u05E8 \u05DC\u05E9\u05E8\u05EA \u05D4\u05E2\u05D3\u05DB\u05D5\u05E0\u05D9\u05DD. \u05E0\u05E1\u05D4 \u05E9\u05D5\u05D1 \u05DB\u05E9\u05D9\u05E9 \u05D7\u05D9\u05D1\u05D5\u05E8.",
     rateLimited: "\u05D9\u05D5\u05EA\u05E8 \u05DE\u05D3\u05D9 \u05D1\u05D3\u05D9\u05E7\u05D5\u05EA \u05E2\u05D3\u05DB\u05D5\u05DF. \u05E0\u05E1\u05D4 \u05E9\u05D5\u05D1 \u05DE\u05D0\u05D5\u05D7\u05E8 \u05D9\u05D5\u05EA\u05E8.",
-    noReleases: "\u05E2\u05D3\u05D9\u05D9\u05DF \u05DC\u05D0 \u05E4\u05D5\u05E8\u05E1\u05DE\u05D5 \u05D2\u05E8\u05E1\u05D0\u05D5\u05EA.",
+    noReleases: "\u05DC\u05D0 \u05E0\u05DE\u05E6\u05D0\u05D5 \u05E0\u05EA\u05D5\u05E0\u05D9 \u05E2\u05D3\u05DB\u05D5\u05DF \u05E2\u05D1\u05D5\u05E8 v{version}. \u05D6\u05D5 \u05D4\u05D2\u05E8\u05E1\u05D4 \u05D4\u05DE\u05E7\u05D5\u05DE\u05D9\u05EA \u05D4\u05E2\u05D3\u05DB\u05E0\u05D9\u05EA, \u05D0\u05D5 \u05E9\u05D4\u05D2\u05E8\u05E1\u05D4 \u05D4\u05D6\u05D5 \u05DC\u05D0 \u05EA\u05D5\u05DE\u05DB\u05EA \u05D1\u05E2\u05D3\u05DB\u05D5\u05DF \u05D0\u05D5\u05D8\u05D5\u05DE\u05D8\u05D9.",
     checkError: "\u05D1\u05D3\u05D9\u05E7\u05EA \u05D4\u05E2\u05D3\u05DB\u05D5\u05DF \u05E0\u05DB\u05E9\u05DC\u05D4.",
     appliedOnNextStart: "\u05D4\u05E2\u05D3\u05DB\u05D5\u05DF \u05DE\u05EA\u05D1\u05E6\u05E2 \u05D1\u05D4\u05E4\u05E2\u05DC\u05D4 \u05D4\u05D1\u05D0\u05D4 \u05E9\u05DC StudyTS. \u05D4\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA (.env), \u05DE\u05E1\u05D3 \u05D4\u05E0\u05EA\u05D5\u05E0\u05D9\u05DD \u05D5\u05E0\u05EA\u05D5\u05E0\u05D9 \u05D4\u05E7\u05D5\u05E8\u05E1\u05D9\u05DD (data/) \u05E0\u05E9\u05DE\u05E8\u05D9\u05DD.",
-    scheduledFor: "\u05DE\u05EA\u05D5\u05D6\u05DE\u05DF: \u05D2\u05E8\u05E1\u05D4 {version}"
+    scheduledFor: "\u05DE\u05EA\u05D5\u05D6\u05DE\u05DF: \u05D2\u05E8\u05E1\u05D4 {version}",
+    downloadUpdate: "\u05D4\u05D5\u05E8\u05D3 \u05E2\u05D3\u05DB\u05D5\u05DF",
+    downloadingUpdate: "\u05DE\u05D5\u05E8\u05D9\u05D3 \u05E2\u05D3\u05DB\u05D5\u05DF\u2026 {percent}%",
+    openReleasePage: "\u05E4\u05EA\u05D7 \u05D0\u05EA \u05E2\u05DE\u05D5\u05D3 \u05D4\u05D2\u05E8\u05E1\u05D4"
   },
   mcp: {
     tabMcp: "StudyTs-MCP",
@@ -2197,7 +2246,37 @@ var he_default2 = {
     architectureDaemon: "\u05D3\u05DE\u05D5\u05DF StudyTs-MCP",
     architectureDaemonDesc: "\u05EA\u05D4\u05DC\u05D9\u05DA \u05E8\u05E7\u05E2 \u05D9\u05D7\u05D9\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC 12 \u05DB\u05DC\u05D9 \u05EA\u05D7\u05D5\u05DD \u05DE\u05E7\u05D5\u05DE\u05D9\u05D9\u05DD",
     architectureStorage: "\u05DE\u05E1\u05D3 \u05E0\u05EA\u05D5\u05E0\u05D9\u05DD \u05D5\u05E7\u05D1\u05E6\u05D9\u05DD \u05DE\u05E7\u05D5\u05DE\u05D9\u05D9\u05DD",
-    architectureStorageDesc: "\u05E9\u05D0\u05D9\u05DC\u05EA\u05D5\u05EA SQLite \u05DC\u05E7\u05E8\u05D9\u05D0\u05D4 \u05D1\u05DC\u05D1\u05D3 \u05D5\u05E9\u05DE\u05D9\u05E8\u05EA \u05E7\u05D1\u05E6\u05D9\u05DD \u05D0\u05D8\u05D5\u05DE\u05D9\u05EA \u05D1-data/"
+    architectureStorageDesc: "\u05E9\u05D0\u05D9\u05DC\u05EA\u05D5\u05EA SQLite \u05DC\u05E7\u05E8\u05D9\u05D0\u05D4 \u05D1\u05DC\u05D1\u05D3 \u05D5\u05E9\u05DE\u05D9\u05E8\u05EA \u05E7\u05D1\u05E6\u05D9\u05DD \u05D0\u05D8\u05D5\u05DE\u05D9\u05EA \u05D1-data/",
+    connectTitle: "\u05D7\u05D9\u05D1\u05D5\u05E8 \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D9\u05EA AI",
+    connectDesc: "StudyTs \u05EA\u05D5\u05DE\u05DA \u05D1-MCP \u05E1\u05D8\u05E0\u05D3\u05E8\u05D8\u05D9, \u05DB\u05DA \u05E9\u05DB\u05DC \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4 \u05E9\u05EA\u05D5\u05DE\u05DB\u05EA \u05D1\u05E9\u05E8\u05EA\u05D9 MCP \u05D9\u05DB\u05D5\u05DC\u05D4 \u05DC\u05D4\u05E9\u05EA\u05DE\u05E9 \u05D1\u05D5: Claude, Codex, Cursor, Gemini CLI, Windsurf, Cline \u05D5\u05E2\u05D5\u05D3.",
+    connectAddTo: "\u05D4\u05D5\u05E1\u05E3 \u05DC-{name}",
+    connectEditsFile: "\u05D4\u05E4\u05E2\u05D5\u05DC\u05D4 \u05EA\u05E2\u05E8\u05D5\u05DA \u05D0\u05EA {path}. \u05E9\u05D0\u05E8 \u05D4\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05E0\u05E9\u05DE\u05E8\u05D5\u05EA \u05D5\u05D2\u05D9\u05D1\u05D5\u05D9 \u05E0\u05E9\u05DE\u05E8 \u05DC\u05D9\u05D3\u05D5.",
+    connectEditsClaudeCode: "\u05D4\u05E4\u05E2\u05D5\u05DC\u05D4 \u05EA\u05E8\u05D9\u05E5 \u05D0\u05EA \u05D4\u05E4\u05E7\u05D5\u05D3\u05D4 \u05E9\u05DC Claude Code \u05E9\u05DE\u05D5\u05E6\u05D2\u05EA \u05DC\u05DE\u05D8\u05D4.",
+    connectConfirm: "\u05D0\u05D9\u05E9\u05D5\u05E8",
+    connectCancel: "\u05D1\u05D9\u05D8\u05D5\u05DC",
+    connectDone: "\u05E0\u05D5\u05E1\u05E3. \u05D4\u05E4\u05E2\u05DC \u05DE\u05D7\u05D3\u05E9 \u05D0\u05EA {name} \u05DB\u05D3\u05D9 \u05DC\u05D8\u05E2\u05D5\u05DF \u05D0\u05D5\u05EA\u05D5.",
+    connectFailed: "\u05D4\u05D7\u05D9\u05D1\u05D5\u05E8 \u05E0\u05DB\u05E9\u05DC: {reason}",
+    connectOther: "\u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4 \u05D0\u05D7\u05E8\u05EA, \u05D0\u05D5 \u05D4\u05D2\u05D3\u05E8\u05D4 \u05D9\u05D3\u05E0\u05D9\u05EA",
+    connectOtherDesc: "\u05D4\u05D3\u05D1\u05E7 \u05D0\u05D7\u05D3 \u05DE\u05D0\u05DC\u05D4 \u05D1\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05D4-MCP \u05E9\u05DC \u05D4\u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4.",
+    connectStandardJson: "\u05D4\u05D2\u05D3\u05E8\u05EA MCP \u05E1\u05D8\u05E0\u05D3\u05E8\u05D8\u05D9\u05EA (JSON)",
+    connectCodexToml: "\u05D4\u05D2\u05D3\u05E8\u05EA Codex (\u200E~/.codex/config.toml)",
+    connectCodexCommand: "\u05E4\u05E7\u05D5\u05D3\u05EA Codex",
+    connectClaudeCodeCommand: "\u05E4\u05E7\u05D5\u05D3\u05EA Claude Code",
+    connectCopy: "\u05D4\u05E2\u05EA\u05E7",
+    connectCopied: "\u05D4\u05D5\u05E2\u05EA\u05E7",
+    connectCopyFailed: "\u05D4\u05D4\u05E2\u05EA\u05E7\u05D4 \u05E0\u05DB\u05E9\u05DC\u05D4. \u05E1\u05DE\u05DF \u05D0\u05EA \u05D4\u05D8\u05E7\u05E1\u05D8 \u05D5\u05D4\u05E2\u05EA\u05E7 \u05D9\u05D3\u05E0\u05D9\u05EA.",
+    claudeCodeGlobal: "Claude Code (\u05D1\u05DB\u05DC \u05D4\u05EA\u05D9\u05E7\u05D9\u05D5\u05EA)",
+    claudeCodeConnected: "\u05DE\u05D7\u05D5\u05D1\u05E8 \u05D2\u05DC\u05D5\u05D1\u05DC\u05D9\u05EA",
+    claudeCodeNotRegistered: "\u05DC\u05D0 \u05E8\u05E9\u05D5\u05DD",
+    claudeCodeMissing: "Claude Code \u05DC\u05D0 \u05E0\u05DE\u05E6\u05D0",
+    claudeCodeStale: "\u05DE\u05E6\u05D1\u05D9\u05E2 \u05E2\u05DC \u05E2\u05D5\u05EA\u05E7 \u05D0\u05D7\u05E8 \u05E9\u05DC StudyTs",
+    claudeCodeConnect: "\u05D7\u05D1\u05E8 \u05DC-Claude Code",
+    claudeCodeDisconnect: "\u05E0\u05EA\u05E7",
+    claudeCodeWorking: "\u05DE\u05D1\u05E6\u05E2...",
+    claudeCodeRemoveConfirm: "\u05D4\u05E4\u05E2\u05D5\u05DC\u05D4 \u05EA\u05E8\u05D9\u05E5: claude mcp remove --scope user studyts",
+    claudeCodeRemoved: "\u05D4\u05D5\u05E1\u05E8 \u05DE-Claude Code.",
+    openMcpFolder: "\u05E4\u05EA\u05D7 \u05D0\u05EA \u05EA\u05D9\u05E7\u05D9\u05D9\u05EA \u05E9\u05E8\u05EA \u05D4-MCP",
+    copyStandardConfig: "\u05D4\u05E2\u05EA\u05E7 \u05D4\u05D2\u05D3\u05E8\u05D4 \u05E1\u05D8\u05E0\u05D3\u05E8\u05D8\u05D9\u05EA"
   },
   complexityClasses: {
     P: {
@@ -7520,47 +7599,47 @@ var PACK_DASHES = ["none", "dashed", "dotted"];
 var PACK_STYLE_PAINTS = [...PACK_COLORS, "none"];
 
 // src/core/visualBuilder/diagramPacks/validatePackPrimitives.ts
-var packIssue = (path19, code, message) => ({ path: path19, code, message });
+var packIssue = (path20, code, message) => ({ path: path20, code, message });
 var isRecord = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
-function checkUnknownFields(value, allowed, path19) {
-  return Object.keys(value).filter((key) => !allowed.includes(key)).map((key) => packIssue(`${path19}.${key}`, "unknown-field", `${key} is not a pack field`));
+function checkUnknownFields(value, allowed, path20) {
+  return Object.keys(value).filter((key) => !allowed.includes(key)).map((key) => packIssue(`${path20}.${key}`, "unknown-field", `${key} is not a pack field`));
 }
-function checkId(value, path19) {
+function checkId(value, path20) {
   const { min, max } = PACK_LIMITS.idChars;
   const valid = typeof value === "string" && value.length >= min && value.length <= max && PACK_ID_PATTERN.test(value);
-  return valid ? [] : [packIssue(path19, "bad-id", `id must be kebab-case, ${min} to ${max} characters`)];
+  return valid ? [] : [packIssue(path20, "bad-id", `id must be kebab-case, ${min} to ${max} characters`)];
 }
 var hasControlCharacter = (text) => [...text].some((char) => {
   const code = char.charCodeAt(0);
   return code < 32 || code === 127;
 });
-function checkLabelText(value, path19, maxChars = PACK_LIMITS.labelChars) {
+function checkLabelText(value, path20, maxChars = PACK_LIMITS.labelChars) {
   const valid = typeof value === "string" && value.length >= 1 && value.length <= maxChars && !/[<>]/.test(value) && !hasControlCharacter(value);
-  return valid ? [] : [packIssue(path19, "bad-label", `text must be 1 to ${maxChars} characters with no angle brackets or control characters`)];
+  return valid ? [] : [packIssue(path20, "bad-label", `text must be 1 to ${maxChars} characters with no angle brackets or control characters`)];
 }
-function checkLocalizedLabel(value, path19) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-label", "label must be an object with an en text")];
+function checkLocalizedLabel(value, path20) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-label", "label must be an object with an en text")];
   const languages = Object.keys(value).filter((key) => LANGUAGE_CODE_PATTERN.test(key));
-  const translationIssues = languages.filter((code) => code !== FALLBACK_LANGUAGE && value[code] !== void 0).flatMap((code) => checkLabelText(value[code], `${path19}.${code}`));
+  const translationIssues = languages.filter((code) => code !== FALLBACK_LANGUAGE && value[code] !== void 0).flatMap((code) => checkLabelText(value[code], `${path20}.${code}`));
   return [
-    ...checkUnknownFields(value, languages, path19),
-    ...checkLabelText(value[FALLBACK_LANGUAGE], `${path19}.${FALLBACK_LANGUAGE}`),
+    ...checkUnknownFields(value, languages, path20),
+    ...checkLabelText(value[FALLBACK_LANGUAGE], `${path20}.${FALLBACK_LANGUAGE}`),
     ...translationIssues
   ];
 }
-function checkNumberIn(value, range, path19, code) {
+function checkNumberIn(value, range, path20, code) {
   const valid = typeof value === "number" && Number.isFinite(value) && value >= range[0] && value <= range[1];
-  return valid ? [] : [packIssue(path19, code, `must be a number from ${range[0]} to ${range[1]}`)];
+  return valid ? [] : [packIssue(path20, code, `must be a number from ${range[0]} to ${range[1]}`)];
 }
-function checkEnum(value, allowed, path19, code) {
+function checkEnum(value, allowed, path20, code) {
   const valid = typeof value === "string" && allowed.includes(value);
-  return valid ? [] : [packIssue(path19, code, `must be one of ${allowed.join(", ")}`)];
+  return valid ? [] : [packIssue(path20, code, `must be one of ${allowed.join(", ")}`)];
 }
-function checkArray(value, bounds, path19, code, checkItem) {
+function checkArray(value, bounds, path20, code, checkItem) {
   if (!Array.isArray(value) || value.length < bounds[0] || value.length > bounds[1]) {
-    return [packIssue(path19, code, `must be a list of ${bounds[0]} to ${bounds[1]} items`)];
+    return [packIssue(path20, code, `must be a list of ${bounds[0]} to ${bounds[1]} items`)];
   }
-  return value.flatMap((item, index) => checkItem(item, `${path19}[${index}]`));
+  return value.flatMap((item, index) => checkItem(item, `${path20}[${index}]`));
 }
 
 // src/core/visualBuilder/objectKinds.ts
@@ -7569,49 +7648,49 @@ var OBJECT_KINDS = ["arrow", "closed", "box", "text", "path"];
 // src/core/visualBuilder/diagramPacks/validatePackGeometry.ts
 var UNIT_RANGE = [0, 1];
 var SIGNED_UNIT_RANGE = [-1, 1];
-function checkView(value, path19) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-size", "view must be an object with w and h")];
+function checkView(value, path20) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-size", "view must be an object with w and h")];
   const range = PACK_LIMITS.viewUnits;
   return [
-    ...checkUnknownFields(value, ["w", "h"], path19),
-    ...checkNumberIn(value.w, range, `${path19}.w`, "bad-size"),
-    ...checkNumberIn(value.h, range, `${path19}.h`, "bad-size")
+    ...checkUnknownFields(value, ["w", "h"], path20),
+    ...checkNumberIn(value.w, range, `${path20}.w`, "bad-size"),
+    ...checkNumberIn(value.h, range, `${path20}.h`, "bad-size")
   ];
 }
-function checkStrokeScaling(value, path19) {
-  return checkEnum(value, PACK_STROKE_SCALINGS, path19, "bad-enum");
+function checkStrokeScaling(value, path20) {
+  return checkEnum(value, PACK_STROKE_SCALINGS, path20, "bad-enum");
 }
-function checkOutline(value, path19) {
+function checkOutline(value, path20) {
   if (value === "rect" || value === "ellipse") return [];
   if (!isRecord(value) || !Array.isArray(value.polygon)) {
-    return [packIssue(path19, "bad-shape", "outline is rect, ellipse or an object with a polygon")];
+    return [packIssue(path20, "bad-shape", "outline is rect, ellipse or an object with a polygon")];
   }
   const { min, max } = PACK_LIMITS.outlinePoints;
   return [
-    ...checkUnknownFields(value, ["polygon"], path19),
-    ...checkArray(value.polygon, [min, max], `${path19}.polygon`, "too-many", (point, pointPath) => checkPoint(point, pointPath, UNIT_RANGE))
+    ...checkUnknownFields(value, ["polygon"], path20),
+    ...checkArray(value.polygon, [min, max], `${path20}.polygon`, "too-many", (point, pointPath) => checkPoint(point, pointPath, UNIT_RANGE))
   ];
 }
-function checkAnchors(value, path19) {
+function checkAnchors(value, path20) {
   const { min, max } = PACK_LIMITS.anchors;
-  return checkArray(value, [min, max], path19, "too-many", checkAnchor);
+  return checkArray(value, [min, max], path20, "too-many", checkAnchor);
 }
-function checkAnchor(value, path19) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-value", "anchor must be an object")];
+function checkAnchor(value, path20) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-value", "anchor must be an object")];
   return [
-    ...checkUnknownFields(value, ["id", "x", "y", "nx", "ny"], path19),
-    ...checkId(value.id, `${path19}.id`),
-    ...checkNumberIn(value.x, UNIT_RANGE, `${path19}.x`, "bad-value"),
-    ...checkNumberIn(value.y, UNIT_RANGE, `${path19}.y`, "bad-value"),
-    ...checkNumberIn(value.nx, SIGNED_UNIT_RANGE, `${path19}.nx`, "bad-value"),
-    ...checkNumberIn(value.ny, SIGNED_UNIT_RANGE, `${path19}.ny`, "bad-value")
+    ...checkUnknownFields(value, ["id", "x", "y", "nx", "ny"], path20),
+    ...checkId(value.id, `${path20}.id`),
+    ...checkNumberIn(value.x, UNIT_RANGE, `${path20}.x`, "bad-value"),
+    ...checkNumberIn(value.y, UNIT_RANGE, `${path20}.y`, "bad-value"),
+    ...checkNumberIn(value.nx, SIGNED_UNIT_RANGE, `${path20}.nx`, "bad-value"),
+    ...checkNumberIn(value.ny, SIGNED_UNIT_RANGE, `${path20}.ny`, "bad-value")
   ];
 }
-function checkPoint(value, path19, range) {
-  if (!Array.isArray(value) || value.length !== 2) return [packIssue(path19, "bad-value", "point must be [x, y]")];
+function checkPoint(value, path20, range) {
+  if (!Array.isArray(value) || value.length !== 2) return [packIssue(path20, "bad-value", "point must be [x, y]")];
   return [
-    ...checkNumberIn(value[0], range, `${path19}[0]`, "bad-value"),
-    ...checkNumberIn(value[1], range, `${path19}[1]`, "bad-value")
+    ...checkNumberIn(value[0], range, `${path20}[0]`, "bad-value"),
+    ...checkNumberIn(value[1], range, `${path20}[1]`, "bad-value")
   ];
 }
 
@@ -7703,29 +7782,29 @@ var ATTR_CHECKS = new Map([
   ["stroke", colourCheck],
   ["data-role", (value) => passIf(["line", "solid", "none"].includes(value), "svg-attr")]
 ]);
-function validatePackSvg(svg, path19) {
-  if (svg.length > PACK_LIMITS.svgChars) return [packIssue(path19, "svg-too-big", `svg is longer than ${PACK_LIMITS.svgChars} characters`)];
+function validatePackSvg(svg, path20) {
+  if (svg.length > PACK_LIMITS.svgChars) return [packIssue(path20, "svg-too-big", `svg is longer than ${PACK_LIMITS.svgChars} characters`)];
   const forbidden = FORBIDDEN_PATTERNS.find(({ pattern }) => pattern.test(svg));
-  if (forbidden) return [packIssue(path19, "svg-forbidden", forbidden.message)];
+  if (forbidden) return [packIssue(path20, "svg-forbidden", forbidden.message)];
   const parsed = parseSvgTemplate(svg);
-  if (!parsed.ok) return [packIssue(path19, "svg-syntax", parsed.error)];
-  return [...limitIssues(parsed.nodes, path19), ...parsed.nodes.flatMap((node) => nodeIssues(node, path19))];
+  if (!parsed.ok) return [packIssue(path20, "svg-syntax", parsed.error)];
+  return [...limitIssues(parsed.nodes, path20), ...parsed.nodes.flatMap((node) => nodeIssues(node, path20))];
 }
-function nodeIssues(node, path19) {
-  const tagIssue = SVG_TAGS.has(node.tag) ? [] : [packIssue(path19, "svg-tag", `<${node.tag}> is not allowed`)];
-  const attrIssues = node.attrs.flatMap(([name, value]) => attrIssue(name, value, path19));
-  return [...tagIssue, ...attrIssues, ...node.children.flatMap((child) => nodeIssues(child, path19))];
+function nodeIssues(node, path20) {
+  const tagIssue = SVG_TAGS.has(node.tag) ? [] : [packIssue(path20, "svg-tag", `<${node.tag}> is not allowed`)];
+  const attrIssues = node.attrs.flatMap(([name, value]) => attrIssue(name, value, path20));
+  return [...tagIssue, ...attrIssues, ...node.children.flatMap((child) => nodeIssues(child, path20))];
 }
-function attrIssue(name, value, path19) {
+function attrIssue(name, value, path20) {
   const check = ATTR_CHECKS.get(name);
-  if (!check) return [packIssue(path19, "svg-attr", `attribute ${name} is not allowed`)];
+  if (!check) return [packIssue(path20, "svg-attr", `attribute ${name} is not allowed`)];
   const code = check(value);
-  return code ? [packIssue(path19, code, `${name} value is not allowed`)] : [];
+  return code ? [packIssue(path20, code, `${name} value is not allowed`)] : [];
 }
-function limitIssues(nodes, path19) {
+function limitIssues(nodes, path20) {
   const tooMany = countPrimitives(nodes) > PACK_LIMITS.svgPrimitives;
   const tooDeep = maxDepth(nodes, 1) > PACK_LIMITS.svgDepth;
-  return tooMany || tooDeep ? [packIssue(path19, "svg-too-big", "svg has too many elements or nests too deep")] : [];
+  return tooMany || tooDeep ? [packIssue(path20, "svg-too-big", "svg has too many elements or nests too deep")] : [];
 }
 function countPrimitives(nodes) {
   return nodes.reduce((sum, node) => sum + 1 + countPrimitives(node.children), 0);
@@ -7740,110 +7819,110 @@ var OBJECT_FIELDS = ["id", "label", "category", "size", "kind", "color", "svg", 
 var REQUIRED_FIELDS = ["id", "label", "size", "kind"];
 var HEIGHTLESS_KINDS = ["path", "arrow"];
 var FIELD_CHECKS = /* @__PURE__ */ new Map([
-  ["id", (value, path19) => checkId(value, path19)],
-  ["label", (value, path19) => checkLocalizedLabel(value, path19)],
-  ["category", (value, path19) => checkId(value, path19)],
-  ["kind", (value, path19) => checkEnum(value, OBJECT_KINDS, path19, "bad-enum")],
-  ["color", (value, path19) => checkEnum(value, PACK_COLORS, path19, "bad-enum")],
-  ["svg", (value, path19) => typeof value === "string" ? validatePackSvg(value, path19) : [packIssue(path19, "svg-syntax", "svg must be a string")]],
-  ["preset", (value, path19) => checkEnum(value, PRESET_SHAPES, path19, "bad-enum")],
-  ["view", (value, path19) => checkView(value, path19)],
-  ["strokeScaling", (value, path19) => checkStrokeScaling(value, path19)],
-  ["outline", (value, path19) => checkOutline(value, path19)],
-  ["anchors", (value, path19) => checkAnchors(value, path19)],
-  ["labelAt", (value, path19) => checkEnum(value, PACK_LABEL_SLOTS, path19, "bad-enum")],
-  ["label2At", (value, path19) => checkEnum(value, PACK_SECOND_LABEL_SLOTS, path19, "bad-enum")],
-  ["lines", (value, path19) => Number.isInteger(value) ? checkNumberIn(value, PACK_LIMITS.lines, path19, "bad-value") : [packIssue(path19, "bad-value", "lines must be a whole number")]],
-  ["labelPrefix", (value, path19) => checkLabelText(value, path19, PACK_LIMITS.labelPrefixChars)],
-  ["aliases", (value, path19) => checkArray(value, [0, PACK_LIMITS.listItems], path19, "bad-value", (item, itemPath) => checkId(item, itemPath))],
-  ["defaultStyle", (value, path19) => objectStyleIssues(value, path19)],
-  ["endLabels", (value, path19) => typeof value === "boolean" ? [] : [packIssue(path19, "bad-value", "endLabels must be true or false")]],
-  ["keywords", (value, path19) => checkArray(value, [0, PACK_LIMITS.listItems], path19, "bad-value", (item, itemPath) => checkLabelText(item, itemPath, PACK_LIMITS.keywordChars))]
+  ["id", (value, path20) => checkId(value, path20)],
+  ["label", (value, path20) => checkLocalizedLabel(value, path20)],
+  ["category", (value, path20) => checkId(value, path20)],
+  ["kind", (value, path20) => checkEnum(value, OBJECT_KINDS, path20, "bad-enum")],
+  ["color", (value, path20) => checkEnum(value, PACK_COLORS, path20, "bad-enum")],
+  ["svg", (value, path20) => typeof value === "string" ? validatePackSvg(value, path20) : [packIssue(path20, "svg-syntax", "svg must be a string")]],
+  ["preset", (value, path20) => checkEnum(value, PRESET_SHAPES, path20, "bad-enum")],
+  ["view", (value, path20) => checkView(value, path20)],
+  ["strokeScaling", (value, path20) => checkStrokeScaling(value, path20)],
+  ["outline", (value, path20) => checkOutline(value, path20)],
+  ["anchors", (value, path20) => checkAnchors(value, path20)],
+  ["labelAt", (value, path20) => checkEnum(value, PACK_LABEL_SLOTS, path20, "bad-enum")],
+  ["label2At", (value, path20) => checkEnum(value, PACK_SECOND_LABEL_SLOTS, path20, "bad-enum")],
+  ["lines", (value, path20) => Number.isInteger(value) ? checkNumberIn(value, PACK_LIMITS.lines, path20, "bad-value") : [packIssue(path20, "bad-value", "lines must be a whole number")]],
+  ["labelPrefix", (value, path20) => checkLabelText(value, path20, PACK_LIMITS.labelPrefixChars)],
+  ["aliases", (value, path20) => checkArray(value, [0, PACK_LIMITS.listItems], path20, "bad-value", (item, itemPath) => checkId(item, itemPath))],
+  ["defaultStyle", (value, path20) => objectStyleIssues(value, path20)],
+  ["endLabels", (value, path20) => typeof value === "boolean" ? [] : [packIssue(path20, "bad-value", "endLabels must be true or false")]],
+  ["keywords", (value, path20) => checkArray(value, [0, PACK_LIMITS.listItems], path20, "bad-value", (item, itemPath) => checkLabelText(item, itemPath, PACK_LIMITS.keywordChars))]
 ]);
-function validatePackObjects(value, path19) {
+function validatePackObjects(value, path20) {
   const { min, max } = PACK_LIMITS.objects;
-  return checkArray(value, [min, max], path19, "too-many", validatePackObject);
+  return checkArray(value, [min, max], path20, "too-many", validatePackObject);
 }
-function validatePackObject(value, path19) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-value", "object must be an object")];
+function validatePackObject(value, path20) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-value", "object must be an object")];
   return [
-    ...checkUnknownFields(value, OBJECT_FIELDS, path19),
-    ...requiredIssues(value, path19),
-    ...presentFieldIssues(value, path19),
-    ...sizeIssues(value.size, value.kind, `${path19}.size`),
-    ...shapeSourceIssues(value, path19),
-    ...endLabelIssues(value, path19)
+    ...checkUnknownFields(value, OBJECT_FIELDS, path20),
+    ...requiredIssues(value, path20),
+    ...presentFieldIssues(value, path20),
+    ...sizeIssues(value.size, value.kind, `${path20}.size`),
+    ...shapeSourceIssues(value, path20),
+    ...endLabelIssues(value, path20)
   ];
 }
-function requiredIssues(value, path19) {
-  return REQUIRED_FIELDS.filter((field) => value[field] === void 0).map((field) => packIssue(`${path19}.${field}`, "bad-value", `${field} is required`));
+function requiredIssues(value, path20) {
+  return REQUIRED_FIELDS.filter((field) => value[field] === void 0).map((field) => packIssue(`${path20}.${field}`, "bad-value", `${field} is required`));
 }
-function presentFieldIssues(value, path19) {
-  return Object.entries(value).flatMap(([key, field]) => FIELD_CHECKS.get(key)?.(field, `${path19}.${key}`) ?? []);
+function presentFieldIssues(value, path20) {
+  return Object.entries(value).flatMap(([key, field]) => FIELD_CHECKS.get(key)?.(field, `${path20}.${key}`) ?? []);
 }
-function sizeIssues(size, kind, path19) {
-  if (!isRecord(size)) return [packIssue(path19, "bad-size", "size must be an object with w and h")];
+function sizeIssues(size, kind, path20) {
+  if (!isRecord(size)) return [packIssue(path20, "bad-size", "size must be an object with w and h")];
   const [min, max] = PACK_LIMITS.objectSize;
   const range = [min, max];
   const heightless = size.h === 0 && typeof kind === "string" && HEIGHTLESS_KINDS.includes(kind);
   return [
-    ...checkUnknownFields(size, ["w", "h"], path19),
-    ...checkNumberIn(size.w, range, `${path19}.w`, "bad-size"),
-    ...heightless ? [] : checkNumberIn(size.h, range, `${path19}.h`, "bad-size")
+    ...checkUnknownFields(size, ["w", "h"], path20),
+    ...checkNumberIn(size.w, range, `${path20}.w`, "bad-size"),
+    ...heightless ? [] : checkNumberIn(size.h, range, `${path20}.h`, "bad-size")
   ];
 }
-function shapeSourceIssues(value, path19) {
+function shapeSourceIssues(value, path20) {
   const hasSvg = value.svg !== void 0;
   const hasPreset = value.preset !== void 0;
-  return hasSvg === hasPreset ? [packIssue(path19, "bad-shape", "an object has exactly one of svg or preset")] : [];
+  return hasSvg === hasPreset ? [packIssue(path20, "bad-shape", "an object has exactly one of svg or preset")] : [];
 }
-function endLabelIssues(value, path19) {
-  return value.endLabels === true && value.kind !== "arrow" ? [packIssue(`${path19}.endLabels`, "bad-value", "endLabels is only for arrow objects")] : [];
+function endLabelIssues(value, path20) {
+  return value.endLabels === true && value.kind !== "arrow" ? [packIssue(`${path20}.endLabels`, "bad-value", "endLabels is only for arrow objects")] : [];
 }
 var STYLE_FIELD_CHECKS = {
-  fill: (value, path19) => checkEnum(value, PACK_STYLE_PAINTS, path19, "bad-enum"),
-  stroke: (value, path19) => checkEnum(value, PACK_STYLE_PAINTS, path19, "bad-enum"),
-  strokeWidth: (value, path19) => checkNumberIn(value, PACK_LIMITS.strokeWidth, path19, "bad-value"),
-  dash: (value, path19) => checkEnum(value, PACK_DASHES, path19, "bad-enum")
+  fill: (value, path20) => checkEnum(value, PACK_STYLE_PAINTS, path20, "bad-enum"),
+  stroke: (value, path20) => checkEnum(value, PACK_STYLE_PAINTS, path20, "bad-enum"),
+  strokeWidth: (value, path20) => checkNumberIn(value, PACK_LIMITS.strokeWidth, path20, "bad-value"),
+  dash: (value, path20) => checkEnum(value, PACK_DASHES, path20, "bad-enum")
 };
-function objectStyleIssues(value, path19) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-value", "defaultStyle must be an object")];
-  const fieldIssues = Object.entries(value).flatMap(([key, field]) => STYLE_FIELD_CHECKS[key]?.(field, `${path19}.${key}`) ?? []);
-  return [...checkUnknownFields(value, Object.keys(STYLE_FIELD_CHECKS), path19), ...fieldIssues];
+function objectStyleIssues(value, path20) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-value", "defaultStyle must be an object")];
+  const fieldIssues = Object.entries(value).flatMap(([key, field]) => STYLE_FIELD_CHECKS[key]?.(field, `${path20}.${key}`) ?? []);
+  return [...checkUnknownFields(value, Object.keys(STYLE_FIELD_CHECKS), path20), ...fieldIssues];
 }
 
 // src/core/visualBuilder/diagramPacks/validatePackEffects.ts
 var EFFECT_FIELDS = ["id", "label", "description", "kinds", "duration", "icon", "tone", "anime"];
 var ANIME_FIELDS = [...Object.keys(PACK_ANIME_RANGES), "easing"];
-function validatePackEffects(value, path19) {
+function validatePackEffects(value, path20) {
   const { min, max } = PACK_LIMITS.effects;
-  return checkArray(value, [min, max], path19, "too-many", validatePackEffect);
+  return checkArray(value, [min, max], path20, "too-many", validatePackEffect);
 }
-function validatePackEffect(value, path19) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-effect", "effect must be an object")];
+function validatePackEffect(value, path20) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-effect", "effect must be an object")];
   return [
-    ...checkUnknownFields(value, EFFECT_FIELDS, path19),
-    ...checkId(value.id, `${path19}.id`),
-    ...checkLocalizedLabel(value.label, `${path19}.label`),
-    ...checkLocalizedLabel(value.description, `${path19}.description`),
-    ...kindIssues(value.kinds, `${path19}.kinds`),
-    ...checkNumberIn(value.duration, PACK_LIMITS.duration, `${path19}.duration`, "bad-effect"),
-    ...checkLabelText(value.icon, `${path19}.icon`, PACK_LIMITS.iconChars),
-    ...checkEnum(value.tone, PACK_EFFECT_TONES, `${path19}.tone`, "bad-enum"),
-    ...validatePackAnime(value.anime, `${path19}.anime`)
+    ...checkUnknownFields(value, EFFECT_FIELDS, path20),
+    ...checkId(value.id, `${path20}.id`),
+    ...checkLocalizedLabel(value.label, `${path20}.label`),
+    ...checkLocalizedLabel(value.description, `${path20}.description`),
+    ...kindIssues(value.kinds, `${path20}.kinds`),
+    ...checkNumberIn(value.duration, PACK_LIMITS.duration, `${path20}.duration`, "bad-effect"),
+    ...checkLabelText(value.icon, `${path20}.icon`, PACK_LIMITS.iconChars),
+    ...checkEnum(value.tone, PACK_EFFECT_TONES, `${path20}.tone`, "bad-enum"),
+    ...validatePackAnime(value.anime, `${path20}.anime`)
   ];
 }
-function kindIssues(value, path19) {
-  return checkArray(value, [1, OBJECT_KINDS.length], path19, "bad-effect", (item, itemPath) => checkEnum(item, OBJECT_KINDS, itemPath, "bad-enum"));
+function kindIssues(value, path20) {
+  return checkArray(value, [1, OBJECT_KINDS.length], path20, "bad-effect", (item, itemPath) => checkEnum(item, OBJECT_KINDS, itemPath, "bad-enum"));
 }
-function validatePackAnime(value, path19) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-effect", "anime must be an object")];
+function validatePackAnime(value, path20) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-effect", "anime must be an object")];
   const { min, max } = PACK_LIMITS.animeValues;
-  const easingIssues = value.easing === void 0 ? [] : checkEnum(value.easing, PACK_EASINGS, `${path19}.easing`, "bad-enum");
+  const easingIssues = value.easing === void 0 ? [] : checkEnum(value.easing, PACK_EASINGS, `${path20}.easing`, "bad-enum");
   const propertyIssues = Object.entries(PACK_ANIME_RANGES).flatMap(
-    ([prop, range]) => value[prop] === void 0 ? [] : checkArray(value[prop], [min, max], `${path19}.${prop}`, "bad-effect", (item, itemPath) => checkNumberIn(item, range, itemPath, "bad-effect"))
+    ([prop, range]) => value[prop] === void 0 ? [] : checkArray(value[prop], [min, max], `${path20}.${prop}`, "bad-effect", (item, itemPath) => checkNumberIn(item, range, itemPath, "bad-effect"))
   );
-  return [...checkUnknownFields(value, ANIME_FIELDS, path19), ...easingIssues, ...propertyIssues];
+  return [...checkUnknownFields(value, ANIME_FIELDS, path20), ...easingIssues, ...propertyIssues];
 }
 
 // src/core/visualBuilder/diagramPacks/categories/automata-graph.category.json
@@ -8054,25 +8133,25 @@ function templateContextOf(pack) {
     effectIds: /* @__PURE__ */ new Set([...PACK_TEMPLATE_CORE_EFFECTS, ...idsOf(pack.effects).map((id) => `${packId}/${id}`)])
   };
 }
-function validatePackTemplates(value, path19, context) {
-  const items = listIssues(value, PACK_LIMITS.templates, path19, (item, itemPath) => validateTemplate(item, itemPath, context));
-  return [...items, ...duplicateSlots(templateIdSlots(value, path19), "template of this pack")];
+function validatePackTemplates(value, path20, context) {
+  const items = listIssues(value, PACK_LIMITS.templates, path20, (item, itemPath) => validateTemplate(item, itemPath, context));
+  return [...items, ...duplicateSlots(templateIdSlots(value, path20), "template of this pack")];
 }
-var listIssues = (value, limit, path19, check) => checkArray(value, [limit.min, limit.max], path19, "too-many", check);
-function validateTemplate(value, path19, context) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-value", "template must be an object")];
+var listIssues = (value, limit, path20, check) => checkArray(value, [limit.min, limit.max], path20, "too-many", check);
+function validateTemplate(value, path20, context) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-value", "template must be an object")];
   const keys = { objects: stringSet(value.objects, "key"), links: linkTargets(value.links) };
   return [
-    ...checkUnknownFields(value, TEMPLATE_FIELDS, path19),
-    ...checkId(value.id, `${path19}.id`),
-    ...checkLocalizedLabel(value.name, `${path19}.name`),
-    ...checkLocalizedLabel(value.description, `${path19}.description`),
-    ...categoryIssues(value.category, `${path19}.category`),
-    ...listIssues(value.objects, PACK_LIMITS.templateObjects, `${path19}.objects`, (item, p) => objectIssues(item, p, context)),
-    ...listIssues(value.links, PACK_LIMITS.templateLinks, `${path19}.links`, (item, p) => linkIssues(item, p, keys.objects)),
-    ...listIssues(value.steps, PACK_LIMITS.templateSteps, `${path19}.steps`, (item, p) => stepIssues(item, p, keys, context)),
-    ...duplicateSlots(keySlots(value.objects, `${path19}.objects`), "object key"),
-    ...showCoverageIssues(value.steps, keys.objects, `${path19}.steps`)
+    ...checkUnknownFields(value, TEMPLATE_FIELDS, path20),
+    ...checkId(value.id, `${path20}.id`),
+    ...checkLocalizedLabel(value.name, `${path20}.name`),
+    ...checkLocalizedLabel(value.description, `${path20}.description`),
+    ...categoryIssues(value.category, `${path20}.category`),
+    ...listIssues(value.objects, PACK_LIMITS.templateObjects, `${path20}.objects`, (item, p) => objectIssues(item, p, context)),
+    ...listIssues(value.links, PACK_LIMITS.templateLinks, `${path20}.links`, (item, p) => linkIssues(item, p, keys.objects)),
+    ...listIssues(value.steps, PACK_LIMITS.templateSteps, `${path20}.steps`, (item, p) => stepIssues(item, p, keys, context)),
+    ...duplicateSlots(keySlots(value.objects, `${path20}.objects`), "object key"),
+    ...showCoverageIssues(value.steps, keys.objects, `${path20}.steps`)
   ];
 }
 function stringSet(list, field) {
@@ -8083,103 +8162,103 @@ function linkTargets(links) {
   const items = Array.isArray(links) ? links : [];
   return new Set(items.flatMap((item) => isRecord(item) && typeof item.from === "string" && typeof item.to === "string" ? [`${item.from}->${item.to}`] : []));
 }
-function categoryIssues(value, path19) {
-  const idIssues2 = checkId(value, path19);
+function categoryIssues(value, path20) {
+  const idIssues2 = checkId(value, path20);
   if (idIssues2.length > 0) return idIssues2;
-  return categoryById(value) ? [] : [packIssue(path19, "bad-value", `category ${String(value)} does not exist`)];
+  return categoryById(value) ? [] : [packIssue(path20, "bad-value", `category ${String(value)} does not exist`)];
 }
-function checkKey(value, path19) {
+function checkKey(value, path20) {
   const { min, max } = PACK_LIMITS.templateKeyChars;
   const valid = typeof value === "string" && value.length >= min && value.length <= max && PACK_ID_PATTERN.test(value);
-  return valid ? [] : [packIssue(path19, "bad-id", `key must be kebab-case, ${min} to ${max} characters`)];
+  return valid ? [] : [packIssue(path20, "bad-id", `key must be kebab-case, ${min} to ${max} characters`)];
 }
-function objectIssues(value, path19, context) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-value", "template object must be an object")];
+function objectIssues(value, path20, context) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-value", "template object must be an object")];
   return [
-    ...checkUnknownFields(value, OBJECT_FIELDS2, path19),
-    ...checkKey(value.key, `${path19}.key`),
-    ...refIssues(value.ref, `${path19}.ref`, context),
-    ...atIssues(value.at, `${path19}.at`),
-    ...value.label === void 0 ? [] : checkLocalizedLabel(value.label, `${path19}.label`),
-    ...value.color === void 0 ? [] : checkEnum(value.color, PACK_TEMPLATE_COLORS, `${path19}.color`, "bad-enum"),
-    ...value.width === void 0 ? [] : checkNumberIn(value.width, [0.02, 0.5], `${path19}.width`, "bad-size")
+    ...checkUnknownFields(value, OBJECT_FIELDS2, path20),
+    ...checkKey(value.key, `${path20}.key`),
+    ...refIssues(value.ref, `${path20}.ref`, context),
+    ...atIssues(value.at, `${path20}.at`),
+    ...value.label === void 0 ? [] : checkLocalizedLabel(value.label, `${path20}.label`),
+    ...value.color === void 0 ? [] : checkEnum(value.color, PACK_TEMPLATE_COLORS, `${path20}.color`, "bad-enum"),
+    ...value.width === void 0 ? [] : checkNumberIn(value.width, [0.02, 0.5], `${path20}.width`, "bad-size")
   ];
 }
-function refIssues(value, path19, context) {
+function refIssues(value, path20, context) {
   const prefix = `${context.packId}/`;
   const text = typeof value === "string" ? value : "";
   const known = text.startsWith(prefix) && context.objectIds.has(text.slice(prefix.length)) || presetOfRef(text) !== void 0;
-  return known ? [] : [packIssue(path19, "bad-value", `ref must name an object of pack ${context.packId} as ${prefix}<objectId>, or a basic shape as preset/<shape>`)];
+  return known ? [] : [packIssue(path20, "bad-value", `ref must name an object of pack ${context.packId} as ${prefix}<objectId>, or a basic shape as preset/<shape>`)];
 }
-function atIssues(value, path19) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-size", "at must be an object with x and y")];
+function atIssues(value, path20) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-size", "at must be an object with x and y")];
   return [
-    ...checkUnknownFields(value, ["x", "y"], path19),
-    ...checkNumberIn(value.x, FRACTION, `${path19}.x`, "bad-size"),
-    ...checkNumberIn(value.y, FRACTION, `${path19}.y`, "bad-size")
+    ...checkUnknownFields(value, ["x", "y"], path20),
+    ...checkNumberIn(value.x, FRACTION, `${path20}.x`, "bad-size"),
+    ...checkNumberIn(value.y, FRACTION, `${path20}.y`, "bad-size")
   ];
 }
-function keyRefIssue(value, path19, keys) {
-  return typeof value === "string" && keys.has(value) ? [] : [packIssue(path19, "bad-value", "must name an object key of this template")];
+function keyRefIssue(value, path20, keys) {
+  return typeof value === "string" && keys.has(value) ? [] : [packIssue(path20, "bad-value", "must name an object key of this template")];
 }
-function linkIssues(value, path19, keys) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-value", "link must be an object")];
+function linkIssues(value, path20, keys) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-value", "link must be an object")];
   return [
-    ...checkUnknownFields(value, LINK_FIELDS, path19),
-    ...keyRefIssue(value.from, `${path19}.from`, keys),
-    ...keyRefIssue(value.to, `${path19}.to`, keys),
-    ...value.label === void 0 ? [] : checkLocalizedLabel(value.label, `${path19}.label`),
-    ...value.route === void 0 ? [] : checkEnum(value.route, PACK_TEMPLATE_LINK_ROUTES, `${path19}.route`, "bad-enum"),
-    ...value.fromPort === void 0 ? [] : checkEnum(value.fromPort, PACK_TEMPLATE_LINK_SIDES, `${path19}.fromPort`, "bad-enum"),
-    ...value.toPort === void 0 ? [] : checkEnum(value.toPort, PACK_TEMPLATE_LINK_SIDES, `${path19}.toPort`, "bad-enum"),
-    ...value.arrow === void 0 || typeof value.arrow === "boolean" ? [] : [packIssue(`${path19}.arrow`, "bad-value", "arrow must be true or false")]
+    ...checkUnknownFields(value, LINK_FIELDS, path20),
+    ...keyRefIssue(value.from, `${path20}.from`, keys),
+    ...keyRefIssue(value.to, `${path20}.to`, keys),
+    ...value.label === void 0 ? [] : checkLocalizedLabel(value.label, `${path20}.label`),
+    ...value.route === void 0 ? [] : checkEnum(value.route, PACK_TEMPLATE_LINK_ROUTES, `${path20}.route`, "bad-enum"),
+    ...value.fromPort === void 0 ? [] : checkEnum(value.fromPort, PACK_TEMPLATE_LINK_SIDES, `${path20}.fromPort`, "bad-enum"),
+    ...value.toPort === void 0 ? [] : checkEnum(value.toPort, PACK_TEMPLATE_LINK_SIDES, `${path20}.toPort`, "bad-enum"),
+    ...value.arrow === void 0 || typeof value.arrow === "boolean" ? [] : [packIssue(`${path20}.arrow`, "bad-value", "arrow must be true or false")]
   ];
 }
-function stepIssues(value, path19, keys, context) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-value", "step must be an object")];
+function stepIssues(value, path20, keys, context) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-value", "step must be an object")];
   const showLimit = { min: 0, max: PACK_LIMITS.templateObjects.max };
   return [
-    ...checkUnknownFields(value, STEP_FIELDS, path19),
-    ...checkLocalizedLabel(value.caption, `${path19}.caption`),
-    ...listIssues(value.show, showLimit, `${path19}.show`, (item, p) => keyRefIssue(item, p, keys.objects)),
-    ...listIssues(value.effects, PACK_LIMITS.templateEffects, `${path19}.effects`, (item, p) => effectIssues(item, p, keys, context))
+    ...checkUnknownFields(value, STEP_FIELDS, path20),
+    ...checkLocalizedLabel(value.caption, `${path20}.caption`),
+    ...listIssues(value.show, showLimit, `${path20}.show`, (item, p) => keyRefIssue(item, p, keys.objects)),
+    ...listIssues(value.effects, PACK_LIMITS.templateEffects, `${path20}.effects`, (item, p) => effectIssues(item, p, keys, context))
   ];
 }
-function effectIssues(value, path19, keys, context) {
-  if (!isRecord(value)) return [packIssue(path19, "bad-effect", "effect must be an object")];
+function effectIssues(value, path20, keys, context) {
+  if (!isRecord(value)) return [packIssue(path20, "bad-effect", "effect must be an object")];
   const effectKnown = typeof value.effect === "string" && context.effectIds.has(value.effect);
   const targetKnown = typeof value.target === "string" && (keys.objects.has(value.target) || keys.links.has(value.target));
   return [
-    ...checkUnknownFields(value, EFFECT_FIELDS2, path19),
-    ...effectKnown ? [] : [packIssue(`${path19}.effect`, "bad-effect", "effect must be a built-in effect id or <packId>/<effectId> of this pack")],
-    ...targetKnown ? [] : [packIssue(`${path19}.target`, "bad-value", "target must be an object key or fromKey->toKey of a link")]
+    ...checkUnknownFields(value, EFFECT_FIELDS2, path20),
+    ...effectKnown ? [] : [packIssue(`${path20}.effect`, "bad-effect", "effect must be a built-in effect id or <packId>/<effectId> of this pack")],
+    ...targetKnown ? [] : [packIssue(`${path20}.target`, "bad-value", "target must be an object key or fromKey->toKey of a link")]
   ];
 }
-function templateIdSlots(templates, path19) {
+function templateIdSlots(templates, path20) {
   const items = Array.isArray(templates) ? templates : [];
-  return items.map((item, index) => ({ value: isRecord(item) ? item.id : void 0, path: `${path19}[${index}].id` }));
+  return items.map((item, index) => ({ value: isRecord(item) ? item.id : void 0, path: `${path20}[${index}].id` }));
 }
-function keySlots(objects, path19) {
+function keySlots(objects, path20) {
   const items = Array.isArray(objects) ? objects : [];
-  return items.map((item, index) => ({ value: isRecord(item) ? item.key : void 0, path: `${path19}[${index}].key` }));
+  return items.map((item, index) => ({ value: isRecord(item) ? item.key : void 0, path: `${path20}[${index}].key` }));
 }
 function duplicateSlots(slots, what) {
   const seen = /* @__PURE__ */ new Set();
-  return slots.flatMap(({ value, path: path19 }) => {
+  return slots.flatMap(({ value, path: path20 }) => {
     if (typeof value !== "string") return [];
     if (!seen.has(value)) {
       seen.add(value);
       return [];
     }
-    return [packIssue(path19, "duplicate-id", `${value} is already a ${what}`)];
+    return [packIssue(path20, "duplicate-id", `${value} is already a ${what}`)];
   });
 }
-function showCoverageIssues(steps, keys, path19) {
+function showCoverageIssues(steps, keys, path20) {
   if (!Array.isArray(steps)) return [];
   const shown = steps.flatMap((step) => isRecord(step) && Array.isArray(step.show) ? step.show.filter((key) => typeof key === "string") : []);
   const missing = [...keys].filter((key) => !shown.includes(key));
   const repeated = shown.filter((key, index) => shown.indexOf(key) !== index);
-  return [...missing, ...repeated].map((key) => packIssue(path19, "bad-value", `object ${key} must be shown in exactly one step`));
+  return [...missing, ...repeated].map((key) => packIssue(path20, "bad-value", `object ${key} must be shown in exactly one step`));
 }
 
 // src/core/visualBuilder/diagramPacks/validateStylePack.ts
@@ -8243,9 +8322,9 @@ function effectIdSlots(effects) {
 }
 function duplicateIdIssues(slots) {
   const seen = /* @__PURE__ */ new Set();
-  return slots.flatMap(({ id, path: path19 }) => {
+  return slots.flatMap(({ id, path: path20 }) => {
     if (typeof id !== "string") return [];
-    if (seen.has(id)) return [packIssue(path19, "duplicate-id", `${id} is already used in this pack`)];
+    if (seen.has(id)) return [packIssue(path20, "duplicate-id", `${id} is already used in this pack`)];
     seen.add(id);
     return [];
   });
@@ -11536,6 +11615,7 @@ aiKeysRouter.delete("/ai/keys/:provider", route(async (req, res) => {
 }));
 
 // server/routes/updateStatus.ts
+import fs7 from "fs";
 import path10 from "path";
 import { Router as Router10 } from "express";
 import { createRequire as createRequire2 } from "module";
@@ -11556,9 +11636,9 @@ async function checkStatus(force = false) {
   let lastResult;
   const resultPath = path9.join(stateDir, "result.json");
   try {
-    const fs13 = require2("fs");
-    if (fs13.existsSync(resultPath)) {
-      lastResult = JSON.parse(fs13.readFileSync(resultPath, "utf8"));
+    const fs15 = require2("fs");
+    if (fs15.existsSync(resultPath)) {
+      lastResult = JSON.parse(fs15.readFileSync(resultPath, "utf8"));
     }
   } catch {
   }
@@ -11590,9 +11670,9 @@ function clearLastResult() {
   const config = readUpdateConfig(process.env);
   const resultPath = path9.join(root, config.stateDirName || ".update", "result.json");
   try {
-    const fs13 = require2("fs");
-    if (fs13.existsSync(resultPath)) {
-      fs13.rmSync(resultPath, { force: true });
+    const fs15 = require2("fs");
+    if (fs15.existsSync(resultPath)) {
+      fs15.rmSync(resultPath, { force: true });
     }
   } catch {
   }
@@ -11602,6 +11682,15 @@ function clearLastResult() {
 var require3 = createRequire2(import.meta.url);
 var { parseVersion } = require3(path10.join(PACKAGE_ROOT, "scripts", "update", "versionCompare.cjs"));
 var updateStatusRouter = Router10();
+function desktopCurrentVersion() {
+  return JSON.parse(fs7.readFileSync(path10.join(PACKAGE_ROOT, "package.json"), "utf8")).version;
+}
+updateStatusRouter.use("/update", (req, res, next) => {
+  if (process.env.STUDYTS_DESKTOP !== "1") return void next();
+  const isRead = req.method === "GET" || req.path === "/check";
+  if (isRead) return void res.json({ status: "up-to-date", currentVersion: desktopCurrentVersion(), mode: "desktop" });
+  res.status(409).json({ error: "Updates are handled by the desktop app", mode: "desktop" });
+});
 updateStatusRouter.get("/update/status", route(async (_req, res) => {
   const result = await checkStatus(false);
   res.status(200).json(result);
@@ -11654,7 +11743,7 @@ updateStatusRouter.post("/update/restart", route(async (_req, res) => {
 import { Router as Router11 } from "express";
 
 // server/utils/pdfIngestion.ts
-import fs7 from "fs/promises";
+import fs8 from "fs/promises";
 import path11 from "path";
 import crypto5 from "crypto";
 var PDF_MAGIC_BYTES = Buffer.from("%PDF-");
@@ -11670,14 +11759,14 @@ function sanitizeFilename(filename) {
 }
 async function createSecureTempPdf(buffer, originalName = "upload.pdf", customTempDir = DEFAULT_TEMP_DIR) {
   if (!validatePdfBuffer(buffer)) throw new Error("Invalid PDF: file header does not match %PDF- signature");
-  await fs7.mkdir(customTempDir, { recursive: true, mode: 448 });
+  await fs8.mkdir(customTempDir, { recursive: true, mode: 448 });
   const tempPath = path11.join(customTempDir, `${crypto5.randomUUID()}_${sanitizeFilename(originalName)}`);
-  await fs7.writeFile(tempPath, buffer, { mode: 384 });
+  await fs8.writeFile(tempPath, buffer, { mode: 384 });
   return {
     tempPath,
     cleanup: async () => {
       try {
-        await fs7.unlink(tempPath);
+        await fs8.unlink(tempPath);
       } catch (err) {
         log.warn("Failed temp PDF cleanup", { tempPath, err });
       }
@@ -11943,7 +12032,7 @@ aiAttachmentsRouter.post("/ai/attachments/validate", (req, res) => {
 import { Router as Router13 } from "express";
 
 // server/mcp/linker.ts
-import fs8 from "fs/promises";
+import fs9 from "fs/promises";
 import fsSync from "fs";
 import path12 from "path";
 
@@ -12023,6 +12112,10 @@ function quoteWinCommand(command, args) {
   const quote = (s) => /[\s"&|<>^]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   return [command, ...args].map(quote).join(" ");
 }
+function mcpChildEnv(config, base = process.env) {
+  const runsOnElectron = Boolean(process.versions.electron) && config.command === process.execPath;
+  return { ...base, ...runsOnElectron ? { ELECTRON_RUN_AS_NODE: "1" } : {}, ...config.env };
+}
 var McpProcess = class {
   constructor(config) {
     this.config = config;
@@ -12055,7 +12148,7 @@ var McpProcess = class {
     this._errorMessage = void 0;
     try {
       const isWin = process.platform === "win32";
-      const child = isWin ? spawn(quoteWinCommand(this.config.command, this.config.args), { stdio: ["pipe", "pipe", "pipe"], env: { ...process.env, ...this.config.env }, cwd: this.config.cwd || PACKAGE_ROOT, shell: true }) : spawn(this.config.command, this.config.args, { stdio: ["pipe", "pipe", "pipe"], env: { ...process.env, ...this.config.env }, cwd: this.config.cwd || PACKAGE_ROOT });
+      const child = isWin ? spawn(quoteWinCommand(this.config.command, this.config.args), { stdio: ["pipe", "pipe", "pipe"], env: mcpChildEnv(this.config), cwd: this.config.cwd || PACKAGE_ROOT, shell: true }) : spawn(this.config.command, this.config.args, { stdio: ["pipe", "pipe", "pipe"], env: mcpChildEnv(this.config), cwd: this.config.cwd || PACKAGE_ROOT });
       this.child = child;
       if (!child.stdin || !child.stdout) throw new Error("Child process stdio streams not available");
       this.protocol = new JsonRpcProtocol(child.stdin, child.stdout);
@@ -12174,6 +12267,9 @@ var LEGACY_ID_MAP = {
 };
 var MCP_BUNDLE = path12.join(PACKAGE_ROOT, "dist-server", "mcp", "servers", "studyTsServer.mjs");
 var STUDYTS_MCP_LAUNCH = fsSync.existsSync(MCP_BUNDLE) ? { command: process.execPath, args: [MCP_BUNDLE] } : { command: "npx", args: ["tsx", "server/mcp/servers/studyTsServer.ts"] };
+function getBuiltInLaunch() {
+  return { command: STUDYTS_MCP_LAUNCH.command, args: [...STUDYTS_MCP_LAUNCH.args] };
+}
 var DEFAULT_SERVERS = [
   {
     id: "studyts-mcp",
@@ -12184,6 +12280,20 @@ var DEFAULT_SERVERS = [
     autoStart: true
   }
 ];
+function isStaleBuiltIn(config) {
+  if (config.id !== "studyts-mcp") return false;
+  const launchesBuiltIn = config.command === "npx" || path12.basename(config.args?.[0] ?? "") === "studyTsServer.mjs";
+  if (!launchesBuiltIn) return false;
+  return config.command !== STUDYTS_MCP_LAUNCH.command || JSON.stringify(config.args ?? []) !== JSON.stringify(STUDYTS_MCP_LAUNCH.args);
+}
+function refreshStaleLaunches(configs) {
+  const stale = configs.filter(isStaleBuiltIn);
+  for (const c of stale) {
+    c.command = STUDYTS_MCP_LAUNCH.command;
+    c.args = STUDYTS_MCP_LAUNCH.args;
+  }
+  return stale.length > 0;
+}
 function hasLegacyServers(configs) {
   return Array.isArray(configs) && configs.some((c) => Boolean(LEGACY_ID_MAP[c.id]));
 }
@@ -12203,12 +12313,12 @@ var MCPLinkerManager = class {
   async loadConfigs() {
     try {
       if (!fsSync.existsSync(CONFIG_PATH)) {
-        await fs8.mkdir(path12.dirname(CONFIG_PATH), { recursive: true });
-        await fs8.writeFile(CONFIG_PATH, JSON.stringify(DEFAULT_SERVERS, null, 2), "utf-8");
+        await fs9.mkdir(path12.dirname(CONFIG_PATH), { recursive: true });
+        await fs9.writeFile(CONFIG_PATH, JSON.stringify(DEFAULT_SERVERS, null, 2), "utf-8");
         for (const s of DEFAULT_SERVERS) this.configs.set(s.id, s);
         return;
       }
-      const raw = await fs8.readFile(CONFIG_PATH, "utf-8");
+      const raw = await fs9.readFile(CONFIG_PATH, "utf-8");
       const parsed = JSON.parse(raw);
       this.configs.clear();
       if (hasLegacyServers(parsed)) {
@@ -12220,7 +12330,9 @@ var MCPLinkerManager = class {
         await this.saveConfigs();
         return;
       }
+      const relaunched = refreshStaleLaunches(parsed);
       for (const s of parsed) this.configs.set(s.id, s);
+      if (relaunched) await this.saveConfigs();
     } catch (err) {
       log.error("Failed to load MCP server configs", { error: String(err) });
       for (const s of DEFAULT_SERVERS) this.configs.set(s.id, s);
@@ -12228,9 +12340,9 @@ var MCPLinkerManager = class {
   }
   async saveConfigs() {
     try {
-      await fs8.mkdir(path12.dirname(CONFIG_PATH), { recursive: true });
+      await fs9.mkdir(path12.dirname(CONFIG_PATH), { recursive: true });
       const list = Array.from(this.configs.values());
-      await fs8.writeFile(CONFIG_PATH, JSON.stringify(list, null, 2), "utf-8");
+      await fs9.writeFile(CONFIG_PATH, JSON.stringify(list, null, 2), "utf-8");
     } catch (err) {
       log.error("Failed to save MCP server configs", { error: String(err) });
     }
@@ -12322,6 +12434,129 @@ var MCPLinkerManager = class {
 };
 var mcpLinker = new MCPLinkerManager();
 
+// server/mcp/connectClients.ts
+import { execFile } from "child_process";
+import fs10 from "fs";
+import os from "os";
+import path13 from "path";
+var CLIENT_SERVER_NAME = "studyts";
+function absoluteDatabaseUrl(env) {
+  const url = env.DATABASE_URL;
+  if (!url?.startsWith("file:")) return url;
+  const file = url.slice("file:".length);
+  if (path13.isAbsolute(file)) return url;
+  return `file:${path13.resolve(PACKAGE_ROOT, "prisma", file).split(path13.sep).join("/")}`;
+}
+function entryEnv(env) {
+  const result = { STUDYTS_HOME: DATA_ROOT };
+  const databaseUrl = absoluteDatabaseUrl(env);
+  if (databaseUrl) result.DATABASE_URL = databaseUrl;
+  return result;
+}
+function buildClientEntry(env = process.env) {
+  if (env.STUDYTS_DESKTOP === "1" && env.APPIMAGE) return { command: env.APPIMAGE, args: ["--mcp"] };
+  const launch = getBuiltInLaunch();
+  if (env.STUDYTS_DESKTOP === "1" && env.STUDYTS_NODE_BIN) {
+    return { command: env.STUDYTS_NODE_BIN, args: launch.args, env: { ELECTRON_RUN_AS_NODE: "1", ...entryEnv(env) } };
+  }
+  return { command: launch.command, args: launch.args, env: entryEnv(env) };
+}
+function genericMcpJson(entry) {
+  return JSON.stringify({ mcpServers: { [CLIENT_SERVER_NAME]: entry } }, null, 2);
+}
+function codexToml(entry) {
+  const lines = [
+    `[mcp_servers.${CLIENT_SERVER_NAME}]`,
+    `command = ${JSON.stringify(entry.command)}`,
+    `args = ${JSON.stringify(entry.args)}`
+  ];
+  const env = Object.entries(entry.env ?? {});
+  if (env.length) {
+    lines.push("", `[mcp_servers.${CLIENT_SERVER_NAME}.env]`, ...env.map(([key, value]) => `${key} = ${JSON.stringify(value)}`));
+  }
+  return lines.join("\n");
+}
+function jsonClients(platform = process.platform, env = process.env) {
+  const home = os.homedir();
+  let claudeDesktop = path13.join(env.XDG_CONFIG_HOME ?? path13.join(home, ".config"), "Claude", "claude_desktop_config.json");
+  if (platform === "win32") claudeDesktop = path13.join(env.APPDATA ?? path13.join(home, "AppData", "Roaming"), "Claude", "claude_desktop_config.json");
+  if (platform === "darwin") claudeDesktop = path13.join(home, "Library", "Application Support", "Claude", "claude_desktop_config.json");
+  return [
+    { id: "claude-desktop", name: "Claude Desktop", configPath: claudeDesktop },
+    { id: "cursor", name: "Cursor", configPath: path13.join(home, ".cursor", "mcp.json") },
+    { id: "windsurf", name: "Windsurf", configPath: path13.join(home, ".codeium", "windsurf", "mcp_config.json") },
+    { id: "gemini-cli", name: "Gemini CLI", configPath: path13.join(home, ".gemini", "settings.json") }
+  ];
+}
+function addToJsonClient(entry, configPath) {
+  let config = {};
+  let backup;
+  if (fs10.existsSync(configPath)) {
+    const raw = fs10.readFileSync(configPath, "utf8");
+    try {
+      config = raw.trim() ? JSON.parse(raw) : {};
+    } catch {
+      throw new Error(`${configPath} is not valid JSON, so it was left unchanged. Fix or remove it, then try again.`);
+    }
+    backup = `${configPath}.studyts.bak`;
+    fs10.copyFileSync(configPath, backup);
+  }
+  config.mcpServers = { ...config.mcpServers, [CLIENT_SERVER_NAME]: entry };
+  fs10.mkdirSync(path13.dirname(configPath), { recursive: true });
+  fs10.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}
+`, "utf8");
+  return { path: configPath, backup };
+}
+function claudeCodeAddArgs(entry) {
+  const envFlags = Object.entries(entry.env ?? {}).flatMap(([key, value]) => ["-e", `${key}=${value}`]);
+  return ["mcp", "add", CLIENT_SERVER_NAME, "--scope", "user", ...envFlags, "--", entry.command, ...entry.args];
+}
+function codexAddArgs(entry) {
+  const envFlags = Object.entries(entry.env ?? {}).flatMap(([key, value]) => ["--env", `${key}=${value}`]);
+  return ["mcp", "add", CLIENT_SERVER_NAME, ...envFlags, "--", entry.command, ...entry.args];
+}
+var quoteForShell = (arg) => /[\s"&|<>^]/.test(arg) ? `"${arg.split('"').join('\\"')}"` : arg;
+function commandLine(program, args) {
+  return [program, ...args].map(quoteForShell).join(" ");
+}
+function runCli(program, args) {
+  const isWin = process.platform === "win32";
+  return new Promise((resolve3, reject2) => {
+    const done = (err, stdout = "", stderr = "") => err ? reject2(new Error(stderr.trim() || err.message)) : resolve3(stdout);
+    if (isWin) execFile(commandLine(program, args), { shell: true, windowsHide: true }, (err, out, stderr) => done(err, out, stderr));
+    else execFile(program, args, (err, out, stderr) => done(err, out, stderr));
+  });
+}
+async function addToClaudeCode(entry) {
+  await runCli("claude", ["mcp", "remove", "--scope", "user", CLIENT_SERVER_NAME]).catch(() => void 0);
+  await runCli("claude", claudeCodeAddArgs(entry));
+}
+async function removeFromClaudeCode() {
+  await runCli("claude", ["mcp", "remove", "--scope", "user", CLIENT_SERVER_NAME]);
+}
+var samePath = (a, b) => a.trim().replaceAll("\\", "/").toLowerCase() === b.trim().replaceAll("\\", "/").toLowerCase();
+function registeredLaunch(output2) {
+  const command = /^\s*Command:\s*(.+)$/m.exec(output2)?.[1];
+  if (!command) return null;
+  return { command, args: /^\s*Args:\s*(.*)$/m.exec(output2)?.[1] ?? "" };
+}
+function toClaudeCodeStatus(err, output2 = "", entry) {
+  if (err) {
+    const cliMissing = /ENOENT|not recognized|command not found/i.test(err.message);
+    return cliMissing ? { connected: false, cliMissing } : { connected: false };
+  }
+  const registered = registeredLaunch(output2);
+  if (!entry || !registered) return { connected: true };
+  const matches = samePath(registered.command, entry.command) && samePath(registered.args, entry.args.join(" "));
+  return matches ? { connected: true } : { connected: false, stale: true };
+}
+function claudeCodeStatus(entry) {
+  return runCli("claude", ["mcp", "get", CLIENT_SERVER_NAME]).then(
+    (out) => toClaudeCodeStatus(null, out, entry),
+    (err) => toClaudeCodeStatus(err)
+  );
+}
+
 // server/routes/mcp.ts
 var mcpRouter = Router13();
 mcpRouter.get("/mcp/servers", (_req, res) => {
@@ -12386,6 +12621,53 @@ mcpRouter.post("/mcp/tools/call", async (req, res) => {
   } catch (err) {
     log.error("Error executing MCP tool", { error: String(err) });
     return void res.status(500).json({ success: false, error: err instanceof Error ? err.message : String(err) });
+  }
+});
+var needsConfirm = (req) => req.body?.confirm === true;
+var errorText = (err) => err instanceof Error ? err.message : String(err);
+mcpRouter.get("/mcp/connect-info", (_req, res) => {
+  const entry = buildClientEntry();
+  res.json({
+    entry,
+    genericJson: genericMcpJson(entry),
+    codexToml: codexToml(entry),
+    codexCommand: commandLine("codex", codexAddArgs(entry)),
+    claudeCodeCommand: commandLine("claude", claudeCodeAddArgs(entry)),
+    jsonClients: jsonClients().map(({ id, name, configPath }) => ({ id, name, configPath }))
+  });
+});
+mcpRouter.post("/mcp/connect/claude-code", async (req, res) => {
+  if (!needsConfirm(req)) return void res.status(400).json({ error: "Confirmation required" });
+  try {
+    await addToClaudeCode(buildClientEntry());
+    res.json({ ok: true });
+  } catch (err) {
+    log.warn("Could not add StudyTs to Claude Code", { error: errorText(err) });
+    res.status(500).json({ error: errorText(err) });
+  }
+});
+mcpRouter.get("/mcp/claude-code/status", async (_req, res) => {
+  res.json(await claudeCodeStatus(buildClientEntry()));
+});
+mcpRouter.post("/mcp/disconnect/claude-code", async (req, res) => {
+  if (!needsConfirm(req)) return void res.status(400).json({ error: "Confirmation required" });
+  try {
+    await removeFromClaudeCode();
+    res.json({ ok: true });
+  } catch (err) {
+    log.warn("Could not remove StudyTs from Claude Code", { error: errorText(err) });
+    res.status(500).json({ error: errorText(err) });
+  }
+});
+mcpRouter.post("/mcp/connect/:clientId", (req, res) => {
+  if (!needsConfirm(req)) return void res.status(400).json({ error: "Confirmation required" });
+  const client = jsonClients().find((c) => c.id === req.params.clientId);
+  if (!client) return void res.status(404).json({ error: `Unknown client '${req.params.clientId}'` });
+  try {
+    res.json(addToJsonClient(buildClientEntry(), client.configPath));
+  } catch (err) {
+    log.warn(`Could not add StudyTs to ${client.name}`, { error: errorText(err) });
+    res.status(500).json({ error: errorText(err) });
   }
 });
 
@@ -13027,14 +13309,14 @@ function createVisualSpecFileStore(directory) {
   };
   return {
     write(key, spec) {
-      const path19 = pathFor(key);
+      const path20 = pathFor(key);
       mkdirSync2(directory, { recursive: true });
-      writeTracked(path19, JSON.stringify(spec, null, 2));
+      writeTracked(path20, JSON.stringify(spec, null, 2));
     },
     read(key) {
-      const path19 = pathFor(key);
-      if (!existsSync2(path19)) return null;
-      return { spec: JSON.parse(readFileSync2(path19, "utf8")) };
+      const path20 = pathFor(key);
+      if (!existsSync2(path20)) return null;
+      return { spec: JSON.parse(readFileSync2(path20, "utf8")) };
     },
     listKeys() {
       if (!existsSync2(directory)) return [];
@@ -13135,9 +13417,9 @@ clientErrorsRouter.post("/client-errors", (req, res) => {
 
 // server/routes/logs.ts
 import { Router as Router17 } from "express";
-import fs9 from "fs";
+import fs11 from "fs";
 import { readFile as readFile2 } from "fs/promises";
-import path13 from "path";
+import path14 from "path";
 var logsRouter = Router17();
 async function readSafeFile(filePath) {
   try {
@@ -13148,32 +13430,32 @@ async function readSafeFile(filePath) {
 }
 function listRunLogs(logDir) {
   try {
-    return fs9.readdirSync(logDir).filter((name) => name.startsWith(LOG_FILE_PREFIX.run) && name.endsWith(".log")).sort().reverse();
+    return fs11.readdirSync(logDir).filter((name) => name.startsWith(LOG_FILE_PREFIX.run) && name.endsWith(".log")).sort().reverse();
   } catch {
     return [];
   }
 }
 function resolveRunFile(logDir, requestedFile) {
   if (!requestedFile) {
-    return path13.join(logDir, `${LOG_FILE_PREFIX.run}${log.runId}.log`);
+    return path14.join(logDir, `${LOG_FILE_PREFIX.run}${log.runId}.log`);
   }
-  const cleanName = path13.basename(requestedFile);
+  const cleanName = path14.basename(requestedFile);
   if (!cleanName.startsWith(LOG_FILE_PREFIX.run) || !cleanName.endsWith(".log")) {
-    return path13.join(logDir, `${LOG_FILE_PREFIX.run}${log.runId}.log`);
+    return path14.join(logDir, `${LOG_FILE_PREFIX.run}${log.runId}.log`);
   }
-  return path13.join(logDir, cleanName);
+  return path14.join(logDir, cleanName);
 }
 logsRouter.get("/logs", async (req, res) => {
   const logDir = log.logDir;
   const targetRunFile = resolveRunFile(logDir, typeof req.query.run === "string" ? req.query.run : void 0);
-  const digestFile = path13.join(logDir, `${LOG_FILE_PREFIX.digest}.log`);
+  const digestFile = path14.join(logDir, `${LOG_FILE_PREFIX.digest}.log`);
   const [runLog, runtimeErrors] = await Promise.all([
     readSafeFile(targetRunFile),
     readSafeFile(digestFile)
   ]);
   res.json({
     runId: log.runId,
-    activeFile: path13.basename(targetRunFile),
+    activeFile: path14.basename(targetRunFile),
     runLog,
     runtimeErrors,
     runs: listRunLogs(logDir)
@@ -13184,8 +13466,8 @@ logsRouter.get("/logs", async (req, res) => {
 import { Router as Router18 } from "express";
 
 // server/utils/localeDirectory.ts
-import fs10 from "node:fs";
-import path14 from "node:path";
+import fs12 from "node:fs";
+import path15 from "node:path";
 
 // src/core/shared/localePackLimits.ts
 var LOCALE_PACK_LIMITS = {
@@ -13314,7 +13596,7 @@ function validateLocalePack(raw, knownKeys) {
 
 // server/utils/localeDirectory.ts
 function resolveLocalesDir(env = process.env) {
-  return env.STUDYTS_LOCALES_DIR ? path14.resolve(env.STUDYTS_LOCALES_DIR) : path14.resolve(PACKAGE_ROOT, "locales");
+  return env.STUDYTS_LOCALES_DIR ? path15.resolve(env.STUDYTS_LOCALES_DIR) : path15.resolve(PACKAGE_ROOT, "locales");
 }
 function findPlaceholderMismatches(pack, leaves2) {
   const issues = [];
@@ -13335,24 +13617,24 @@ function findPlaceholderMismatches(pack, leaves2) {
 }
 var dirCache = /* @__PURE__ */ new Map();
 function getDirMaxMtime(dir) {
-  if (!fs10.existsSync(dir)) return 0;
-  const stat = fs10.statSync(dir);
+  if (!fs12.existsSync(dir)) return 0;
+  const stat = fs12.statSync(dir);
   let maxMtime = stat.mtimeMs;
-  const entries = fs10.readdirSync(dir, { withFileTypes: true });
+  const entries = fs12.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.isFile() && entry.name.endsWith(".json")) {
-      const fileStat = fs10.statSync(path14.join(dir, entry.name));
+      const fileStat = fs12.statSync(path15.join(dir, entry.name));
       if (fileStat.mtimeMs > maxMtime) maxMtime = fileStat.mtimeMs;
     }
   }
   return maxMtime;
 }
 function parseJsonFile(filePath) {
-  const stat = fs10.statSync(filePath);
+  const stat = fs12.statSync(filePath);
   if (stat.size > LOCALE_PACK_LIMITS.maxBytes) {
     return { parseError: `File size exceeds limit of ${LOCALE_PACK_LIMITS.maxBytes} bytes` };
   }
-  let rawText = fs10.readFileSync(filePath, "utf8");
+  let rawText = fs12.readFileSync(filePath, "utf8");
   if (rawText.charCodeAt(0) === 65279) rawText = rawText.slice(1);
   try {
     return { parsed: JSON.parse(rawText) };
@@ -13361,7 +13643,7 @@ function parseJsonFile(filePath) {
   }
 }
 function loadPackFile(dir, file, knownKeys, seenCodes, leaves2) {
-  const filePath = path14.join(dir, file);
+  const filePath = path15.join(dir, file);
   const { parsed, parseError } = parseJsonFile(filePath);
   if (parseError) {
     return { rejection: { file, issues: [{ level: "error", message: parseError }] } };
@@ -13370,7 +13652,7 @@ function loadPackFile(dir, file, knownKeys, seenCodes, leaves2) {
   if (!pack) {
     return { rejection: { file, issues } };
   }
-  const fileStem = path14.basename(file, ".json").toLowerCase();
+  const fileStem = path15.basename(file, ".json").toLowerCase();
   if (fileStem !== pack.meta.code.toLowerCase()) {
     return {
       rejection: {
@@ -13398,13 +13680,13 @@ function loadPackFile(dir, file, knownKeys, seenCodes, leaves2) {
   return { pack: { pack, issues, file } };
 }
 async function readLocalePacks(dir, knownKeys, leaves2) {
-  if (!fs10.existsSync(dir)) return { packs: [], rejected: [] };
+  if (!fs12.existsSync(dir)) return { packs: [], rejected: [] };
   const currentMtime = getDirMaxMtime(dir);
   const cached = dirCache.get(dir);
   if (cached && cached.mtime === currentMtime) {
     return { packs: cached.packs, rejected: cached.rejected };
   }
-  const rawFiles = fs10.readdirSync(dir, { withFileTypes: true }).filter((e) => e.isFile() && e.name.endsWith(".json") && !e.name.startsWith("_") && !e.name.startsWith(".")).map((e) => e.name).sort();
+  const rawFiles = fs12.readdirSync(dir, { withFileTypes: true }).filter((e) => e.isFile() && e.name.endsWith(".json") && !e.name.startsWith("_") && !e.name.startsWith(".")).map((e) => e.name).sort();
   const packs = [];
   const rejected = [];
   const seenCodes = /* @__PURE__ */ new Set();
@@ -15488,6 +15770,18 @@ var translationLeafSnapshot_default = {
     en: "Done editing",
     he: "\u05E1\u05D9\u05D5\u05DD \u05E2\u05E8\u05D9\u05DB\u05D4"
   },
+  "HUB_TEXT.exportVideo": {
+    en: "Download MP4",
+    he: "\u05D4\u05D5\u05E8\u05D3 MP4"
+  },
+  "HUB_TEXT.exportingVideo": {
+    en: "Rendering MP4\u2026 {percent}%",
+    he: "\u05DE\u05D9\u05D9\u05E6\u05D0 MP4\u2026 {percent}%"
+  },
+  "HUB_TEXT.exportVideoFailed": {
+    en: "MP4 export failed",
+    he: "\u05D9\u05D9\u05E6\u05D5\u05D0 MP4 \u05E0\u05DB\u05E9\u05DC"
+  },
   "HUB_TEXT.noTopicsYet": {
     en: "No topics yet. Turn on editing to add one.",
     he: "\u05E2\u05D3\u05D9\u05D9\u05DF \u05D0\u05D9\u05DF \u05E0\u05D5\u05E9\u05D0\u05D9\u05DD. \u05D4\u05E4\u05E2\u05D9\u05DC\u05D5 \u05E2\u05E8\u05D9\u05DB\u05D4 \u05DB\u05D3\u05D9 \u05DC\u05D4\u05D5\u05E1\u05D9\u05E3."
@@ -15875,6 +16169,126 @@ var translationLeafSnapshot_default = {
   "MCP_TEXT.architectureStorageDesc": {
     en: "Read-only SQLite and atomic data/ file operations",
     he: "\u05E9\u05D0\u05D9\u05DC\u05EA\u05D5\u05EA SQLite \u05DC\u05E7\u05E8\u05D9\u05D0\u05D4 \u05D1\u05DC\u05D1\u05D3 \u05D5\u05E9\u05DE\u05D9\u05E8\u05EA \u05E7\u05D1\u05E6\u05D9\u05DD \u05D0\u05D8\u05D5\u05DE\u05D9\u05EA \u05D1-data/"
+  },
+  "MCP_TEXT.connectTitle": {
+    en: "Connect an AI app",
+    he: "\u05D7\u05D9\u05D1\u05D5\u05E8 \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D9\u05EA AI"
+  },
+  "MCP_TEXT.connectDesc": {
+    en: "StudyTs speaks standard MCP, so any app that supports MCP servers can use it: Claude, Codex, Cursor, Gemini CLI, Windsurf, Cline and more.",
+    he: "StudyTs \u05EA\u05D5\u05DE\u05DA \u05D1-MCP \u05E1\u05D8\u05E0\u05D3\u05E8\u05D8\u05D9, \u05DB\u05DA \u05E9\u05DB\u05DC \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4 \u05E9\u05EA\u05D5\u05DE\u05DB\u05EA \u05D1\u05E9\u05E8\u05EA\u05D9 MCP \u05D9\u05DB\u05D5\u05DC\u05D4 \u05DC\u05D4\u05E9\u05EA\u05DE\u05E9 \u05D1\u05D5: Claude, Codex, Cursor, Gemini CLI, Windsurf, Cline \u05D5\u05E2\u05D5\u05D3."
+  },
+  "MCP_TEXT.connectAddTo": {
+    en: "Add to {name}",
+    he: "\u05D4\u05D5\u05E1\u05E3 \u05DC-{name}"
+  },
+  "MCP_TEXT.connectEditsFile": {
+    en: "This edits {path}. Your other settings are kept and a backup is saved next to it.",
+    he: "\u05D4\u05E4\u05E2\u05D5\u05DC\u05D4 \u05EA\u05E2\u05E8\u05D5\u05DA \u05D0\u05EA {path}. \u05E9\u05D0\u05E8 \u05D4\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05E0\u05E9\u05DE\u05E8\u05D5\u05EA \u05D5\u05D2\u05D9\u05D1\u05D5\u05D9 \u05E0\u05E9\u05DE\u05E8 \u05DC\u05D9\u05D3\u05D5."
+  },
+  "MCP_TEXT.connectEditsClaudeCode": {
+    en: "This runs the Claude Code command shown below.",
+    he: "\u05D4\u05E4\u05E2\u05D5\u05DC\u05D4 \u05EA\u05E8\u05D9\u05E5 \u05D0\u05EA \u05D4\u05E4\u05E7\u05D5\u05D3\u05D4 \u05E9\u05DC Claude Code \u05E9\u05DE\u05D5\u05E6\u05D2\u05EA \u05DC\u05DE\u05D8\u05D4."
+  },
+  "MCP_TEXT.connectConfirm": {
+    en: "Confirm",
+    he: "\u05D0\u05D9\u05E9\u05D5\u05E8"
+  },
+  "MCP_TEXT.connectCancel": {
+    en: "Cancel",
+    he: "\u05D1\u05D9\u05D8\u05D5\u05DC"
+  },
+  "MCP_TEXT.connectDone": {
+    en: "Added. Restart {name} to load it.",
+    he: "\u05E0\u05D5\u05E1\u05E3. \u05D4\u05E4\u05E2\u05DC \u05DE\u05D7\u05D3\u05E9 \u05D0\u05EA {name} \u05DB\u05D3\u05D9 \u05DC\u05D8\u05E2\u05D5\u05DF \u05D0\u05D5\u05EA\u05D5."
+  },
+  "MCP_TEXT.connectFailed": {
+    en: "Could not connect: {reason}",
+    he: "\u05D4\u05D7\u05D9\u05D1\u05D5\u05E8 \u05E0\u05DB\u05E9\u05DC: {reason}"
+  },
+  "MCP_TEXT.connectOther": {
+    en: "Another app, or set it up by hand",
+    he: "\u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4 \u05D0\u05D7\u05E8\u05EA, \u05D0\u05D5 \u05D4\u05D2\u05D3\u05E8\u05D4 \u05D9\u05D3\u05E0\u05D9\u05EA"
+  },
+  "MCP_TEXT.connectOtherDesc": {
+    en: "Paste one of these into the app's MCP settings.",
+    he: "\u05D4\u05D3\u05D1\u05E7 \u05D0\u05D7\u05D3 \u05DE\u05D0\u05DC\u05D4 \u05D1\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05D4-MCP \u05E9\u05DC \u05D4\u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4."
+  },
+  "MCP_TEXT.connectStandardJson": {
+    en: "Standard MCP config (JSON)",
+    he: "\u05D4\u05D2\u05D3\u05E8\u05EA MCP \u05E1\u05D8\u05E0\u05D3\u05E8\u05D8\u05D9\u05EA (JSON)"
+  },
+  "MCP_TEXT.connectCodexToml": {
+    en: "Codex config (~/.codex/config.toml)",
+    he: "\u05D4\u05D2\u05D3\u05E8\u05EA Codex (\u200E~/.codex/config.toml)"
+  },
+  "MCP_TEXT.connectCodexCommand": {
+    en: "Codex command",
+    he: "\u05E4\u05E7\u05D5\u05D3\u05EA Codex"
+  },
+  "MCP_TEXT.connectClaudeCodeCommand": {
+    en: "Claude Code command",
+    he: "\u05E4\u05E7\u05D5\u05D3\u05EA Claude Code"
+  },
+  "MCP_TEXT.connectCopy": {
+    en: "Copy",
+    he: "\u05D4\u05E2\u05EA\u05E7"
+  },
+  "MCP_TEXT.connectCopied": {
+    en: "Copied",
+    he: "\u05D4\u05D5\u05E2\u05EA\u05E7"
+  },
+  "MCP_TEXT.connectCopyFailed": {
+    en: "Copy failed. Select the text and copy it by hand.",
+    he: "\u05D4\u05D4\u05E2\u05EA\u05E7\u05D4 \u05E0\u05DB\u05E9\u05DC\u05D4. \u05E1\u05DE\u05DF \u05D0\u05EA \u05D4\u05D8\u05E7\u05E1\u05D8 \u05D5\u05D4\u05E2\u05EA\u05E7 \u05D9\u05D3\u05E0\u05D9\u05EA."
+  },
+  "MCP_TEXT.claudeCodeGlobal": {
+    en: "Claude Code (all folders)",
+    he: "Claude Code (\u05D1\u05DB\u05DC \u05D4\u05EA\u05D9\u05E7\u05D9\u05D5\u05EA)"
+  },
+  "MCP_TEXT.claudeCodeConnected": {
+    en: "Connected globally",
+    he: "\u05DE\u05D7\u05D5\u05D1\u05E8 \u05D2\u05DC\u05D5\u05D1\u05DC\u05D9\u05EA"
+  },
+  "MCP_TEXT.claudeCodeNotRegistered": {
+    en: "Not registered",
+    he: "\u05DC\u05D0 \u05E8\u05E9\u05D5\u05DD"
+  },
+  "MCP_TEXT.claudeCodeMissing": {
+    en: "Claude Code not found",
+    he: "Claude Code \u05DC\u05D0 \u05E0\u05DE\u05E6\u05D0"
+  },
+  "MCP_TEXT.claudeCodeStale": {
+    en: "Points to another StudyTs copy",
+    he: "\u05DE\u05E6\u05D1\u05D9\u05E2 \u05E2\u05DC \u05E2\u05D5\u05EA\u05E7 \u05D0\u05D7\u05E8 \u05E9\u05DC StudyTs"
+  },
+  "MCP_TEXT.claudeCodeConnect": {
+    en: "Connect to Claude Code",
+    he: "\u05D7\u05D1\u05E8 \u05DC-Claude Code"
+  },
+  "MCP_TEXT.claudeCodeDisconnect": {
+    en: "Disconnect",
+    he: "\u05E0\u05EA\u05E7"
+  },
+  "MCP_TEXT.claudeCodeWorking": {
+    en: "Working...",
+    he: "\u05DE\u05D1\u05E6\u05E2..."
+  },
+  "MCP_TEXT.claudeCodeRemoveConfirm": {
+    en: "This runs: claude mcp remove --scope user studyts",
+    he: "\u05D4\u05E4\u05E2\u05D5\u05DC\u05D4 \u05EA\u05E8\u05D9\u05E5: claude mcp remove --scope user studyts"
+  },
+  "MCP_TEXT.claudeCodeRemoved": {
+    en: "Removed from Claude Code.",
+    he: "\u05D4\u05D5\u05E1\u05E8 \u05DE-Claude Code."
+  },
+  "MCP_TEXT.openMcpFolder": {
+    en: "Open MCP server folder",
+    he: "\u05E4\u05EA\u05D7 \u05D0\u05EA \u05EA\u05D9\u05E7\u05D9\u05D9\u05EA \u05E9\u05E8\u05EA \u05D4-MCP"
+  },
+  "MCP_TEXT.copyStandardConfig": {
+    en: "Copy standard config",
+    he: "\u05D4\u05E2\u05EA\u05E7 \u05D4\u05D2\u05D3\u05E8\u05D4 \u05E1\u05D8\u05E0\u05D3\u05E8\u05D8\u05D9\u05EA"
   },
   "PATCH_NOTES_TEXT.patchNotesTitle": {
     en: "Platform Updates & Patch Notes",
@@ -16589,7 +17003,7 @@ localeRouter.get("/:code", async (req, res) => {
 // server/routes/transferRoutes.ts
 import { Router as Router19 } from "express";
 import express2 from "express";
-import path16 from "path";
+import path17 from "path";
 
 // server/transfer/archiveReader.ts
 import { unzipSync, strFromU8 } from "fflate";
@@ -16690,14 +17104,14 @@ var TOPIC_FILE_SECTION_RE = /^([^/]+)\/([^/]+)\/([^/]+)\/(topic|scene|model|cont
 var COURSE_PREFIX = "courses/";
 var ASSETS_SUBDIR = "assets/";
 var PACKS_SUBDIR = "packs/";
-function assertSafeEntryPath(path19) {
-  const bad2 = path19.includes("\\") || path19.startsWith("/") || path19.includes("\0") || /^[A-Za-z]:/.test(path19);
-  const segments = path19.split("/").filter((s, i, all) => !(s === "" && i === all.length - 1));
+function assertSafeEntryPath(path20) {
+  const bad2 = path20.includes("\\") || path20.startsWith("/") || path20.includes("\0") || /^[A-Za-z]:/.test(path20);
+  const segments = path20.split("/").filter((s, i, all) => !(s === "" && i === all.length - 1));
   const traversal = segments.some(
     (s) => s === ".." || s === "." || s === "" || s.includes(":")
   );
   if (bad2 || traversal) {
-    throw new ArchiveError("unsafe_path", `Unsafe path in archive: ${path19}`);
+    throw new ArchiveError("unsafe_path", `Unsafe path in archive: ${path20}`);
   }
 }
 function inflateEntries(bytes) {
@@ -16725,23 +17139,23 @@ function inflateEntries(bytes) {
     throw new ArchiveError("corrupt", "File is not a valid zip archive");
   }
 }
-function parseJsonEntry(bytes, path19) {
+function parseJsonEntry(bytes, path20) {
   try {
     return JSON.parse(strFromU8(bytes));
   } catch {
-    throw new ArchiveError("corrupt", `'${path19}' is not valid JSON`);
+    throw new ArchiveError("corrupt", `'${path20}' is not valid JSON`);
   }
 }
 function isSafeCoord(s) {
   return SEGMENT_RE.test(s) && !s.includes("..");
 }
-function parsePathCoords(path19, courseId) {
-  const flatMatch = TOPIC_FILE_FLAT_RE.exec(path19);
-  const sectionMatch = TOPIC_FILE_SECTION_RE.exec(path19);
+function parsePathCoords(path20, courseId) {
+  const flatMatch = TOPIC_FILE_FLAT_RE.exec(path20);
+  const sectionMatch = TOPIC_FILE_SECTION_RE.exec(path20);
   if (!flatMatch && !sectionMatch) return null;
   const coords = flatMatch ? { weekKey: flatMatch[1], section: "topics", topicId: flatMatch[2], fileType: flatMatch[3] } : { weekKey: sectionMatch[1], section: sectionMatch[2], topicId: sectionMatch[3], fileType: sectionMatch[4] };
   if (!isSafeCoord(coords.weekKey) || !isSafeCoord(coords.topicId) || !isSafeCoord(coords.section)) {
-    throw new ArchiveError("unsafe_path", `Unsafe topic path in course '${courseId}': ${path19}`);
+    throw new ArchiveError("unsafe_path", `Unsafe topic path in course '${courseId}': ${path20}`);
   }
   return coords;
 }
@@ -16751,19 +17165,19 @@ function applyTopicMeta(topic, parsed) {
   topic.description = typeof tObj.description === "string" ? tObj.description : tObj.description;
   if (typeof tObj.position === "number") topic.position = tObj.position;
 }
-function applySceneData(topic, parsed, courseId, path19) {
+function applySceneData(topic, parsed, courseId, path20) {
   if (parsed && typeof parsed === "object" && Array.isArray(parsed.blocks)) {
     const p = parsed;
     const err = validateBlocks(p.blocks, p.nodes);
     if (err) {
-      throw new ArchiveError("invalid_course", `Course '${courseId}' scene '${path19}' invalid: ${err}`);
+      throw new ArchiveError("invalid_course", `Course '${courseId}' scene '${path20}' invalid: ${err}`);
     }
   }
   topic.scene = parsed;
 }
-function applyTopicPayload(topic, fileType, parsed, courseId, path19) {
+function applyTopicPayload(topic, fileType, parsed, courseId, path20) {
   if (fileType === "topic") applyTopicMeta(topic, parsed);
-  else if (fileType === "scene") applySceneData(topic, parsed, courseId, path19);
+  else if (fileType === "scene") applySceneData(topic, parsed, courseId, path20);
   else if (fileType === "model") topic.model = parsed;
   else if (fileType === "content") topic.content = parsed;
 }
@@ -16771,17 +17185,17 @@ function parseTopicsAndAssets(scoped, courseId) {
   const topicMap = /* @__PURE__ */ new Map();
   const assets = [];
   const packs = [];
-  for (const [path19, bytes] of Object.entries(scoped)) {
-    if (path19 === "course.json" || path19 === "weeks.json" || path19 === "catalog.json") continue;
-    if (path19.startsWith(ASSETS_SUBDIR)) {
-      assets.push({ path: path19.slice(ASSETS_SUBDIR.length), content: bytes });
+  for (const [path20, bytes] of Object.entries(scoped)) {
+    if (path20 === "course.json" || path20 === "weeks.json" || path20 === "catalog.json") continue;
+    if (path20.startsWith(ASSETS_SUBDIR)) {
+      assets.push({ path: path20.slice(ASSETS_SUBDIR.length), content: bytes });
       continue;
     }
-    if (path19.startsWith(PACKS_SUBDIR)) {
-      packs.push({ path: path19.slice(PACKS_SUBDIR.length), content: strFromU8(bytes) });
+    if (path20.startsWith(PACKS_SUBDIR)) {
+      packs.push({ path: path20.slice(PACKS_SUBDIR.length), content: strFromU8(bytes) });
       continue;
     }
-    const coords = parsePathCoords(path19, courseId);
+    const coords = parsePathCoords(path20, courseId);
     if (!coords) continue;
     const key = `${coords.weekKey}/${coords.topicId}`;
     let topic = topicMap.get(key);
@@ -16789,8 +17203,8 @@ function parseTopicsAndAssets(scoped, courseId) {
       topic = { weekKey: coords.weekKey, topicId: coords.topicId, section: coords.section };
       topicMap.set(key, topic);
     }
-    const parsed = parseJsonEntry(bytes, path19);
-    applyTopicPayload(topic, coords.fileType, parsed, courseId, path19);
+    const parsed = parseJsonEntry(bytes, path20);
+    applyTopicPayload(topic, coords.fileType, parsed, courseId, path20);
   }
   return { topics: Array.from(topicMap.values()), assets, packs };
 }
@@ -17047,8 +17461,8 @@ function planImport(archive, existingIds, policy) {
 
 // server/transfer/importApplier.ts
 import { Prisma as Prisma3 } from "@prisma/client";
-import fs11 from "fs";
-import path15 from "path";
+import fs13 from "fs";
+import path16 from "path";
 import crypto6 from "crypto";
 function stringify2(obj) {
   return JSON.stringify(obj, null, 2);
@@ -17074,22 +17488,22 @@ function buildCatalogData(weeks, topics) {
   return catalogObj;
 }
 function stageSingleTopic(courseDir, topic) {
-  const topicDir = path15.join(courseDir, topic.weekKey, topic.topicId);
-  fs11.mkdirSync(topicDir, { recursive: true });
+  const topicDir = path16.join(courseDir, topic.weekKey, topic.topicId);
+  fs13.mkdirSync(topicDir, { recursive: true });
   const topicMeta = {
     title: topic.title ?? topic.topicId,
     description: topic.description ?? "",
     position: topic.position ?? 0
   };
-  fs11.writeFileSync(path15.join(topicDir, "topic.json"), stringify2(topicMeta), "utf8");
+  fs13.writeFileSync(path16.join(topicDir, "topic.json"), stringify2(topicMeta), "utf8");
   if (topic.scene !== null && topic.scene !== void 0) {
-    fs11.writeFileSync(path15.join(topicDir, "scene.json"), stringify2(topic.scene), "utf8");
+    fs13.writeFileSync(path16.join(topicDir, "scene.json"), stringify2(topic.scene), "utf8");
   }
   if (topic.model !== null && topic.model !== void 0) {
-    fs11.writeFileSync(path15.join(topicDir, "model.json"), stringify2(topic.model), "utf8");
+    fs13.writeFileSync(path16.join(topicDir, "model.json"), stringify2(topic.model), "utf8");
   }
   if (topic.content !== null && topic.content !== void 0) {
-    fs11.writeFileSync(path15.join(topicDir, "content.json"), stringify2(topic.content), "utf8");
+    fs13.writeFileSync(path16.join(topicDir, "content.json"), stringify2(topic.content), "utf8");
   }
 }
 function stageTopicFiles(courseDir, topics) {
@@ -17099,22 +17513,22 @@ function stageTopicFiles(courseDir, topics) {
 }
 function stageAssets(courseDir, assets) {
   if (!assets || assets.length === 0) return;
-  const assetsDir = path15.join(courseDir, "assets");
-  fs11.mkdirSync(assetsDir, { recursive: true });
+  const assetsDir = path16.join(courseDir, "assets");
+  fs13.mkdirSync(assetsDir, { recursive: true });
   for (const asset of assets) {
-    const assetPath = path15.join(assetsDir, asset.path);
-    fs11.mkdirSync(path15.dirname(assetPath), { recursive: true });
-    fs11.writeFileSync(assetPath, Buffer.from(asset.content));
+    const assetPath = path16.join(assetsDir, asset.path);
+    fs13.mkdirSync(path16.dirname(assetPath), { recursive: true });
+    fs13.writeFileSync(assetPath, Buffer.from(asset.content));
   }
 }
 function stageCourseFiles(stagingDir, course, targetId) {
-  const courseDir = path15.join(stagingDir, targetId);
-  fs11.mkdirSync(courseDir, { recursive: true });
+  const courseDir = path16.join(stagingDir, targetId);
+  fs13.mkdirSync(courseDir, { recursive: true });
   const courseMeta = { ...course.meta, id: targetId };
-  fs11.writeFileSync(path15.join(courseDir, "course.json"), stringify2(courseMeta), "utf8");
+  fs13.writeFileSync(path16.join(courseDir, "course.json"), stringify2(courseMeta), "utf8");
   const catalogObj = buildCatalogData(course.weeks, course.topics);
-  fs11.writeFileSync(path15.join(courseDir, "catalog.json"), stringify2(catalogObj), "utf8");
-  fs11.writeFileSync(path15.join(courseDir, "weeks.json"), stringify2(course.weeks), "utf8");
+  fs13.writeFileSync(path16.join(courseDir, "catalog.json"), stringify2(catalogObj), "utf8");
+  fs13.writeFileSync(path16.join(courseDir, "weeks.json"), stringify2(course.weeks), "utf8");
   stageTopicFiles(courseDir, course.topics);
   stageAssets(courseDir, course.assets);
 }
@@ -17176,8 +17590,8 @@ async function writeCourseToDatabase(tx, course, targetId, action) {
 }
 async function applyImportPlan(prisma3, plan, dataDir) {
   const stagingId = `.import-${crypto6.randomUUID()}`;
-  const stagingDir = path15.join(dataDir, stagingId);
-  fs11.mkdirSync(stagingDir, { recursive: true });
+  const stagingDir = path16.join(dataDir, stagingId);
+  fs13.mkdirSync(stagingDir, { recursive: true });
   const activeCourses = plan.courses.filter((c) => c.action !== "skip");
   const skipped = plan.courses.filter((c) => c.action === "skip").map((c) => c.targetId);
   const imported = [];
@@ -17193,16 +17607,16 @@ async function applyImportPlan(prisma3, plan, dataDir) {
       },
       { timeout: TRANSFER_LIMITS.transactionMs }
     );
-    const oldBackupDir = path15.join(stagingDir, ".old");
-    fs11.mkdirSync(oldBackupDir, { recursive: true });
+    const oldBackupDir = path16.join(stagingDir, ".old");
+    fs13.mkdirSync(oldBackupDir, { recursive: true });
     for (const planned of activeCourses) {
-      const liveDir = path15.join(dataDir, planned.targetId);
-      const stagedCourseDir = path15.join(stagingDir, planned.targetId);
-      if (fs11.existsSync(liveDir)) {
-        const oldDir = path15.join(oldBackupDir, planned.targetId);
-        fs11.renameSync(liveDir, oldDir);
+      const liveDir = path16.join(dataDir, planned.targetId);
+      const stagedCourseDir = path16.join(stagingDir, planned.targetId);
+      if (fs13.existsSync(liveDir)) {
+        const oldDir = path16.join(oldBackupDir, planned.targetId);
+        fs13.renameSync(liveDir, oldDir);
       }
-      fs11.renameSync(stagedCourseDir, liveDir);
+      fs13.renameSync(stagedCourseDir, liveDir);
       imported.push(planned.targetId);
     }
     await invalidateRegistryCache();
@@ -17211,8 +17625,8 @@ async function applyImportPlan(prisma3, plan, dataDir) {
     if (error instanceof ArchiveError) throw error;
     throw error;
   } finally {
-    if (fs11.existsSync(stagingDir)) {
-      fs11.rmSync(stagingDir, { recursive: true, force: true });
+    if (fs13.existsSync(stagingDir)) {
+      fs13.rmSync(stagingDir, { recursive: true, force: true });
     }
   }
 }
@@ -17249,7 +17663,7 @@ function parsePolicyInput(req) {
 }
 function createTransferRouter(dataDir) {
   const router = Router19();
-  const targetDataDir = dataDir ?? path16.join(DATA_ROOT, "data");
+  const targetDataDir = dataDir ?? path17.join(DATA_ROOT, "data");
   const rawParser = express2.raw({
     type: [
       "application/zip",
@@ -17427,7 +17841,7 @@ function mapPrismaError(err) {
 
 // server/runtime/runtimePorts.ts
 import { readFileSync as readFileSync3 } from "node:fs";
-import path17 from "node:path";
+import path18 from "node:path";
 var PORT_KEYS = ["frontendPort", "apiPort"];
 function parseRuntimePorts(raw) {
   let parsed;
@@ -17452,7 +17866,7 @@ function parseRuntimePorts(raw) {
   return parsed;
 }
 function readRuntimePorts() {
-  return parseRuntimePorts(readFileSync3(path17.resolve(PACKAGE_ROOT, "config", "runtimePorts.json"), "utf8"));
+  return parseRuntimePorts(readFileSync3(path18.resolve(PACKAGE_ROOT, "config", "runtimePorts.json"), "utf8"));
 }
 
 // server/middleware/serverOrigins.ts
@@ -17666,7 +18080,7 @@ async function loadTopicData(courseId, weekKey, section, topicId, baseDataDir) {
 
 // prisma/seed.ts
 var prisma = new PrismaClient4();
-var DEFAULT_DATA_DIR = join5(import.meta.dirname, "..", "data");
+var DEFAULT_DATA_DIR = join5(DATA_ROOT, "data");
 var isVerbose = process.env.VERBOSE === "true" || process.argv.includes("--verbose");
 function verboseLog(msg) {
   if (isVerbose) console.log(msg);
@@ -17794,13 +18208,13 @@ prisma2.$on("error", (e) => {
 prisma2.$on("warn", (e) => {
   log.warn("[Prisma]", { message: e.message, target: e.target });
 });
-var DATA_DIR2 = path18.resolve(DATA_ROOT, "data");
-if (fs12.existsSync(DATA_DIR2)) {
+var DATA_DIR2 = path19.resolve(DATA_ROOT, "data");
+if (fs14.existsSync(DATA_DIR2)) {
   let debounceTimer = null;
   try {
-    fs12.watch(DATA_DIR2, { recursive: true }, (_event, filename) => {
+    fs14.watch(DATA_DIR2, { recursive: true }, (_event, filename) => {
       if (!filename || filename.endsWith(".tmp") || filename.includes("node_modules")) return;
-      if (isOwnWrite(path18.join(DATA_DIR2, filename))) return;
+      if (isOwnWrite(path19.join(DATA_DIR2, filename))) return;
       if (debounceTimer) clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
         log.info(`[HotSync] Data change detected in ${filename}, reseeding database`);
@@ -17842,7 +18256,7 @@ app.use((req, res, next) => {
   });
   next();
 });
-app.use("/assets", express3.static(path18.resolve(DATA_ROOT, "data", "assets")));
+app.use("/assets", express3.static(path19.resolve(DATA_ROOT, "data", "assets")));
 app.use("/api", (_req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
   next();
@@ -17886,12 +18300,12 @@ app.get("/api/health", async (_req, res) => {
     res.status(503).json({ status: "error", db: "disconnected" });
   }
 });
-var DIST_DIR = path18.resolve(PACKAGE_ROOT, "dist");
+var DIST_DIR = path19.resolve(PACKAGE_ROOT, "dist");
 var serveBuild = !process.argv.includes("--dev");
 if (serveBuild) app.use(express3.static(DIST_DIR));
 app.get("*", (req, res, next) => {
   if (!serveBuild || req.path.startsWith("/api") || req.path.startsWith("/assets") || req.path.startsWith("/__")) return next();
-  res.sendFile(path18.join(DIST_DIR, "index.html"), (err) => {
+  res.sendFile(path19.join(DIST_DIR, "index.html"), (err) => {
     if (err) next(err);
   });
 });

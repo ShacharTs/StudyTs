@@ -156,7 +156,7 @@ var SQLITE_TOOLS = [
   },
   {
     name: "list_lectures",
-    description: "Lists topics (week, section, topic_id, title, canvas status) sorted by course hierarchy.",
+    description: "Lists topics as columns + rows (course, week, section, topic_id, title, has_scene), sorted by course hierarchy; at most 200 rows.",
     inputSchema: {
       type: "object",
       properties: {
@@ -230,6 +230,17 @@ function formatSmartRow(row, rawStrings = false) {
 var LIST_TOPICS_SQL = `SELECT c.id AS course, w.week_key AS week, t.section AS section, t.topic_id AS topic_id,
   json_extract(t.title, '$.en') AS title, CASE WHEN t.scene IS NULL THEN 0 ELSE 1 END AS has_scene
   FROM topics t JOIN weeks w ON w.id = t.week_id JOIN courses c ON c.id = w.course_id`;
+var TOPIC_COLUMNS = ["course", "week", "section", "topic_id", "title", "has_scene"];
+var MAX_TOPIC_ROWS = 200;
+function compactTopics(rows) {
+  const shown = rows.slice(0, MAX_TOPIC_ROWS);
+  return {
+    columns: TOPIC_COLUMNS,
+    rows: shown.map((row) => TOPIC_COLUMNS.map((column) => row[column])),
+    count: rows.length,
+    ...rows.length > shown.length ? { truncated: `first ${MAX_TOPIC_ROWS} shown; pass course_id to narrow` } : {}
+  };
+}
 function createSqliteTools(prisma = new PrismaClient()) {
   return {
     async listTopics(args) {
@@ -239,7 +250,7 @@ function createSqliteTools(prisma = new PrismaClient()) {
         `${LIST_TOPICS_SQL}${where} ORDER BY c.id, w.week_key, t.section, t.topic_id`,
         ...courseId ? [courseId] : []
       );
-      return { topics: rows, count: Array.isArray(rows) ? rows.length : 0 };
+      return compactTopics(Array.isArray(rows) ? rows : []);
     },
     async queryCourseDb(args) {
       const sql = String(args.sql || "").trim();
@@ -733,15 +744,59 @@ function migrateSpec(spec, migrations = MIGRATIONS) {
 }
 
 // src/core/visualBuilder/blocks.ts
+var BLOCK_DEFS = [
+  { action: "show", label: "show", category: "looks", color: "var(--viz-purple)", needsTarget: true },
+  { action: "hide", label: "hide", category: "looks", color: "var(--viz-purple)", needsTarget: true },
+  { action: "highlight", label: "highlight", category: "looks", color: "var(--viz-purple)", needsTarget: true },
+  { action: "dim", label: "dim", category: "looks", color: "var(--viz-purple)", needsTarget: true },
+  { action: "calm", label: "calm down", category: "looks", color: "var(--viz-purple)", needsTarget: true },
+  { action: "fill", label: "fill", category: "fx", color: "var(--accent-green)", needsTarget: true },
+  { action: "pulse", label: "pulse", category: "fx", color: "var(--viz-purple)", needsTarget: true },
+  { action: "flow", label: "flow", category: "fx", color: "var(--viz-blue)", needsTarget: true },
+  { action: "spark", label: "zigzag", category: "fx", color: "var(--viz-orange)", needsTarget: true },
+  { action: "frame", label: "outline", category: "fx", color: "var(--viz-orange)", needsTarget: true },
+  { action: "sweep", label: "sweep", category: "fx", color: "var(--viz-blue)", needsTarget: true },
+  { action: "callout", label: "callout", category: "fx", color: "var(--viz-orange)", needsTarget: true },
+  { action: "fade", label: "fade", category: "fx", color: "var(--viz-purple)", needsTarget: true },
+  { action: "tint", label: "colour", category: "fx", color: "var(--viz-orange)", needsTarget: true },
+  { action: "outline", label: "emphasise", category: "fx", color: "var(--viz-blue)", needsTarget: true },
+  { action: "soften", label: "soft light", category: "fx", color: "var(--viz-blue)", needsTarget: true },
+  { action: "grow", label: "grow", category: "fx", color: "var(--viz-purple)", needsTarget: true },
+  { action: "bounce", label: "bounce", category: "fx", color: "var(--viz-orange)", needsTarget: true },
+  { action: "typeIn", label: "type in", category: "fx", color: "var(--viz-blue)", needsTarget: true },
+  { action: "draw", label: "draw in", category: "pen", color: "var(--accent-green)", needsTarget: true },
+  { action: "travel", label: "travel", category: "motion", color: "var(--viz-blue)", needsTarget: true },
+  { action: "move", label: "move to", category: "motion", color: "var(--viz-blue)", needsTarget: true },
+  { action: "say", label: "say", category: "say", color: "var(--viz-orange)", needsTarget: false }
+];
 var blocksOf = (step) => step.builder?.blocks ?? [];
 
 // src/core/visualBuilder/builderGeometry.ts
 var MIN_SIZE = 20;
+var MIN_VISIBLE = 24;
 var num = (value, fallback = 0) => {
   const parsed = typeof value === "number" ? value : Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 var round = (value) => Math.round(value * 10) / 10;
+var SIDE_POINTS = {
+  n: (box) => ({ x: box.x + box.w / 2, y: box.y }),
+  e: (box) => ({ x: box.x + box.w, y: box.y + box.h / 2 }),
+  s: (box) => ({ x: box.x + box.w / 2, y: box.y + box.h }),
+  w: (box) => ({ x: box.x, y: box.y + box.h / 2 })
+};
+var sidePoint = (box, side) => SIDE_POINTS[side](box);
+var END_LABEL_ALONG = 24;
+var END_LABEL_GAP = 10;
+function endLabelBox(end, inward, size) {
+  const length = Math.hypot(inward.x - end.x, inward.y - end.y) || 1;
+  const along = { x: (inward.x - end.x) / length, y: (inward.y - end.y) / length };
+  const normal = { x: along.y, y: -along.x };
+  const reach = END_LABEL_GAP + (Math.abs(normal.x) * size.w + Math.abs(normal.y) * size.h) / 2;
+  const cx = end.x + along.x * END_LABEL_ALONG + normal.x * reach;
+  const cy = end.y + along.y * END_LABEL_ALONG + normal.y * reach;
+  return { x: round(cx - size.w / 2), y: round(cy - size.h / 2), ...size };
+}
 var boxCenter = (box) => ({ x: box.x + box.w / 2, y: box.y + box.h / 2 });
 var SEGMENT_ARGS = { M: 2, L: 2, T: 2, C: 6, S: 4, Q: 4, A: 7, H: 1, V: 1, Z: 0 };
 var TAU = 2 * Math.PI;
@@ -756,9 +811,9 @@ function arcCentre(x1, y1, rxIn, ryIn, largeArc, sweep2, x2, y2) {
     rx *= Math.sqrt(lambda);
     ry *= Math.sqrt(lambda);
   }
-  const num3 = rx * rx * ry * ry - rx * rx * dy * dy - ry * ry * dx * dx;
+  const num4 = rx * rx * ry * ry - rx * rx * dy * dy - ry * ry * dx * dx;
   const den = rx * rx * dy * dy + ry * ry * dx * dx;
-  const coef = (largeArc === sweep2 ? -1 : 1) * Math.sqrt(Math.max(0, num3 / den));
+  const coef = (largeArc === sweep2 ? -1 : 1) * Math.sqrt(Math.max(0, num4 / den));
   const cxp = coef * rx * dy / ry;
   const cyp = -coef * ry * dx / rx;
   const ux = (dx - cxp) / rx;
@@ -822,6 +877,17 @@ function pathBounds(d) {
   const y = Math.min(...ys);
   return { x, y, w: Math.max(...xs) - x, h: Math.max(...ys) - y };
 }
+function remapPath(d, from, to) {
+  const scaleX = from.w === 0 ? 1 : to.w / from.w;
+  const scaleY = from.h === 0 ? 1 : to.h / from.h;
+  let index = 0;
+  return d.replace(/-?\d*\.?\d+/g, (token) => {
+    const value = Number(token);
+    const mapped = index % 2 === 0 ? to.x + (value - from.x) * scaleX : to.y + (value - from.y) * scaleY;
+    index += 1;
+    return String(round(mapped));
+  });
+}
 function diamondPath(box) {
   const { x, y, w, h } = box;
   return `M ${round(x + w / 2)} ${round(y)} L ${round(x + w)} ${round(y + h / 2)} L ${round(x + w / 2)} ${round(y + h)} L ${round(x)} ${round(y + h / 2)} Z`;
@@ -860,6 +926,23 @@ function pointerPath(box) {
   const pt = (px, py) => `${round(px)} ${round(py)}`;
   return `M ${pt(cx, y + h)} L ${pt(cx, shoulder)} M ${pt(cx, y)} L ${pt(x + w, shoulder)} L ${pt(cx, y + 14)} L ${pt(x, shoulder)} Z`;
 }
+function lineBetweenBoxCorners(builder, box) {
+  const flip = builder.flip === true;
+  const from = { x: box.x, y: flip ? box.y + box.h : box.y };
+  const to = { x: box.x + box.w, y: flip ? box.y : box.y + box.h };
+  return linePath(from, to, builder.shape === "arrow");
+}
+var SHAPED_PATHS = {
+  diamond: (_builder, box) => diamondPath(box),
+  triangle: (_builder, box) => trianglePath(box),
+  pointer: (_builder, box) => pointerPath(box),
+  line: lineBetweenBoxCorners,
+  arrow: lineBetweenBoxCorners
+};
+function shapedPath(builder, box) {
+  const draw2 = SHAPED_PATHS[builder.shape ?? ""];
+  return draw2 ? draw2(builder, box) : null;
+}
 function elementBox(el) {
   const a = el.attrs;
   if (el.kind === "circle") {
@@ -873,6 +956,43 @@ function elementBox(el) {
   }
   if (el.kind === "path") return el.builder?.box ?? pathBounds(String(a.d ?? ""));
   return { x: num(a.x), y: num(a.y), w: num(a.width, 80), h: num(a.height, 24) };
+}
+var isLine = (el) => el.builder?.shape === "line" || el.builder?.shape === "arrow";
+function resizePath(el, box) {
+  const shaped = el.builder ? shapedPath(el.builder, box) : null;
+  if (shaped !== null) return { ...el, attrs: { ...el.attrs, d: shaped }, builder: { ...el.builder, box } };
+  const d = remapPath(String(el.attrs.d ?? ""), elementBox(el), box);
+  return { ...el, attrs: { ...el.attrs, d }, ...el.builder ? { builder: { ...el.builder, box } } : {} };
+}
+function minimumBox(el, requested) {
+  const box = { x: round(requested.x), y: round(requested.y), w: round(requested.w), h: round(requested.h) };
+  if (!isLine(el)) return { ...box, w: Math.max(MIN_SIZE, box.w), h: Math.max(MIN_SIZE, box.h) };
+  const w = Math.max(0, box.w);
+  const h = Math.max(0, box.h);
+  return { ...box, w: Math.hypot(w, h) < MIN_SIZE ? MIN_SIZE : w, h };
+}
+function setElementBox(el, requested) {
+  if (el.builder?.link) return el;
+  const box = minimumBox(el, requested);
+  const center2 = boxCenter(box);
+  if (el.kind === "circle") {
+    const size = Math.min(box.w, box.h);
+    return { ...el, attrs: { ...el.attrs, cx: round(box.x + size / 2), cy: round(box.y + size / 2), r: round(size / 2) } };
+  }
+  if (el.kind === "ellipse") return { ...el, attrs: { ...el.attrs, cx: round(center2.x), cy: round(center2.y), rx: round(box.w / 2), ry: round(box.h / 2) } };
+  if (el.kind === "path") return resizePath(el, box);
+  return { ...el, attrs: { ...el.attrs, x: box.x, y: box.y, width: box.w, height: box.h } };
+}
+function moveElement(el, dx, dy) {
+  const box = elementBox(el);
+  return setElementBox(el, { ...box, x: box.x + dx, y: box.y + dy });
+}
+var clampAxis = (position, size, limit) => {
+  const [low, high] = size <= limit ? [0, limit - size] : [MIN_VISIBLE - size, limit - MIN_VISIBLE];
+  return Math.min(high, Math.max(low, position));
+};
+function clampBox(box, canvas) {
+  return { ...box, x: clampAxis(box.x, box.w, canvas.w), y: clampAxis(box.y, box.h, canvas.h) };
 }
 
 // src/core/visualBuilder/builderColors.ts
@@ -944,6 +1064,7 @@ function parseViewBox(viewBox, fallback = DEFAULT_STAGE) {
   const [, , w, h] = viewBox.trim().split(/\s+/).map(Number);
   return { w: w > 0 ? w : fallback.w, h: h > 0 ? h : fallback.h };
 }
+var viewBoxOf = (size) => `0 0 ${size.w} ${size.h}`;
 
 // src/core/visualBuilder/effectOverlays.ts
 var OVERLAY_ACTIONS = ["flow", "spark", "frame", "sweep", "callout"];
@@ -1009,7 +1130,7 @@ var sweepOverlay = (spec, target) => {
     builder: fxBuilder
   };
 };
-var calloutOverlay = (spec, target, block) => {
+var calloutOverlay = (spec, target, block2) => {
   const box = targetBox(spec, target);
   const view = parseViewBox(spec.viewBox);
   const above = box.y - CALLOUT_H - CALLOUT_GAP;
@@ -1019,7 +1140,7 @@ var calloutOverlay = (spec, target, block) => {
     kind: "bubble",
     attrs: { x, y: above >= 0 ? above : box.y + box.h + CALLOUT_GAP, width: CALLOUT_W, height: CALLOUT_H },
     style: { opacity: 0, "--bubble-color": "var(--accent)" },
-    content: block.text ?? "",
+    content: block2.text ?? "",
     builder: fxBuilder
   };
 };
@@ -1034,9 +1155,31 @@ function tokenOverlay(spec, linkId) {
     builder: { fx: true, name: "Token" }
   };
 }
+var isFx = (el) => el.builder?.fx === true;
 var MAKERS_BY_ACTION = { ...OVERLAY_MAKERS, travel: tokenOverlay };
+function wantedOverlays(spec) {
+  const blocks = spec.steps.flatMap((step) => blocksOf(step)).filter((block2) => Boolean(block2.target) && spec.elements.some((el) => el.id === block2.target));
+  const made = /* @__PURE__ */ new Map();
+  for (const block2 of blocks) {
+    const maker = MAKERS_BY_ACTION[block2.action];
+    const id = overlayId(block2.action, block2.target);
+    if (maker && !made.has(id)) made.set(id, maker(spec, block2.target, block2));
+  }
+  return [...made.values()];
+}
 function overlayIdsOfLink(spec, linkId) {
   return LINK_OVERLAY_ACTIONS.map((action) => overlayId(action, linkId)).filter((id) => spec.elements.some((el) => el.id === id));
+}
+function rebuildEffectOverlays(spec) {
+  const base = spec.elements.filter((el) => !isFx(el));
+  const overlays = wantedOverlays({ ...spec, elements: base });
+  return overlays.length === 0 && base.length === spec.elements.length ? spec : { ...spec, elements: [...base, ...overlays] };
+}
+function effectOffTweens(spec, stepIndex) {
+  const previous = spec.steps[stepIndex - 1];
+  if (!previous) return [];
+  const ids = new Set(blocksOf(previous).filter((block2) => block2.target && SWITCHED_OFF_ACTIONS.includes(block2.action)).map((block2) => overlayId(block2.action, block2.target)));
+  return [...ids].filter((id) => spec.elements.some((el) => el.id === id)).map((id) => ({ targets: id, at: 0, params: { opacity: 0, duration: 200, ease: "outQuad" }, builder: { generated: true } }));
 }
 
 // src/i18n/mergeLocales.ts
@@ -1545,10 +1688,13 @@ var en_default2 = {
     justChecked: "Just checked a moment ago. Try again in a few seconds.",
     offline: "Could not reach the update server. Try again when you are online.",
     rateLimited: "Too many update checks. Try again later.",
-    noReleases: "No releases are published yet.",
+    noReleases: "No update manifest found for v{version}. You are running the latest local build, or this release does not support auto-updates.",
     checkError: "The update check failed.",
     appliedOnNextStart: "Updates are applied the next time you start StudyTS. Your settings (.env), database and course data (data/) are kept.",
-    scheduledFor: "Scheduled: version {version}"
+    scheduledFor: "Scheduled: version {version}",
+    downloadUpdate: "Download update",
+    downloadingUpdate: "Downloading update\u2026 {percent}%",
+    openReleasePage: "Open release page"
   },
   mcp: {
     tabMcp: "StudyTs-MCP",
@@ -1601,7 +1747,37 @@ var en_default2 = {
     architectureDaemon: "StudyTs-MCP Daemon",
     architectureDaemonDesc: "Single background process managing 12 domain tools",
     architectureStorage: "Local Database & Files",
-    architectureStorageDesc: "Read-only SQLite and atomic data/ file operations"
+    architectureStorageDesc: "Read-only SQLite and atomic data/ file operations",
+    connectTitle: "Connect an AI app",
+    connectDesc: "StudyTs speaks standard MCP, so any app that supports MCP servers can use it: Claude, Codex, Cursor, Gemini CLI, Windsurf, Cline and more.",
+    connectAddTo: "Add to {name}",
+    connectEditsFile: "This edits {path}. Your other settings are kept and a backup is saved next to it.",
+    connectEditsClaudeCode: "This runs the Claude Code command shown below.",
+    connectConfirm: "Confirm",
+    connectCancel: "Cancel",
+    connectDone: "Added. Restart {name} to load it.",
+    connectFailed: "Could not connect: {reason}",
+    connectOther: "Another app, or set it up by hand",
+    connectOtherDesc: "Paste one of these into the app's MCP settings.",
+    connectStandardJson: "Standard MCP config (JSON)",
+    connectCodexToml: "Codex config (~/.codex/config.toml)",
+    connectCodexCommand: "Codex command",
+    connectClaudeCodeCommand: "Claude Code command",
+    connectCopy: "Copy",
+    connectCopied: "Copied",
+    connectCopyFailed: "Copy failed. Select the text and copy it by hand.",
+    claudeCodeGlobal: "Claude Code (all folders)",
+    claudeCodeConnected: "Connected globally",
+    claudeCodeNotRegistered: "Not registered",
+    claudeCodeMissing: "Claude Code not found",
+    claudeCodeStale: "Points to another StudyTs copy",
+    claudeCodeConnect: "Connect to Claude Code",
+    claudeCodeDisconnect: "Disconnect",
+    claudeCodeWorking: "Working...",
+    claudeCodeRemoveConfirm: "This runs: claude mcp remove --scope user studyts",
+    claudeCodeRemoved: "Removed from Claude Code.",
+    openMcpFolder: "Open MCP server folder",
+    copyStandardConfig: "Copy standard config"
   },
   complexityClasses: {
     P: {
@@ -1888,10 +2064,13 @@ var he_default2 = {
     justChecked: "\u05E0\u05D1\u05D3\u05E7 \u05D4\u05E8\u05D2\u05E2. \u05E0\u05E1\u05D4 \u05E9\u05D5\u05D1 \u05D1\u05E2\u05D5\u05D3 \u05DB\u05DE\u05D4 \u05E9\u05E0\u05D9\u05D5\u05EA.",
     offline: "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05D4\u05EA\u05D7\u05D1\u05E8 \u05DC\u05E9\u05E8\u05EA \u05D4\u05E2\u05D3\u05DB\u05D5\u05E0\u05D9\u05DD. \u05E0\u05E1\u05D4 \u05E9\u05D5\u05D1 \u05DB\u05E9\u05D9\u05E9 \u05D7\u05D9\u05D1\u05D5\u05E8.",
     rateLimited: "\u05D9\u05D5\u05EA\u05E8 \u05DE\u05D3\u05D9 \u05D1\u05D3\u05D9\u05E7\u05D5\u05EA \u05E2\u05D3\u05DB\u05D5\u05DF. \u05E0\u05E1\u05D4 \u05E9\u05D5\u05D1 \u05DE\u05D0\u05D5\u05D7\u05E8 \u05D9\u05D5\u05EA\u05E8.",
-    noReleases: "\u05E2\u05D3\u05D9\u05D9\u05DF \u05DC\u05D0 \u05E4\u05D5\u05E8\u05E1\u05DE\u05D5 \u05D2\u05E8\u05E1\u05D0\u05D5\u05EA.",
+    noReleases: "\u05DC\u05D0 \u05E0\u05DE\u05E6\u05D0\u05D5 \u05E0\u05EA\u05D5\u05E0\u05D9 \u05E2\u05D3\u05DB\u05D5\u05DF \u05E2\u05D1\u05D5\u05E8 v{version}. \u05D6\u05D5 \u05D4\u05D2\u05E8\u05E1\u05D4 \u05D4\u05DE\u05E7\u05D5\u05DE\u05D9\u05EA \u05D4\u05E2\u05D3\u05DB\u05E0\u05D9\u05EA, \u05D0\u05D5 \u05E9\u05D4\u05D2\u05E8\u05E1\u05D4 \u05D4\u05D6\u05D5 \u05DC\u05D0 \u05EA\u05D5\u05DE\u05DB\u05EA \u05D1\u05E2\u05D3\u05DB\u05D5\u05DF \u05D0\u05D5\u05D8\u05D5\u05DE\u05D8\u05D9.",
     checkError: "\u05D1\u05D3\u05D9\u05E7\u05EA \u05D4\u05E2\u05D3\u05DB\u05D5\u05DF \u05E0\u05DB\u05E9\u05DC\u05D4.",
     appliedOnNextStart: "\u05D4\u05E2\u05D3\u05DB\u05D5\u05DF \u05DE\u05EA\u05D1\u05E6\u05E2 \u05D1\u05D4\u05E4\u05E2\u05DC\u05D4 \u05D4\u05D1\u05D0\u05D4 \u05E9\u05DC StudyTS. \u05D4\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA (.env), \u05DE\u05E1\u05D3 \u05D4\u05E0\u05EA\u05D5\u05E0\u05D9\u05DD \u05D5\u05E0\u05EA\u05D5\u05E0\u05D9 \u05D4\u05E7\u05D5\u05E8\u05E1\u05D9\u05DD (data/) \u05E0\u05E9\u05DE\u05E8\u05D9\u05DD.",
-    scheduledFor: "\u05DE\u05EA\u05D5\u05D6\u05DE\u05DF: \u05D2\u05E8\u05E1\u05D4 {version}"
+    scheduledFor: "\u05DE\u05EA\u05D5\u05D6\u05DE\u05DF: \u05D2\u05E8\u05E1\u05D4 {version}",
+    downloadUpdate: "\u05D4\u05D5\u05E8\u05D3 \u05E2\u05D3\u05DB\u05D5\u05DF",
+    downloadingUpdate: "\u05DE\u05D5\u05E8\u05D9\u05D3 \u05E2\u05D3\u05DB\u05D5\u05DF\u2026 {percent}%",
+    openReleasePage: "\u05E4\u05EA\u05D7 \u05D0\u05EA \u05E2\u05DE\u05D5\u05D3 \u05D4\u05D2\u05E8\u05E1\u05D4"
   },
   mcp: {
     tabMcp: "StudyTs-MCP",
@@ -1944,7 +2123,37 @@ var he_default2 = {
     architectureDaemon: "\u05D3\u05DE\u05D5\u05DF StudyTs-MCP",
     architectureDaemonDesc: "\u05EA\u05D4\u05DC\u05D9\u05DA \u05E8\u05E7\u05E2 \u05D9\u05D7\u05D9\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC 12 \u05DB\u05DC\u05D9 \u05EA\u05D7\u05D5\u05DD \u05DE\u05E7\u05D5\u05DE\u05D9\u05D9\u05DD",
     architectureStorage: "\u05DE\u05E1\u05D3 \u05E0\u05EA\u05D5\u05E0\u05D9\u05DD \u05D5\u05E7\u05D1\u05E6\u05D9\u05DD \u05DE\u05E7\u05D5\u05DE\u05D9\u05D9\u05DD",
-    architectureStorageDesc: "\u05E9\u05D0\u05D9\u05DC\u05EA\u05D5\u05EA SQLite \u05DC\u05E7\u05E8\u05D9\u05D0\u05D4 \u05D1\u05DC\u05D1\u05D3 \u05D5\u05E9\u05DE\u05D9\u05E8\u05EA \u05E7\u05D1\u05E6\u05D9\u05DD \u05D0\u05D8\u05D5\u05DE\u05D9\u05EA \u05D1-data/"
+    architectureStorageDesc: "\u05E9\u05D0\u05D9\u05DC\u05EA\u05D5\u05EA SQLite \u05DC\u05E7\u05E8\u05D9\u05D0\u05D4 \u05D1\u05DC\u05D1\u05D3 \u05D5\u05E9\u05DE\u05D9\u05E8\u05EA \u05E7\u05D1\u05E6\u05D9\u05DD \u05D0\u05D8\u05D5\u05DE\u05D9\u05EA \u05D1-data/",
+    connectTitle: "\u05D7\u05D9\u05D1\u05D5\u05E8 \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D9\u05EA AI",
+    connectDesc: "StudyTs \u05EA\u05D5\u05DE\u05DA \u05D1-MCP \u05E1\u05D8\u05E0\u05D3\u05E8\u05D8\u05D9, \u05DB\u05DA \u05E9\u05DB\u05DC \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4 \u05E9\u05EA\u05D5\u05DE\u05DB\u05EA \u05D1\u05E9\u05E8\u05EA\u05D9 MCP \u05D9\u05DB\u05D5\u05DC\u05D4 \u05DC\u05D4\u05E9\u05EA\u05DE\u05E9 \u05D1\u05D5: Claude, Codex, Cursor, Gemini CLI, Windsurf, Cline \u05D5\u05E2\u05D5\u05D3.",
+    connectAddTo: "\u05D4\u05D5\u05E1\u05E3 \u05DC-{name}",
+    connectEditsFile: "\u05D4\u05E4\u05E2\u05D5\u05DC\u05D4 \u05EA\u05E2\u05E8\u05D5\u05DA \u05D0\u05EA {path}. \u05E9\u05D0\u05E8 \u05D4\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05E0\u05E9\u05DE\u05E8\u05D5\u05EA \u05D5\u05D2\u05D9\u05D1\u05D5\u05D9 \u05E0\u05E9\u05DE\u05E8 \u05DC\u05D9\u05D3\u05D5.",
+    connectEditsClaudeCode: "\u05D4\u05E4\u05E2\u05D5\u05DC\u05D4 \u05EA\u05E8\u05D9\u05E5 \u05D0\u05EA \u05D4\u05E4\u05E7\u05D5\u05D3\u05D4 \u05E9\u05DC Claude Code \u05E9\u05DE\u05D5\u05E6\u05D2\u05EA \u05DC\u05DE\u05D8\u05D4.",
+    connectConfirm: "\u05D0\u05D9\u05E9\u05D5\u05E8",
+    connectCancel: "\u05D1\u05D9\u05D8\u05D5\u05DC",
+    connectDone: "\u05E0\u05D5\u05E1\u05E3. \u05D4\u05E4\u05E2\u05DC \u05DE\u05D7\u05D3\u05E9 \u05D0\u05EA {name} \u05DB\u05D3\u05D9 \u05DC\u05D8\u05E2\u05D5\u05DF \u05D0\u05D5\u05EA\u05D5.",
+    connectFailed: "\u05D4\u05D7\u05D9\u05D1\u05D5\u05E8 \u05E0\u05DB\u05E9\u05DC: {reason}",
+    connectOther: "\u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4 \u05D0\u05D7\u05E8\u05EA, \u05D0\u05D5 \u05D4\u05D2\u05D3\u05E8\u05D4 \u05D9\u05D3\u05E0\u05D9\u05EA",
+    connectOtherDesc: "\u05D4\u05D3\u05D1\u05E7 \u05D0\u05D7\u05D3 \u05DE\u05D0\u05DC\u05D4 \u05D1\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05D4-MCP \u05E9\u05DC \u05D4\u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4.",
+    connectStandardJson: "\u05D4\u05D2\u05D3\u05E8\u05EA MCP \u05E1\u05D8\u05E0\u05D3\u05E8\u05D8\u05D9\u05EA (JSON)",
+    connectCodexToml: "\u05D4\u05D2\u05D3\u05E8\u05EA Codex (\u200E~/.codex/config.toml)",
+    connectCodexCommand: "\u05E4\u05E7\u05D5\u05D3\u05EA Codex",
+    connectClaudeCodeCommand: "\u05E4\u05E7\u05D5\u05D3\u05EA Claude Code",
+    connectCopy: "\u05D4\u05E2\u05EA\u05E7",
+    connectCopied: "\u05D4\u05D5\u05E2\u05EA\u05E7",
+    connectCopyFailed: "\u05D4\u05D4\u05E2\u05EA\u05E7\u05D4 \u05E0\u05DB\u05E9\u05DC\u05D4. \u05E1\u05DE\u05DF \u05D0\u05EA \u05D4\u05D8\u05E7\u05E1\u05D8 \u05D5\u05D4\u05E2\u05EA\u05E7 \u05D9\u05D3\u05E0\u05D9\u05EA.",
+    claudeCodeGlobal: "Claude Code (\u05D1\u05DB\u05DC \u05D4\u05EA\u05D9\u05E7\u05D9\u05D5\u05EA)",
+    claudeCodeConnected: "\u05DE\u05D7\u05D5\u05D1\u05E8 \u05D2\u05DC\u05D5\u05D1\u05DC\u05D9\u05EA",
+    claudeCodeNotRegistered: "\u05DC\u05D0 \u05E8\u05E9\u05D5\u05DD",
+    claudeCodeMissing: "Claude Code \u05DC\u05D0 \u05E0\u05DE\u05E6\u05D0",
+    claudeCodeStale: "\u05DE\u05E6\u05D1\u05D9\u05E2 \u05E2\u05DC \u05E2\u05D5\u05EA\u05E7 \u05D0\u05D7\u05E8 \u05E9\u05DC StudyTs",
+    claudeCodeConnect: "\u05D7\u05D1\u05E8 \u05DC-Claude Code",
+    claudeCodeDisconnect: "\u05E0\u05EA\u05E7",
+    claudeCodeWorking: "\u05DE\u05D1\u05E6\u05E2...",
+    claudeCodeRemoveConfirm: "\u05D4\u05E4\u05E2\u05D5\u05DC\u05D4 \u05EA\u05E8\u05D9\u05E5: claude mcp remove --scope user studyts",
+    claudeCodeRemoved: "\u05D4\u05D5\u05E1\u05E8 \u05DE-Claude Code.",
+    openMcpFolder: "\u05E4\u05EA\u05D7 \u05D0\u05EA \u05EA\u05D9\u05E7\u05D9\u05D9\u05EA \u05E9\u05E8\u05EA \u05D4-MCP",
+    copyStandardConfig: "\u05D4\u05E2\u05EA\u05E7 \u05D4\u05D2\u05D3\u05E8\u05D4 \u05E1\u05D8\u05E0\u05D3\u05E8\u05D8\u05D9\u05EA"
   },
   complexityClasses: {
     P: {
@@ -3442,6 +3651,13 @@ var UPDATE_TEXT = mergeLocales(updateEn, updateHe);
 var { patterns, presets, header, duality, pipeline, media, ...canvasText } = mergeLocales(canvasEn, canvasHe);
 var COMPLEXITY_CLASSES = mergeLocales(complexityClassesEn, complexityClassesHe);
 
+// src/core/visualBuilder/builderIds.ts
+function nextId(prefix, taken, from = 1) {
+  let number = from;
+  while (taken.includes(`${prefix}-${number}`)) number += 1;
+  return `${prefix}-${number}`;
+}
+
 // src/core/visualBuilder/shapeCatalog.ts
 var SHAPE_PRESETS = [
   { shape: "circle", label: "Circle", glyph: "\u25CB" },
@@ -3462,10 +3678,41 @@ function presetOfRef(ref) {
   return pack === "preset" ? SHAPE_PRESETS.find((preset) => preset.shape === shape)?.shape : void 0;
 }
 var DEFAULT_VIEW_WIDTH = DEFAULT_STAGE.w;
+var SIZE_FRACTION = {
+  circle: { w: 0.09, h: 0.09 },
+  ellipse: { w: 0.175, h: 0.11 },
+  box: { w: 0.175, h: 0.1 },
+  rounded: { w: 0.175, h: 0.1 },
+  diamond: { w: 0.1625, h: 0.125 },
+  triangle: { w: 0.15, h: 0.125 },
+  pointer: { w: 0.03, h: 0.12 },
+  line: { w: 0.2, h: 0 },
+  arrow: { w: 0.2, h: 0 },
+  text: { w: 0.175, h: 0.04 },
+  heading: { w: 0.4, h: 0.07 },
+  caption: { w: 0.2, h: 0.03 },
+  note: { w: 0.325, h: 0.1 }
+};
 function shapeStyle(color = DEFAULT_SHAPE_COLOR) {
   return { fill: color, fillOpacity: 0.25, stroke: color, color, strokeWidth: 3, filter: GLOW_OFF, transformBox: "fill-box", transformOrigin: "center" };
 }
 var lineStyle = (color) => ({ fill: "none", stroke: color, color, strokeWidth: 3, filter: GLOW_OFF });
+function labelBox(box) {
+  const w = Math.max(MIN_SIZE, box.w - 16);
+  const h = 28;
+  return { x: box.x + (box.w - w) / 2, y: box.y + (box.h - h) / 2, w, h };
+}
+function createLabel(parentId, box, text) {
+  const place = labelBox(box);
+  return {
+    id: `${parentId}-label`,
+    kind: "math",
+    attrs: { x: place.x, y: place.y, width: place.w, height: place.h },
+    content: text,
+    style: { color: "var(--text-primary)", "--label-size": "1rem" },
+    builder: { shape: "text", parent: parentId }
+  };
+}
 var center = (box) => ({ x: box.x + box.w / 2, y: box.y + box.h / 2 });
 var textFrame = (box) => ({ x: box.x, y: box.y, width: box.w, height: box.h });
 var rectFactory = (shape, extra) => (id, box) => ({
@@ -3512,6 +3759,14 @@ var MAIN_FACTORIES = {
   caption: textFactory("caption", "Caption", { "--label-size": "0.85rem", "--label-weight": 400 }),
   note: (id, box) => ({ id, kind: "bubble", attrs: textFrame(box), content: "**Note** \u2014 write here", style: { "--bubble-color": DEFAULT_SHAPE_COLOR }, builder: { shape: "note" } })
 };
+function createShapeElements(shape, id, at, viewWidth = DEFAULT_VIEW_WIDTH) {
+  if (shape === "pack") return [];
+  const w = Math.round(SIZE_FRACTION[shape].w * viewWidth);
+  const h = Math.round(SIZE_FRACTION[shape].h * viewWidth);
+  const box = { x: Math.round(at.x - w / 2), y: Math.round(at.y - h / 2), w, h };
+  const main = MAIN_FACTORIES[shape](id, box);
+  return [main];
+}
 
 // src/core/visualBuilder/diagramPacks/automataSeed.pack.json
 var automataSeed_pack_default = {
@@ -7197,6 +7452,13 @@ var uml_pack_default = {
 // src/core/visualBuilder/diagramPacks/stylePackFormat.ts
 var PACK_FORMAT_VERSION = 1;
 var PACK_COLORS = ["blue", "purple", "orange", "green", "pink"];
+var PACK_COLOR_TOKENS = {
+  blue: "var(--viz-blue)",
+  purple: "var(--viz-purple)",
+  orange: "var(--viz-orange)",
+  green: "var(--accent-green)",
+  pink: "var(--viz-pink)"
+};
 var PACK_LABEL_SLOTS = ["center", "below", "top", "left", "right", "none"];
 var PACK_SECOND_LABEL_SLOTS = ["below", "left"];
 var PACK_EFFECT_TONES = ["fill", "flow", "zig", "look"];
@@ -8060,8 +8322,140 @@ function packObjectByRef(ref) {
   const [packId = "", objectId = ""] = (ref ?? "").split("/");
   return packObject(packId, objectId);
 }
+var byText = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+function listPackObjects() {
+  return listPacks().flatMap((pack) => pack.objects.map((object) => ({ packId: pack.id, objectId: object.id, label: object.label.en, kind: object.kind, category: object.category ?? pack.category }))).sort((a, b) => byText(a.packId, b.packId) || byText(a.objectId, b.objectId)).map(({ packId, objectId, label, kind, category }) => ({ ref: `${packId}/${objectId}`, label, kind, category }));
+}
+
+// src/core/visualBuilder/elementPortPoint.ts
+var SIDE_DIRECTION = {
+  n: { x: 0, y: -1 },
+  e: { x: 1, y: 0 },
+  s: { x: 0, y: 1 },
+  w: { x: -1, y: 0 }
+};
+var MIN_FACING = 0.5;
+function elementPortPoint(el, side) {
+  const box = elementBox(el);
+  const anchors = el.builder?.pack ? packObjectByRef(el.builder.pack)?.anchors ?? [] : [];
+  const direction = SIDE_DIRECTION[side];
+  let chosen;
+  let bestFacing = MIN_FACING;
+  for (const anchor of anchors) {
+    const facing = anchor.nx * direction.x + anchor.ny * direction.y;
+    if (facing >= bestFacing) {
+      chosen = anchor;
+      bestFacing = facing;
+    }
+  }
+  return chosen ? { x: box.x + chosen.x * box.w, y: box.y + chosen.y * box.h } : sidePoint(box, side);
+}
 
 // src/core/visualBuilder/connectors.ts
+var CURVE_PULL = 70;
+var CURVE_PULL_SHARE = 0.5;
+var CURVE_PULL_FLOOR = 0.15;
+var NORMALS = { e: { x: 1, y: 0 }, w: { x: -1, y: 0 }, n: { x: 0, y: -1 }, s: { x: 0, y: 1 } };
+var LABEL_SIZE = { w: 56, h: 22 };
+var LABEL_GAP = 18;
+var LOOP_LABEL_SIZE = { w: 32, h: 22 };
+var LOOP_LABEL_GAP = 6;
+var LABEL_CHAR_WIDTH = 8;
+var LABEL_PAD = 14;
+function edgePoint(el, toward) {
+  const box = elementBox(el);
+  const center2 = boxCenter(box);
+  const dx = toward.x - center2.x;
+  const dy = toward.y - center2.y;
+  if (dx === 0 && dy === 0) return center2;
+  const rx = Math.max(box.w / 2, 1);
+  const ry = Math.max(box.h / 2, 1);
+  let scale;
+  if (el.kind === "circle" || el.kind === "ellipse") scale = 1 / Math.sqrt((dx / rx) ** 2 + (dy / ry) ** 2);
+  else if (el.builder?.shape === "diamond") scale = 1 / (Math.abs(dx) / rx + Math.abs(dy) / ry);
+  else scale = 1 / Math.max(Math.abs(dx) / rx, Math.abs(dy) / ry);
+  return { x: center2.x + dx * scale, y: center2.y + dy * scale };
+}
+function plainPath(from, to, arrow, headStyle = "notched") {
+  const fromCenter = boxCenter(elementBox(from));
+  const toCenter = boxCenter(elementBox(to));
+  return linePath(edgePoint(from, toCenter), edgePoint(to, fromCenter), arrow, headStyle);
+}
+var unit = (a, b) => {
+  const length = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+  return { x: (b.x - a.x) / length, y: (b.y - a.y) / length };
+};
+var polyline = (points) => points.map((pt, i) => `${i === 0 ? "M" : "L"} ${round(pt.x)} ${round(pt.y)}`).join(" ");
+function facingSides(a, b) {
+  const dx = b.x + b.w / 2 - (a.x + a.w / 2);
+  const dy = b.y + b.h / 2 - (a.y + a.h / 2);
+  const gapX = Math.abs(dx) - (a.w + b.w) / 2;
+  const gapY = Math.abs(dy) - (a.h + b.h) / 2;
+  if (gapX >= gapY) return dx >= 0 ? ["e", "w"] : ["w", "e"];
+  return dy >= 0 ? ["s", "n"] : ["n", "s"];
+}
+var isHorizontal = (side) => side === "e" || side === "w";
+function elbowRoute({ p, q, fromSide, toSide }) {
+  const horizontal = isHorizontal(fromSide);
+  if (horizontal !== isHorizontal(toSide)) {
+    const corner = horizontal ? { x: q.x, y: p.y } : { x: p.x, y: q.y };
+    return { d: polyline([p, corner, q]), direction: unit(corner, q) };
+  }
+  const mid = horizontal ? (p.x + q.x) / 2 : (p.y + q.y) / 2;
+  const bend1 = horizontal ? { x: mid, y: p.y } : { x: p.x, y: mid };
+  const bend2 = horizontal ? { x: mid, y: q.y } : { x: q.x, y: mid };
+  return { d: polyline([p, bend1, bend2, q]), direction: unit(bend2, q) };
+}
+function curveRoute({ p, q, fromSide, toSide, fromNormal, toNormal }) {
+  const distance = Math.hypot(q.x - p.x, q.y - p.y);
+  const span = fromNormal ? distance : isHorizontal(fromSide) ? Math.abs(q.x - p.x) : Math.abs(q.y - p.y);
+  const pull = Math.min(CURVE_PULL, Math.max(span * CURVE_PULL_SHARE, distance * CURVE_PULL_FLOOR));
+  const [out, into] = [fromNormal ?? NORMALS[fromSide], toNormal ?? NORMALS[toSide]];
+  const c1 = { x: p.x + out.x * pull, y: p.y + out.y * pull };
+  const c2 = { x: q.x + into.x * pull, y: q.y + into.y * pull };
+  return { d: `M ${round(p.x)} ${round(p.y)} C ${round(c1.x)} ${round(c1.y)} ${round(c2.x)} ${round(c2.y)} ${round(q.x)} ${round(q.y)}`, direction: unit(c2, q) };
+}
+var straightRoute = ({ p, q }) => ({ d: polyline([p, q]), direction: unit(p, q) });
+var ROUTES = { straight: straightRoute, elbow: elbowRoute, curve: curveRoute };
+var DIAGONAL = Math.SQRT1_2;
+function arcEnds(from, to, side) {
+  const a = boxCenter(elementBox(from));
+  const b = boxCenter(elementBox(to));
+  const across = Math.sign(b.x - a.x);
+  if (across === 0 || side !== "n" && side !== "s") return null;
+  const up = side === "n" ? -1 : 1;
+  const [outward, inward] = [{ x: across * DIAGONAL, y: up * DIAGONAL }, { x: -across * DIAGONAL, y: up * DIAGONAL }];
+  const at = (el, centre, direction) => edgePoint(el, { x: centre.x + direction.x * 1e3, y: centre.y + direction.y * 1e3 });
+  return { p: at(from, a, outward), q: at(to, b, inward), fromNormal: outward, toNormal: inward };
+}
+function bentPath(from, to, link) {
+  const fromCenter = boxCenter(elementBox(from));
+  const toCenter = boxCenter(elementBox(to));
+  const p = edgePoint(from, toCenter);
+  const q = edgePoint(to, fromCenter);
+  const length = Math.hypot(q.x - p.x, q.y - p.y) || 1;
+  const normal = { x: -(q.y - p.y) / length, y: (q.x - p.x) / length };
+  const middle = { x: (p.x + q.x) / 2, y: (p.y + q.y) / 2 };
+  const bend = link.bend ?? 0;
+  const control = { x: middle.x + normal.x * 2 * bend, y: middle.y + normal.y * 2 * bend };
+  const c1 = { x: p.x + 2 / 3 * (control.x - p.x), y: p.y + 2 / 3 * (control.y - p.y) };
+  const c2 = { x: q.x + 2 / 3 * (control.x - q.x), y: q.y + 2 / 3 * (control.y - q.y) };
+  const body = `M ${round(p.x)} ${round(p.y)} C ${round(c1.x)} ${round(c1.y)} ${round(c2.x)} ${round(c2.y)} ${round(q.x)} ${round(q.y)}`;
+  return link.arrow ? `${body} ${headPath(q, unit(c2, q), link.head ?? "notched")}` : body;
+}
+function routedPath(from, to, link) {
+  if (link.bend) return bentPath(from, to, link);
+  const a = elementBox(from);
+  const b = elementBox(to);
+  const [fromFacing, toFacing] = facingSides(a, b);
+  const fromSide = link.fromPort ?? fromFacing;
+  const toSide = link.toPort ?? toFacing;
+  const arc = link.route === "curve" && fromSide === toSide ? arcEnds(from, to, fromSide) : null;
+  const ends = { fromSide, toSide, p: elementPortPoint(from, fromSide), q: elementPortPoint(to, toSide), ...arc };
+  const routed = ROUTES[link.route ?? "straight"](ends);
+  return link.arrow ? `${routed.d} ${headPath(ends.q, routed.direction, link.head ?? "notched")}` : routed.d;
+}
+var isPlain = (link) => link.route === void 0 && link.fromPort === void 0 && link.toPort === void 0 && !link.bend;
 var LOOP_SHAPE = {
   halfAngle: 0.6,
   reach: 3.2,
@@ -8070,12 +8464,235 @@ var LOOP_SHAPE = {
 var LOOP_HALF_ANGLE = LOOP_SHAPE.halfAngle;
 var LOOP_REACH = LOOP_SHAPE.reach;
 var LOOP_BULGE = LOOP_SHAPE.bulge;
+var LOOP_HEAD_CLEARANCE = 3;
+var LOOP_NEIGHBOUR_RANGE = 1.6;
 var LOOP_CANDIDATES = [-90, 180, 0, 90, -135, -45, 135, 45].map((deg) => deg * Math.PI / 180);
 var SIDE_ANGLE = { e: 0, s: Math.PI / 2, w: Math.PI, n: -Math.PI / 2 };
+var angleGap = (a, b) => {
+  const raw = Math.abs(a - b) % (2 * Math.PI);
+  return raw > Math.PI ? 2 * Math.PI - raw : raw;
+};
+var isLoopOn = (el, shape) => {
+  const link = el.builder?.link;
+  return link !== void 0 && link.from === link.to && link.from === shape.id;
+};
+function loopSide(el, shape) {
+  const centre = boxCenter(elementBox(shape));
+  const [, x, y] = String(el.attrs.d ?? "").split(" ");
+  return Math.atan2(Number(y) - centre.y, Number(x) - centre.x) + LOOP_HALF_ANGLE;
+}
+function freeLoopAngle(elements, shape) {
+  const centre = boxCenter(elementBox(shape));
+  const taken = elements.filter((el) => isLoopOn(el, shape)).map((el) => loopSide(el, shape));
+  elements.forEach((el) => {
+    const link = el.builder?.link;
+    if (!link || link.from === link.to || link.from !== shape.id && link.to !== shape.id) return;
+    const otherId = link.from === shape.id ? link.to : link.from;
+    const port = link.from === shape.id ? link.fromPort : link.toPort;
+    const other = elements.find((candidate) => candidate.id === otherId);
+    if (port) taken.push(SIDE_ANGLE[port]);
+    if (other) {
+      const target = boxCenter(elementBox(other));
+      const toward = Math.atan2(target.y - centre.y, target.x - centre.x);
+      taken.push(toward);
+      if (port) taken.push(Math.atan2(Math.sin(SIDE_ANGLE[port]) + Math.sin(toward), Math.cos(SIDE_ANGLE[port]) + Math.cos(toward)));
+    }
+  });
+  const near = Math.max(elementBox(shape).w, elementBox(shape).h) * LOOP_NEIGHBOUR_RANGE;
+  elements.forEach((el) => {
+    if (el.id === shape.id || el.builder?.link || el.builder?.parent || el.builder?.say) return;
+    const target = boxCenter(elementBox(el));
+    if (Math.hypot(target.x - centre.x, target.y - centre.y) <= near) taken.push(Math.atan2(target.y - centre.y, target.x - centre.x));
+  });
+  if (taken.length === 0) return LOOP_CANDIDATES[0];
+  const score = (angle) => Math.min(...taken.map((used) => angleGap(angle, used)));
+  return LOOP_CANDIDATES.reduce((best, angle) => score(angle) > score(best) + 1e-6 ? angle : best, LOOP_CANDIDATES[0]);
+}
+function loopPath(el, arrow, angle, headStyle = "notched") {
+  const box = elementBox(el);
+  const centre = boxCenter(box);
+  const reach = Math.max(box.w, box.h) / 2 * LOOP_REACH;
+  const around = (theta, distance) => ({ x: centre.x + Math.cos(theta) * distance, y: centre.y + Math.sin(theta) * distance });
+  const p = edgePoint(el, around(angle - LOOP_HALF_ANGLE, 1e3));
+  const rim = edgePoint(el, around(angle + LOOP_HALF_ANGLE, 1e3));
+  const outward = unit(centre, rim);
+  const q = arrow ? { x: rim.x + outward.x * LOOP_HEAD_CLEARANCE, y: rim.y + outward.y * LOOP_HEAD_CLEARANCE } : rim;
+  const c1 = around(angle - LOOP_HALF_ANGLE * LOOP_BULGE, reach);
+  const c2 = around(angle + LOOP_HALF_ANGLE * LOOP_BULGE, reach);
+  const body = `M ${round(p.x)} ${round(p.y)} C ${round(c1.x)} ${round(c1.y)} ${round(c2.x)} ${round(c2.y)} ${round(q.x)} ${round(q.y)}`;
+  return arrow ? `${body} ${headPath(q, unit(c2, q), headStyle)}` : body;
+}
+function loopAngle(shape, context) {
+  const kept = context.current ? loopSide(context.current, shape) : NaN;
+  return Number.isFinite(kept) ? kept : freeLoopAngle(context.elements, shape);
+}
+function segmentTouchesBox(p, q, box) {
+  const dx = q.x - p.x;
+  const dy = q.y - p.y;
+  const clips = [[-dx, p.x - box.x], [dx, box.x + box.w - p.x], [-dy, p.y - box.y], [dy, box.y + box.h - p.y]];
+  let enter = 0;
+  let leave = 1;
+  for (const [den, num4] of clips) {
+    if (den === 0) {
+      if (num4 < 0) return false;
+      continue;
+    }
+    const t = num4 / den;
+    if (den < 0) {
+      if (t > leave) return false;
+      enter = Math.max(enter, t);
+    } else {
+      if (t < enter) return false;
+      leave = Math.min(leave, t);
+    }
+  }
+  return true;
+}
+var isObstacle = (el, from, to) => el.id !== from.id && el.id !== to.id && !el.builder?.link && !el.builder?.parent && !el.builder?.say;
+var OBSTACLE_CLEARANCE = 30;
+function clearingBend(from, to, elements) {
+  const p = edgePoint(from, boxCenter(elementBox(to)));
+  const q = edgePoint(to, boxCenter(elementBox(from)));
+  const blocker = elements.find((el) => isObstacle(el, from, to) && segmentTouchesBox(p, q, elementBox(el)));
+  if (!blocker) return 0;
+  const box = elementBox(blocker);
+  return Math.max(box.w, box.h) / 2 + OBSTACLE_CLEARANCE;
+}
+function connectorPath(from, to, link, context) {
+  const headStyle = link.head ?? "notched";
+  if (from.id === to.id) return loopPath(from, link.arrow, loopAngle(from, context), headStyle);
+  if (!isPlain(link)) return routedPath(from, to, link);
+  const bend = clearingBend(from, to, context.elements);
+  return bend ? bentPath(from, to, { ...link, bend }) : plainPath(from, to, link.arrow, headStyle);
+}
+var isLink = (el) => el?.builder?.link !== void 0;
+function canConnect(spec, from, to) {
+  if (!from || !to || isLink(from) || isLink(to)) return false;
+  if (from.id === to.id) return true;
+  return !spec.elements.some((el) => el.builder?.link?.from === from.id && el.builder.link.to === to.id);
+}
+function linkData(fromId, toId, arrow, placement) {
+  const { route, fromPort, toPort } = placement;
+  return { from: fromId, to: toId, arrow, ...route && { route }, ...fromPort && { fromPort }, ...toPort && { toPort } };
+}
+function connectShapes(spec, fromId, toId, arrow = true, placement = {}) {
+  const from = spec.elements.find((el) => el.id === fromId);
+  const to = spec.elements.find((el) => el.id === toId);
+  if (!from || !to || !canConnect(spec, from, to)) return null;
+  const id = nextId("link", spec.elements.map((el) => el.id));
+  const data = linkData(fromId, toId, arrow, placement);
+  const link = {
+    id,
+    kind: "path",
+    attrs: { d: connectorPath(from, to, data, { elements: spec.elements }) },
+    style: { fill: "none", stroke: DEFAULT_SHAPE_COLOR, color: DEFAULT_SHAPE_COLOR, strokeWidth: 3, filter: GLOW_OFF },
+    builder: { shape: arrow ? "arrow" : "line", link: data }
+  };
+  return { spec: { ...spec, elements: [link, ...spec.elements] }, id };
+}
+var labelSize = (base, text) => ({ w: Math.max(base.w, Math.ceil(text.length * LABEL_CHAR_WIDTH + LABEL_PAD)), h: base.h });
+function labelPlace(el, shape, text = "") {
+  const [shaft] = flattenPath(String(el.attrs.d ?? ""));
+  const mid = pointAtFraction(shaft, 0.5);
+  const ahead = pointAtFraction(shaft, 0.52);
+  const behind = pointAtFraction(shaft, 0.48);
+  const length = Math.hypot(ahead.x - behind.x, ahead.y - behind.y) || 1;
+  const side = ahead.x - behind.x >= 0 ? 1 : -1;
+  const along = { x: (ahead.y - behind.y) / length * side, y: (behind.x - ahead.x) / length * side };
+  const normal = shape ? outwardOf(mid, shape) : along;
+  const size = labelSize(shape ? LOOP_LABEL_SIZE : LABEL_SIZE, text);
+  const reach = (shape ? LOOP_LABEL_GAP : LABEL_GAP) + (Math.abs(normal.x) * size.w + Math.abs(normal.y) * size.h) / 2;
+  return { x: mid.x + normal.x * reach - size.w / 2, y: mid.y + normal.y * reach - size.h / 2, ...size };
+}
+function outwardOf(point, shape) {
+  const centre = boxCenter(elementBox(shape));
+  const length = Math.hypot(point.x - centre.x, point.y - centre.y) || 1;
+  return { x: (point.x - centre.x) / length, y: (point.y - centre.y) / length };
+}
+function endLabelPlace(el, end) {
+  const [shaft] = flattenPath(String(el.attrs.d ?? ""));
+  const atStart = end === "start";
+  return endLabelBox(pointAtFraction(shaft, atStart ? 0 : 1), pointAtFraction(shaft, atStart ? 0.15 : 0.85), LABEL_SIZE);
+}
+function endOfLabel(label, owner) {
+  if (label.id === `${owner.id}-label-start`) return "start";
+  return label.id === `${owner.id}-label-end` ? "end" : null;
+}
+function placeLabels(elements) {
+  const links = new Map(elements.filter((el) => el.builder?.link).map((el) => [el.id, el]));
+  const loopShape = (owner) => {
+    const link = owner.builder?.link;
+    return link && link.from === link.to ? elements.find((candidate) => candidate.id === link.from) : void 0;
+  };
+  return elements.map((el) => {
+    const owner = links.get(el.builder?.parent ?? "");
+    if (!owner) return el;
+    const end = endOfLabel(el, owner);
+    const box = end ? endLabelPlace(owner, end) : labelPlace(owner, loopShape(owner), el.content);
+    const loop = loopShape(owner) !== void 0 && !end;
+    return { ...el, attrs: { ...el.attrs, x: round(box.x), y: round(box.y), ...loop ? { width: box.w, height: box.h } : {} } };
+  });
+}
+function rerouteLinks(spec) {
+  const byId = new Map(spec.elements.map((el) => [el.id, el]));
+  const elements = spec.elements.flatMap((el) => {
+    const link = el.builder?.link;
+    if (!link) return [el];
+    const from = byId.get(link.from);
+    const to = byId.get(link.to);
+    if (!from || !to) return [];
+    const others = spec.elements.filter((other) => other.id !== el.id);
+    return [{ ...el, attrs: { ...el.attrs, d: connectorPath(from, to, link, { elements: others, current: el }) } }];
+  });
+  return { ...spec, elements: placeLabels(elements) };
+}
 
 // src/core/visualBuilder/diagramPacks/packLabelSlots.ts
+var LABEL_HEIGHT = 28;
+var LABEL_GAP2 = 6;
+var CAPTION_MIN_WIDTH = 80;
+var slotId = (parentId, index) => index === 0 ? `${parentId}-label` : `${parentId}-label-${index + 1}`;
+function labelHostBox(box, slot, lines = 1) {
+  const strip = LABEL_HEIGHT * lines;
+  const wide = Math.max(box.w, CAPTION_MIN_WIDTH);
+  const caption = { x: box.x + box.w / 2 - wide / 2, w: wide };
+  const hosts = {
+    below: { ...box, ...caption, y: box.y + box.h + LABEL_GAP2, h: strip },
+    top: { ...box, ...caption, y: box.y - strip - LABEL_GAP2, h: strip },
+    left: { ...box, x: box.x - box.w },
+    right: { ...box, x: box.x + box.w }
+  };
+  return hosts[slot ?? ""] ?? box;
+}
+var isPlainLabel = (object) => (object.lines ?? 1) === 1 && object.labelPrefix === void 0;
+function createLabelSlots(object, parentId, box) {
+  if (isPlainLabel(object) || object.labelAt === "none") return [];
+  const lines = object.lines ?? 1;
+  const host = labelHostBox(box, object.labelAt, lines);
+  const rowHeight2 = host.h / lines;
+  return Array.from({ length: lines }, (_row, index) => ({
+    ...createLabel(parentId, { ...host, y: host.y + index * rowHeight2, h: rowHeight2 }, index === 0 ? object.labelPrefix ?? "" : ""),
+    id: slotId(parentId, index)
+  }));
+}
+function withPrefix(text, prefix) {
+  return prefix === void 0 || text.startsWith(prefix) ? text : `${prefix}${text}`;
+}
+function distributeLabelText(object, text, slotCount) {
+  const rows = text.split("\n");
+  const head = rows.slice(0, slotCount - 1);
+  const tail = rows.slice(slotCount - 1).join("\n");
+  return [...head, tail].map((row, index) => index === 0 ? withPrefix(row, object.labelPrefix) : row);
+}
 function slotsOf(spec, parentId) {
   return spec.elements.filter((el) => el.builder?.parent === parentId && el.kind === "math");
+}
+function writeSlotText(spec, object, parentId, text) {
+  const slots = slotsOf(spec, parentId);
+  if (slots.length === 0 || isPlainLabel(object)) return null;
+  const rows = distributeLabelText(object, text, slots.length);
+  const byId = new Map(slots.map((slot, index) => [slot.id, rows[index] ?? ""]));
+  return { ...spec, elements: spec.elements.map((el) => byId.has(el.id) ? { ...el, content: byId.get(el.id) } : el) };
 }
 function cutLabelLineProblems(spec, objectOf) {
   return spec.elements.flatMap((el) => {
@@ -8085,6 +8702,288 @@ function cutLabelLineProblems(spec, objectOf) {
     const rows = slotsOf(spec, el.id).flatMap((slot) => (slot.content ?? "").split("\n"));
     return rows.length > object.lines ? [`element "${el.id}": ${rows.length} label lines but "${ref}" has ${object.lines} slots; the extra lines are cut`] : [];
   });
+}
+
+// src/core/visualBuilder/diagramPacks/packPlacement.ts
+function packFrame(object, box) {
+  if (!object.view) return { box, scale: 1 };
+  const scale = Math.min(box.w / object.view.w, box.h / object.view.h);
+  const w = object.view.w * scale;
+  const h = object.view.h * scale;
+  return { box: { x: box.x + (box.w - w) / 2, y: box.y + (box.h - h) / 2, w, h }, scale };
+}
+
+// src/core/visualBuilder/diagramPacks/packDrawing.ts
+function boxDrawing(box) {
+  return { size: { w: box.w, h: box.h }, scale: 1, centre: { x: box.x + box.w / 2, y: box.y + box.h / 2 }, strokeScale: 1 };
+}
+function packDrawing(object, box) {
+  const frame = packFrame(object, box);
+  if (!object.view) return boxDrawing(box);
+  const centre = { x: frame.box.x + frame.box.w / 2, y: frame.box.y + frame.box.h / 2 };
+  return { size: object.view, scale: frame.scale, centre, strokeScale: object.strokeScaling === "fixed" ? 1 : frame.scale };
+}
+var INNER_RING_GAP = 3;
+var LINE_WIDTH = 3;
+var NUMBER = /-?\d*\.?\d+(?:e-?\d+)?/gi;
+var lineStyle2 = (color) => ({ fill: "none", stroke: color, color, strokeWidth: LINE_WIDTH });
+function sizeTokens(size) {
+  const hw = size.w / 2;
+  const hh = size.h / 2;
+  return { w: size.w, h: size.h, hw, hh, y3a: -hh + size.h / 3, y3b: -hh + 2 * size.h / 3, x4b: -hw + 3 * size.w / 4, inner: Math.max(1, hw - INNER_RING_GAP) };
+}
+function resolveAttrs(node, tokens) {
+  const fill2 = (value) => value.replace(/\{(\w+)\}/g, (_match, token) => String(round(tokens[token] ?? 0)));
+  const resolved = node.attrs.map(([name, value]) => [name, fill2(value).replace(/(?<![\w-])--(?=[\d.])/g, "")]);
+  return new Map(resolved);
+}
+var num2 = (attrs, name) => Number(attrs.get(name) ?? "0") || 0;
+var PATH_ARITY = {
+  M: ["x", "y"],
+  L: ["x", "y"],
+  T: ["x", "y"],
+  C: ["x", "y", "x", "y", "x", "y"],
+  S: ["x", "y", "x", "y"],
+  Q: ["x", "y", "x", "y"],
+  Z: [],
+  H: ["x"],
+  V: ["y"],
+  A: ["len", "len", "keep", "keep", "keep", "x", "y"]
+};
+function mapValue(value, axis, relative, drawing) {
+  if (axis === "keep") return value;
+  const scaled2 = value * drawing.scale;
+  if (axis === "len" || relative) return scaled2;
+  return scaled2 + (axis === "x" ? drawing.centre.x : drawing.centre.y);
+}
+function transformPath(d, drawing) {
+  return d.replace(/([A-Za-z])([^A-Za-z]*)/g, (_match, command, args) => {
+    const upper = command.toUpperCase();
+    const axes = PATH_ARITY[upper];
+    if (!axes || axes.length === 0) return command;
+    const relative = command !== upper;
+    const values = args.match(NUMBER) ?? [];
+    const mapped = values.map((value, index) => String(round(mapValue(Number(value), axes[index % axes.length], relative, drawing))));
+    return `${command} ${mapped.join(" ")} `;
+  }).trim();
+}
+function pointsPath(points, drawing, close) {
+  const values = (points.match(/-?\d*\.?\d+/g) ?? []).map(Number);
+  const pairs2 = [];
+  for (let index = 0; index + 1 < values.length; index += 2) {
+    pairs2.push(`${round(mapValue(values[index], "x", false, drawing))} ${round(mapValue(values[index + 1], "y", false, drawing))}`);
+  }
+  return `M ${pairs2.join(" L ")}${close ? " Z" : ""}`;
+}
+function lineElement(attrs, drawing) {
+  const from = `${round(mapValue(num2(attrs, "x1"), "x", false, drawing))} ${round(mapValue(num2(attrs, "y1"), "y", false, drawing))}`;
+  const to = `${round(mapValue(num2(attrs, "x2"), "x", false, drawing))} ${round(mapValue(num2(attrs, "y2"), "y", false, drawing))}`;
+  return `M ${from} L ${to}`;
+}
+var atX = (value, drawing) => round(mapValue(value, "x", false, drawing));
+var atY = (value, drawing) => round(mapValue(value, "y", false, drawing));
+var scaled = (value, drawing) => value * drawing.scale;
+var DRAWERS = {
+  circle: (a, d) => ({ kind: "circle", attrs: { cx: atX(num2(a, "cx"), d), cy: atY(num2(a, "cy"), d), r: scaled(num2(a, "r"), d) } }),
+  ellipse: (a, d) => ({ kind: "ellipse", attrs: { cx: atX(num2(a, "cx"), d), cy: atY(num2(a, "cy"), d), rx: scaled(num2(a, "rx"), d), ry: scaled(num2(a, "ry"), d) } }),
+  rect: (a, d) => ({
+    kind: "rect",
+    attrs: {
+      x: atX(num2(a, "x"), d),
+      y: atY(num2(a, "y"), d),
+      width: scaled(num2(a, "width"), d),
+      height: scaled(num2(a, "height"), d),
+      ...a.has("rx") ? { rx: scaled(num2(a, "rx"), d) } : {}
+    }
+  }),
+  path: (a, d) => ({ kind: "path", attrs: { d: transformPath(a.get("d") ?? "", d) } }),
+  polygon: (a, d) => ({ kind: "path", attrs: { d: pointsPath(a.get("points") ?? "", d, true) } }),
+  polyline: (a, d) => ({ kind: "path", attrs: { d: pointsPath(a.get("points") ?? "", d, false) } }),
+  line: (a, d) => ({ kind: "path", attrs: { d: lineElement(a, d) } })
+};
+function isOpenStroke(node, drawn) {
+  if (node.tag === "line" || node.tag === "polyline") return true;
+  return drawn.kind === "path" && node.tag === "path" && !/z/i.test(String(drawn.attrs.d));
+}
+function colourOf(value, fallback) {
+  return value === void 0 || value === "currentColor" ? fallback : value;
+}
+var DASH_PATTERNS = { dashed: "8 6", dotted: "2 6" };
+var paintToken = (paint) => paint === "none" ? "none" : PACK_COLOR_TOKENS[paint];
+function applyLook(style, look) {
+  if (look.fill !== void 0) style.fill = paintToken(look.fill);
+  if (look.stroke !== void 0) style.stroke = paintToken(look.stroke);
+  if (look.strokeWidth !== void 0) style.strokeWidth = look.strokeWidth;
+  if (look.dash === "none") delete style.strokeDasharray;
+  else if (look.dash !== void 0) style.strokeDasharray = DASH_PATTERNS[look.dash];
+}
+function applyAttributes(style, attrs, colorToken) {
+  const fill2 = attrs.get("fill");
+  const stroke = attrs.get("stroke");
+  const dash = attrs.get("stroke-dasharray");
+  if (fill2 !== void 0) style.fill = colourOf(fill2, colorToken);
+  if (stroke !== void 0) style.stroke = colourOf(stroke, colorToken);
+  if (attrs.has("stroke-width")) style.strokeWidth = num2(attrs, "stroke-width");
+  if (dash !== void 0) style.strokeDasharray = dash;
+}
+function fitStrokeWidth(style, paint) {
+  if (paint.strokeWidth !== void 0) style.strokeWidth = paint.strokeWidth;
+  else if (typeof style.strokeWidth === "number") style.strokeWidth = style.strokeWidth * paint.strokeScale;
+}
+function styleFor(node, drawn, attrs, paint) {
+  const { colorToken } = paint;
+  const role = attrs.get("data-role");
+  const bare = role === "line" || role === void 0 && isOpenStroke(node, drawn);
+  const style = bare ? lineStyle2(colorToken) : shapeStyle(colorToken);
+  if (role === "solid") style.fillOpacity = 1;
+  if (paint.look) applyLook(style, paint.look);
+  applyAttributes(style, attrs, colorToken);
+  fitStrokeWidth(style, paint);
+  return style;
+}
+function primitives(nodes) {
+  return nodes.flatMap((node) => node.tag === "g" ? primitives(node.children) : [node]);
+}
+function svgToElements(nodes, drawing, colorToken, look) {
+  const tokens = sizeTokens(drawing.size);
+  return primitives(nodes).flatMap((node) => {
+    const draw2 = DRAWERS[node.tag];
+    if (!draw2) return [];
+    const attrs = resolveAttrs(node, tokens);
+    const drawn = draw2(attrs, drawing);
+    const element = { id: "", ...drawn, style: styleFor(node, drawn, attrs, { colorToken, look, strokeScale: drawing.strokeScale, strokeWidth: drawing.strokeWidth }) };
+    return [drawn.kind === "path" ? { ...element, builder: { box: pathBounds(String(drawn.attrs.d)) } } : element];
+  });
+}
+
+// src/core/visualBuilder/diagramPacks/packObjectElements.ts
+var presetBox = (object, at, viewWidth) => {
+  const w = Math.round(object.size.w * viewWidth);
+  const h = Math.round(object.size.h * viewWidth);
+  return { x: Math.round(at.x - w / 2), y: Math.round(at.y - h / 2), w, h };
+};
+function createPackElements(object, id, at, viewWidth) {
+  if (object.svg === void 0) return object.preset ? createShapeElements(object.preset, id, at, viewWidth) : [];
+  const parsed = parseSvgTemplate(object.svg);
+  if (!parsed.ok) return [];
+  const box = presetBox(object, at, viewWidth);
+  const color = object.color ? PACK_COLOR_TOKENS[object.color] : DEFAULT_SHAPE_COLOR;
+  const [main, ...decoration] = svgToElements(parsed.nodes, packDrawing(object, box), color, object.defaultStyle);
+  if (!main) return [];
+  const withShape = { ...main, id, builder: { ...main.builder, shape: "pack" } };
+  const parts = decoration.map((el, index) => ({ ...el, id: `${id}-part-${index + 1}`, builder: { ...el.builder, parent: id } }));
+  return [withShape, ...parts, ...createLabelSlots(object, id, packFrame(object, box).box)];
+}
+function createStampedPackElements(object, ref, id, at, viewWidth) {
+  const elements = createPackElements(object, id, at, viewWidth);
+  if (object.preset) return elements;
+  return elements.map((el, index) => index === 0 ? { ...el, builder: { ...el.builder, pack: ref } } : el);
+}
+function elementLabelHostBox(element) {
+  const slot = element.builder?.pack ? packObjectByRef(element.builder.pack)?.labelAt : void 0;
+  return labelHostBox(elementBox(element), slot);
+}
+
+// src/core/visualBuilder/builderEdits.ts
+var childrenOf = (spec, id) => spec.elements.filter((el) => el.builder?.parent === id);
+var sizeOf = (spec) => parseViewBox(spec.viewBox);
+function unionBox(boxes) {
+  const x = Math.min(...boxes.map((box) => box.x));
+  const y = Math.min(...boxes.map((box) => box.y));
+  return { x, y, w: Math.max(...boxes.map((box) => box.x + box.w)) - x, h: Math.max(...boxes.map((box) => box.y + box.h)) - y };
+}
+function keepInside(spec, elements) {
+  const owners = elements.filter((el) => !el.builder?.link && !el.builder?.parent);
+  if (owners.length === 0) return elements;
+  const box = unionBox(owners.map(elementBox));
+  const inside = clampBox(box, sizeOf(spec));
+  const dx = inside.x - box.x;
+  const dy = inside.y - box.y;
+  if (dx === 0 && dy === 0) return elements;
+  return elements.map((el) => el.builder?.link ? el : moveElement(el, dx, dy));
+}
+function moveElements(spec, ids, dx, dy) {
+  const moving = new Set(ids.flatMap((id) => [id, ...childrenOf(spec, id).map((child) => child.id)]));
+  const moved = spec.elements.filter((el) => moving.has(el.id)).map((el) => moveElement(el, dx, dy));
+  const placed = new Map(keepInside(spec, moved).map((el) => [el.id, el]));
+  return rerouteLinks({ ...spec, elements: spec.elements.map((el) => placed.get(el.id) ?? el) });
+}
+function setElementStyle(spec, id, patch) {
+  const elements = spec.elements.map((el) => {
+    if (el.id !== id) return el;
+    const style = { ...el.style };
+    for (const [key, value] of Object.entries(patch)) {
+      if (value === void 0) delete style[key];
+      else style[key] = value;
+    }
+    if (typeof patch.stroke === "string" && patch.stroke !== "none") style.color = patch.stroke;
+    return { ...el, style };
+  });
+  return { ...spec, elements };
+}
+function setElementText(spec, id, text) {
+  const el = spec.elements.find((candidate) => candidate.id === id);
+  if (!el) return spec;
+  if (el.kind === "math" || el.kind === "bubble" || el.kind === "text") {
+    return { ...spec, elements: spec.elements.map((candidate) => candidate.id === id ? { ...candidate, content: text } : candidate) };
+  }
+  const object = packObjectByRef(el.builder?.pack);
+  const slotted = object ? writeSlotText(spec, object, id, text) : null;
+  if (slotted) return slotted;
+  const label = childrenOf(spec, id).find((child) => child.kind === "math");
+  if (label) return { ...spec, elements: spec.elements.map((candidate) => candidate.id === label.id ? { ...candidate, content: text } : candidate) };
+  const index = spec.elements.indexOf(el);
+  const elements = [...spec.elements];
+  elements.splice(index + 1, 0, createLabel(id, elementLabelHostBox(el), text));
+  return { ...spec, elements };
+}
+
+// src/core/visualBuilder/lifecycle.ts
+var LIFE_ACTIONS = ["show", "draw", "hide"];
+function eventsOn(spec, id) {
+  return spec.steps.flatMap(
+    (step, index) => blocksOf(step).filter((block2) => block2.target === id && LIFE_ACTIONS.includes(block2.action)).map((block2) => ({ step: index, action: block2.action }))
+  );
+}
+function eventsOf(spec, id) {
+  const parent = spec.elements.find((el) => el.id === id)?.builder?.parent;
+  const all = [...parent ? eventsOn(spec, parent) : [], ...eventsOn(spec, id)];
+  return all.sort((a, b) => a.step - b.step);
+}
+function stateAt(events, stepIndex) {
+  if (events.length === 0) return "live";
+  const last = events.filter((event) => event.step <= stepIndex).pop();
+  if (!last) return events[0].action === "hide" ? "live" : "before";
+  return last.action === "hide" ? "gone" : "live";
+}
+function lifecycleAt(spec, stepIndex) {
+  return new Map(spec.elements.map((el) => [el.id, stateAt(eventsOf(spec, el.id), stepIndex)]));
+}
+
+// src/core/visualBuilder/scene.ts
+function sceneAt(spec, stepIndex) {
+  const states = lifecycleAt(spec, stepIndex);
+  const shifted = shiftToCentre(spec, latestMoveCentres(spec, stepIndex));
+  return shifted.elements.map((element) => ({ element, state: states.get(element.id) ?? "live" }));
+}
+function sceneSpecAt(spec, stepIndex) {
+  return { ...spec, elements: sceneAt(spec, stepIndex).map((entry) => entry.element) };
+}
+function latestMoveCentres(spec, stepIndex) {
+  const centres = /* @__PURE__ */ new Map();
+  for (const block2 of spec.steps.slice(0, stepIndex + 1).flatMap(blocksOf)) {
+    if (block2.action === "move" && block2.target && block2.to) centres.set(block2.target, block2.to);
+  }
+  return centres;
+}
+function shiftToCentre(spec, centres) {
+  return [...centres].reduce((scene, [id, to]) => shiftTowards(spec, scene, id, to), spec);
+}
+function shiftTowards(base, scene, id, to) {
+  const element = base.elements.find((candidate) => candidate.id === id);
+  if (!element) return scene;
+  const centre = boxCenter(elementBox(element));
+  return moveElements(scene, [id], Math.round(to.x - centre.x), Math.round(to.y - centre.y));
 }
 
 // src/core/visualBuilder/diagramPacks/packEffectSpecs.ts
@@ -8135,21 +9034,21 @@ function animeToTweens(anime, targets, at, duration) {
 
 // src/core/visualBuilder/blockTweens.ts
 var SPEED_MS = { fast: 250, normal: 500, slow: 900 };
-var durationOf = (block) => block.duration ?? SPEED_MS[block.speed ?? "normal"];
+var durationOf = (block2) => block2.duration ?? SPEED_MS[block2.speed ?? "normal"];
 function expandTargets(spec, id, includeChildren) {
   const children = includeChildren ? spec.elements.filter((el) => el.builder?.parent === id).map((el) => el.id) : [];
   return [id, ...children];
 }
-function tween(targets, params, block, at) {
+function tween(targets, params, block2, at) {
   return {
     targets: targets.length === 1 ? targets[0] : targets,
-    params: { ...params, duration: durationOf(block), ease: "outQuad" },
+    params: { ...params, duration: durationOf(block2), ease: "outQuad" },
     at,
     builder: { generated: true }
   };
 }
 var withChildren = (spec, element) => expandTargets(spec, element.id, true);
-var setParam = (name, value) => (spec, element, block, at) => [tween(withChildren(spec, element), { [name]: value }, block, at)];
+var setParam = (name, value) => (spec, element, block2, at) => [tween(withChildren(spec, element), { [name]: value }, block2, at)];
 var setOpacity = (opacity) => setParam("opacity", opacity);
 var FADED_OPACITY = 0.3;
 var OUTLINE_WIDTH = 4;
@@ -8162,83 +9061,83 @@ function tintProperties(element) {
   return element.kind === "path" ? ["stroke"] : ["stroke", "fill"];
 }
 var TEXT_SHAPES = ["text", "heading", "caption", "note"];
-var tint = (_spec, element, block, at) => {
-  if (!block.color) return [];
-  const params = Object.fromEntries(tintProperties(element).map((property) => [property, block.color]));
-  return [tween([element.id], params, { ...block, duration: 1 }, at)];
+var tint = (_spec, element, block2, at) => {
+  if (!block2.color) return [];
+  const params = Object.fromEntries(tintProperties(element).map((property) => [property, block2.color]));
+  return [tween([element.id], params, { ...block2, duration: 1 }, at)];
 };
-var soften = (_spec, element, block, at) => {
+var soften = (_spec, element, block2, at) => {
   const start = Number(element.style?.fillOpacity ?? 1);
   const target = start <= SOFT_FILL_OPACITY ? SOFT_FILL_RISE : SOFT_FILL_OPACITY;
-  return [tween([element.id], { fillOpacity: target }, block, at)];
+  return [tween([element.id], { fillOpacity: target }, block2, at)];
 };
-var emphasis = (opacity, filter) => (spec, element, block, at) => {
+var emphasis = (opacity, filter) => (spec, element, block2, at) => {
   const children = withChildren(spec, element).slice(1);
-  const own = tween([element.id], { opacity, filter }, block, at);
-  return children.length > 0 ? [own, tween(children, { opacity }, block, at)] : [own];
+  const own = tween([element.id], { opacity, filter }, block2, at);
+  return children.length > 0 ? [own, tween(children, { opacity }, block2, at)] : [own];
 };
-var draw = (spec, element, block, at) => {
+var draw = (spec, element, block2, at) => {
   const labelIds = element.builder?.link ? withChildren(spec, element).slice(1) : [];
-  const reveal = labelIds.length > 0 ? [tween(labelIds, { opacity: 1 }, block, at)] : [];
-  return [tween([element.id], { strokeDashoffset: 0 }, block, at), ...reveal];
+  const reveal = labelIds.length > 0 ? [tween(labelIds, { opacity: 1 }, block2, at)] : [];
+  return [tween([element.id], { strokeDashoffset: 0 }, block2, at), ...reveal];
 };
-var hide = (spec, element, block, at) => {
+var hide = (spec, element, block2, at) => {
   const overlays = element.builder?.link ? overlayIdsOfLink(spec, element.id) : [];
-  return [tween([...withChildren(spec, element), ...overlays], { opacity: 0 }, block, at)];
+  return [tween([...withChildren(spec, element), ...overlays], { opacity: 0 }, block2, at)];
 };
-var move = (spec, element, block, at) => {
-  if (!block.to) return [];
+var move = (spec, element, block2, at) => {
+  if (!block2.to) return [];
   const center2 = boxCenter(elementBox(element));
-  const params = { translateX: Math.round(block.to.x - center2.x), translateY: Math.round(block.to.y - center2.y) };
-  return [tween(withChildren(spec, element), params, block, at)];
+  const params = { translateX: Math.round(block2.to.x - center2.x), translateY: Math.round(block2.to.y - center2.y) };
+  return [tween(withChildren(spec, element), params, block2, at)];
 };
-var bounce = (spec, element, block, at) => {
-  const half = Math.round(durationOf(block) / 2);
+var bounce = (spec, element, block2, at) => {
+  const half = Math.round(durationOf(block2) / 2);
   const targets = withChildren(spec, element);
-  return [tween(targets, { translateY: -BOUNCE_HEIGHT }, { ...block, duration: half }, at), tween(targets, { translateY: 0 }, { ...block, duration: half }, at + half)];
+  return [tween(targets, { translateY: -BOUNCE_HEIGHT }, { ...block2, duration: half }, at), tween(targets, { translateY: 0 }, { ...block2, duration: half }, at + half)];
 };
-var typeIn = (_spec, element, block, at) => [tween([element.id], { typeText: 1 }, block, at)];
-var fill = (_spec, element, block, at) => [tween([element.id], { fillOpacity: 0.9 }, block, at)];
-function pulse(_spec, element, block, at) {
-  const half = Math.round(durationOf(block) / 2);
-  return [tween([element.id], { scale: 1.2 }, { ...block, duration: half }, at), tween([element.id], { scale: 1 }, { ...block, duration: half }, at + half)];
+var typeIn = (_spec, element, block2, at) => [tween([element.id], { typeText: 1 }, block2, at)];
+var fill = (_spec, element, block2, at) => [tween([element.id], { fillOpacity: 0.9 }, block2, at)];
+function pulse(_spec, element, block2, at) {
+  const half = Math.round(durationOf(block2) / 2);
+  return [tween([element.id], { scale: 1.2 }, { ...block2, duration: half }, at), tween([element.id], { scale: 1 }, { ...block2, duration: half }, at + half)];
 }
-var overlayEffect = (params) => (spec, element, block, at) => {
-  const overlay = overlayId(block.action, element.id);
-  return spec.elements.some((el) => el.id === overlay) ? [tween([overlay], params, block, at)] : [];
+var overlayEffect = (params) => (spec, element, block2, at) => {
+  const overlay = overlayId(block2.action, element.id);
+  return spec.elements.some((el) => el.id === overlay) ? [tween([overlay], params, block2, at)] : [];
 };
 var SWEEP_GLOSS = 0.55;
 var SWEEP_FADE_MS = 120;
-function sweep(spec, element, block, at) {
+function sweep(spec, element, block2, at) {
   const bar = spec.elements.find((el) => el.id === overlayId("sweep", element.id));
   if (!bar) return [];
   const id = bar.id;
   const distance = Math.round(elementBox(element).w - Number(bar.attrs.width));
-  const instant = { ...block, duration: 1 };
+  const instant = { ...block2, duration: 1 };
   return [
     tween([id], { opacity: SWEEP_GLOSS, translateX: 0 }, instant, at),
-    tween([id], { translateX: distance }, block, at + 1),
-    tween([id], { opacity: 0 }, { ...block, duration: SWEEP_FADE_MS }, at + durationOf(block))
+    tween([id], { translateX: distance }, block2, at + 1),
+    tween([id], { opacity: 0 }, { ...block2, duration: SWEEP_FADE_MS }, at + durationOf(block2))
   ];
 }
 var TRAVEL_STEPS = 10;
-function travel(spec, element, block, at) {
+function travel(spec, element, block2, at) {
   const tokenId = overlayId("travel", element.id);
   const token = spec.elements.find((el) => el.id === tokenId);
   const [shaft] = flattenPath(String(element.attrs.d ?? ""));
   if (!token || !shaft) return [];
-  const slice = Math.max(1, Math.round(durationOf(block) / TRAVEL_STEPS));
+  const slice = Math.max(1, Math.round(durationOf(block2) / TRAVEL_STEPS));
   const base = { x: Number(token.attrs.cx), y: Number(token.attrs.cy) };
-  const show = tween([tokenId], { opacity: 1 }, { ...block, duration: 1 }, at);
+  const show = tween([tokenId], { opacity: 1 }, { ...block2, duration: 1 }, at);
   const moves = pointsAlong(shaft, TRAVEL_STEPS).slice(1).map((stop, i) => ({
-    ...tween([tokenId], {}, block, at + i * slice),
+    ...tween([tokenId], {}, block2, at + i * slice),
     params: { translateX: Math.round(stop.x - base.x), translateY: Math.round(stop.y - base.y), duration: slice, ease: "linear" }
   }));
   return [show, ...moves];
 }
-var packEffectTween = (spec, element, block, at) => {
-  const anime = block.params ?? packEffectByRef(block.effect)?.anime;
-  return anime ? animeToTweens(anime, withChildren(spec, element), at, durationOf(block)) : [];
+var packEffectTween = (spec, element, block2, at) => {
+  const anime = block2.params ?? packEffectByRef(block2.effect)?.anime;
+  return anime ? animeToTweens(anime, withChildren(spec, element), at, durationOf(block2)) : [];
 };
 var MAKERS = {
   show: setOpacity(1),
@@ -8265,6 +9164,43 @@ var MAKERS = {
   typeIn,
   pack: packEffectTween
 };
+var attrOf = (el, name) => Number(el?.attrs[name] ?? 0);
+function linkFollowTweens(spec, stepIndex, element, block2, at) {
+  if (block2.action !== "move" || stepIndex < 1) return [];
+  const before = sceneSpecAt(spec, stepIndex - 1).elements;
+  const after = sceneSpecAt(spec, stepIndex).elements;
+  const links = after.filter((el) => el.builder?.link && (el.builder.link.from === element.id || el.builder.link.to === element.id));
+  return links.flatMap((link) => {
+    const previous = before.find((el) => el.id === link.id);
+    if (previous?.attrs.d === link.attrs.d) return [];
+    const flow = overlayId("flow", link.id);
+    const flowTween = spec.elements.some((el) => el.id === flow) ? [tween([flow], { d: String(link.attrs.d).split(" M ")[0] }, block2, at)] : [];
+    const labels = after.filter((el) => el.builder?.parent === link.id).flatMap((label) => {
+      const base = spec.elements.find((el) => el.id === label.id);
+      return [tween([label.id], { translateX: Math.round(attrOf(label, "x") - attrOf(base, "x")), translateY: Math.round(attrOf(label, "y") - attrOf(base, "y")) }, block2, at)];
+    });
+    return [tween([link.id], { d: String(link.attrs.d) }, block2, at), ...flowTween, ...labels];
+  });
+}
+function blockToTweens(spec, stepIndex, block2, at) {
+  const element = spec.elements.find((el) => el.id === block2.target);
+  const make = MAKERS[block2.action];
+  if (!element || !make) return [];
+  return [...make(spec, element, block2, at), ...linkFollowTweens(spec, stepIndex, element, block2, at)];
+}
+function schedule(spec, step) {
+  const together = step.builder?.together === true;
+  const stepIndex = spec.steps.indexOf(step);
+  let cursor = 0;
+  return blocksOf(step).map((block2) => {
+    const duration = durationOf(block2);
+    const at = block2.at ?? (together ? 0 : cursor);
+    const tweens = blockToTweens(spec, stepIndex, block2, at);
+    if (!together && tweens.length > 0) cursor = Math.max(cursor, at + Math.round(duration * 0.8));
+    return { timing: { at, duration }, tweens };
+  });
+}
+var blockTweens = (spec, step) => schedule(spec, step).flatMap((item) => item.tweens);
 
 // src/core/visualBuilder/effects.ts
 var CORE = "core";
@@ -8370,18 +9306,18 @@ function validateSteps(spec) {
   });
   return problems;
 }
-function effectFitProblem(stepId, block, elements) {
-  if (block.action === "pack") return packBlockProblems(stepId, block, elements);
-  return fitProblem(stepId, EFFECTS.find((candidate) => candidate.action === block.action), block, elements);
+function effectFitProblem(stepId, block2, elements) {
+  if (block2.action === "pack") return packBlockProblems(stepId, block2, elements);
+  return fitProblem(stepId, EFFECTS.find((candidate) => candidate.action === block2.action), block2, elements);
 }
-function packBlockProblems(stepId, block, elements) {
-  const effect = EFFECTS.find((candidate) => candidate.action === "pack" && candidate.id === block.effect);
-  if (!effect) return [`step "${stepId}": unknown pack effect "${block.effect ?? ""}"`];
-  const params = block.params ? validatePackAnime(block.params, "params").map((issue) => `step "${stepId}": pack effect ${issue.path} ${issue.message}`) : [];
-  return [...params, ...fitProblem(stepId, effect, block, elements)];
+function packBlockProblems(stepId, block2, elements) {
+  const effect = EFFECTS.find((candidate) => candidate.action === "pack" && candidate.id === block2.effect);
+  if (!effect) return [`step "${stepId}": unknown pack effect "${block2.effect ?? ""}"`];
+  const params = block2.params ? validatePackAnime(block2.params, "params").map((issue) => `step "${stepId}": pack effect ${issue.path} ${issue.message}`) : [];
+  return [...params, ...fitProblem(stepId, effect, block2, elements)];
 }
-function fitProblem(stepId, effect, block, elements) {
-  const element = block.target === void 0 ? void 0 : elements.get(block.target);
+function fitProblem(stepId, effect, block2, elements) {
+  const element = block2.target === void 0 ? void 0 : elements.get(block2.target);
   if (!effect || !element) return [];
   const kind = objectKindOf(element);
   if (effect.kinds.includes(kind)) return [];
@@ -8389,7 +9325,7 @@ function fitProblem(stepId, effect, block, elements) {
 }
 function validateEffectFit(spec) {
   const elements = new Map(spec.elements.map((element) => [element.id, element]));
-  return spec.steps.flatMap((step) => blocksOf(step).flatMap((block) => effectFitProblem(step.id, block, elements)));
+  return spec.steps.flatMap((step) => blocksOf(step).flatMap((block2) => effectFitProblem(step.id, block2, elements)));
 }
 function validateVisualSpec(spec) {
   return [...validateElements(spec), ...validateSteps(spec), ...speedProblems(spec), ...validateEffectFit(spec), ...cutLabelLineProblems(spec, packObjectByRef)];
@@ -8453,12 +9389,12 @@ function checkVisualSpec(value) {
 // src/core/validation/visualSpec/visualSpecLayout.ts
 var TEXT_KINDS = ["math", "bubble"];
 var SLOT_GROUP = /^(bubble|strip)-\d+$/;
-var num2 = (value) => Number(value ?? 0);
+var num3 = (value) => Number(value ?? 0);
 var viewBoxSize = (viewBox) => parseViewBox(viewBox);
-var frameOf = (a) => ({ x: num2(a.x), y: num2(a.y), w: num2(a.width), h: num2(a.height) });
+var frameOf = (a) => ({ x: num3(a.x), y: num3(a.y), w: num3(a.width), h: num3(a.height) });
 var BOX_READERS = {
-  circle: (a) => ({ x: num2(a.cx) - num2(a.r), y: num2(a.cy) - num2(a.r), w: num2(a.r) * 2, h: num2(a.r) * 2 }),
-  ellipse: (a) => ({ x: num2(a.cx) - num2(a.rx), y: num2(a.cy) - num2(a.ry), w: num2(a.rx) * 2, h: num2(a.ry) * 2 }),
+  circle: (a) => ({ x: num3(a.cx) - num3(a.r), y: num3(a.cy) - num3(a.r), w: num3(a.r) * 2, h: num3(a.r) * 2 }),
+  ellipse: (a) => ({ x: num3(a.cx) - num3(a.rx), y: num3(a.cy) - num3(a.ry), w: num3(a.rx) * 2, h: num3(a.ry) * 2 }),
   rect: frameOf,
   math: frameOf,
   bubble: frameOf
@@ -8571,7 +9507,7 @@ var PARAM_SETTERS = {
 function applyParams(state, params) {
   const next = { ...state, el: { ...state.el, attrs: { ...state.el.attrs } } };
   for (const [key, value] of Object.entries(params)) {
-    if (PARAM_SETTERS[key]) PARAM_SETTERS[key](next, num2(value));
+    if (PARAM_SETTERS[key]) PARAM_SETTERS[key](next, num3(value));
     else if (typeof value === "number" && key in next.el.attrs) next.el.attrs[key] = value;
   }
   return next;
@@ -8584,7 +9520,7 @@ function applyTween(states, tween2) {
   }
 }
 function startingStates(spec) {
-  return new Map(spec.elements.map((el) => [el.id, { el, opacity: num2(el.style?.opacity ?? 1), dx: 0, dy: 0 }]));
+  return new Map(spec.elements.map((el) => [el.id, { el, opacity: num3(el.style?.opacity ?? 1), dx: 0, dy: 0 }]));
 }
 function stepIssues2(states, viewBox) {
   const shown = [...states.values()].filter((placed) => placed.opacity > 0);
@@ -8608,12 +9544,354 @@ function checkVisualSpecForPublish(value) {
   return { spec: checked.spec, problems: checkVisualSpecLayout(checked.spec) };
 }
 
+// src/core/visualBuilder/sayBubbles.ts
+function sayTextOf(step) {
+  const says = blocksOf(step).filter((block2) => block2.action === "say" && block2.text && block2.text.trim() !== "");
+  return says.length > 0 ? says[says.length - 1].text ?? null : null;
+}
+var bubbleId = (index) => `say-${index}`;
+var generated = (targets, params, at) => ({
+  targets,
+  params,
+  ...at === void 0 ? {} : { at },
+  builder: { generated: true }
+});
+function bubbleElement(index, text, size) {
+  return {
+    id: bubbleId(index),
+    kind: "bubble",
+    attrs: { x: 40, y: size.h - 108, width: size.w - 80, height: 96 },
+    style: { opacity: index === 0 ? 1 : 0, "--bubble-color": "var(--accent)" },
+    content: text,
+    builder: { say: true }
+  };
+}
+function fadeTweens(index, visible, wanted) {
+  const tweens = [];
+  if (visible && visible !== wanted) tweens.push(generated(visible, { opacity: 0, duration: 250, ease: "outQuad" }));
+  if (wanted && wanted !== visible && index > 0) tweens.push(generated(wanted, { opacity: 1, duration: 450, ease: "outCubic" }, 250));
+  return tweens;
+}
+function rebuildSayBubbles(spec) {
+  const size = parseViewBox(spec.viewBox);
+  const texts = spec.steps.map(sayTextOf);
+  const wantedIds = texts.map((text, index) => text ? bubbleId(index) : null);
+  const bubbles = texts.flatMap((text, index) => text ? [bubbleElement(index, text, size)] : []);
+  const tweensByStep = wantedIds.map((wanted, index) => fadeTweens(index, wantedIds[index - 1] ?? null, wanted));
+  return { spec: { ...spec, elements: [...spec.elements.filter((el) => !el.builder?.say), ...bubbles] }, tweensByStep };
+}
+
+// src/core/visualBuilder/builderFinalize.ts
+function withoutKeys(record, keys) {
+  return Object.fromEntries(Object.entries(record ?? {}).filter(([key]) => !keys.includes(key)));
+}
+function withoutFlag(builder, flag) {
+  const copy = { ...builder };
+  delete copy[flag];
+  return copy;
+}
+var isAction = (block2) => Boolean(block2.target) && block2.action !== "say";
+var isArrow = (spec, id) => spec.elements.some((el) => el.id === id && el.builder?.link !== void 0);
+function firstActions(spec) {
+  const first = /* @__PURE__ */ new Map();
+  const blocks = spec.steps.flatMap((step) => blocksOf(step)).filter(isAction);
+  for (const block2 of blocks) {
+    const ids = expandTargets(spec, block2.target, block2.action !== "draw" || isArrow(spec, block2.target));
+    ids.filter((id) => !first.has(id)).forEach((id) => first.set(id, block2.action));
+  }
+  return first;
+}
+function stageHidden(el, first) {
+  if (first === "show" || first === "draw" && el.builder?.parent !== void 0) return { ...el, style: { ...el.style, opacity: 0 }, builder: { ...el.builder, autoHidden: true } };
+  if (!el.builder?.autoHidden) return el;
+  return { ...el, style: withoutKeys(el.style, ["opacity"]), builder: withoutFlag(el.builder, "autoHidden") };
+}
+function stageDrawn(el, first) {
+  if (first === "draw" && !el.builder?.parent) {
+    return {
+      ...el,
+      attrs: { ...el.attrs, pathLength: 1 },
+      style: { ...el.style, strokeDasharray: 1, strokeDashoffset: 1 },
+      builder: { ...el.builder, autoDrawn: true }
+    };
+  }
+  if (!el.builder?.autoDrawn) return el;
+  const style = withoutKeys(el.style, ["strokeDasharray", "strokeDashoffset"]);
+  return { ...el, attrs: withoutKeys(el.attrs, ["pathLength"]), style, builder: withoutFlag(el.builder, "autoDrawn") };
+}
+var stageElement = (el, first) => stageDrawn(stageHidden(el, first), first);
+function finalizeBuilderSpec(spec) {
+  const first = firstActions(spec);
+  const staged = { ...spec, elements: spec.elements.map((el) => el.builder?.say ? el : stageElement(el, first.get(el.id))) };
+  const { spec: withBubbles, tweensByStep } = rebuildSayBubbles(rebuildEffectOverlays(staged));
+  const validIds = new Set(withBubbles.elements.map((el) => el.id));
+  const steps = withBubbles.steps.map((step, index) => {
+    const blocks = step.builder?.blocks;
+    const cleanStep = blocks && blocks.some((b) => b.target && !validIds.has(b.target)) ? { ...step, builder: { ...step.builder, blocks: blocks.filter((b) => !b.target || validIds.has(b.target)) } } : step;
+    return {
+      ...cleanStep,
+      tweens: [...cleanStep.tweens.filter((tween2) => !tween2.builder?.generated), ...blockTweens(withBubbles, cleanStep), ...tweensByStep[index], ...effectOffTweens(withBubbles, index)]
+    };
+  });
+  return { ...withBubbles, steps };
+}
+
+// src/core/storyboard/actionRecipes.ts
+var block = (action, target, extra = {}) => ({ action, target, ...extra, speed: "normal" });
+var nodeRecipe = (action) => action.ids.map((id) => block(action.do, id));
+var drawRecipe = (action, linkIds) => action.links.flatMap((ref) => {
+  const id = linkIds.get(`${ref.from}->${ref.to}`);
+  return id ? [block("draw", id)] : [];
+});
+var moveRecipe = (action) => [block("move", action.id, { to: action.to })];
+function actionBlocks(action, linkIds) {
+  if (action.do === "draw") return drawRecipe(action, linkIds);
+  if (action.do === "move") return moveRecipe(action, linkIds);
+  return nodeRecipe(action, linkIds);
+}
+
+// src/core/storyboard/storyboardLayout.ts
+var MARGIN_X = 60;
+var MARGIN_TOP = 60;
+var BUBBLE_ZONE = 150;
+var areaOf2 = (size) => ({ x: MARGIN_X, y: MARGIN_TOP, w: size.w - MARGIN_X * 2, h: size.h - MARGIN_TOP - BUBBLE_ZONE });
+var spread = (index, count, start, length) => start + length * (index + 0.5) / count;
+var SLOTS = {
+  row: (index, count, area) => ({ x: spread(index, count, area.x, area.w), y: area.y + area.h / 2 }),
+  column: (index, count, area) => ({ x: area.x + area.w / 2, y: spread(index, count, area.y, area.h) }),
+  circle: (index, count, area) => {
+    const angle = index / count * Math.PI * 2 - Math.PI / 2;
+    const radius = Math.min(area.w, area.h) / 2 * 0.85;
+    return { x: area.x + area.w / 2 + radius * Math.cos(angle), y: area.y + area.h / 2 + radius * Math.sin(angle) };
+  },
+  grid: (index, count, area) => {
+    const columns = Math.ceil(Math.sqrt(count));
+    const rows = Math.ceil(count / columns);
+    return { x: spread(index % columns, columns, area.x, area.w), y: spread(Math.floor(index / columns), rows, area.y, area.h) };
+  }
+};
+var hasPosition = (node) => typeof node.x === "number" && typeof node.y === "number";
+function placeNodes(nodes, layout, size) {
+  const loose = nodes.filter((node) => !hasPosition(node));
+  const area = areaOf2(size);
+  const placed = /* @__PURE__ */ new Map();
+  for (const node of nodes) {
+    if (hasPosition(node)) {
+      placed.set(node.id, { x: node.x, y: node.y });
+      continue;
+    }
+    const slot = SLOTS[layout](loose.indexOf(node), loose.length, area);
+    placed.set(node.id, { x: Math.round(slot.x), y: Math.round(slot.y) });
+  }
+  return placed;
+}
+
+// src/core/storyboard/storyboard.ts
+var STORYBOARD_NODE_SHAPES = ["circle", "box", "ellipse", "label", "note"];
+var STORYBOARD_LAYOUTS = ["row", "column", "circle", "grid"];
+var STORYBOARD_SAY_LIMIT = 260;
+
+// src/core/storyboard/storyboardValidation.ts
+var ID_PATTERN2 = /^[A-Za-z][A-Za-z0-9_-]*$/;
+var NODE_ACTIONS = ["show", "hide", "highlight", "dim"];
+var isRecord3 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+var records = (value) => Array.isArray(value) ? value.filter(isRecord3) : [];
+var isNumber = (value) => typeof value === "number" && Number.isFinite(value);
+var isKnownShape = (shape) => STORYBOARD_NODE_SHAPES.includes(shape);
+function packProblem(node, id) {
+  if (node.pack === void 0 || packObjectByRef(String(node.pack)) !== void 0) return [];
+  const valid = listPackObjects().map((entry) => entry.ref).join(", ");
+  return [`node "${id}": unknown pack object "${String(node.pack)}"; valid refs: ${valid}`];
+}
+function nodeProblems(node, seen) {
+  const id = String(node.id ?? "");
+  const checks = [
+    [!ID_PATTERN2.test(id), `node id "${id}" must start with a letter and use letters, digits, - or _`],
+    [seen.has(id), `duplicate node id "${id}"`],
+    [node.shape !== void 0 && !isKnownShape(node.shape), `node "${id}": unknown shape "${String(node.shape)}"`],
+    [isNumber(node.x) !== isNumber(node.y), `node "${id}": give both x and y, or neither`]
+  ];
+  seen.add(id);
+  return [...checks.filter(([failed]) => failed).map(([, message]) => message), ...packProblem(node, id)];
+}
+function linkProblems(link, index, ids, joined) {
+  const from = String(link.from ?? "");
+  const to = String(link.to ?? "");
+  const label = `link ${index + 1}`;
+  const unknown = [from, to].filter((id) => !ids.has(id)).map((id) => `${label}: unknown node "${id}"`);
+  if (unknown.length > 0) return unknown;
+  if (from === to) return [`${label}: "${from}" cannot link to itself`];
+  if (joined.has(`${from}->${to}`)) return [`${label}: "${from}" to "${to}" is already linked`];
+  joined.set(`${from}->${to}`, link.dashed === true);
+  return [];
+}
+function nodeIdsProblems(action, known) {
+  const ids = Array.isArray(action.ids) ? action.ids.map(String) : [];
+  if (ids.length === 0) return ["ids must be a non-empty list"];
+  return ids.filter((id) => !known.ids.has(id)).map((id) => `unknown node "${id}"`);
+}
+function drawProblems(action, known) {
+  const refs = records(action.links);
+  if (refs.length === 0) return ["links must be a non-empty list of {from, to}"];
+  return refs.flatMap((ref) => {
+    const key = `${String(ref.from)}->${String(ref.to)}`;
+    if (!known.joined.has(key)) return [`no link from "${String(ref.from)}" to "${String(ref.to)}"`];
+    return known.joined.get(key) ? [`link "${String(ref.from)}" to "${String(ref.to)}" is dashed and cannot be drawn in`] : [];
+  });
+}
+function moveProblems(action, known) {
+  const problems = known.ids.has(String(action.id)) ? [] : [`unknown node "${String(action.id)}"`];
+  const to = action.to;
+  if (!isRecord3(to) || !isNumber(to.x) || !isNumber(to.y)) problems.push('"to" needs numeric x and y');
+  return problems;
+}
+var ACTION_CHECKS = {
+  ...Object.fromEntries(NODE_ACTIONS.map((name) => [name, nodeIdsProblems])),
+  draw: drawProblems,
+  move: moveProblems
+};
+function actionProblems(action, where, known) {
+  const name = String(action.do);
+  const check = ACTION_CHECKS[name];
+  if (!check) return [`${where}: unknown action "${name}"`];
+  return check(action, known).map((problem) => `${where} (${name}): ${problem}`);
+}
+function stepProblems(step, index, known) {
+  const label = `step ${index + 1}`;
+  const problems = [];
+  if (typeof step.say === "string" && step.say.length > STORYBOARD_SAY_LIMIT) problems.push(`${label}: say text is longer than ${STORYBOARD_SAY_LIMIT} characters`);
+  if (step.raw !== void 0 && !Array.isArray(step.raw)) problems.push(`${label}: raw must be a list of tweens`);
+  records(step.actions).forEach((action, actionIndex) => problems.push(...actionProblems(action, `${label}, action ${actionIndex + 1}`, known)));
+  return problems;
+}
+function structureProblems(raw) {
+  const problems = [];
+  if (records(raw.nodes).length === 0) problems.push("storyboard needs at least one node");
+  if (records(raw.steps).length === 0) problems.push("storyboard needs at least one step");
+  return problems;
+}
+function checkStoryboard(value) {
+  if (!isRecord3(value)) return { storyboard: null, problems: ["storyboard must be an object"] };
+  const seen = /* @__PURE__ */ new Set();
+  const problems = [...structureProblems(value), ...records(value.nodes).flatMap((node) => nodeProblems(node, seen))];
+  const known = { ids: seen, joined: /* @__PURE__ */ new Map() };
+  records(value.links).forEach((link, index) => problems.push(...linkProblems(link, index, known.ids, known.joined)));
+  records(value.steps).forEach((step, index) => problems.push(...stepProblems(step, index, known)));
+  return { storyboard: problems.length === 0 ? value : null, problems };
+}
+
+// src/core/storyboard/compileStoryboard.ts
+var DEFAULT_VIEWBOX = viewBoxOf(DEFAULT_STAGE);
+var DASHED = "8 6";
+var BUILDER_SHAPE = { circle: "circle", box: "box", ellipse: "ellipse", label: "text", note: "note" };
+var colorPatch = (shape, color) => {
+  if (shape === "note") return { "--bubble-color": color };
+  if (shape === "label") return { color };
+  return { fill: color, stroke: color };
+};
+function nodeElements(node, shape, at) {
+  const object = packObjectByRef(node.pack);
+  if (node.pack !== void 0 && object) return createStampedPackElements(object, node.pack, node.id, at, DEFAULT_VIEW_WIDTH);
+  return createShapeElements(BUILDER_SHAPE[shape], node.id, at);
+}
+function withNode(spec, node, at) {
+  const shape = node.shape ?? "circle";
+  const placed = { ...spec, elements: [...spec.elements, ...nodeElements(node, shape, at)] };
+  const texted = node.label === "" ? placed : setElementText(placed, node.id, node.label ?? node.id);
+  return node.color ? setElementStyle(texted, node.id, colorPatch(shape, node.color)) : texted;
+}
+function withLinks(spec, storyboard) {
+  const linkIds = /* @__PURE__ */ new Map();
+  const linked = (storyboard.links ?? []).reduce((current, link) => {
+    const joined = connectShapes(current, link.from, link.to, link.directed !== false);
+    if (!joined) return current;
+    linkIds.set(`${link.from}->${link.to}`, joined.id);
+    return link.dashed ? setElementStyle(joined.spec, joined.id, { strokeDasharray: DASHED }) : joined.spec;
+  }, spec);
+  return { spec: linked, linkIds };
+}
+function stepBlocks(step, linkIds) {
+  const blocks = (step.actions ?? []).flatMap((action) => actionBlocks(action, linkIds));
+  return step.say ? [...blocks, { action: "say", text: step.say }] : blocks;
+}
+function compiledStep(step, index, linkIds) {
+  const blocks = stepBlocks(step, linkIds);
+  return {
+    id: `step-${index + 1}`,
+    whatChanged: step.title ?? `Step ${index + 1}`,
+    why: step.why ?? "",
+    tweens: step.raw ?? [],
+    builder: step.together === false ? { blocks } : { blocks, together: true }
+  };
+}
+function overviewStep(storyboard) {
+  const blocks = storyboard.intro ? [{ action: "say", text: storyboard.intro }] : [];
+  return { id: "start", whatChanged: "Overview", why: "", tweens: [], builder: { blocks } };
+}
+function build(storyboard) {
+  const viewBox = storyboard.viewBox ?? DEFAULT_VIEWBOX;
+  const positions = placeNodes(storyboard.nodes, storyboard.layout ?? "row", parseViewBox(viewBox));
+  const nodes = storyboard.nodes.reduce(
+    (spec2, node) => withNode(spec2, node, positions.get(node.id)),
+    { id: storyboard.id, viewBox, elements: [], steps: [overviewStep(storyboard)] }
+  );
+  const { spec, linkIds } = withLinks(nodes, storyboard);
+  const steps = [...spec.steps, ...storyboard.steps.map((step, index) => compiledStep(step, index, linkIds))];
+  return { ...finalizeBuilderSpec({ ...spec, steps }), source: storyboard };
+}
+function compileStoryboard(value) {
+  const checked = checkStoryboard(value);
+  if (!checked.storyboard) return { spec: null, problems: checked.problems };
+  const spec = build(checked.storyboard);
+  const shape = checkVisualSpec(spec);
+  return shape.problems.length > 0 ? { spec: null, problems: shape.problems } : { spec, problems: [] };
+}
+
+// server/mcp/servers/visualLectureInput.ts
+var BLOCK_ACTIONS = /* @__PURE__ */ new Set([...BLOCK_DEFS.map((def) => def.action), "pack"]);
+var MIN_MS = 10;
+var isRecord4 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+function timeProblem(where, key, value) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return value === void 0 ? null : `${where}: ${key} must be a number of milliseconds`;
+  if (value < 0) return `${where}: ${key} cannot be negative`;
+  if (value > 0 && value < MIN_MS) return `${where}: ${key} ${value} is in milliseconds, so it would play in ${value} ms. Use about 500 for half a second`;
+  return null;
+}
+var found = (problem) => problem !== null;
+var hasPoint = (to) => Boolean(to) && Number.isFinite(to?.x) && Number.isFinite(to?.y);
+function actionProblem(where, block2, ids) {
+  if (block2.action === "say") return block2.text?.trim() ? null : `${where}: say needs "text"`;
+  if (!block2.target || !ids.has(block2.target)) return `${where}: ${block2.action} targets "${block2.target ?? ""}", which is not an element id`;
+  if (block2.action === "move" && !hasPoint(block2.to)) return `${where}: move needs "to": {x, y}`;
+  if (block2.action === "tint" && !block2.color) return `${where}: tint needs "color", a theme token such as var(--viz-blue)`;
+  return null;
+}
+function blockProblems(stepId, block2, index, ids) {
+  const where = `step "${stepId}" block ${index}`;
+  if (!BLOCK_ACTIONS.has(block2.action)) return [`${where}: unknown action "${block2.action}"; use one of ${[...BLOCK_ACTIONS].join(", ")}`];
+  return [timeProblem(where, "duration", block2.duration), timeProblem(where, "at", block2.at), actionProblem(where, block2, ids)].filter(found);
+}
+function visualLectureInputProblems(spec) {
+  const ids = new Set(spec.elements.map((element) => element.id));
+  return spec.steps.flatMap((step) => {
+    const tweenTimes = step.tweens.flatMap(
+      (tween2, index) => ["duration", "delay"].map((key) => timeProblem(`step "${step.id}" tween ${index}`, `params.${key}`, tween2.params[key])).concat(timeProblem(`step "${step.id}" tween ${index}`, "at", tween2.at))
+    );
+    const blocks = (step.builder?.blocks ?? []).flatMap((block2, index) => blockProblems(step.id, block2, index, ids));
+    return [...tweenTimes.filter(found), ...blocks];
+  });
+}
+function withDefaultTweens(spec) {
+  if (!isRecord4(spec) || !Array.isArray(spec.steps)) return spec;
+  return { ...spec, steps: spec.steps.map((step) => isRecord4(step) && step.tweens === void 0 ? { ...step, tweens: [] } : step) };
+}
+
 // src/core/canvasBlocks/compileTopology.ts
 var COLUMN_MIN_WIDTH = 180;
 var COLUMN_GAP = 24;
 var ZONE_PAD = 24;
 var ZONE_HEADER = 30;
-var LABEL_HEIGHT = 26;
+var LABEL_HEIGHT2 = 26;
 var ROW_GAP = 36;
 var MAX_DEVICES = 40;
 var slug = (value) => value.trim().replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "");
@@ -8675,7 +9953,7 @@ function buildColumns(devices, zones) {
   const loose = devices.filter((d) => !d.zone);
   return [...columns.filter((c) => c.devices.length > 0), ...loose.length > 0 ? [{ devices: loose }] : []];
 }
-var rowHeight = (device) => DEVICE_SIZE_PX[device.type].height + LABEL_HEIGHT + ROW_GAP;
+var rowHeight = (device) => DEVICE_SIZE_PX[device.type].height + LABEL_HEIGHT2 + ROW_GAP;
 function layoutColumns(columns) {
   const contentHeight = Math.max(...columns.map((c) => c.devices.reduce((sum, d) => sum + rowHeight(d), 0)));
   const nodes = [];
@@ -8784,7 +10062,7 @@ function createCourseAuthorTools(dataDir) {
       const weeks = Object.fromEntries(Object.entries(catalog).map(([key, week]) => [key, week.lectures.map((l) => l.id)]));
       courses.push({ id: entry.name, weeks });
     }
-    return { courses };
+    return { dataDir, courses };
   }
   async function createCourse(args) {
     const id = segment("id", args.id);
@@ -8797,7 +10075,7 @@ function createCourseAuthorTools(dataDir) {
     }
     if (!course.title.trim()) throw new Error("title is required");
     await writeJson(file, course);
-    return { written: [relative(file)] };
+    return { dataDir, written: [relative(file)] };
   }
   async function writeLecture(args) {
     const dir = requireCourse(segment("courseId", args.courseId));
@@ -8817,16 +10095,40 @@ function createCourseAuthorTools(dataDir) {
       await writeJson(path2.join(topicDir, "scene.json"), scene);
       written.push(relative(path2.join(topicDir, "scene.json")));
     }
-    return { written, next: "Call add_lecture_to_course_list so the lecture gets a proper title and description, then confirm with mcp__studyts-mcp__list_lectures (the database follows about a second after the files while the app server runs)." };
+    return { dataDir, written, next: "Call add_lecture_to_course_list so the lecture gets a proper title and description, then confirm with mcp__studyts-mcp__list_lectures (the database follows about a second after the files while the app server runs)." };
+  }
+  function lectureSpec(args) {
+    if (args.storyboard !== void 0) {
+      const compiled = compileStoryboard(args.storyboard);
+      if (!compiled.spec) throw new Error(`Invalid storyboard: ${compiled.problems.join("; ")}`);
+      return compiled.spec;
+    }
+    if (args.spec === void 0) throw new Error("Give a storyboard (preferred) or a spec");
+    const parsed = checkVisualSpec(withDefaultTweens(args.spec));
+    const input = parsed.spec ? visualLectureInputProblems(parsed.spec) : [];
+    if (!parsed.spec || parsed.problems.length + input.length > 0) throw new Error(`Invalid visual lecture: ${[...parsed.problems, ...input].join("; ")}`);
+    return finalizeBuilderSpec(parsed.spec);
   }
   async function writeVisualLecture(args) {
     const dir = requireCourse(segment("courseId", args.courseId));
     const topicDir = path2.join(dir, segment("weekKey", args.weekKey), sectionOf(args.section), segment("topicId", args.topicId));
-    const checked = checkVisualSpecForPublish(args.spec);
+    const checked = checkVisualSpecForPublish(lectureSpec(args));
     if (!checked.spec || checked.problems.length > 0) throw new Error(`Invalid visual lecture: ${checked.problems.join("; ")}`);
     const file = path2.join(topicDir, "model.json");
     await writeJson(file, checked.spec);
-    return { written: [relative(file)], next: "Call add_lecture_to_course_list so the lecture gets a proper title and description, then confirm with mcp__studyts-mcp__list_lectures." };
+    const blocks = checked.spec.steps.reduce((total, step) => total + (step.builder?.blocks?.length ?? 0), 0);
+    const stats = { steps: checked.spec.steps.length, elements: checked.spec.elements.length, blocks, editable: blocks > 0 };
+    if (args.title === void 0) return { dataDir, written: [relative(file)], ...stats, next: "Call add_lecture_to_course_list so the lecture gets a proper title and description, then confirm with mcp__studyts-mcp__list_lectures." };
+    const listed = await listInCatalog(args, dir);
+    return { dataDir, written: [relative(file), listed], ...stats, next: "Confirm with mcp__studyts-mcp__list_lectures." };
+  }
+  async function listInCatalog(args, dir) {
+    const weekKey = segment("weekKey", args.weekKey);
+    const known = Boolean((await readCatalog(dir))[weekKey]);
+    const weekTitle = args.weekTitle ?? (known ? void 0 : weekKey.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase()));
+    const lecture = { id: args.topicId, title: args.title, description: args.description ?? args.title };
+    const done = await updateCatalog({ courseId: args.courseId, weekKey, section: args.section, weekTitle, lecture });
+    return done.written[0];
   }
   async function updateCatalog(args) {
     const dir = requireCourse(segment("courseId", args.courseId));
@@ -8847,7 +10149,7 @@ function createCourseAuthorTools(dataDir) {
     if (!check.valid) throw new Error(`Invalid catalog: ${check.error}`);
     const file = path2.join(dir, "catalog.json");
     await writeJson(file, catalog);
-    return { written: [relative(file)], next: "Confirm with mcp__studyts-mcp__list_lectures that the lecture appears; the database follows about a second later." };
+    return { dataDir, written: [relative(file)], next: "Confirm with mcp__studyts-mcp__list_lectures that the lecture appears; the database follows about a second later." };
   }
   async function addNetworkDiagram(args) {
     const dir = requireCourse(segment("courseId", args.courseId));
@@ -8857,16 +10159,42 @@ function createCourseAuthorTools(dataDir) {
     if ("error" in compiled) throw new Error(compiled.error);
     const scene = fsSync2.existsSync(sceneFile) ? JSON.parse(await fs2.readFile(sceneFile, "utf-8")) : { id: topicId, blocks: [] };
     const blocks = Array.isArray(scene.blocks) ? scene.blocks : [];
-    const block = networkBlock(args, compiled, blocks);
-    const invalid = validateBlocks([block]);
+    const block2 = networkBlock(args, compiled, blocks);
+    const invalid = validateBlocks([block2]);
     if (invalid) throw new Error(`Compiled diagram failed validation: ${invalid}`);
-    const next = sceneWithId({ ...scene, blocks: [...blocks, block] }, topicId);
+    const next = sceneWithId({ ...scene, blocks: [...blocks, block2] }, topicId);
     const check = validateSceneJson(next);
     if (!check.valid) throw new Error(`Invalid scene: ${check.error}`);
     await writeJson(sceneFile, next);
-    return { written: [relative(sceneFile)], devices: compiled.state.nodes.length, links: compiled.state.edges.length, merged: compiled.merged };
+    return { dataDir, written: [relative(sceneFile)], devices: compiled.state.nodes.length, links: compiled.state.edges.length, merged: compiled.merged };
   }
   return { listCourses, createCourse, writeLecture, writeVisualLecture, updateCatalog, addNetworkDiagram };
+}
+
+// src/core/storyboard/storyboardGuide.ts
+var shapes = STORYBOARD_NODE_SHAPES.join("|");
+var layouts = STORYBOARD_LAYOUTS.join("|");
+function storyboardSyntax() {
+  const categories = listCategories().map((category) => category.id).join(", ");
+  const colors = COLOR_CHOICES.map((color) => color.value).join(", ");
+  return `{id, layout: ${layouts}, intro?, nodes: [{id, label?, shape?: ${shapes}, pack?: <packId>/<objectId>, color?: token, x?, y?}], links?: [{from, to, directed?, dashed?}], steps: [{title?, say?, together?, actions: [...]}]}. Actions: {do: show|hide|highlight|dim, ids: [...]}, {do: draw, links: [{from, to}]} (not for dashed links), {do: move, id, to: {x, y}}. A node with pack draws a style-pack object (for example an accepting state) instead of shape (an empty label draws none; leave an accepting state unlabelled); pack categories: ` + categories + `. An unknown ref is rejected with the list of valid refs. The app lays the nodes out, draws the arrows, writes the animation and the speech bubbles (say text is at most ${STORYBOARD_SAY_LIMIT} characters per step). Colour tokens: ${colors}.`;
+}
+
+// server/mcp/servers/visualLectureGuide.ts
+function visualLectureDescription() {
+  return [
+    "Writes model.json for a step-player lecture, an animated diagram that plays step by step. Pass a STORYBOARD (preferred): the app lays the nodes out, draws the arrows and writes the animation with the same blocks, shapes and effects the step maker uses, so the user can open the lecture and edit it by hand afterwards.",
+    `Storyboard: ${storyboardSyntax()}`,
+    "Pack refs look like network/router, flowchart/decision, uml/class, memory/stack-cell, sets/set. A ref that does not exist is rejected with the full list of valid ones.",
+    "Rules:",
+    "1. Use a storyboard. Pass `spec` only for something a storyboard cannot say, and then describe each step with builder.blocks (all times are in milliseconds; a time under 10 is rejected), never with hand-written tweens, bubble elements or overlays.",
+    "2. Choose the layout that fits the idea: row for a pipeline, column for a stack, circle for a graph or a cycle, grid for a set of items. Leave x and y out unless a position matters.",
+    "3. Use a pack object for a known thing (router, class, state) and a plain shape for the rest. Give every node a short label.",
+    "4. Reveal the scene step by step: each step shows, highlights or draws one thing, and hides or dims what is finished. The first action on a node should be show if it appears later.",
+    "5. Use 6 to 12 steps, one idea each. title is the short change, why is one sentence, say is the explanation.",
+    "6. Pass title (and description) so the lecture is listed in the course in the same call; there is then no need for add_lecture_to_course_list. The result reports how many elements and blocks were saved and whether the lecture is editable.",
+    "The result is validated and layout-checked before saving; if problems are listed, fix them and call again."
+  ].join("\n");
 }
 
 // server/runtime/appPaths.ts
@@ -8992,7 +10320,7 @@ var STUDYTS_TOOLS = [
   },
   {
     name: "save_animated_lecture",
-    description: "Writes model.json for a step-player lecture: a VisualSpec {id, viewBox, elements, steps}. Element kinds: circle, ellipse, rect, path (absolute M/L commands), text, math (LaTeX label in a foreignObject), bubble (speech box). Colours are theme tokens such as var(--viz-blue), var(--accent-green), var(--accent). Each step has whatChanged, why and tweens [{targets, params, at?}]; params are numbers or strings (opacity, translateX, translateY, strokeDashoffset, duration, ease). Keep text boxes clear of shape outlines and lines and inside the viewBox; a step may show a bubble-N (all bubble-N share one slot, fade the old one out and the next in). The spec is validated and layout-checked before saving; fix the listed problems and call again.",
+    description: visualLectureDescription(),
     inputSchema: {
       type: "object",
       properties: {
@@ -9000,9 +10328,13 @@ var STUDYTS_TOOLS = [
         weekKey: { type: "string" },
         topicId: { type: "string", description: "Lecture folder id" },
         section: { type: "string", enum: ["lectures", "practice"] },
-        spec: { type: "object", description: "The VisualSpec" }
+        title: { type: "string", description: "Also lists the lecture in the course (no add_lecture_to_course_list needed)" },
+        description: { type: "string", description: "Catalog line; defaults to title" },
+        weekTitle: { type: "string", description: "Only for a new week; defaults to the week key" },
+        storyboard: { type: "object", description: "The storyboard (preferred)" },
+        spec: { type: "object", description: "A raw VisualSpec, only when a storyboard cannot say it" }
       },
-      required: ["courseId", "weekKey", "topicId", "spec"]
+      required: ["courseId", "weekKey", "topicId"]
     }
   },
   {

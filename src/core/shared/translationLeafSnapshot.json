@@ -2067,6 +2067,18 @@
     "en": "Done editing",
     "he": "סיום עריכה"
   },
+  "HUB_TEXT.exportVideo": {
+    "en": "Download MP4",
+    "he": "הורד MP4"
+  },
+  "HUB_TEXT.exportingVideo": {
+    "en": "Rendering MP4… {percent}%",
+    "he": "מייצא MP4… {percent}%"
+  },
+  "HUB_TEXT.exportVideoFailed": {
+    "en": "MP4 export failed",
+    "he": "ייצוא MP4 נכשל"
+  },
   "HUB_TEXT.noTopicsYet": {
     "en": "No topics yet. Turn on editing to add one.",
     "he": "עדיין אין נושאים. הפעילו עריכה כדי להוסיף."
@@ -2454,6 +2466,126 @@
   "MCP_TEXT.architectureStorageDesc": {
     "en": "Read-only SQLite and atomic data/ file operations",
     "he": "שאילתות SQLite לקריאה בלבד ושמירת קבצים אטומית ב-data/"
+  },
+  "MCP_TEXT.connectTitle": {
+    "en": "Connect an AI app",
+    "he": "חיבור אפליקציית AI"
+  },
+  "MCP_TEXT.connectDesc": {
+    "en": "StudyTs speaks standard MCP, so any app that supports MCP servers can use it: Claude, Codex, Cursor, Gemini CLI, Windsurf, Cline and more.",
+    "he": "StudyTs תומך ב-MCP סטנדרטי, כך שכל אפליקציה שתומכת בשרתי MCP יכולה להשתמש בו: Claude, Codex, Cursor, Gemini CLI, Windsurf, Cline ועוד."
+  },
+  "MCP_TEXT.connectAddTo": {
+    "en": "Add to {name}",
+    "he": "הוסף ל-{name}"
+  },
+  "MCP_TEXT.connectEditsFile": {
+    "en": "This edits {path}. Your other settings are kept and a backup is saved next to it.",
+    "he": "הפעולה תערוך את {path}. שאר ההגדרות נשמרות וגיבוי נשמר לידו."
+  },
+  "MCP_TEXT.connectEditsClaudeCode": {
+    "en": "This runs the Claude Code command shown below.",
+    "he": "הפעולה תריץ את הפקודה של Claude Code שמוצגת למטה."
+  },
+  "MCP_TEXT.connectConfirm": {
+    "en": "Confirm",
+    "he": "אישור"
+  },
+  "MCP_TEXT.connectCancel": {
+    "en": "Cancel",
+    "he": "ביטול"
+  },
+  "MCP_TEXT.connectDone": {
+    "en": "Added. Restart {name} to load it.",
+    "he": "נוסף. הפעל מחדש את {name} כדי לטעון אותו."
+  },
+  "MCP_TEXT.connectFailed": {
+    "en": "Could not connect: {reason}",
+    "he": "החיבור נכשל: {reason}"
+  },
+  "MCP_TEXT.connectOther": {
+    "en": "Another app, or set it up by hand",
+    "he": "אפליקציה אחרת, או הגדרה ידנית"
+  },
+  "MCP_TEXT.connectOtherDesc": {
+    "en": "Paste one of these into the app's MCP settings.",
+    "he": "הדבק אחד מאלה בהגדרות ה-MCP של האפליקציה."
+  },
+  "MCP_TEXT.connectStandardJson": {
+    "en": "Standard MCP config (JSON)",
+    "he": "הגדרת MCP סטנדרטית (JSON)"
+  },
+  "MCP_TEXT.connectCodexToml": {
+    "en": "Codex config (~/.codex/config.toml)",
+    "he": "הגדרת Codex (‎~/.codex/config.toml)"
+  },
+  "MCP_TEXT.connectCodexCommand": {
+    "en": "Codex command",
+    "he": "פקודת Codex"
+  },
+  "MCP_TEXT.connectClaudeCodeCommand": {
+    "en": "Claude Code command",
+    "he": "פקודת Claude Code"
+  },
+  "MCP_TEXT.connectCopy": {
+    "en": "Copy",
+    "he": "העתק"
+  },
+  "MCP_TEXT.connectCopied": {
+    "en": "Copied",
+    "he": "הועתק"
+  },
+  "MCP_TEXT.connectCopyFailed": {
+    "en": "Copy failed. Select the text and copy it by hand.",
+    "he": "ההעתקה נכשלה. סמן את הטקסט והעתק ידנית."
+  },
+  "MCP_TEXT.claudeCodeGlobal": {
+    "en": "Claude Code (all folders)",
+    "he": "Claude Code (בכל התיקיות)"
+  },
+  "MCP_TEXT.claudeCodeConnected": {
+    "en": "Connected globally",
+    "he": "מחובר גלובלית"
+  },
+  "MCP_TEXT.claudeCodeNotRegistered": {
+    "en": "Not registered",
+    "he": "לא רשום"
+  },
+  "MCP_TEXT.claudeCodeMissing": {
+    "en": "Claude Code not found",
+    "he": "Claude Code לא נמצא"
+  },
+  "MCP_TEXT.claudeCodeStale": {
+    "en": "Points to another StudyTs copy",
+    "he": "מצביע על עותק אחר של StudyTs"
+  },
+  "MCP_TEXT.claudeCodeConnect": {
+    "en": "Connect to Claude Code",
+    "he": "חבר ל-Claude Code"
+  },
+  "MCP_TEXT.claudeCodeDisconnect": {
+    "en": "Disconnect",
+    "he": "נתק"
+  },
+  "MCP_TEXT.claudeCodeWorking": {
+    "en": "Working...",
+    "he": "מבצע..."
+  },
+  "MCP_TEXT.claudeCodeRemoveConfirm": {
+    "en": "This runs: claude mcp remove --scope user studyts",
+    "he": "הפעולה תריץ: claude mcp remove --scope user studyts"
+  },
+  "MCP_TEXT.claudeCodeRemoved": {
+    "en": "Removed from Claude Code.",
+    "he": "הוסר מ-Claude Code."
+  },
+  "MCP_TEXT.openMcpFolder": {
+    "en": "Open MCP server folder",
+    "he": "פתח את תיקיית שרת ה-MCP"
+  },
+  "MCP_TEXT.copyStandardConfig": {
+    "en": "Copy standard config",
+    "he": "העתק הגדרה סטנדרטית"
   },
   "PATCH_NOTES_TEXT.patchNotesTitle": {
     "en": "Platform Updates & Patch Notes",

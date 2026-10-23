@@ -1,0 +1,75 @@
+appId: com.shacharts.studyts
+productName: StudyTs
+copyright: StudyTs
+
+directories:
+  output: release
+  buildResources: build
+
+# Prisma loads a native engine and reads its schema and migrations from real folders, and the server
+# resolves its package root from package.json. Packing everything into app.asar would break all three.
+asar: false
+npmRebuild: false
+
+files:
+  - electron/**
+  - dist/**
+  - dist-server/**
+  - config/**
+  - locales/**
+  - prisma/schema.prisma
+  - prisma/migrations/**
+  # Loaded at server start by server/update/updateModule.ts and routes/updateStatus.ts.
+  - scripts/update/**
+  - scripts/writeFileAtomic.cjs
+  - package.json
+  # The generated Prisma client is not a declared dependency, so it must be listed explicitly.
+  - from: node_modules/.prisma
+    to: node_modules/.prisma
+    # Skip leftover engine copies from the Windows file-lock workaround in scripts/ensure-prisma.cjs.
+    filter:
+      - "**/*"
+      - "!**/*.tmp*"
+  - "!**/*.map"
+
+publish:
+  provider: github
+  owner: ShacharTs
+  repo: StudyTs
+  releaseType: draft
+
+win:
+  target:
+    - target: nsis
+    - target: portable
+  icon: build/icon.png
+
+nsis:
+  oneClick: true
+  perMachine: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  runAfterFinish: true
+  deleteAppDataOnUninstall: false
+  artifactName: StudyTs-Setup-${version}-${arch}.${ext}
+
+portable:
+  artifactName: StudyTs-Portable-${version}-${arch}.${ext}
+
+mac:
+  target:
+    - dmg
+  category: public.app-category.education
+  icon: build/icon.png
+  # Unsigned build: no Apple certificate, so skip the signing lookup.
+  identity: null
+  artifactName: StudyTs-${version}-mac-${arch}.${ext}
+
+linux:
+  target:
+    - AppImage
+    - deb
+  category: Education
+  icon: build/icon.png
+  maintainer: ShacharTs <ShacharTs@users.noreply.github.com>
+  artifactName: StudyTs-${version}-linux-${arch}.${ext}

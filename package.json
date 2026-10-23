@@ -1,7 +1,7 @@
 {
   "name": "studyts",
   "private": false,
-  "version": "0.9.5",
+  "version": "0.9.6",
   "type": "module",
   "bin": {
     "studyts": "./bin/studyts.mjs"
@@ -35,7 +35,10 @@
     "setup": "node scripts/ensure-env.cjs && prisma generate && prisma migrate deploy && npm run db:seed",
     "postinstall": "prisma generate --schema prisma/schema.prisma",
     "prepack": "npm run build",
-    "build:server": "esbuild server/index.ts server/mcp/servers/studyTsServer.ts --bundle --platform=node --format=esm --packages=external --tsconfig=tsconfig.json --outdir=dist-server --out-extension:.js=.mjs"
+    "build:server": "esbuild server/index.ts server/mcp/servers/studyTsServer.ts --bundle --platform=node --format=esm --packages=external --tsconfig=tsconfig.json --outdir=dist-server --out-extension:.js=.mjs",
+    "desktop:dev": "npm run build && electron .",
+    "desktop:pack": "npm run build && electron-builder --dir --publish never",
+    "desktop:dist": "npm run build && electron-builder --publish never"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -49,6 +52,7 @@
     "@tiptap/starter-kit": "^3.31.2",
     "animejs": "^4.5.0",
     "cors": "^2.8.5",
+    "electron-updater": "^6.8.9",
     "express": "^4.21.0",
     "fflate": "^0.8.3",
     "framer-motion": "^12.43.0",
@@ -78,6 +82,8 @@
     "@typescript-eslint/parser": "^7.8.0",
     "@vitest/coverage-v8": "^4.1.11",
     "concurrently": "^10.0.5",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.15.3",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",
@@ -107,5 +113,6 @@
     "tsconfig.json",
     "scripts/update/",
     "scripts/writeFileAtomic.cjs"
-  ]
+  ],
+  "main": "electron/main.cjs"
 }

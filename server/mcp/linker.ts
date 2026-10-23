@@ -20,6 +20,11 @@ const STUDYTS_MCP_LAUNCH = fsSync.existsSync(MCP_BUNDLE)
   ? { command: process.execPath, args: [MCP_BUNDLE] }
   : { command: 'npx', args: ['tsx', 'server/mcp/servers/studyTsServer.ts'] };
 
+// Other clients (Claude Desktop, Claude Code) are given the same launch the app itself uses.
+export function getBuiltInLaunch(): { command: string; args: string[] } {
+  return { command: STUDYTS_MCP_LAUNCH.command, args: [...STUDYTS_MCP_LAUNCH.args] };
+}
+
 const DEFAULT_SERVERS: McpServerConfig[] = [
   {
     id: 'studyts-mcp',
@@ -30,6 +35,25 @@ const DEFAULT_SERVERS: McpServerConfig[] = [
     autoStart: true,
   },
 ];
+
+// A saved built-in entry can point at a dev launch (npx tsx) or at a node/bundle path from another install
+// (an old npx cache, a previous app version). Those break once the app moves, so the launch is rewritten.
+function isStaleBuiltIn(config: McpServerConfig): boolean {
+  if (config.id !== 'studyts-mcp') return false;
+  const launchesBuiltIn = config.command === 'npx' || path.basename(config.args?.[0] ?? '') === 'studyTsServer.mjs';
+  if (!launchesBuiltIn) return false;
+  return config.command !== STUDYTS_MCP_LAUNCH.command || JSON.stringify(config.args ?? []) !== JSON.stringify(STUDYTS_MCP_LAUNCH.args);
+}
+
+// Returns true when any entry was rewritten, so the caller knows to persist.
+function refreshStaleLaunches(configs: McpServerConfig[]): boolean {
+  const stale = configs.filter(isStaleBuiltIn);
+  for (const c of stale) {
+    c.command = STUDYTS_MCP_LAUNCH.command;
+    c.args = STUDYTS_MCP_LAUNCH.args;
+  }
+  return stale.length > 0;
+}
 
 function hasLegacyServers(configs: McpServerConfig[]): boolean {
   return Array.isArray(configs) && configs.some((c) => Boolean(LEGACY_ID_MAP[c.id]));
@@ -72,7 +96,9 @@ class MCPLinkerManager {
         return;
       }
 
+      const relaunched = refreshStaleLaunches(parsed);
       for (const s of parsed) this.configs.set(s.id, s);
+      if (relaunched) await this.saveConfigs();
     } catch (err) {
       log.error('Failed to load MCP server configs', { error: String(err) });
       for (const s of DEFAULT_SERVERS) this.configs.set(s.id, s);

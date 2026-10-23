@@ -1,0 +1,37 @@
+name: Desktop release
+
+# Runs in the public repo when a version tag is pushed. Every OS builds natively so Prisma's engine matches,
+# and all jobs upload to one draft GitHub Release that the maintainer publishes after checking it.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  installers:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: windows-latest, arch: x64, flags: --win }
+          - { os: macos-15-intel, arch: x64, flags: --mac --x64 }
+          - { os: macos-latest, arch: arm64, flags: --mac --arm64 }
+          - { os: ubuntu-latest, arch: x64, flags: --linux }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      # postinstall runs prisma generate, which fetches this runner's native engine.
+      - run: npm ci
+      # dist/ and dist-server/ are prebuilt and committed in the public repo, so there is no build step here.
+      - run: npx electron-builder ${{ matrix.flags }} --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Unsigned builds: stop electron-builder from looking for a signing certificate.
+          CSC_IDENTITY_AUTO_DISCOVERY: false

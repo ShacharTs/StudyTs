@@ -5,6 +5,7 @@ import { BaseMcpServer, type McpToolDefinition } from './BaseMcpServer.js';
 import { createNotebookTools } from './notebookTools.js';
 import { SQLITE_TOOLS, createSqliteTools } from './sqliteTools.js';
 import { createCourseAuthorTools } from './courseAuthorTools.js';
+import { visualLectureDescription } from './visualLectureGuide.js';
 import { DATA_ROOT } from '../../runtime/appPaths.js';
 
 const DATA_DIR = path.resolve(DATA_ROOT, 'data');
@@ -119,7 +120,7 @@ export const STUDYTS_TOOLS: McpToolDefinition[] = [
   {
     name: 'save_animated_lecture',
     description:
-      'Writes model.json for a step-player lecture: a VisualSpec {id, viewBox, elements, steps}. Element kinds: circle, ellipse, rect, path (absolute M/L commands), text, math (LaTeX label in a foreignObject), bubble (speech box). Colours are theme tokens such as var(--viz-blue), var(--accent-green), var(--accent). Each step has whatChanged, why and tweens [{targets, params, at?}]; params are numbers or strings (opacity, translateX, translateY, strokeDashoffset, duration, ease). Keep text boxes clear of shape outlines and lines and inside the viewBox; a step may show a bubble-N (all bubble-N share one slot, fade the old one out and the next in). The spec is validated and layout-checked before saving; fix the listed problems and call again.',
+      visualLectureDescription(),
     inputSchema: {
       type: 'object',
       properties: {
@@ -127,9 +128,13 @@ export const STUDYTS_TOOLS: McpToolDefinition[] = [
         weekKey: { type: 'string' },
         topicId: { type: 'string', description: 'Lecture folder id' },
         section: { type: 'string', enum: ['lectures', 'practice'] },
-        spec: { type: 'object', description: 'The VisualSpec' },
+        title: { type: 'string', description: 'Also lists the lecture in the course (no add_lecture_to_course_list needed)' },
+        description: { type: 'string', description: 'Catalog line; defaults to title' },
+        weekTitle: { type: 'string', description: 'Only for a new week; defaults to the week key' },
+        storyboard: { type: 'object', description: 'The storyboard (preferred)' },
+        spec: { type: 'object', description: 'A raw VisualSpec, only when a storyboard cannot say it' },
       },
-      required: ['courseId', 'weekKey', 'topicId', 'spec'],
+      required: ['courseId', 'weekKey', 'topicId'],
     },
   },
   {

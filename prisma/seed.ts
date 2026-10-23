@@ -6,11 +6,14 @@ import { PrismaClient, Prisma } from '@prisma/client';
 import { join } from 'path';
 import { pathToFileURL } from 'url';
 import { dropEditorDoc } from '../server/utils/dropEditorDoc';
+import { DATA_ROOT } from '../server/runtime/appPaths';
 import { scanCourses, readWeekTitle, ScannedCourse, scanCourseTopics, ScannedTopic } from './catalogScanner';
 import { loadTopicData, loadCatalogTopicMetadata, formatTopicTitle, formatTopicDescription } from './topicLoader';
 
 const prisma = new PrismaClient();
-const DEFAULT_DATA_DIR = join(import.meta.dirname, '..', 'data');
+// DATA_ROOT is the repo in a checkout and the OS app-data folder in the installed app, so the server's
+// hot-reseed reads the same courses the user edits.
+const DEFAULT_DATA_DIR = join(DATA_ROOT, 'data');
 const isVerbose = process.env.VERBOSE === 'true' || process.argv.includes('--verbose');
 
 function verboseLog(msg: string): void {

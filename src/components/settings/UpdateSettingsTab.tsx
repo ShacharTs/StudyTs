@@ -110,7 +110,9 @@ const StatusSectionCard: React.FC<StatusSectionCardProps> = ({
   return (
     <div className="settings-section-card">
       {isAvailable ? <AvailableUpdate state={state} onSchedule={onSchedule} onSkip={onSkip} /> : null}
-      {statusMsg ? <div className="settings-section-desc">{val(statusMsg)}</div> : null}
+      {statusMsg ? <div className="settings-section-desc">{val(statusMsg).replace('{version}', state.currentVersion)}</div> : null}
+      {/* The installer reports the real cause (for example a release without update files); without it a failed check is a dead end. */}
+      {state.errorMessage ? <div className={styles.muted} dir="ltr">{state.errorMessage}</div> : null}
       {state.lastResult?.ok === false ? (
         <div className={styles.actions}>
           <span className={styles.warning} dir="auto">{val(UPDATE_TEXT.rollbackNotice)}</span>
@@ -119,7 +121,7 @@ const StatusSectionCard: React.FC<StatusSectionCardProps> = ({
           </button>
         </div>
       ) : null}
-      <div className={styles.muted}>{val(UPDATE_TEXT.appliedOnNextStart)}</div>
+      {state.mode !== 'desktop' && <div className={styles.muted}>{val(UPDATE_TEXT.appliedOnNextStart)}</div>}
     </div>
   );
 };

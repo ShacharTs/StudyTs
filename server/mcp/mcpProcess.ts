@@ -101,6 +101,13 @@ function quoteWinCommand(command: string, args: string[]): string {
   return [command, ...args].map(quote).join(' ');
 }
 
+// Inside the desktop app process.execPath is the Electron binary; without this flag it would open another app window
+// instead of running the MCP script as plain Node.
+export function mcpChildEnv(config: McpServerConfig, base: NodeJS.ProcessEnv = process.env): NodeJS.ProcessEnv {
+  const runsOnElectron = Boolean(process.versions.electron) && config.command === process.execPath;
+  return { ...base, ...(runsOnElectron ? { ELECTRON_RUN_AS_NODE: '1' } : {}), ...config.env };
+}
+
 export class McpProcess {
   private child: ChildProcess | null = null;
   private protocol: JsonRpcProtocol | null = null;
@@ -129,8 +136,8 @@ export class McpProcess {
       // each arg is individually quoted rather than naively joined.
       const isWin = process.platform === 'win32';
       const child = isWin
-        ? spawn(quoteWinCommand(this.config.command, this.config.args), { stdio: ['pipe', 'pipe', 'pipe'], env: { ...process.env, ...this.config.env }, cwd: this.config.cwd || PACKAGE_ROOT, shell: true })
-        : spawn(this.config.command, this.config.args, { stdio: ['pipe', 'pipe', 'pipe'], env: { ...process.env, ...this.config.env }, cwd: this.config.cwd || PACKAGE_ROOT });
+        ? spawn(quoteWinCommand(this.config.command, this.config.args), { stdio: ['pipe', 'pipe', 'pipe'], env: mcpChildEnv(this.config), cwd: this.config.cwd || PACKAGE_ROOT, shell: true })
+        : spawn(this.config.command, this.config.args, { stdio: ['pipe', 'pipe', 'pipe'], env: mcpChildEnv(this.config), cwd: this.config.cwd || PACKAGE_ROOT });
 
       this.child = child;
       if (!child.stdin || !child.stdout) throw new Error('Child process stdio streams not available');

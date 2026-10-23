@@ -4,6 +4,10 @@ import path from 'path';
 import { validateCatalogJson, validateSceneJson } from '../../../src/core/validation/topicJsonSchema.js';
 import { validateBlocks } from '../../../src/core/validation/blocks/validateBlocks.js';
 import { checkVisualSpecForPublish } from '../../../src/core/validation/visualSpec/visualSpecPublishCheck.js';
+import { checkVisualSpec } from '../../../src/core/validation/visualSpec/visualSpecJson.js';
+import { compileStoryboard } from '../../../src/core/storyboard/compileStoryboard.js';
+import { finalizeBuilderSpec } from '../../../src/core/visualBuilder/builderFinalize.js';
+import { visualLectureInputProblems, withDefaultTweens } from './visualLectureInput.js';
 import { compileTopology } from '../../../src/core/canvasBlocks/compileTopology.js';
 
 type Args = Record<string, unknown>;
@@ -69,7 +73,8 @@ function networkBlock(args: Args, compiled: Exclude<ReturnType<typeof compileTop
   };
 }
 
-/** The course-authoring tools, bound to a data folder (injectable so tests can use a temp dir). */
+/** The course-authoring tools, bound to a data folder (injectable so tests can use a temp dir).
+ *  Every result carries the absolute dataDir, so a caller can see which copy of StudyTs it wrote to. */
 export function createCourseAuthorTools(dataDir: string) {
   const courseDir = (courseId: string) => path.join(dataDir, courseId);
   const relative = (file: string) => path.relative(dataDir, file).split(path.sep).join('/');
@@ -105,7 +110,7 @@ export function createCourseAuthorTools(dataDir: string) {
       const weeks = Object.fromEntries(Object.entries(catalog).map(([key, week]) => [key, week.lectures.map((l) => l.id)]));
       courses.push({ id: entry.name, weeks });
     }
-    return { courses };
+    return { dataDir, courses };
   }
 
   async function createCourse(args: Args) {
@@ -119,7 +124,7 @@ export function createCourseAuthorTools(dataDir: string) {
     }
     if (!course.title.trim()) throw new Error('title is required');
     await writeJson(file, course);
-    return { written: [relative(file)] };
+    return { dataDir, written: [relative(file)] };
   }
 
   async function writeLecture(args: Args) {
@@ -141,17 +146,46 @@ export function createCourseAuthorTools(dataDir: string) {
       await writeJson(path.join(topicDir, 'scene.json'), scene);
       written.push(relative(path.join(topicDir, 'scene.json')));
     }
-    return { written, next: 'Call add_lecture_to_course_list so the lecture gets a proper title and description, then confirm with mcp__studyts-mcp__list_lectures (the database follows about a second after the files while the app server runs).' };
+    return { dataDir, written, next: 'Call add_lecture_to_course_list so the lecture gets a proper title and description, then confirm with mcp__studyts-mcp__list_lectures (the database follows about a second after the files while the app server runs).' };
+  }
+
+  /** The spec to save: a storyboard goes through the app's own compiler (layout, arrows, blocks, bubbles); a raw spec is checked and finalized like a step maker edit. */
+  function lectureSpec(args: Args): unknown {
+    if (args.storyboard !== undefined) {
+      const compiled = compileStoryboard(args.storyboard);
+      if (!compiled.spec) throw new Error(`Invalid storyboard: ${compiled.problems.join('; ')}`);
+      return compiled.spec;
+    }
+    if (args.spec === undefined) throw new Error('Give a storyboard (preferred) or a spec');
+    const parsed = checkVisualSpec(withDefaultTweens(args.spec));
+    const input = parsed.spec ? visualLectureInputProblems(parsed.spec) : [];
+    if (!parsed.spec || parsed.problems.length + input.length > 0) throw new Error(`Invalid visual lecture: ${[...parsed.problems, ...input].join('; ')}`);
+    // The step maker edits builder.blocks and regenerates tweens from them, so the saved spec gets the same tweens the maker would write.
+    return finalizeBuilderSpec(parsed.spec);
   }
 
   async function writeVisualLecture(args: Args) {
     const dir = requireCourse(segment('courseId', args.courseId));
     const topicDir = path.join(dir, segment('weekKey', args.weekKey), sectionOf(args.section), segment('topicId', args.topicId));
-    const checked = checkVisualSpecForPublish(args.spec);
+    const checked = checkVisualSpecForPublish(lectureSpec(args));
     if (!checked.spec || checked.problems.length > 0) throw new Error(`Invalid visual lecture: ${checked.problems.join('; ')}`);
     const file = path.join(topicDir, 'model.json');
     await writeJson(file, checked.spec);
-    return { written: [relative(file)], next: 'Call add_lecture_to_course_list so the lecture gets a proper title and description, then confirm with mcp__studyts-mcp__list_lectures.' };
+    const blocks = checked.spec.steps.reduce((total, step) => total + (step.builder?.blocks?.length ?? 0), 0);
+    const stats = { steps: checked.spec.steps.length, elements: checked.spec.elements.length, blocks, editable: blocks > 0 };
+    if (args.title === undefined) return { dataDir, written: [relative(file)], ...stats, next: 'Call add_lecture_to_course_list so the lecture gets a proper title and description, then confirm with mcp__studyts-mcp__list_lectures.' };
+    const listed = await listInCatalog(args, dir);
+    return { dataDir, written: [relative(file), listed], ...stats, next: 'Confirm with mcp__studyts-mcp__list_lectures.' };
+  }
+
+  /** One call instead of two: a title on a saved lecture lists it in the course. A new week gets its key as a title unless weekTitle is given. */
+  async function listInCatalog(args: Args, dir: string): Promise<string> {
+    const weekKey = segment('weekKey', args.weekKey);
+    const known = Boolean((await readCatalog(dir))[weekKey]);
+    const weekTitle = args.weekTitle ?? (known ? undefined : weekKey.replace(/-/g, ' ').replace(/^./, (c) => c.toUpperCase()));
+    const lecture = { id: args.topicId, title: args.title, description: args.description ?? args.title };
+    const done = await updateCatalog({ courseId: args.courseId, weekKey, section: args.section, weekTitle, lecture });
+    return done.written[0];
   }
 
   async function updateCatalog(args: Args) {
@@ -175,7 +209,7 @@ export function createCourseAuthorTools(dataDir: string) {
     if (!check.valid) throw new Error(`Invalid catalog: ${check.error}`);
     const file = path.join(dir, 'catalog.json');
     await writeJson(file, catalog);
-    return { written: [relative(file)], next: 'Confirm with mcp__studyts-mcp__list_lectures that the lecture appears; the database follows about a second later.' };
+    return { dataDir, written: [relative(file)], next: 'Confirm with mcp__studyts-mcp__list_lectures that the lecture appears; the database follows about a second later.' };
   }
 
   /** Adds one network diagram (devices, links, zones) as a graph block under the existing blocks of a lecture's scene. */
@@ -196,7 +230,7 @@ export function createCourseAuthorTools(dataDir: string) {
     const check = validateSceneJson(next);
     if (!check.valid) throw new Error(`Invalid scene: ${check.error}`);
     await writeJson(sceneFile, next);
-    return { written: [relative(sceneFile)], devices: compiled.state.nodes.length, links: compiled.state.edges.length, merged: compiled.merged };
+    return { dataDir, written: [relative(sceneFile)], devices: compiled.state.nodes.length, links: compiled.state.edges.length, merged: compiled.merged };
   }
 
   return { listCourses, createCourse, writeLecture, writeVisualLecture, updateCatalog, addNetworkDiagram };

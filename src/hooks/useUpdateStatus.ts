@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useDesktopUpdateStatus } from './useDesktopUpdateStatus';
 
 export interface UpdateStatusInfo {
   version: string;
@@ -16,6 +17,11 @@ export interface UpdateStatusResponse {
   throttled?: boolean;
   pendingVersion?: string;
   skippedVersion?: string;
+  // Desktop installer only: download progress, and whether this install type needs a manual download.
+  downloadPercent?: number;
+  manualOnly?: boolean;
+  // Desktop installer only: why the last check or download failed.
+  errorMessage?: string;
   lastResult?: {
     ok: boolean;
     from: string;
@@ -28,7 +34,7 @@ export interface UpdateStatusResponse {
 
 const UPDATE_POLL_MS = 6 * 60 * 60 * 1000; // 6 hours
 
-export function useUpdateStatus() {
+function useServerUpdateStatus() {
   const [state, setState] = useState<UpdateStatusResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -158,4 +164,12 @@ export function useUpdateStatus() {
     skip,
     dismissResult,
   };
+}
+
+// preload.cjs defines window.studytsDesktop before any page script runs, so this choice never changes
+// during a session and the hook order stays stable.
+const useUpdateStatusImpl = typeof window !== 'undefined' && window.studytsDesktop?.update ? useDesktopUpdateStatus : useServerUpdateStatus;
+
+export function useUpdateStatus() {
+  return useUpdateStatusImpl();
 }

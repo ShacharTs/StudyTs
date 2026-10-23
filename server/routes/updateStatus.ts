@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { PACKAGE_ROOT } from '../runtime/appPaths.js';
 import { Router, type Request, type Response } from 'express';
@@ -9,6 +10,20 @@ const require = createRequire(import.meta.url);
 const { parseVersion } = require(path.join(PACKAGE_ROOT, 'scripts', 'update', 'versionCompare.cjs'));
 
 export const updateStatusRouter = Router();
+
+// The installed desktop app updates itself through electron-updater; this zip/git updater would write into the install folder.
+// Reading routes answer a normal "nothing to update" so a browser tab opened on the desktop app's port (which has no
+// updater bridge) does not log a failed request; the routes that would change anything are refused.
+function desktopCurrentVersion(): string {
+  return JSON.parse(fs.readFileSync(path.join(PACKAGE_ROOT, 'package.json'), 'utf8')).version as string;
+}
+
+updateStatusRouter.use('/update', (req: Request, res: Response, next) => {
+  if (process.env.STUDYTS_DESKTOP !== '1') return void next();
+  const isRead = req.method === 'GET' || req.path === '/check';
+  if (isRead) return void res.json({ status: 'up-to-date', currentVersion: desktopCurrentVersion(), mode: 'desktop' });
+  res.status(409).json({ error: 'Updates are handled by the desktop app', mode: 'desktop' });
+});
 
 updateStatusRouter.get('/update/status', route(async (_req: Request, res: Response) => {
   const result = await checkStatus(false);

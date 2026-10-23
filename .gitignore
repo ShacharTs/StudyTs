@@ -82,3 +82,6 @@ todo/
 # Scratch output
 *.tmp
 *.mp4
+
+# Desktop installer output
+release/

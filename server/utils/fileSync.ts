@@ -55,6 +55,22 @@ export async function syncCourseToFile(prisma: PrismaClient, courseId: string) {
   if (!course) return;
 
   const catalogPath = join(DATA_DIR, courseId, 'catalog.json');
+  const courseJsonPath = join(DATA_DIR, courseId, 'course.json');
+
+  // The seed scanner only treats a folder as a course when it holds course.json. Without this file the next
+  // data/ hot-reseed would prune a course created in the UI, leaving its folder behind but removing its card.
+  ensureDir(courseJsonPath);
+  writeTracked(courseJsonPath, toJson({
+    id: course.id,
+    code: course.code,
+    title: course.title,
+    subtitle: course.subtitle,
+    description: course.description,
+    icon: course.icon,
+    color: course.color,
+    accent: course.accent,
+    badge: course.badge,
+  }));
 
   const weeks: Record<string, unknown> = {};
   for (const week of course.weeks) {

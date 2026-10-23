@@ -42,6 +42,10 @@ interface AvailableBannerProps {
   onUpdateRestart: (v: string) => Promise<boolean>;
   onSkip: (v: string) => void;
   onDismissSession: () => void;
+  // Desktop installer: shows progress while downloading, and swaps the restart button for a download link when needed.
+  downloadPercent?: number;
+  manualOnly?: boolean;
+  canSchedule: boolean;
 }
 
 const AvailableBanner: React.FC<AvailableBannerProps> = ({
@@ -51,6 +55,9 @@ const AvailableBanner: React.FC<AvailableBannerProps> = ({
   onUpdateRestart,
   onSkip,
   onDismissSession,
+  downloadPercent,
+  manualOnly,
+  canSchedule,
 }) => {
   const { val } = useTranslation();
   const [busy, setBusy] = useState(false);
@@ -60,6 +67,11 @@ const AvailableBanner: React.FC<AvailableBannerProps> = ({
     const started = await onUpdateRestart(latest.version);
     if (!started) setBusy(false);
   };
+
+  const downloading = downloadPercent !== undefined;
+  let primaryLabel = busy ? val(UPDATE_TEXT.updateRestarting) : val(UPDATE_TEXT.updateAndRestart);
+  if (manualOnly) primaryLabel = val(UPDATE_TEXT.downloadUpdate);
+  if (downloading) primaryLabel = val(UPDATE_TEXT.downloadingUpdate).replace('{percent}', String(downloadPercent));
 
   return (
     <div className={styles.promptBox} dir="auto">
@@ -77,21 +89,23 @@ const AvailableBanner: React.FC<AvailableBannerProps> = ({
         <button
           type="button"
           onClick={handleRestart}
-          disabled={busy}
+          disabled={busy || downloading}
           className={styles.primaryBtn}
         >
           <ArrowUpCircle size={12} className={styles.inlineIcon} />
-          {busy ? val(UPDATE_TEXT.updateRestarting) : val(UPDATE_TEXT.updateAndRestart)}
+          {primaryLabel}
         </button>
         {!isPending && (
           <>
-            <button
-              type="button"
-              onClick={() => onSchedule(latest.version)}
-              className={styles.secondaryBtn}
-            >
-              {val(UPDATE_TEXT.updateAction)}
-            </button>
+            {canSchedule && (
+              <button
+                type="button"
+                onClick={() => onSchedule(latest.version)}
+                className={styles.secondaryBtn}
+              >
+                {val(UPDATE_TEXT.updateAction)}
+              </button>
+            )}
             <button
               type="button"
               onClick={() => onSkip(latest.version)}
@@ -142,6 +156,9 @@ export const UpdatePrompt: React.FC = () => {
       onUpdateRestart={updateAndRestart}
       onSkip={skip}
       onDismissSession={() => setDismissedSession(true)}
+      downloadPercent={state.downloadPercent}
+      manualOnly={state.manualOnly}
+      canSchedule={state.mode !== 'desktop'}
     />
   );
 };

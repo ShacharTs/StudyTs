@@ -39,7 +39,8 @@ function CourseRow({ course: c, isActive, isRtl, title, onSelect }: { course: Co
       tabIndex={0}
       onKeyDown={onActivateKey(() => onSelect(c.id))}
     >
-      <span className={styles.dot} style={{ background: c.color || 'var(--ac)' }} />
+      {/* c.color is a 15% tint meant for card backgrounds, which made the dot almost invisible; the accent is solid. */}
+      <span className={styles.dot} style={{ background: c.accent || c.color || 'var(--ac)' }} />
       <span className={styles.code}>{c.code}</span>
       <span className={styles.ellipsis}>{title}</span>
     </div>

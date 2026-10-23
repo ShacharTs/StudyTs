@@ -27,7 +27,7 @@ export const SQLITE_TOOLS: McpToolDefinition[] = [
   {
     name: 'list_lectures',
     description:
-      'Lists topics (week, section, topic_id, title, canvas status) sorted by course hierarchy.',
+      'Lists topics as columns + rows (course, week, section, topic_id, title, has_scene), sorted by course hierarchy; at most 200 rows.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -131,6 +131,20 @@ const LIST_TOPICS_SQL = `SELECT c.id AS course, w.week_key AS week, t.section AS
   json_extract(t.title, '$.en') AS title, CASE WHEN t.scene IS NULL THEN 0 ELSE 1 END AS has_scene
   FROM topics t JOIN weeks w ON w.id = t.week_id JOIN courses c ON c.id = w.course_id`;
 
+// Column names once, then one array per topic: repeating {course, week, section, ...} on every row is most of the tokens.
+const TOPIC_COLUMNS = ['course', 'week', 'section', 'topic_id', 'title', 'has_scene'] as const;
+const MAX_TOPIC_ROWS = 200;
+
+export function compactTopics(rows: Record<string, unknown>[]) {
+  const shown = rows.slice(0, MAX_TOPIC_ROWS);
+  return {
+    columns: TOPIC_COLUMNS,
+    rows: shown.map((row) => TOPIC_COLUMNS.map((column) => row[column])),
+    count: rows.length,
+    ...(rows.length > shown.length ? { truncated: `first ${MAX_TOPIC_ROWS} shown; pass course_id to narrow` } : {}),
+  };
+}
+
 export function createSqliteTools(prisma: PrismaClient = new PrismaClient()) {
   return {
     async listTopics(args: Record<string, unknown>): Promise<unknown> {
@@ -140,7 +154,7 @@ export function createSqliteTools(prisma: PrismaClient = new PrismaClient()) {
         `${LIST_TOPICS_SQL}${where} ORDER BY c.id, w.week_key, t.section, t.topic_id`,
         ...(courseId ? [courseId] : [])
       );
-      return { topics: rows, count: Array.isArray(rows) ? rows.length : 0 };
+      return compactTopics(Array.isArray(rows) ? rows : []);
     },
 
     async queryCourseDb(args: Record<string, unknown>): Promise<unknown> {

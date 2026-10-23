@@ -5,16 +5,14 @@ import {
   RefreshCw,
   HelpCircle,
   Loader2,
-  Cpu,
   Database,
   BookOpen,
   PenTool,
   Network,
-  Bot,
-  Zap,
 } from 'lucide-react';
 import { MCP_TEXT } from '../../i18n/dictionary';
 import { useMcpManagement } from './useMcpManagement';
+import { ConnectAiPanel } from './ConnectAiPanel';
 import '../../styles/mcpSettings.css';
 import styles from './McpSettingsPanel.module.css';
 
@@ -61,42 +59,7 @@ export const McpSettingsPanel: React.FC<McpSettingsPanelProps> = ({ val, onOpenT
         </div>
       </div>
 
-      {/* Interactive Architecture Explainer */}
-      <div className={styles.architectureCard}>
-        <div className={styles.architectureHeader}>
-          <div className={styles.architectureTitle}>
-            <Cpu size={14} color="var(--ac)" />
-            {val(MCP_TEXT.howItWorksTitle)}
-          </div>
-          <span className={styles.architectureBadge}>100% Local · stdio JSON-RPC</span>
-        </div>
-        <div className={styles.architectureSteps}>
-          <div className={styles.architectureStep}>
-            <div className={styles.stepTitle}>
-              <Bot size={13} color="var(--ac)" /> 1. {val(MCP_TEXT.architectureClient)}
-            </div>
-            <div className={styles.stepDesc}>{val(MCP_TEXT.architectureClientDesc)}</div>
-          </div>
-          <div className={styles.architectureStep}>
-            <div className={styles.stepTitle}>
-              <Zap size={13} color="var(--ac)" /> 2. {val(MCP_TEXT.architectureGateway)}
-            </div>
-            <div className={styles.stepDesc}>{val(MCP_TEXT.architectureGatewayDesc)}</div>
-          </div>
-          <div className={styles.architectureStep}>
-            <div className={styles.stepTitle}>
-              <Cpu size={13} color="var(--ac)" /> 3. {val(MCP_TEXT.architectureDaemon)}
-            </div>
-            <div className={styles.stepDesc}>{val(MCP_TEXT.architectureDaemonDesc)}</div>
-          </div>
-          <div className={styles.architectureStep}>
-            <div className={styles.stepTitle}>
-              <Database size={13} color="var(--ac)" /> 4. {val(MCP_TEXT.architectureStorage)}
-            </div>
-            <div className={styles.stepDesc}>{val(MCP_TEXT.architectureStorageDesc)}</div>
-          </div>
-        </div>
-      </div>
+      <ConnectAiPanel val={val} />
 
       {error && <div className={styles.error}>{error}</div>}
 
